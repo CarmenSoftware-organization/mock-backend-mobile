@@ -1,15 +1,28 @@
 {
   "name": "mock-backend-mobile",
-  "version": "1.0.50",
+  "version": "1.0.0",
+  "description": "Mock backend API built with Elysia and Bun",
+  "main": "src/index.ts",
   "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "start": "bun run src/index.ts",
+    "build": "bun build src/index.ts --outdir ./dist --target bun",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "clean": "rm -rf dist",
+    "type-check": "tsc --noEmit"
   },
+  "keywords": ["elysia", "bun", "api", "typescript", "mock-backend"],
+  "author": "Your Name",
+  "license": "MIT",
   "dependencies": {
+    "@elysiajs/cors": "^1.3.3",
+    "@elysiajs/swagger": "^1.3.1",
     "elysia": "latest"
   },
   "devDependencies": {
     "bun-types": "latest"
   },
-  "module": "src/index.js"
+  "engines": {
+    "bun": ">=1.0.0"
+  }
 }
