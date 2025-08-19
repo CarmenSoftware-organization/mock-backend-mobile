@@ -1,4 +1,4 @@
-import { Elysia } from "elysia";
+import { Elysia, redirect } from "elysia";
 import { cors } from "@elysiajs/cors";
 import { swagger } from "@elysiajs/swagger";
 import { config } from "./config";
@@ -38,11 +38,7 @@ const app = new Elysia()
 		environment: config.environment,
 		version: config.api.version,
 	}))
-	.get("/", () => ({
-		message: "Welcome to Elysia API",
-		version: config.api.version,
-		environment: config.environment
-	}))
+	.get("/", () => redirect("/swagger"))
 	.group(config.api.prefix, (app) => app.use(usersRoutes))
 	.all("*", () => {
 		throw new Error("Route not found");

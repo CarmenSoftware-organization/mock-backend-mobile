@@ -23540,18 +23540,7 @@ var app = new Elysia().use(cors({
   environment: config.environment,
   version: config.api.version
 })).get("/", () => ({
-  message: "Welcome to Elysia API",
-  version: config.api.version,
-  environment: config.environment,
-  endpoints: [
-    "GET /health",
-    "GET /api/users",
-    "POST /api/users",
-    "GET /api/users/:id",
-    "PUT /api/users/:id",
-    "DELETE /api/users/:id",
-    "GET /swagger"
-  ]
+  redirect: "/swagger"
 })).group(config.api.prefix, (app2) => app2.use(usersRoutes)).all("*", () => {
   throw new Error("Route not found");
 }).listen(config.server.port);
