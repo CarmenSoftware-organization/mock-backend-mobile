@@ -22,10 +22,6 @@ RUN bun run build
 # Production stage
 FROM oven/bun:1-alpine AS production
 
-# Create non-root user
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S bun -u 1001
-
 # Set working directory
 WORKDIR /app
 
@@ -37,7 +33,7 @@ COPY --from=build --chown=bun:nodejs /app/package.json ./
 # Install only production dependencies
 RUN bun install --frozen-lockfile --production
 
-# Switch to non-root user
+# Switch to bun user (already exists in base image)
 USER bun
 
 # Expose port
