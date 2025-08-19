@@ -1,0 +1,9 @@
+{
+  "install": {
+    "exact": false,
+    "production": false
+  },
+  "test": {
+    "preload": "./test/setup.ts"
+  }
+}

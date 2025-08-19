@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+/* Backend service specific styles */
+.api-status {
+  @apply text-center py-8;
+}
+
+.api-status h1 {
+  @apply text-3xl font-bold mb-4;
+}
+
+.api-status p {
+  @apply text-lg text-gray-600 mb-2;
+}
+
+.api-links {
+  @apply mt-8 space-y-2;
+}
+
+.api-links a {
+  @apply text-blue-600 hover:text-blue-800 underline;
+}

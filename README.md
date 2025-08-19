@@ -1,259 +1,255 @@
 # Mock Backend Mobile API
 
-Mock backend API ที่สร้างด้วย **Elysia** และ **Bun** สำหรับการพัฒนา mobile application
+Next.js backend service สำหรับ mobile application พร้อม authentication และ CRUD operations
 
-## 🚀 Features
+## Features
 
-- ⚡ **Fast & Lightweight** - ใช้ Elysia framework ที่มีประสิทธิภาพสูง
-- 🔒 **Type Safety** - TypeScript support พร้อม validation
-- 📱 **Mobile Ready** - RESTful API endpoints สำหรับ mobile app
-- 🏥 **Health Monitoring** - Health check endpoints
-- 🛡️ **Error Handling** - Global error handling และ validation
-- 📚 **API Documentation** - Auto-generated API documentation
-- 🐳 **Docker Ready** - Docker support พร้อม multi-stage build
-- 🔄 **Hot Reload** - Development mode พร้อม hot reload
+- 🔐 **Authentication System** - JWT-based authentication
+- 👥 **User Management** - CRUD operations สำหรับ users
+- 📦 **Product Management** - CRUD operations สำหรับ products
+- 🛡️ **Role-based Access Control** - Admin และ User roles
+- 📄 **Pagination & Filtering** - สำหรับ API responses
+- 🔒 **Security Middleware** - Authentication และ authorization
+- 📝 **TypeScript** - Fully typed API responses
 
-## 🛠️ Tech Stack
+## API Endpoints
 
-- **Runtime**: [Bun](https://bun.sh/) - Fast JavaScript runtime
-- **Framework**: [Elysia](https://elysiajs.com/) - Fast web framework
-- **Language**: TypeScript
-- **Package Manager**: Bun
-- **Containerization**: Docker + Docker Compose
+### Authentication
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
 
-## 📦 Installation
+### Users
+- `GET /api/users` - Get all users (with pagination & search)
+- `POST /api/users` - Create new user (Admin only)
+- `GET /api/users/[id]` - Get user by ID
+- `PUT /api/users/[id]` - Update user (Admin only)
+- `DELETE /api/users/[id]` - Delete user (Admin only)
+
+### Products
+- `GET /api/products` - Get all products (with pagination, search, filtering)
+- `POST /api/products` - Create new product
+- `GET /api/products/[id]` - Get product by ID
+- `PUT /api/products/[id]` - Update product
+- `DELETE /api/products/[id]` - Delete product
+
+## Getting Started
+
+### Prerequisites
+- Node.js 18+ 
+- Bun 1.0+
+
+### Why Bun?
+
+Bun เป็น JavaScript runtime ที่เร็วและมีประสิทธิภาพ:
+- ⚡ **Fast** - ติดตั้ง packages เร็วกว่า npm ถึง 30x
+- 🚀 **Efficient** - ใช้ memory น้อยกว่า
+- 🔧 **All-in-one** - Runtime, package manager, bundler, test runner
+- 📦 **Compatible** - รองรับ npm packages ทั้งหมด
+
+### Installing Bun
 
 ```bash
-# Clone repository
-git clone <your-repo-url>
-cd mock-backend-mobile
+# macOS & Linux
+curl -fsSL https://bun.sh/install | bash
 
-# Install dependencies
+# Windows (with WSL)
+curl -fsSL https://bun.sh/install | bash
+
+# หรือใช้ npm
+npm install -g bun
+```
+
+### Installation
+
+1. Clone repository:
+```bash
+git clone <repository-url>
+cd mock-backend-mobile
+```
+
+2. Install dependencies:
+```bash
 bun install
 ```
 
-## 🚀 Getting Started
-
-### Development Mode
+3. Setup environment variables:
 ```bash
-# Run with hot reload
+cp env.example .env.local
+# แก้ไขค่าใน .env.local ตามต้องการ
+```
+
+4. Run development server:
+```bash
 bun run dev
 ```
 
-### Production Mode
-```bash
-# Build project
-bun run build
+5. Open [http://localhost:3000](http://localhost:3000) ใน browser
 
-# Start production server
-bun run start
+## Environment Variables
+
+สร้างไฟล์ `.env.local` และกำหนดค่าต่อไปนี้:
+
+```env
+# Database Configuration
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=mock_backend
+DB_USER=postgres
+DB_PASSWORD=password
+
+# JWT Configuration
+JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+JWT_EXPIRES_IN=24h
+
+# Server Configuration
+PORT=3000
+NODE_ENV=development
 ```
 
-### Type Checking
+## Default Users
+
+ระบบมี default users สำหรับทดสอบ:
+
+### Admin User
+- Email: `admin@example.com`
+- Password: `password123`
+- Role: `admin`
+
+### Regular User
+- Email: `user@example.com`
+- Password: `password123`
+- Role: `user`
+
+## API Usage Examples
+
+### Login
 ```bash
-# Check TypeScript types
-bun run type-check
-```
-
-## 🐳 Docker Deployment
-
-### Quick Start
-```bash
-# Build and run production container
-make deploy
-
-# หรือใช้คำสั่งแยก
-make build
-make run
-```
-
-### Available Commands
-```bash
-make help          # แสดงคำสั่งทั้งหมด
-make build         # Build Docker image
-make run           # รัน production container
-make run-dev       # รัน development container
-make stop          # หยุด containers
-make clean         # ลบ containers และ images
-make logs          # แสดง logs
-make test          # ทดสอบ API endpoints
-```
-
-### Docker Compose
-```bash
-# Production
-docker-compose up -d api
-
-# Development (with hot reload)
-docker-compose --profile dev up -d api-dev
-
-# Stop all services
-docker-compose down
-```
-
-### Manual Docker Commands
-```bash
-# Build image
-docker build -t mock-backend-mobile .
-
-# Run container
-docker run -d -p 3000:3000 --name mock-backend mock-backend-mobile
-
-# View logs
-docker logs -f mock-backend
-
-# Stop container
-docker stop mock-backend
-```
-
-## 🌐 API Endpoints
-
-### Health Check
-- `GET /health` - Health status ของ server
-
-### Root
-- `GET /` - API information และ available endpoints
-
-### Users API
-- `GET /api/users` - ดึงข้อมูล users ทั้งหมด
-- `POST /api/users` - สร้าง user ใหม่
-- `GET /api/users/:id` - ดึงข้อมูล user ตาม ID
-- `PUT /api/users/:id` - อัปเดตข้อมูล user
-- `DELETE /api/users/:id` - ลบ user
-
-### Swagger Documentation
-- `GET /swagger` - Interactive API documentation
-
-## 📝 API Examples
-
-### Create User
-```bash
-curl -X POST http://localhost:3000/api/users \
+curl -X POST http://localhost:3000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{
-    "name": "John Doe",
-    "email": "john@example.com"
-  }'
+  -d '{"email":"admin@example.com","password":"password123"}'
 ```
 
-### Get User by ID
+### Get Products (with authentication)
 ```bash
-curl http://localhost:3000/api/users/1
+curl -X GET http://localhost:3000/api/products \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
 ```
 
-### Update User
+### Create Product
 ```bash
-curl -X PUT http://localhost:3000/api/users/1 \
+curl -X POST http://localhost:3000/api/products \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{
-    "name": "John Updated"
-  }'
+  -d '{"name":"New Product","description":"Product description","price":99.99,"category":"Electronics","stock":10}'
 ```
 
-### Delete User
-```bash
-curl -X DELETE http://localhost:3000/api/users/1
-```
-
-## 🔧 Configuration
-
-Server จะรันที่ port **3000** โดย default
-
-```typescript
-// src/config.ts
-export const config = {
-  server: {
-    port: process.env.PORT ? parseInt(process.env.PORT) : 3000,
-    host: process.env.HOST || "localhost",
-  },
-  // ... more config
-}
-```
-
-### Environment Variables
-```bash
-PORT=3000                    # Server port
-HOST=localhost              # Server host
-NODE_ENV=development        # Environment
-API_VERSION=v1              # API version
-CORS_ORIGIN=http://localhost:3000  # CORS origin
-```
-
-## 📁 Project Structure
+## Project Structure
 
 ```
-mock-backend-mobile/
-├── src/
-│   ├── index.ts          # Main application file
-│   ├── config.ts         # Configuration
+src/
+├── app/
+│   ├── api/
+│   │   ├── auth/
+│   │   │   ├── login/
+│   │   │   └── register/
+│   │   ├── users/
+│   │   │   └── [id]/
+│   │   └── products/
+│   │       └── [id]/
+│   └── globals.css
+├── lib/
+│   ├── middleware/
+│   │   └── auth.ts
 │   ├── types/
-│   │   └── user.ts       # Type definitions
-│   ├── routes/
-│   │   └── users.ts      # Users API routes
-│   ├── utils/
-│   │   └── fileDb.ts     # File database utilities
-│   └── data/
-│       └── users.json    # Mock data storage
-├── package.json          # Dependencies และ scripts
-├── tsconfig.json         # TypeScript configuration
-├── Dockerfile            # Docker configuration
-├── docker-compose.yml    # Docker Compose services
-├── Makefile              # Build automation
-├── .dockerignore         # Docker ignore rules
-├── README.md             # Project documentation
-└── LICENSE               # MIT License
+│   │   └── index.ts
+│   └── utils/
+│       └── response.ts
+└── config/
+    └── database.ts
 ```
 
-## 🧪 Testing
+## Technologies Used
+
+- **Next.js 14** - React framework
+- **TypeScript** - Type safety
+- **JWT** - Authentication
+- **bcryptjs** - Password hashing
+- **TailwindCSS** - Styling
+- **Bun** - JavaScript runtime & package manager
+
+## Development
+
+### Available Scripts
+
+- `bun run dev` - Start development server
+- `bun run build` - Build for production
+- `bun run start` - Start production server
+- `bun run lint` - Run ESLint
+- `bun install` - Install dependencies
+- `bun run clean` - Clean project files
+
+### Bun Commands
 
 ```bash
-# Test with Docker
-make test
+# Install dependencies
+bun install
 
-# Manual testing
-curl http://localhost:3000/health
-curl http://localhost:3000/api/users
+# Run scripts
+bun run dev
+bun run build
+bun run start
+
+# Direct execution (faster)
+bun dev
+bun build
+bun start
+
+# Add new package
+bun add package-name
+bun add -d package-name  # dev dependency
+
+# Remove package
+bun remove package-name
 ```
 
-## 🚀 Deployment
+### Using Makefile (Optional)
 
-### Production
+สำหรับความสะดวก สามารถใช้ Makefile ได้:
+
 ```bash
-# Build and deploy
-make deploy
-
-# หรือใช้ Docker Compose
-docker-compose up -d api
+make help      # Show available commands
+make install   # Install dependencies
+make dev       # Start development server
+make build     # Build for production
+make start     # Start production server
+make lint      # Run ESLint
+make clean     # Clean project files
 ```
 
-### Development
-```bash
-# Run with hot reload
-make run-dev
+### Code Style
 
-# หรือใช้ Docker Compose
-docker-compose --profile dev up -d api-dev
-```
+- ใช้ TypeScript สำหรับ type safety
+- ใช้ early returns เพื่อ readability
+- ใช้ descriptive naming conventions
+- Implement proper error handling
+- ใช้ middleware สำหรับ authentication
 
-## 📚 Additional Resources
+## Security Features
 
-- [Elysia Documentation](https://elysiajs.com/)
-- [Bun Documentation](https://bun.sh/docs)
-- [TypeScript Documentation](https://www.typescriptlang.org/)
-- [Docker Documentation](https://docs.docker.com/)
+- JWT token validation
+- Password hashing ด้วย bcrypt
+- Role-based access control
+- Input validation
+- Error handling ที่ไม่เปิดเผย sensitive information
 
-## 🤝 Contributing
+## Contributing
 
-1. Fork project
-2. Create feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to branch (`git push origin feature/AmazingFeature`)
-5. Open Pull Request
+1. Fork the repository
+2. Create feature branch
+3. Commit changes
+4. Push to branch
+5. Create Pull Request
 
-## 📄 License
+## License
 
-MIT License - ดูรายละเอียดใน [LICENSE](LICENSE) file
-
----
-
-**Happy Coding! 🎉**
+MIT License

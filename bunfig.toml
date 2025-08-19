@@ -1,0 +1,17 @@
+[install]
+# Use exact versions for production
+exact = false
+# Install dev dependencies
+production = false
+
+[install.cache]
+# Enable caching
+dir = ".bun"
+
+[test]
+# Preload test setup
+preload = ["./test/setup.ts"]
+
+[run]
+# Use bun runtime
+bun = true

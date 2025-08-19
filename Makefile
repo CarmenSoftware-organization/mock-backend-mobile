@@ -1,71 +1,46 @@
-.PHONY: help build run run-dev stop clean logs test setup docker-setup
+.PHONY: help install dev build start lint clean test
 
 # Default target
 help:
 	@echo "Available commands:"
-	@echo "  setup         - Initial project setup"
-	@echo "  docker-setup  - Setup Docker environment"
-	@echo "  build         - Build Docker image"
-	@echo "  run           - Run production container"
-	@echo "  run-dev       - Run development container"
-	@echo "  stop          - Stop all containers"
-	@echo "  clean         - Remove containers and images"
-	@echo "  logs          - Show container logs"
-	@echo "  test          - Test API endpoints"
+	@echo "  make install    - Install dependencies with bun"
+	@echo "  make dev        - Start development server"
+	@echo "  make build      - Build for production"
+	@echo "  make start      - Start production server"
+	@echo "  make lint       - Run ESLint"
+	@echo "  make clean      - Clean project files"
+	@echo "  make test       - Run tests (if configured)"
 
-# Initial project setup
-setup:
-	@echo "🚀 Setting up Mock Backend Mobile project..."
+# Install dependencies
+install:
+	@echo "Installing dependencies with bun..."
 	bun install
-	@echo "✅ Setup completed!"
 
-# Docker environment setup
-docker-setup:
-	@echo "🐳 Setting up Docker environment..."
-	@if [ -f "scripts/docker-setup.sh" ]; then \
-		./scripts/docker-setup.sh; \
-	else \
-		echo "❌ Docker setup script not found"; \
-		exit 1; \
-	fi
+# Start development server
+dev:
+	@echo "Starting development server..."
+	bun run dev
 
-# Build Docker image
+# Build for production
 build:
-	docker build -t mock-backend-mobile .
+	@echo "Building for production..."
+	bun run build
 
-# Run production container
-run:
-	docker-compose up -d api
+# Start production server
+start:
+	@echo "Starting production server..."
+	bun run start
 
-# Run development container
-run-dev:
-	docker-compose --profile dev up -d api-dev
+# Run ESLint
+lint:
+	@echo "Running ESLint..."
+	bun run lint
 
-# Stop all containers
-stop:
-	docker-compose down
-
-# Clean up containers and images
+# Clean project files
 clean:
-	docker-compose down -v --rmi all
-	docker system prune -f
+	@echo "Cleaning project files..."
+	bun run clean
 
-# Show container logs
-logs:
-	docker-compose logs -f api
-
-# Test API endpoints
+# Run tests (placeholder)
 test:
-	@echo "Testing API endpoints..."
-	@echo "Health check:"
-	@curl -s http://localhost:3000/health | jq .
-	@echo "\nAPI info:"
-	@curl -s http://localhost:3000/ | jq .
-	@echo "\nUsers list:"
-	@curl -s http://localhost:3000/api/users | jq .
-
-# Build and run in one command
-deploy: build run
-	@echo "Application deployed successfully!"
-	@echo "API available at: http://localhost:3000"
-	@echo "Swagger docs at: http://localhost:3000/swagger"
+	@echo "Tests not configured yet. Use 'bun test' when ready."
