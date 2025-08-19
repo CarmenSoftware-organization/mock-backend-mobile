@@ -13,8 +13,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mock Backend Mobile API",
-  description: "Next.js backend service for mobile application",
+  title: "Mock Backend Mobile API - Modern Backend Service",
+  description: "Next.js backend service สำหรับการพัฒนา mobile application ด้วย modern architecture และ comprehensive API documentation",
+  keywords: ["API", "Backend", "Mobile", "Next.js", "TypeScript", "REST"],
+  authors: [{ name: "Carmen Software" }],
 };
 
 export default function RootLayout({
@@ -23,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="th">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

@@ -5,5 +5,8 @@
   },
   "test": {
     "preload": "./test/setup.ts"
+  },
+  "tailwind": {
+    "config": "./tailwind.config.ts"
   }
 }
