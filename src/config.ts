@@ -1,6 +1,6 @@
 export const config = {
   server: {
-    port: process.env.PORT ? parseInt(process.env.PORT) : 4000,
+    port: process.env.PORT ? parseInt(process.env.PORT) : 3000,
     host: process.env.HOST || "localhost",
   },
   
@@ -10,7 +10,7 @@ export const config = {
   },
   
   cors: {
-    origin: process.env.CORS_ORIGIN || "http://localhost:4000",
+    origin: process.env.CORS_ORIGIN || "http://localhost:3000",
     credentials: process.env.CORS_CREDENTIALS === "true",
   },
   

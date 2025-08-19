@@ -41,16 +41,7 @@ const app = new Elysia()
 	.get("/", () => ({
 		message: "Welcome to Elysia API",
 		version: config.api.version,
-		environment: config.environment,
-		endpoints: [
-			"GET /health",
-			"GET /api/users",
-			"POST /api/users",
-			"GET /api/users/:id",
-			"PUT /api/users/:id",
-			"DELETE /api/users/:id",
-			"GET /swagger",
-		],
+		environment: config.environment
 	}))
 	.group(config.api.prefix, (app) => app.use(usersRoutes))
 	.all("*", () => {
