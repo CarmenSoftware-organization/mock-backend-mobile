@@ -1,154 +1,192 @@
 # Mock Backend Mobile API
 
-Modern, minimal website สำหรับ Mock Backend Mobile API ที่สร้างด้วย Next.js 15.4.7, TypeScript 5.9.2, และ TailwindCSS 4.1.12
+Next.js backend service ที่ออกแบบมาเพื่อการพัฒนา mobile application ด้วย modern architecture และ comprehensive API documentation
 
-## ✨ คุณสมบัติ
+## 🚀 Features
 
-- **Modern Design**: Clean, minimal UI ที่ออกแบบตาม modern design principles
-- **Responsive**: รองรับทุกขนาดหน้าจอ (mobile, tablet, desktop)
-- **Interactive Elements**: Hover effects, animations, และ smooth transitions
-- **Performance**: Optimized ด้วย Next.js 15.4.7 และ TypeScript 5.9.2
-- **Accessibility**: รองรับ keyboard navigation และ screen readers
+- **Next.js 15.4.7** - Latest Next.js with App Router
+- **TypeScript 5.9.2** - Full type safety
+- **TailwindCSS 4.1.12** - Modern utility-first CSS
+- **Elysia.js 1.3.11** - Fast web framework for Bun runtime
+- **JWT Authentication** - Secure API endpoints
+- **Swagger Documentation** - Interactive API docs
+- **CORS Support** - Cross-origin resource sharing
+- **Modern UI** - Responsive design with animations
 
-## 🚀 การเริ่มต้นใช้งาน
+## 📦 Installation
 
-### Prerequisites
-
-- Node.js 18+ หรือ Bun 1.2.20+
-- Package manager: npm, yarn, หรือ bun
-
-### การติดตั้ง
-
-1. Clone repository:
 ```bash
+# Clone repository
 git clone <repository-url>
 cd mock-backend-mobile
-```
 
-2. ติดตั้ง dependencies:
-```bash
+# Install dependencies
 bun install
-# หรือ
-npm install
-# หรือ
-yarn install
 ```
 
-3. รัน development server:
+## 🏃‍♂️ Running the Application
+
+### Next.js Frontend
 ```bash
+# Development
 bun run dev
-# หรือ
-npm run dev
-# หรือ
-yarn dev
+
+# Production
+bun run build
+bun run start
 ```
 
-4. เปิดเบราว์เซอร์ไปที่ [http://localhost:3000](http://localhost:3000)
+### Elysia.js API Server
+```bash
+# Development
+bun run dev:api
 
-## 🎨 Design Features
-
-### Color Scheme
-- **Primary**: Blue (#3b82f6) และ Purple (#8b5cf6)
-- **Background**: Subtle gradients จาก slate ไปยัง blue/indigo
-- **Text**: Dark gray สำหรับ readability ที่ดี
-
-### Typography
-- **Font Family**: Geist Sans (modern, clean)
-- **Hierarchy**: Clear heading levels และ spacing
-- **Responsive**: Font sizes ที่ปรับตามหน้าจอ
-
-### Components
-- **Hero Section**: Eye-catching header พร้อม gradient text
-- **Features Grid**: 3-column layout สำหรับคุณสมบัติหลัก
-- **Interactive Cards**: Hover effects และ animations
-- **Modern Buttons**: Gradient backgrounds และ smooth transitions
-
-## 🛠️ Tech Stack
-
-- **Framework**: Next.js 15.4.7 (App Router)
-- **Language**: TypeScript 5.9.2
-- **Styling**: TailwindCSS 4.1.12
-- **UI Components**: shadcn/ui
-- **Icons**: Lucide React 0.540.0
-- **Animations**: CSS animations + Tailwind utilities
-- **Package Manager**: Bun 1.2.20
-
-## 📱 Responsive Design
-
-Website ออกแบบมาให้รองรับทุกขนาดหน้าจอ:
-
-- **Mobile**: Single column layout, optimized touch targets
-- **Tablet**: 2-column grid สำหรับ features
-- **Desktop**: Full 3-column layout พร้อม enhanced spacing
-
-## 🎭 Animations & Interactions
-
-- **Fade In**: Smooth entrance animations
-- **Hover Effects**: Interactive elements ที่ตอบสนองต่อ user
-- **Smooth Transitions**: Consistent timing functions
-- **Loading States**: Progressive content reveal
-
-## 🔧 การปรับแต่ง
-
-### Colors
-ปรับสีหลักได้ใน `tailwind.config.ts`:
-
-```typescript
-colors: {
-  primary: {
-    500: '#3b82f6',
-    600: '#2563eb',
-  }
-}
+# Production
+bun run start:api
 ```
 
-### Animations
-เพิ่ม custom animations ใน `globals.css`:
+### Both Servers (Frontend + API)
+```bash
+# Using Makefile
+make dev-all
 
-```css
-@keyframes customAnimation {
-  /* animation definition */
-}
+# Or manually
+bun run dev:api & bun run dev
 ```
+
+## 🌐 Access Points
+
+- **Frontend**: http://localhost:3000
+- **API Server**: http://localhost:3001
+- **Swagger UI**: http://localhost:3001/swagger
+- **API Health**: http://localhost:3001/health
 
 ## 📚 API Documentation
 
-เข้าถึง Swagger UI ได้ที่ `/swagger` endpoint สำหรับการทดสอบ API endpoints
+### Authentication
+- `POST /api/auth/login` - User login
+- `POST /api/auth/register` - User registration
+- `GET /api/auth/profile` - Get user profile (protected)
 
-## 🚀 Latest Updates
+### Users
+- `GET /api/users` - List all users
+- `GET /api/users/:id` - Get user by ID
 
-### Packages Updated to Latest Versions:
-- **Next.js**: 15.4.7
-- **React**: 19.1.1
-- **TypeScript**: 5.9.2
-- **TailwindCSS**: 4.1.12
-- **ESLint**: 9.33.0
-- **Node Types**: 24.3.0
-- **All other dependencies**: Latest stable versions
+### Posts
+- `GET /api/posts` - List all posts
+- `POST /api/posts` - Create new post (protected)
 
-### Next.js 15 Improvements:
-- Optimized build process
-- Enhanced performance
-- Better TypeScript support
-- Improved viewport handling
-- Modern metadata API
+### Health Check
+- `GET /health` - Server health status
+
+## 🔐 Authentication
+
+### Login Example
+```bash
+curl -X POST http://localhost:3001/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username": "admin", "password": "password"}'
+```
+
+### Protected Routes
+```bash
+curl -X GET http://localhost:3001/api/auth/profile \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+```
+
+## 🛠️ Development
+
+### Available Scripts
+```bash
+bun run dev          # Start Next.js dev server
+bun run dev:api      # Start Elysia API server
+bun run build        # Build Next.js app
+bun run start        # Start Next.js production server
+bun run start:api    # Start Elysia production server
+bun run lint         # Run ESLint
+```
+
+### Makefile Commands
+```bash
+make help            # Show all available commands
+make dev             # Start Next.js dev server
+make dev-api         # Start Elysia API server
+make dev-all         # Start both servers
+make api-health      # Check API health
+make api-users       # Get users from API
+make api-login       # Test login endpoint
+```
+
+## 🏗️ Project Structure
+
+```
+mock-backend-mobile/
+├── src/
+│   ├── app/                 # Next.js App Router
+│   │   ├── page.tsx        # Home page
+│   │   ├── not-found.tsx   # 404 page
+│   │   └── globals.css     # Global styles
+│   ├── server.ts            # Elysia.js API server
+│   ├── types/               # TypeScript types
+│   │   └── elysia.ts       # API types
+│   ├── lib/                 # Utility libraries
+│   │   └── middleware/     # Auth middleware
+│   └── config/              # Configuration files
+├── public/                  # Static assets
+├── elysia.env              # Elysia environment variables
+├── package.json            # Dependencies and scripts
+├── Makefile                # Development commands
+├── ELYSIA_API.md           # Detailed API documentation
+└── README.md               # This file
+```
+
+## 🔧 Configuration
+
+### Environment Variables
+Create `elysia.env` file:
+```env
+PORT=3001
+JWT_SECRET=your-super-secret-jwt-key
+JWT_EXPIRES_IN=24h
+CORS_ORIGIN=*
+```
+
+### Mock Data
+- **Admin User**: username: `admin`, password: `password`
+- **Sample Users**: user1, user2
+- **Sample Posts**: 3 sample posts with different authors
+
+## 🚀 Performance Features
+
+- **Elysia.js**: Ultra-fast web framework
+- **Bun Runtime**: Fast JavaScript runtime
+- **TypeScript**: Compile-time type checking
+- **TailwindCSS**: Optimized CSS framework
+- **Next.js 15**: Latest performance optimizations
+
+## 📱 Mobile-First Design
+
+- Responsive layout for all devices
+- Touch-friendly interactions
+- Optimized for mobile performance
+- Progressive Web App ready
 
 ## 🤝 Contributing
 
-1. Fork repository
-2. สร้าง feature branch
-3. Commit changes
-4. Push to branch
-5. สร้าง Pull Request
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests and linting
+5. Submit a pull request
 
 ## 📄 License
 
-MIT License - ดูรายละเอียดใน LICENSE file
+This project is licensed under the MIT License.
 
 ## 🆘 Support
 
-หากมีปัญหาหรือคำถาม กรุณาสร้าง issue ใน GitHub repository
+For questions or issues, please open an issue on GitHub.
 
 ---
 
-สร้างด้วย ❤️ โดย Carmen Software Team
+**Built with ❤️ using Next.js, Elysia.js, and Bun**
