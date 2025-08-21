@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: mock-backend-mobile
+    runtime: node
+    plan: free
+    buildCommand: |
+      curl -fsSL https://bun.sh/install | bash
+      export PATH="$HOME/.bun/bin:$PATH"
+      bun install
+    startCommand: |
+      export PATH="$HOME/.bun/bin:$PATH"
+      bun run src/index.ts
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+    healthCheckPath: /
+    autoDeploy: true
+    branch: main
+    numInstances: 1
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 1
