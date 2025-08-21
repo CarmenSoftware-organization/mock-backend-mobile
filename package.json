@@ -2,8 +2,15 @@
   "name": "app",
   "version": "1.0.50",
   "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "build": "bun build src/index.ts --outdir ./dist --target bun",
+    "start": "bun run src/index.ts",
+    "start:prod": "bun run dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "clean": "rm -rf dist",
+    "type-check": "tsc --noEmit",
+    "lint": "echo \"Linting not configured yet\"",
+    "format": "bun run --prettier src/**/*.ts"
   },
   "dependencies": {
     "elysia": "latest"
