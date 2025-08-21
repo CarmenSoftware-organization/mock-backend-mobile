@@ -6,6 +6,7 @@
     "build": "bun build src/index.ts --outdir ./dist --target bun",
     "start": "bun run src/index.ts",
     "start:prod": "bun run dist/index.js",
+    "routes:gen": "bun run scripts/generate-routes.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf dist",
     "type-check": "tsc --noEmit",
