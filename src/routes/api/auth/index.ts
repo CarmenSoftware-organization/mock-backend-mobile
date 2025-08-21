@@ -2,21 +2,8 @@ import type { Elysia } from "elysia";
 
 export default (app: Elysia) =>
   app
-  .post('/api/xxx', {
-    schema: {
-      body: Object({
-        username: String(),
-        password: String(),
-      }),
-      response: Object({
-        status: Number(),
-        message: String(),
-        data: Object({
-          token: String(),
-        }),
-      }),
-    },
-  })
+
+  .post('/api/xxx', ({ params, query, body, headers }) => ({  }))
     // Login
     .post("/api/auth/login", ({ params, query, body, headers }) => (null))
     

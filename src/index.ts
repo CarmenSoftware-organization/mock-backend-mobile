@@ -13,8 +13,17 @@ const app = new Elysia()
       servers: [
         {
           url: "http://localhost:3000",
-          description: "Development server"
+          description: "Local server"
+        },
+        {
+          url: "https://mock-backend-mobile.onrender.com",
+          description: "Production server"
         }
+      ],
+      security: [
+        {
+          bearerAuth: []
+        },
       ]
     }
   }))
