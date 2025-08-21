@@ -1,6 +1,6 @@
 import { Elysia } from "elysia";
 import { swagger } from "@elysiajs/swagger";
-import applyGeneratedRoutes from "./routes/generated";
+import applyGeneratedRoutes from "./routes";
 
 const app = new Elysia()
   .use(swagger({

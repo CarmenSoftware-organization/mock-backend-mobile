@@ -1,6 +1,6 @@
 import type { Elysia } from "elysia";
 
-const register = (app: Elysia) =>
+export default (app: Elysia) =>
   app
   .get("/api/purchase-request-template", ({ params, query, body, headers }) => (null))
   .post("/api/purchase-request-template", ({ params, query, body, headers }) => (null))
@@ -8,6 +8,4 @@ const register = (app: Elysia) =>
   .get("/api/purchase-request-template/:id", ({ params, query, body, headers }) => (null))
   .put("/api/purchase-request-template/:id", ({ params, query, body, headers }) => (null))
   .delete("/api/purchase-request-template/:id", ({ params, query, body, headers }) => (null))
-;
-
-export default register;
+; 

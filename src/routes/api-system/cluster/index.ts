@@ -1,6 +1,6 @@
 import type { Elysia } from "elysia";
 
-const register = (app: Elysia) =>
+export default (app: Elysia) =>
   app
     // Cluster
     .get("/api-system/cluster", ({ params, query, body, headers }) => (null))
@@ -10,5 +10,3 @@ const register = (app: Elysia) =>
     .get("/api-system/cluster/:id", ({ params, query, body, headers }) => (null))
     .put("/api-system/cluster/:id", ({ params, query, body, headers }) => (null))
     .delete("/api-system/cluster/:id", ({ params, query, body, headers }) => (null));
-
-export default register;

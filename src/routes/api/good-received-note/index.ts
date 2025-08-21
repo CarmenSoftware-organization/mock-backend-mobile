@@ -1,6 +1,6 @@
 import type { Elysia } from "elysia";
 
-const register = (app: Elysia) =>
+export default (app: Elysia) =>
   app
   .get("/api/good-received-note", ({ params, query, body, headers }) => (null))
   .post("/api/good-received-note", ({ params, query, body, headers }) => (null))
@@ -11,5 +11,3 @@ const register = (app: Elysia) =>
   // Merged routes from /api/good-received-note/scan-po/:qr_code
   .get("/api/good-received-note/scan-po/:qr_code", ({ params, query, body, headers }) => (null))
 ;
-
-export default register;

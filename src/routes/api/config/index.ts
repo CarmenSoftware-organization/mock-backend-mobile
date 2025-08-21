@@ -1,6 +1,6 @@
 import type { Elysia } from "elysia";
 
-const register = (app: Elysia) =>
+export default (app: Elysia) =>
   app
     // Currencies
     .get("/api/config/currencies", ({ params, query, body, headers }) => (null))
@@ -149,4 +149,3 @@ const register = (app: Elysia) =>
     .patch("/api/config/tax-profile/:id", ({ params, query, body, headers }) => (null))
     .delete("/api/config/tax-profile/:id", ({ params, query, body, headers }) => (null));
 
-export default register;

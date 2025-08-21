@@ -1,6 +1,6 @@
 import type { Elysia } from "elysia";
 
-const register = (app: Elysia) =>
+export default (app: Elysia) =>
   app
   .get("/api/credit-note", ({ params, query, body, headers }) => (null))
   .post("/api/credit-note", ({ params, query, body, headers }) => (null))
@@ -9,5 +9,3 @@ const register = (app: Elysia) =>
   .patch("/api/credit-note/:id", ({ params, query, body, headers }) => (null))
   .delete("/api/credit-note/:id", ({ params, query, body, headers }) => (null))
 ;
-
-export default register;

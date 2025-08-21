@@ -1,7 +1,22 @@
 import type { Elysia } from "elysia";
 
-const authRoutes = (app: Elysia) =>
+export default (app: Elysia) =>
   app
+  .post('/api/xxx', {
+    schema: {
+      body: Object({
+        username: String(),
+        password: String(),
+      }),
+      response: Object({
+        status: Number(),
+        message: String(),
+        data: Object({
+          token: String(),
+        }),
+      }),
+    },
+  })
     // Login
     .post("/api/auth/login", ({ params, query, body, headers }) => (null))
     
@@ -29,4 +44,3 @@ const authRoutes = (app: Elysia) =>
     // Web Auth
     .post("/api/auth/web", ({ params, query, body, headers }) => (null));
 
-export default authRoutes;

@@ -1,6 +1,6 @@
 import type { Elysia } from "elysia";
 
-const register = (app: Elysia) =>
+export default (app: Elysia) =>
   app
     // Business Unit
     .get("/api-system/business-unit", ({ params, query, body, headers }) => (null))
@@ -25,5 +25,3 @@ const register = (app: Elysia) =>
     
     // Business Unit Configs Exists
     .get("/api-system/business-unit/:id/configs/:key/exists", ({ params, query, body, headers }) => (null));
-
-export default register;

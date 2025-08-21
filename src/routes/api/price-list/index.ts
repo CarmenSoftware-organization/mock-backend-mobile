@@ -1,6 +1,6 @@
 import type { Elysia } from "elysia";
 
-const register = (app: Elysia) =>
+export default (app: Elysia) =>
   app
   .get("/api/price-list", ({ params, query, body, headers }) => ([
   {
@@ -20,5 +20,3 @@ const register = (app: Elysia) =>
 ]))
 .get("/api/price-list/:id", ({ params, query, body, headers }) => (null))
 ;
-
-export default register;

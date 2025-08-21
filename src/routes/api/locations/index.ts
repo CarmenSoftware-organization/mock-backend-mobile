@@ -1,6 +1,6 @@
 import type { Elysia } from "elysia";
 
-const register = (app: Elysia) =>
+export default (app: Elysia) =>
   app
   .get("/api/locations", ({ params, query, body, headers }) => ([
   {
@@ -22,5 +22,3 @@ const register = (app: Elysia) =>
   "re_stock_qty": 0
 }))
 ;
-
-export default register;

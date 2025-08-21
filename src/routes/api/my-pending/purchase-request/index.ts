@@ -1,6 +1,6 @@
 import type { Elysia } from "elysia";
 
-const register = (app: Elysia) =>
+export default (app: Elysia) =>
   app
   // Merged routes from /api/my-pending/purchase-request/:tenant_id
   .get("/api/my-pending/purchase-request/:tenant_id", ({ params, query, body, headers }) => ([
@@ -229,5 +229,3 @@ const register = (app: Elysia) =>
   // Merged routes from /api/my-pending/purchase-request/:tenant_id/status/:status
   .get("/api/my-pending/purchase-request/:tenant_id/status/:status", ({ params, query, body, headers }) => (null))
 ;
-
-export default register;
