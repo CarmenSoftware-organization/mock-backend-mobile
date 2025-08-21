@@ -18,6 +18,7 @@ const register = (app: Elysia) =>
     "updated_at": "2025-08-21T02:25:12.740Z"
   }
 ]))
+.get("/api/price-list/:id", ({ params, query, body, headers }) => (null))
 ;
 
 export default register;

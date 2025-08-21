@@ -12,6 +12,15 @@ const register = (app: Elysia) =>
     "updated_at": "2025-08-21T02:25:12.740Z"
   }
 ]))
+  // Merged routes from /api/locations/:id
+  .get("/api/locations/:id", ({ params, query, body, headers }) => (null))
+  // Merged routes from /api/locations/:id/product/:product_id/inventory
+  .get("/api/locations/:id/product/:product_id/inventory", ({ params, query, body, headers }) => ({
+  "on_hand_qty": 0,
+  "on_order_qty": 0,
+  "re_order_qty": 0,
+  "re_stock_qty": 0
+}))
 ;
 
 export default register;
