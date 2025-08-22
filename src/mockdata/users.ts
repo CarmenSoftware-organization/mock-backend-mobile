@@ -2,6 +2,7 @@
 export interface User {
   id: string;
   email: string;
+  password: string;
   first_name: string;
   middle_name?: string;
   last_name: string;
@@ -31,6 +32,7 @@ export const mockUsers: User[] = [
   {
     id: '550e8400-e29b-41d4-a716-446655440001',
     email: 'admin@carmensoftware.com',
+    password: '123456',
     first_name: 'สมชาย',
     middle_name: '',
     last_name: 'ใจดี',
@@ -41,6 +43,7 @@ export const mockUsers: User[] = [
   {
     id: '550e8400-e29b-41d4-a716-446655440002',
     email: 'manager@carmensoftware.com',
+    password: '123456',
     first_name: 'สมหญิง',
     middle_name: 'รักดี',
     last_name: 'สุขใจ',
@@ -51,6 +54,7 @@ export const mockUsers: User[] = [
   {
     id: '550e8400-e29b-41d4-a716-446655440003',
     email: 'purchaser@carmensoftware.com',
+    password: '123456',
     first_name: 'วิชัย',
     middle_name: '',
     last_name: 'ซื้อของ',
@@ -61,6 +65,7 @@ export const mockUsers: User[] = [
   {
     id: '550e8400-e29b-41d4-a716-446655440004',
     email: 'accountant@carmensoftware.com',
+    password: '123456',
     first_name: 'สมศรี',
     middle_name: 'บัญชี',
     last_name: 'เงินทอง',
@@ -71,6 +76,7 @@ export const mockUsers: User[] = [
   {
     id: '550e8400-e29b-41d4-a716-446655440005',
     email: 'warehouse@carmensoftware.com',
+    password: '123456',
     first_name: 'สมศักดิ์',
     middle_name: '',
     last_name: 'คลังสินค้า',
@@ -81,6 +87,7 @@ export const mockUsers: User[] = [
   {
     id: '550e8400-e29b-41d4-a716-446655440006',
     email: 'sales@carmensoftware.com',
+    password: '123456',
     first_name: 'สมปอง',
     middle_name: 'ขายของ',
     last_name: 'รุ่งเรือง',
@@ -91,6 +98,7 @@ export const mockUsers: User[] = [
   {
     id: '550e8400-e29b-41d4-a716-446655440007',
     email: 'hr@carmensoftware.com',
+    password: '123456',
     first_name: 'สมพร',
     middle_name: '',
     last_name: 'ทรัพยากร',
@@ -101,6 +109,7 @@ export const mockUsers: User[] = [
   {
     id: '550e8400-e29b-41d4-a716-446655440008',
     email: 'it@carmensoftware.com',
+    password: '123456',
     first_name: 'สมชาย',
     middle_name: 'ไอที',
     last_name: 'เทคโนโลยี',
@@ -111,6 +120,7 @@ export const mockUsers: User[] = [
   {
     id: '550e8400-e29b-41d4-a716-446655440009',
     email: 'marketing@carmensoftware.com',
+    password: '123456',
     first_name: 'สมหญิง',
     middle_name: 'การตลาด',
     last_name: 'โฆษณา',
@@ -121,6 +131,7 @@ export const mockUsers: User[] = [
   {
     id: '550e8400-e29b-41d4-a716-446655440010',
     email: 'support@carmensoftware.com',
+    password: '123456',
     first_name: 'สมศักดิ์',
     middle_name: '',
     last_name: 'ลูกค้า',

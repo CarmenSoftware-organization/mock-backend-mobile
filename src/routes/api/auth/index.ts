@@ -1,12 +1,15 @@
 import type { Elysia } from "elysia";
+import { users } from "../../../mockdata";
+import jwt from "jsonwebtoken";
 
 export default (app: Elysia) =>
   app
 
-  .post('/api/xxx', ({ params, query, body, headers }) => ({  }))
-    // Login
-    .post("/api/auth/login", ({ params, query, body, headers }) => (null))
-    
+  // Login
+    .post("/api/auth/login", ({ params, query, body, headers }) => {
+      return login(body as { username: string, password: string })
+    })
+
     // Logout
     .post("/api/auth/logout", ({ params, query, body, headers }) => (null))
     
@@ -30,4 +33,50 @@ export default (app: Elysia) =>
     
     // Web Auth
     .post("/api/auth/web", ({ params, query, body, headers }) => (null));
+
+
+function login(body: { username: string, password: string }) {
+
+  const user = users.users.find((user) => user.email === body.username);
+  if (!user) {
+    return {
+        "status": 401,
+        "message": "Invalid login credentials"
+    }
+  }
+
+  if (user.password !== body.password) {
+    return {
+      "status": 401,
+      "message": "Invalid login credentials"
+    }
+  }
+
+
+  if (!process.env.JWT_SECRET) {
+    return {
+      status: 500,
+      message: "JWT secret is not configured"
+    };
+  }
+
+  const refresh_token = jwt.sign(
+    {
+      id: user.id,
+      email: user.email
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: "1d" }
+  );
+
+  const access_token = jwt.sign({
+    id: user?.id,
+    email: user?.email
+  }, process.env.JWT_SECRET, { expiresIn: '1d' });
+
+  return {
+    access_token,
+    refresh_token
+  }
+}
 
