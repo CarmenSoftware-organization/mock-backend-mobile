@@ -1,6 +1,8 @@
 import { Elysia } from "elysia";
 import { swagger } from "@elysiajs/swagger";
 import applyGeneratedRoutes from "./routes";
+import { bearer } from "@elysiajs/bearer";
+import { cors } from "@elysiajs/cors";
 
 const PORT = process.env.PORT || 4000;
 
@@ -13,6 +15,21 @@ const app = new Elysia()
           version: "1.0.0",
           description:
             "Mock backend service for mobile application development",
+        },
+        tags: [
+          {
+            name: "auth",
+            description: "Authentication API",
+          },
+        ],
+        components: {
+          securitySchemes: {
+            bearerAuth: {
+              type: "http",
+              scheme: "bearer",
+              bearerFormat: "JWT",
+            },
+          },
         },
         servers: [
           {
@@ -28,6 +45,8 @@ const app = new Elysia()
     })
   )
   .use(applyGeneratedRoutes)
+  .use(bearer())
+  .use(cors())
   .get("/", () => "Hello Elysia")
   .listen(PORT);
 

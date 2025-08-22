@@ -14,6 +14,7 @@ Mock data สำหรับ user 10 คนพร้อมกับ business uni
 interface User {
   id: string;           // UUID
   email: string;        // อีเมล
+  password: string;     // รหัสผ่าน
   first_name: string;   // ชื่อ
   middle_name?: string; // ชื่อกลาง (optional)
   last_name: string;    // นามสกุล
@@ -39,16 +40,17 @@ interface UserBusinessUnit {
 
 #### ข้อมูล Mock Users
 
-1. **สมชาย ใจดี** - Admin (HQ)
-2. **สมหญิง รักดี สุขใจ** - Manager (HQ)
-3. **วิชัย ซื้อของ** - Purchaser (HQ)
-4. **สมศรี บัญชี เงินทอง** - Accountant (HQ)
-5. **สมศักดิ์ คลังสินค้า** - Warehouse (HQ)
-6. **สมปอง ขายของ รุ่งเรือง** - Sales (Bangkok)
-7. **สมพร ทรัพยากร** - HR (HQ)
-8. **สมชาย ไอที เทคโนโลยี** - IT (HQ)
-9. **สมหญิง การตลาด โฆษณา** - Marketing (Bangkok)
-10. **สมศักดิ์ ลูกค้า** - Support (HQ)
+1. **สมชาย ใจดี** - Admin (HQ) - email : admin@carmensoftware.com
+2. **สมหญิง รักดี สุขใจ** - Manager (HQ) - email : manager@carmensoftware.com
+3. **วิชัย ซื้อของ** - Purchaser (HQ) - email : purchaser@carmensoftware.com
+4. **สมศรี บัญชี เงินทอง** - Accountant (HQ) - email : accountant@carmensoftware.com
+5. **สมศักดิ์ คลังสินค้า** - Warehouse (HQ) - email : warehouse@carmensoftware.com
+6. **สมปอง ขายของ รุ่งเรือง** - Sales (Bangkok) - email : sales@carmensoftware.com
+7. **สมพร ทรัพยากร** - HR (HQ) - email : hr@carmensoftware.com
+8. **สมชาย ไอที เทคโนโลยี** - IT (HQ) - email : it@carmensoftware.com
+9. **สมหญิง การตลาด โฆษณา** - Marketing (Bangkok) - email : marketing@carmensoftware.com
+10. **สมศักดิ์ ลูกค้า** - Support (HQ) - email : support@carmensoftware.com
+
 
 #### Business Units
 
