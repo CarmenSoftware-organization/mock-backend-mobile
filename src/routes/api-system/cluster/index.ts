@@ -1,12 +1,27 @@
 import type { Elysia } from "elysia";
 
+// Utility function for not implemented endpoints
+const resNotImplemented = {
+  success: false,
+  error: "Not Implemented",
+  message: "This endpoint is not implemented yet",
+  timestamp: new Date().toISOString()
+};
+
 export default (app: Elysia) =>
   app
-    // Cluster
-    .get("/api-system/cluster", ({ params, query, body, headers }) => (null))
-    .post("/api-system/cluster", ({ params, query, body, headers }) => (null))
-    
-    // Cluster by ID
-    .get("/api-system/cluster/:id", ({ params, query, body, headers }) => (null))
-    .put("/api-system/cluster/:id", ({ params, query, body, headers }) => (null))
-    .delete("/api-system/cluster/:id", ({ params, query, body, headers }) => (null));
+  .get("/api-system/cluster", ({ params, query, body, headers }) => {
+    return Response.json(resNotImplemented, { status: 501 });
+  })
+  .post("/api-system/cluster", ({ params, query, body, headers }) => {
+    return Response.json(resNotImplemented, { status: 501 });
+  })
+  .get("/api-system/cluster/:id", ({ params, query, body, headers }) => {
+    return Response.json(resNotImplemented, { status: 501 });
+  })
+  .put("/api-system/cluster/:id", ({ params, query, body, headers }) => {
+    return Response.json(resNotImplemented, { status: 501 });
+  })
+  .delete("/api-system/cluster/:id", ({ params, query, body, headers }) => {
+    return Response.json(resNotImplemented, { status: 501 });
+  });

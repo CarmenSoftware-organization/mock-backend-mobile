@@ -3,7 +3,7 @@ import apiSystemBusinessUnitRoutes from "./api-system/business-unit";
 import apiSystemClusterRoutes from "./api-system/cluster";
 import apiSystemUserRoutes from "./api-system/user";
 
-import authRoutes from "./api/auth";
+import authRoutes from "./api/auth/index";
 import businessUnitRoutes from "./api/business-unit";
 import configRoutes from "./api/config";
 import userRoutes from "./api/user";
