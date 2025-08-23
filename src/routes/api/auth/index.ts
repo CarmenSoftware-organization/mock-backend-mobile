@@ -8,11 +8,11 @@ const resNotImplemented = {
   success: false,
   error: "Not Implemented",
   message: "This endpoint is not implemented yet",
-  timestamp: new Date().toISOString()
+  timestamp: new Date().toISOString(),
 };
 
 // Types for login functionality
-interface LoginRequest {
+interface LoginDto {
   email: string;
   password: string;
 }
@@ -37,63 +37,10 @@ interface JWTPayload {
 export default (app: Elysia) =>
   app
     .model({
-      login: t.Object({
+      loginDto: t.Object({
         email: t.String(),
         password: t.String(),
       }),
-    })
-    .model({
-      loginResponse_200: t.Object({
-        access_token: t.String(),
-        refresh_token: t.String(),
-      }),
-    })
-    .model({
-      loginResponse_401: t.Object({
-        message: t.String(),
-      }),
-    })
-    .model({
-      loginResponse_500: t.Object({
-        message: t.String(),
-      }),
-    })
-    .model({
-      logoutResponse_200: t.Object({
-        message: t.String(),
-      }),
-    })
-    .model({
-      registerResponse_200: t.Object({
-        message: t.String(),
-      }),
-    })
-    .model({
-      inviteUserResponse_200: t.Object({}),
-    })
-    .model({
-      registerConfirmResponse_200: t.Object({
-        message: t.String(),
-      }),
-    })
-    .model({
-      refreshTokenResponse_200: t.Object({
-        access_token: t.String(),
-        refresh_token: t.String(),
-      }),
-    })
-    .model({
-      forgotPasswordResponse_200: t.Object({
-        message: t.String(),
-      }),
-    })
-    .model({
-      mobileResponse_200: t.Object({
-        message: t.String(),
-      }),
-    })
-    .model({
-      webResponse_200: t.Object({}),
     })
 
     .use(
@@ -111,27 +58,29 @@ export default (app: Elysia) =>
     .post(
       "/api/auth/login",
       (ctx) => {
-        const body = ctx.body;
+        const body = ctx.body as LoginDto;
         const fn = login(body, ctx.jwt);
         return Response.json(fn, { status: fn.status });
       },
       {
-        body: t.Object({
-          email: t.String({
-            description: "User email address",
-          }),
-          password: t.String({
-            description: "User password",
-          }),
-        }),
+        body: "loginDto",
         response: {
-          200: "loginResponse_200",
-          401: "loginResponse_401",
-          500: "loginResponse_500",
+          200: t.Object({
+            access_token: t.String(),
+            refresh_token: t.String(),
+          }),
+          401: t.Object({
+            status: t.Number(),
+            message: t.String(),
+          }),
+          500: t.Object({
+            status: t.Number(),
+            message: t.String(),
+          }),
         },
         detail: {
           tags: ["auth"],
-          summary: "Login to the system",
+          summary: "Login",
           description:
             "Authenticate user with email and password to receive access and refresh tokens",
           requestBody: {
@@ -230,12 +179,9 @@ export default (app: Elysia) =>
     })
 
     // Register Confirm
-    .post(
-      "/api/auth/register-confirm",
-      ({ params, query, body, headers }) => {
-        return Response.json(resNotImplemented, { status: 501 });
-      }
-    )
+    .post("/api/auth/register-confirm", ({ params, query, body, headers }) => {
+      return Response.json(resNotImplemented, { status: 501 });
+    })
 
     // Refresh Token
     .post("/api/auth/refresh-token", ({ params, query, body, headers }) => {
@@ -243,12 +189,9 @@ export default (app: Elysia) =>
     })
 
     // Forgot Password
-    .post(
-      "/api/auth/forgot-password",
-      ({ params, query, body, headers }) => {
-        return Response.json(resNotImplemented, { status: 501 });
-      }
-    )
+    .post("/api/auth/forgot-password", ({ params, query, body, headers }) => {
+      return Response.json(resNotImplemented, { status: 501 });
+    })
 
     // Mobile Auth
     .post("/api/auth/mobile", ({ params, query, body, headers }) => {
@@ -261,9 +204,12 @@ export default (app: Elysia) =>
     });
 
 // Login function implementation
-function login(body: LoginRequest, jwt: any): LoginResponse | LoginError & { status: number } {
+function login(
+  body: LoginDto,
+  jwt: any
+): LoginResponse | (LoginError & { status: number }) {
   const user = users.users.find((user) => user.email === body.email);
-  
+
   if (!user) {
     return { status: 401, message: "Invalid login credentials" };
   }
