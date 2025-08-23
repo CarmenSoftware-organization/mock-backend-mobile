@@ -1,10 +1,12 @@
 import { t } from "elysia";
 
-export const resNotImpliment = t.Object({
-  message: t.String({
-    default: "Not Implemented",
-  }),
-});
+// Utility function for not implemented endpoints
+export const resNotImplemented = {
+  success: false,
+  error: "Not Implemented",
+  message: "This endpoint is not implemented yet",
+  timestamp: new Date().toISOString(),
+};
 
 export const resBadRequest = t.Object({
   message: t.String({

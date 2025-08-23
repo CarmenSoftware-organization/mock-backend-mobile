@@ -1,35 +1,27 @@
 import { Elysia, t } from "elysia";
-import { bearer } from "@elysiajs/bearer";
 import { jwt } from "@elysiajs/jwt";
 import { users } from "../../../mockdata";
-
-// Utility function for not implemented endpoints
-const resNotImplemented = {
-  success: false,
-  error: "Not Implemented",
-  message: "This endpoint is not implemented yet",
-  timestamp: new Date().toISOString(),
-};
+import { resNotImplemented } from "../../library/res.error";
 
 // Types for login functionality
-interface LoginDto {
+type LoginDto = {
   email: string;
   password: string;
-}
+};
 
-interface LoginResponse {
+type LoginResponse = {
   status: number;
   access_token: string;
   refresh_token: string;
-}
+};
 
-interface LoginError {
+type LoginError = {
   status: number;
   message: string;
-}
+};
 
 // JWT payload interface
-interface JWTPayload {
+type JWTPayload = {
   id: string;
   email: string;
 }
@@ -70,12 +62,12 @@ export default (app: Elysia) =>
             refresh_token: t.String(),
           }),
           401: t.Object({
-            status: t.Number(),
-            message: t.String(),
+            status: t.Number({ default: 401 }),
+            message: t.String({ default: "Invalid login credentials" }),
           }),
           500: t.Object({
-            status: t.Number(),
-            message: t.String(),
+            status: t.Number({ default: 500 }),
+            message: t.String({ default: "Internal Server Error" }),
           }),
         },
         detail: {
@@ -87,59 +79,60 @@ export default (app: Elysia) =>
             content: {
               "application/json": {
                 examples: {
-                  "Login as Admin": {
-                    summary: "Login as Admin",
+                  "Admin User": {
+                    summary: "Login as Administrator",
+                    description: "Full access to all system features",
                     value: {
                       email: "admin@example.com",
                       password: "123456",
                     },
                   },
-                  "Login as Manager": {
+                  "Manager User": {
                     summary: "Login as Manager",
+                    description: "Management level access with approval rights",
                     value: {
                       email: "manager@example.com",
                       password: "123456",
                     },
                   },
-                  "Login as Purchaser": {
+                  "Purchaser User": {
                     summary: "Login as Purchaser",
+                    description: "Purchase order and procurement access",
                     value: {
                       email: "purchaser@example.com",
                       password: "123456",
                     },
                   },
-                  "Login as Accountant": {
+                  "Accountant User": {
                     summary: "Login as Accountant",
+                    description: "Financial and accounting system access",
                     value: {
                       email: "accountant@example.com",
                       password: "123456",
                     },
                   },
-                  "Login as Warehouse": {
-                    summary: "Login as Warehouse",
+                  "Warehouse User": {
+                    summary: "Login as Warehouse Staff",
+                    description: "Inventory and warehouse management access",
                     value: {
                       email: "warehouse@example.com",
                       password: "123456",
                     },
                   },
-                  "Login as Sales": {
-                    summary: "Login as Sales",
+                  "Sales User": {
+                    summary: "Login as Sales Staff",
+                    description: "Sales and customer management access",
                     value: {
                       email: "sales@example.com",
                       password: "123456",
                     },
                   },
-                  "Login as HR": {
-                    summary: "Login as HR",
+                  "HR User": {
+                    summary: "Login as HR Staff",
+                    description:
+                      "Human resources and employee management access",
                     value: {
                       email: "hr@example.com",
-                      password: "123456",
-                    },
-                  },
-                  "Login as Guest": {
-                    summary: "Login as Guest",
-                    value: {
-                      email: "guest@example.com",
                       password: "123456",
                     },
                   },
