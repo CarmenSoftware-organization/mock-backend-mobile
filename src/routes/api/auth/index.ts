@@ -1,48 +1,69 @@
+import * as mockdata from "@mockdata/index";
 import { Elysia, t } from "elysia";
 import { jwt } from "@elysiajs/jwt";
-import { users } from "../../../mockdata";
-import { resNotImplemented } from "../../library/res.error";
+import { resNotImplemented } from "@libs/res.error";
+import type { LoginDto, LoginError, LoginResponse } from "@/types/auth";
 
-// Types for login functionality
-type LoginDto = {
-  email: string;
-  password: string;
-};
-
-type LoginResponse = {
-  status: number;
-  access_token: string;
-  refresh_token: string;
-};
-
-type LoginError = {
-  status: number;
-  message: string;
-};
-
-// JWT payload interface
-type JWTPayload = {
-  id: string;
-  email: string;
-}
+// Types moved to src/types/auth.ts
 
 export default (app: Elysia) =>
   app
     .model({
-      loginDto: t.Object({
-        email: t.String(),
-        password: t.String(),
-      }),
+      loginDto: t.Object(
+        {
+          email: t.String({
+            format: "email",
+            description: "User email address",
+            examples: ["admin@example.com", "manager@example.com"]
+          }),
+          password: t.String({
+            description: "User password",
+            examples: ["123456"]
+          }),
+        },
+        {
+          examples: [
+            {
+              email: "admin@example.com",
+              password: "123456"
+            },
+            {
+              email: "manager@example.com",
+              password: "123456"
+            },
+            {
+              email: "purchaser@example.com",
+              password: "123456"
+            },
+            {
+              email: "accountant@example.com",
+              password: "123456"
+            },
+            {
+              email: "warehouse@example.com",
+              password: "123456"
+            },
+            {
+              email: "sales@example.com",
+              password: "123456"
+            },
+            {
+              email: "hr@example.com",
+              password: "123456"
+            },
+            {
+              email: "system@example.com",
+              password: "123456"
+            }
+          ]
+        }
+      ),
     })
 
     .use(
       jwt({
         name: "jwt",
         secret: process.env.JWT_SECRET || "secret",
-        schema: t.Object({
-          id: t.String(),
-          email: t.String(),
-        }),
       })
     )
 
@@ -52,7 +73,10 @@ export default (app: Elysia) =>
       (ctx) => {
         const body = ctx.body as LoginDto;
         const fn = login(body, ctx.jwt);
-        return Response.json(fn, { status: fn.status });
+        if ('message' in fn) {
+          return Response.json(fn, { status: 401 });
+        }
+        return Response.json(fn);
       },
       {
         body: "loginDto",
@@ -62,11 +86,9 @@ export default (app: Elysia) =>
             refresh_token: t.String(),
           }),
           401: t.Object({
-            status: t.Number({ default: 401 }),
             message: t.String({ default: "Invalid login credentials" }),
           }),
           500: t.Object({
-            status: t.Number({ default: 500 }),
             message: t.String({ default: "Internal Server Error" }),
           }),
         },
@@ -76,70 +98,136 @@ export default (app: Elysia) =>
           description:
             "Authenticate user with email and password to receive access and refresh tokens",
           requestBody: {
+            required: true,
             content: {
               "application/json": {
                 examples: {
-                  "Admin User": {
-                    summary: "Login as Administrator",
-                    description: "Full access to all system features",
+                  AdminLogin: {
+                    summary: "Admin Login",
+                    description: "Login as administrator",
                     value: {
                       email: "admin@example.com",
-                      password: "123456",
-                    },
+                      password: "123456"
+                    }
                   },
-                  "Manager User": {
-                    summary: "Login as Manager",
-                    description: "Management level access with approval rights",
+                  ManagerLogin: {
+                    summary: "Manager Login",
+                    description: "Login as manager",
                     value: {
                       email: "manager@example.com",
-                      password: "123456",
-                    },
+                      password: "123456"
+                    }
                   },
-                  "Purchaser User": {
-                    summary: "Login as Purchaser",
-                    description: "Purchase order and procurement access",
+                  PurchaserLogin: {
+                    summary: "Purchaser Login",
+                    description: "Login as purchaser",
                     value: {
                       email: "purchaser@example.com",
-                      password: "123456",
-                    },
+                      password: "123456"
+                    }
                   },
-                  "Accountant User": {
-                    summary: "Login as Accountant",
-                    description: "Financial and accounting system access",
+                  AccountantLogin: {
+                    summary: "Accountant Login",
+                    description: "Login as accountant",
                     value: {
                       email: "accountant@example.com",
-                      password: "123456",
-                    },
+                      password: "123456"
+                    }
                   },
-                  "Warehouse User": {
-                    summary: "Login as Warehouse Staff",
-                    description: "Inventory and warehouse management access",
+                  WarehouseLogin: {
+                    summary: "Warehouse Login",
+                    description: "Login as warehouse staff",
                     value: {
                       email: "warehouse@example.com",
-                      password: "123456",
-                    },
+                      password: "123456"
+                    }
                   },
-                  "Sales User": {
-                    summary: "Login as Sales Staff",
-                    description: "Sales and customer management access",
+                  SalesLogin: {
+                    summary: "Sales Login",
+                    description: "Login as sales staff",
                     value: {
                       email: "sales@example.com",
-                      password: "123456",
-                    },
+                      password: "123456"
+                    }
                   },
-                  "HR User": {
-                    summary: "Login as HR Staff",
-                    description:
-                      "Human resources and employee management access",
+                  HRLogin: {
+                    summary: "HR Login",
+                    description: "Login as HR staff",
                     value: {
                       email: "hr@example.com",
-                      password: "123456",
-                    },
+                      password: "123456"
+                    }
                   },
-                },
-              },
-            },
+                  SystemLogin: {
+                    summary: "System Login",
+                    description: "Login as system user",
+                    value: {
+                      email: "system@example.com",
+                      password: "123456"
+                    }
+                  }
+                }
+              }
+            }
           },
+          responses: {
+            200: {
+              description: "Login successful",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      access_token: {
+                        type: "string",
+                        description: "JWT access token"
+                      },
+                      refresh_token: {
+                        type: "string",
+                        description: "JWT refresh token"
+                      }
+                    }
+                  },
+                  example: {
+                    access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                    refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  }
+                }
+              }
+            },
+            401: {
+              description: "Invalid credentials",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      message: { type: "string" }
+                    }
+                  },
+                  example: {
+                    message: "Invalid login credentials"
+                  }
+                }
+              }
+            },
+            500: {
+              description: "Internal server error",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      message: { type: "string" }
+                    }
+                  },
+                  example: {
+                    message: "Internal Server Error"
+                  }
+                }
+              }
+            }
+          }
         },
       }
     )
@@ -200,43 +288,24 @@ export default (app: Elysia) =>
 function login(
   body: LoginDto,
   jwt: any
-): LoginResponse | (LoginError & { status: number }) {
-  const user = users.users.find((user) => user.email === body.email);
+): LoginResponse | LoginError {
+  const user = mockdata.mockUsers.find((user) => user.email === body.email);
 
   if (!user) {
-    return { status: 401, message: "Invalid login credentials" };
+    return { message: "Invalid login credentials" };
   }
 
   if (user.password !== body.password) {
-    return { status: 401, message: "Invalid login credentials" };
+    return { message: "Invalid login credentials" };
   }
 
   if (!process.env.JWT_SECRET) {
-    return { status: 500, message: "JWT secret is not configured" };
+    return { message: "JWT secret is not configured" };
   }
 
-  const refresh_token = jwt.sign(
-    {
-      id: user.id,
-      email: user.email,
-    },
-    process.env.JWT_SECRET,
-    { expiresIn: "1d" }
-  );
-
-  const access_token = jwt.sign(
-    {
-      id: user?.id,
-      email: user?.email,
-    },
-    process.env.JWT_SECRET,
-    { expiresIn: "1d" }
-  );
-
   return {
-    status: 200,
-    access_token,
-    refresh_token,
+    access_token: "123",
+    refresh_token: "456",
   };
 }
 
