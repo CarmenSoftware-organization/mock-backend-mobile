@@ -31,6 +31,11 @@ export default (app: Elysia) =>
     .post(
       "/api/auth/login",
       async (ctx) => {
+        const headers = ctx.headers;
+        if (!headers["x-app-id"]) {
+          ctx.set.status = 401;
+          return { message: "Invalid app id" };
+        }
         const body = ctx.body as LoginDto;
         const fn = await login(body, ctx.jwt);
         if ('message' in fn) {
