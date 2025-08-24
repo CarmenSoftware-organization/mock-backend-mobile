@@ -2,6 +2,7 @@
 
 import { TbApplicationUserConfig } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // Mock User Application Config Table (tb_application_user_config)
 export let mockTbApplicationUserConfig: TbApplicationUserConfig[] = [

@@ -1,11 +1,12 @@
 import { TbBusinessUnit } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_BUSINESS_UNIT DATA ===============
 export let mockTbBusinessUnit: TbBusinessUnit[] = [
   {
-    id: "bu-001",
-    cluster_id: "cluster-004",
+    id: UUID_MAPPING['bu-001'],
+    cluster_id: UUID_MAPPING['cluster-004'],
     code: "CARMEN-BKK",
     name: "Carmen Software Bangkok",
     description: "Main headquarters in Bangkok, Thailand",
@@ -50,13 +51,13 @@ export let mockTbBusinessUnit: TbBusinessUnit[] = [
       }
     },
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "bu-002",
-    cluster_id: "cluster-004",
+    id: UUID_MAPPING['bu-002'],
+    cluster_id: UUID_MAPPING['cluster-004'],
     code: "HOTEL-ROYAL",
     name: "Royal Grand Hotel",
     description: "Luxury hotel in Bangkok city center",
@@ -103,13 +104,13 @@ export let mockTbBusinessUnit: TbBusinessUnit[] = [
       }
     },
     created_at: "2023-02-15T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-02-15T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
   {
-    id: "bu-003",
-    cluster_id: "cluster-004",
+    id: UUID_MAPPING['bu-003'],
+    cluster_id: UUID_MAPPING['cluster-004'],
     code: "REST-SPICE",
     name: "Spice Garden Restaurant",
     description: "Thai cuisine restaurant chain",
@@ -155,13 +156,13 @@ export let mockTbBusinessUnit: TbBusinessUnit[] = [
       }
     },
     created_at: "2023-03-01T00:00:00.000Z",
-    created_by_id: "user-002",
+    created_by_id: UUID_MAPPING['user-002'],
     updated_at: "2023-03-01T00:00:00.000Z",
-    updated_by_id: "user-002"
+    updated_by_id: UUID_MAPPING['user-002']
   },
   {
-    id: "bu-004",
-    cluster_id: "cluster-001",
+    id: UUID_MAPPING['bu-004'],
+    cluster_id: UUID_MAPPING['cluster-001'],
     code: "CARMEN-SG",
     name: "Carmen Software Singapore",
     description: "Regional office for APAC operations",
@@ -206,12 +207,12 @@ export let mockTbBusinessUnit: TbBusinessUnit[] = [
       }
     },
     created_at: "2023-04-01T00:00:00.000Z",
-    created_by_id: "user-003",
+    created_by_id: UUID_MAPPING['user-003'],
     updated_at: "2023-04-01T00:00:00.000Z",
-    updated_by_id: "user-003"
+    updated_by_id: UUID_MAPPING['user-003']
   },
   {
-    id: "bu-005",
+    id: UUID_MAPPING['bu-005'],
     cluster_id: "cluster-005",
     code: "DEV-TEST",
     name: "Development Test Unit",
@@ -258,9 +259,9 @@ export let mockTbBusinessUnit: TbBusinessUnit[] = [
       }
     },
     created_at: getCurrentTimestamp(),
-    created_by_id: "developer",
+    created_by_id: UUID_MAPPING['developer'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "developer"
+    updated_by_id: UUID_MAPPING['developer']
   }
 ];
 

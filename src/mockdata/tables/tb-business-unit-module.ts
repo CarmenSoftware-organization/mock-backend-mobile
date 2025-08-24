@@ -1,73 +1,74 @@
 import { TbBusinessUnitModule } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_BUSINESS_UNIT_TB_MODULE DATA ===============
 export let mockTbBusinessUnitModule: TbBusinessUnitModule[] = [
   // Carmen Software Bangkok - All modules
-  { id: "bum-001", business_unit_id: "bu-001", module_id: "mod-001", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" }, // Inventory
-  { id: "bum-002", business_unit_id: "bu-001", module_id: "mod-002", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" }, // Procurement
-  { id: "bum-003", business_unit_id: "bu-001", module_id: "mod-003", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" }, // Accounting
-  { id: "bum-004", business_unit_id: "bu-001", module_id: "mod-004", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" }, // HR
-  { id: "bum-005", business_unit_id: "bu-001", module_id: "mod-005", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" }, // CRM
-  { id: "bum-006", business_unit_id: "bu-001", module_id: "mod-008", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" }, // Reporting
-  { id: "bum-007", business_unit_id: "bu-001", module_id: "mod-009", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" }, // Settings
-  { id: "bum-008", business_unit_id: "bu-001", module_id: "mod-013", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" }, // Workflow
-  { id: "bum-009", business_unit_id: "bu-001", module_id: "mod-014", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" }, // Communications
-  { id: "bum-010", business_unit_id: "bu-001", module_id: "mod-015", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" }, // Mobile
+  { id: "bum-001", business_unit_id: UUID_MAPPING['bu-001'], module_id: UUID_MAPPING['mod-001'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] }, // Inventory
+  { id: "bum-002", business_unit_id: UUID_MAPPING['bu-001'], module_id: UUID_MAPPING['mod-002'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] }, // Procurement
+  { id: "bum-003", business_unit_id: UUID_MAPPING['bu-001'], module_id: UUID_MAPPING['mod-003'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] }, // Accounting
+  { id: "bum-004", business_unit_id: UUID_MAPPING['bu-001'], module_id: UUID_MAPPING['mod-004'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] }, // HR
+  { id: "bum-005", business_unit_id: UUID_MAPPING['bu-001'], module_id: UUID_MAPPING['mod-005'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] }, // CRM
+  { id: "bum-006", business_unit_id: UUID_MAPPING['bu-001'], module_id: UUID_MAPPING['mod-008'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] }, // Reporting
+  { id: "bum-007", business_unit_id: UUID_MAPPING['bu-001'], module_id: UUID_MAPPING['mod-009'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] }, // Settings
+  { id: "bum-008", business_unit_id: UUID_MAPPING['bu-001'], module_id: UUID_MAPPING['mod-013'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] }, // Workflow
+  { id: "bum-009", business_unit_id: UUID_MAPPING['bu-001'], module_id: UUID_MAPPING['mod-014'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] }, // Communications
+  { id: "bum-010", business_unit_id: UUID_MAPPING['bu-001'], module_id: UUID_MAPPING['mod-015'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] }, // Mobile
 
   // Royal Grand Hotel - Hotel-specific modules
-  { id: "bum-011", business_unit_id: "bu-002", module_id: "mod-001", created_at: "2023-02-15T00:00:00.000Z", created_by_id: "user-001" }, // Inventory
-  { id: "bum-012", business_unit_id: "bu-002", module_id: "mod-002", created_at: "2023-02-15T00:00:00.000Z", created_by_id: "user-001" }, // Procurement
-  { id: "bum-013", business_unit_id: "bu-002", module_id: "mod-003", created_at: "2023-02-15T00:00:00.000Z", created_by_id: "user-001" }, // Accounting
-  { id: "bum-014", business_unit_id: "bu-002", module_id: "mod-004", created_at: "2023-02-15T00:00:00.000Z", created_by_id: "user-001" }, // HR
-  { id: "bum-015", business_unit_id: "bu-002", module_id: "mod-006", created_at: "2023-02-15T00:00:00.000Z", created_by_id: "user-001" }, // PMS
-  { id: "bum-016", business_unit_id: "bu-002", module_id: "mod-007", created_at: "2023-02-15T00:00:00.000Z", created_by_id: "user-001" }, // POS (restaurant)
-  { id: "bum-017", business_unit_id: "bu-002", module_id: "mod-008", created_at: "2023-02-15T00:00:00.000Z", created_by_id: "user-001" }, // Reporting
-  { id: "bum-018", business_unit_id: "bu-002", module_id: "mod-009", created_at: "2023-02-15T00:00:00.000Z", created_by_id: "user-001" }, // Settings
-  { id: "bum-019", business_unit_id: "bu-002", module_id: "mod-011", created_at: "2023-02-15T00:00:00.000Z", created_by_id: "user-001" }, // Maintenance
-  { id: "bum-020", business_unit_id: "bu-002", module_id: "mod-014", created_at: "2023-02-15T00:00:00.000Z", created_by_id: "user-001" }, // Communications
-  { id: "bum-021", business_unit_id: "bu-002", module_id: "mod-015", created_at: "2023-02-15T00:00:00.000Z", created_by_id: "user-001" }, // Mobile
+  { id: "bum-011", business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-001'], created_at: "2023-02-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Inventory
+  { id: "bum-012", business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-002'], created_at: "2023-02-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Procurement
+  { id: "bum-013", business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-003'], created_at: "2023-02-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Accounting
+  { id: "bum-014", business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-004'], created_at: "2023-02-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // HR
+  { id: "bum-015", business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-006'], created_at: "2023-02-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // PMS
+  { id: "bum-016", business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-007'], created_at: "2023-02-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // POS (restaurant)
+  { id: "bum-017", business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-008'], created_at: "2023-02-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Reporting
+  { id: "bum-018", business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-009'], created_at: "2023-02-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Settings
+  { id: "bum-019", business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-011'], created_at: "2023-02-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Maintenance
+  { id: "bum-020", business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-014'], created_at: "2023-02-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Communications
+  { id: "bum-021", business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-015'], created_at: "2023-02-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Mobile
 
   // Spice Garden Restaurant - Restaurant-specific modules
-  { id: "bum-022", business_unit_id: "bu-003", module_id: "mod-001", created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-002" }, // Inventory
-  { id: "bum-023", business_unit_id: "bu-003", module_id: "mod-002", created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-002" }, // Procurement
-  { id: "bum-024", business_unit_id: "bu-003", module_id: "mod-003", created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-002" }, // Accounting
-  { id: "bum-025", business_unit_id: "bu-003", module_id: "mod-004", created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-002" }, // HR
-  { id: "bum-026", business_unit_id: "bu-003", module_id: "mod-007", created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-002" }, // POS
-  { id: "bum-027", business_unit_id: "bu-003", module_id: "mod-008", created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-002" }, // Reporting
-  { id: "bum-028", business_unit_id: "bu-003", module_id: "mod-009", created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-002" }, // Settings
-  { id: "bum-029", business_unit_id: "bu-003", module_id: "mod-010", created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-002" }, // Delivery
-  { id: "bum-030", business_unit_id: "bu-003", module_id: "mod-012", created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-002" }, // Quality
-  { id: "bum-031", business_unit_id: "bu-003", module_id: "mod-014", created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-002" }, // Communications
-  { id: "bum-032", business_unit_id: "bu-003", module_id: "mod-015", created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-002" }, // Mobile
+  { id: "bum-022", business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-001'], created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-002'] }, // Inventory
+  { id: "bum-023", business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-002'], created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-002'] }, // Procurement
+  { id: "bum-024", business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-003'], created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-002'] }, // Accounting
+  { id: "bum-025", business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-004'], created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-002'] }, // HR
+  { id: "bum-026", business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-007'], created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-002'] }, // POS
+  { id: "bum-027", business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-008'], created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-002'] }, // Reporting
+  { id: "bum-028", business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-009'], created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-002'] }, // Settings
+  { id: "bum-029", business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-010'], created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-002'] }, // Delivery
+  { id: "bum-030", business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-012'], created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-002'] }, // Quality
+  { id: "bum-031", business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-014'], created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-002'] }, // Communications
+  { id: "bum-032", business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-015'], created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-002'] }, // Mobile
 
   // Carmen Software Singapore - Business modules
-  { id: "bum-033", business_unit_id: "bu-004", module_id: "mod-001", created_at: "2023-04-01T00:00:00.000Z", created_by_id: "user-003" }, // Inventory
-  { id: "bum-034", business_unit_id: "bu-004", module_id: "mod-002", created_at: "2023-04-01T00:00:00.000Z", created_by_id: "user-003" }, // Procurement
-  { id: "bum-035", business_unit_id: "bu-004", module_id: "mod-003", created_at: "2023-04-01T00:00:00.000Z", created_by_id: "user-003" }, // Accounting
-  { id: "bum-036", business_unit_id: "bu-004", module_id: "mod-004", created_at: "2023-04-01T00:00:00.000Z", created_by_id: "user-003" }, // HR
-  { id: "bum-037", business_unit_id: "bu-004", module_id: "mod-005", created_at: "2023-04-01T00:00:00.000Z", created_by_id: "user-003" }, // CRM
-  { id: "bum-038", business_unit_id: "bu-004", module_id: "mod-008", created_at: "2023-04-01T00:00:00.000Z", created_by_id: "user-003" }, // Reporting
-  { id: "bum-039", business_unit_id: "bu-004", module_id: "mod-009", created_at: "2023-04-01T00:00:00.000Z", created_by_id: "user-003" }, // Settings
-  { id: "bum-040", business_unit_id: "bu-004", module_id: "mod-014", created_at: "2023-04-01T00:00:00.000Z", created_by_id: "user-003" }, // Communications
-  { id: "bum-041", business_unit_id: "bu-004", module_id: "mod-015", created_at: "2023-04-01T00:00:00.000Z", created_by_id: "user-003" }, // Mobile
+  { id: "bum-033", business_unit_id: UUID_MAPPING['bu-004'], module_id: UUID_MAPPING['mod-001'], created_at: "2023-04-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-003'] }, // Inventory
+  { id: "bum-034", business_unit_id: UUID_MAPPING['bu-004'], module_id: UUID_MAPPING['mod-002'], created_at: "2023-04-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-003'] }, // Procurement
+  { id: "bum-035", business_unit_id: UUID_MAPPING['bu-004'], module_id: UUID_MAPPING['mod-003'], created_at: "2023-04-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-003'] }, // Accounting
+  { id: "bum-036", business_unit_id: UUID_MAPPING['bu-004'], module_id: UUID_MAPPING['mod-004'], created_at: "2023-04-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-003'] }, // HR
+  { id: "bum-037", business_unit_id: UUID_MAPPING['bu-004'], module_id: UUID_MAPPING['mod-005'], created_at: "2023-04-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-003'] }, // CRM
+  { id: "bum-038", business_unit_id: UUID_MAPPING['bu-004'], module_id: UUID_MAPPING['mod-008'], created_at: "2023-04-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-003'] }, // Reporting
+  { id: "bum-039", business_unit_id: UUID_MAPPING['bu-004'], module_id: UUID_MAPPING['mod-009'], created_at: "2023-04-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-003'] }, // Settings
+  { id: "bum-040", business_unit_id: UUID_MAPPING['bu-004'], module_id: UUID_MAPPING['mod-014'], created_at: "2023-04-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-003'] }, // Communications
+  { id: "bum-041", business_unit_id: UUID_MAPPING['bu-004'], module_id: UUID_MAPPING['mod-015'], created_at: "2023-04-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-003'] }, // Mobile
 
   // Development Test Unit - All modules for testing
-  { id: "bum-042", business_unit_id: "bu-005", module_id: "mod-001", created_at: getCurrentTimestamp(), created_by_id: "developer" }, // Inventory
-  { id: "bum-043", business_unit_id: "bu-005", module_id: "mod-002", created_at: getCurrentTimestamp(), created_by_id: "developer" }, // Procurement
-  { id: "bum-044", business_unit_id: "bu-005", module_id: "mod-003", created_at: getCurrentTimestamp(), created_by_id: "developer" }, // Accounting
-  { id: "bum-045", business_unit_id: "bu-005", module_id: "mod-004", created_at: getCurrentTimestamp(), created_by_id: "developer" }, // HR
-  { id: "bum-046", business_unit_id: "bu-005", module_id: "mod-005", created_at: getCurrentTimestamp(), created_by_id: "developer" }, // CRM
-  { id: "bum-047", business_unit_id: "bu-005", module_id: "mod-006", created_at: getCurrentTimestamp(), created_by_id: "developer" }, // PMS
-  { id: "bum-048", business_unit_id: "bu-005", module_id: "mod-007", created_at: getCurrentTimestamp(), created_by_id: "developer" }, // POS
-  { id: "bum-049", business_unit_id: "bu-005", module_id: "mod-008", created_at: getCurrentTimestamp(), created_by_id: "developer" }, // Reporting
-  { id: "bum-050", business_unit_id: "bu-005", module_id: "mod-009", created_at: getCurrentTimestamp(), created_by_id: "developer" }, // Settings
-  { id: "bum-051", business_unit_id: "bu-005", module_id: "mod-010", created_at: getCurrentTimestamp(), created_by_id: "developer" }, // Delivery
-  { id: "bum-052", business_unit_id: "bu-005", module_id: "mod-011", created_at: getCurrentTimestamp(), created_by_id: "developer" }, // Maintenance
-  { id: "bum-053", business_unit_id: "bu-005", module_id: "mod-012", created_at: getCurrentTimestamp(), created_by_id: "developer" }, // Quality
-  { id: "bum-054", business_unit_id: "bu-005", module_id: "mod-013", created_at: getCurrentTimestamp(), created_by_id: "developer" }, // Workflow
-  { id: "bum-055", business_unit_id: "bu-005", module_id: "mod-014", created_at: getCurrentTimestamp(), created_by_id: "developer" }, // Communications
-  { id: "bum-056", business_unit_id: "bu-005", module_id: "mod-015", created_at: getCurrentTimestamp(), created_by_id: "developer" }  // Mobile
+  { id: "bum-042", business_unit_id: UUID_MAPPING['bu-005'], module_id: UUID_MAPPING['mod-001'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] }, // Inventory
+  { id: "bum-043", business_unit_id: UUID_MAPPING['bu-005'], module_id: UUID_MAPPING['mod-002'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] }, // Procurement
+  { id: "bum-044", business_unit_id: UUID_MAPPING['bu-005'], module_id: UUID_MAPPING['mod-003'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] }, // Accounting
+  { id: "bum-045", business_unit_id: UUID_MAPPING['bu-005'], module_id: UUID_MAPPING['mod-004'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] }, // HR
+  { id: "bum-046", business_unit_id: UUID_MAPPING['bu-005'], module_id: UUID_MAPPING['mod-005'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] }, // CRM
+  { id: "bum-047", business_unit_id: UUID_MAPPING['bu-005'], module_id: UUID_MAPPING['mod-006'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] }, // PMS
+  { id: "bum-048", business_unit_id: UUID_MAPPING['bu-005'], module_id: UUID_MAPPING['mod-007'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] }, // POS
+  { id: "bum-049", business_unit_id: UUID_MAPPING['bu-005'], module_id: UUID_MAPPING['mod-008'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] }, // Reporting
+  { id: "bum-050", business_unit_id: UUID_MAPPING['bu-005'], module_id: UUID_MAPPING['mod-009'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] }, // Settings
+  { id: "bum-051", business_unit_id: UUID_MAPPING['bu-005'], module_id: UUID_MAPPING['mod-010'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] }, // Delivery
+  { id: "bum-052", business_unit_id: UUID_MAPPING['bu-005'], module_id: UUID_MAPPING['mod-011'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] }, // Maintenance
+  { id: "bum-053", business_unit_id: UUID_MAPPING['bu-005'], module_id: UUID_MAPPING['mod-012'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] }, // Quality
+  { id: "bum-054", business_unit_id: UUID_MAPPING['bu-005'], module_id: UUID_MAPPING['mod-013'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] }, // Workflow
+  { id: "bum-055", business_unit_id: UUID_MAPPING['bu-005'], module_id: UUID_MAPPING['mod-014'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] }, // Communications
+  { id: "bum-056", business_unit_id: UUID_MAPPING['bu-005'], module_id: UUID_MAPPING['mod-015'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] }  // Mobile
 ];
 
 // =============== TB_BUSINESS_UNIT_TB_MODULE CRUD FUNCTIONS ===============

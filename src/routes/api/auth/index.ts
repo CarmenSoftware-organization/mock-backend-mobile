@@ -1,9 +1,9 @@
 import * as mockdata from "@mockdata/index";
 import { Elysia, t } from "elysia";
 import { jwt } from "@elysiajs/jwt";
-import { resNotImplemented } from "@libs/res.error";
+import { resNotImplemented, resUnauthorized } from "@libs/res.error";
 import type { LoginDto, LoginError, LoginResponse } from "@/types/auth";
-import { APP_ID } from "@mockdata/index";
+import { APP_ID, tbPasswordCrud, tbUserCrud } from "@mockdata/index";
 
 // Types moved to src/types/auth.ts
 
@@ -27,6 +27,45 @@ export default (app: Elysia) =>
         secret: process.env.JWT_SECRET || "secret",
       })
     )
+
+    .get('/mockdata/users', (ctx) => {
+      return mockdata.mockUsers;
+      }, {
+        detail: {
+          tags: ["auth"],
+          summary: "Mock data users",
+          description: "Mock data users",
+        },
+      }
+    )
+
+    .get('/api/auth/mobile', async ({headers, jwt, set}) => {
+      // check token
+      const token = headers.authorization?.split(" ")[1];
+      if (!token) {
+        set.status = 401;
+        return resUnauthorized;
+      }
+      const currentUser = await jwt.verify(token);
+      if (!currentUser) {
+        set.status = 401;
+        return resUnauthorized;
+      }
+
+      // get user permissions
+      const userPermissions = await tbUserCrud.getUserPermissions(currentUser.id as string);
+
+      return {
+       data : userPermissions,
+      };
+
+    }, {
+      detail: {
+        tags: ["auth"],
+        summary: "Mobile authorization",
+        description: "Mobile authorization",
+      },
+    })
 
     // Login
     .post(
@@ -106,64 +145,6 @@ export default (app: Elysia) =>
                   },
                   required: ["email", "password"]
                 },
-                examples: {
-                  Admin: {
-                    summary: "Admin Login",
-                    value: {
-                      email: "admin@example.com",
-                      password: "123456"
-                    }
-                  },
-                  Manager: {
-                    summary: "Manager Login",
-                    value: {
-                      email: "manager@example.com",
-                      password: "123456"
-                    }
-                  },
-                  Purchaser: {
-                    summary: "Purchaser Login",
-                    value: {
-                      email: "purchaser@example.com",
-                      password: "123456"
-                    }
-                  },
-                  Accountant: {
-                    summary: "Accountant Login",
-                    value: {
-                      email: "accountant@example.com",
-                      password: "123456"
-                    }
-                  },
-                  Warehouse: {
-                    summary: "Warehouse Login",
-                    value: {
-                      email: "warehouse@example.com",
-                      password: "123456"
-                    }
-                  },
-                  Sales: {
-                    summary: "Sales Login",
-                    value: {
-                      email: "sales@example.com",
-                      password: "123456"
-                    }
-                  },
-                  HR: {
-                    summary: "HR Login",
-                    value: {
-                      email: "hr@example.com",
-                      password: "123456"
-                    }
-                  },
-                  System: {
-                    summary: "System Login",
-                    value: {
-                      email: "system@example.com",
-                      password: "123456"
-                    }
-                  }
-                }
               }
             }
           },
@@ -321,13 +302,15 @@ async function login(
   body: LoginDto,
   jwt: any
 ): Promise<LoginResponse | LoginError> {
-  const user = mockdata.mockUsers.find((user) => user.email === body.email);
+  const user = mockdata.mockUsers.find((user: any) => user.email === body.email);
 
   if (!user) {
     return { message: "Invalid login credentials" };
   }
 
-  if (user.password !== body.password) {
+  // For demo purposes, accept any password
+  // In production, would use tbPasswordCrud.verifyPassword(user.id, body.password)
+  if (body.password !== "123456") {
     return { message: "Invalid login credentials" };
   }
 

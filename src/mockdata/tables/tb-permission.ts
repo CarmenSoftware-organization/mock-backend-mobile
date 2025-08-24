@@ -1,386 +1,387 @@
 import { TbPermission } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_PERMISSION DATA ===============
 export let mockTbPermission: TbPermission[] = [
   // Inventory Module Permissions
   {
-    id: "perm-001",
+    id: UUID_MAPPING['perm-001'],
     code: "inventory.view",
     name: "View Inventory",
     description: "View inventory items and stock levels",
-    module_id: "mod-001",
+    module_id: UUID_MAPPING['mod-001'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "perm-002",
+    id: UUID_MAPPING['perm-002'],
     code: "inventory.create",
     name: "Create Inventory Items",
     description: "Create new inventory items and categories",
-    module_id: "mod-001",
+    module_id: UUID_MAPPING['mod-001'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "perm-003",
+    id: UUID_MAPPING['perm-003'],
     code: "inventory.edit",
     name: "Edit Inventory Items",
     description: "Edit existing inventory items and details",
-    module_id: "mod-001",
+    module_id: UUID_MAPPING['mod-001'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "perm-004",
+    id: UUID_MAPPING['perm-004'],
     code: "inventory.delete",
     name: "Delete Inventory Items",
     description: "Delete inventory items (admin only)",
-    module_id: "mod-001",
+    module_id: UUID_MAPPING['mod-001'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "perm-005",
+    id: UUID_MAPPING['perm-005'],
     code: "inventory.adjust",
     name: "Stock Adjustments",
     description: "Perform stock level adjustments",
-    module_id: "mod-001",
+    module_id: UUID_MAPPING['mod-001'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Procurement Module Permissions
   {
-    id: "perm-006",
+    id: UUID_MAPPING['perm-006'],
     code: "procurement.view",
     name: "View Procurement",
     description: "View purchase requests and orders",
-    module_id: "mod-002",
+    module_id: UUID_MAPPING['mod-002'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "perm-007",
+    id: UUID_MAPPING['perm-007'],
     code: "procurement.create",
     name: "Create Purchase Requests",
     description: "Create new purchase requests",
-    module_id: "mod-002",
+    module_id: UUID_MAPPING['mod-002'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "perm-008",
+    id: UUID_MAPPING['perm-008'],
     code: "procurement.approve",
     name: "Approve Purchase Requests",
     description: "Approve or reject purchase requests",
-    module_id: "mod-002",
+    module_id: UUID_MAPPING['mod-002'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "perm-009",
+    id: UUID_MAPPING['perm-009'],
     code: "procurement.purchase_order",
     name: "Manage Purchase Orders",
     description: "Create and manage purchase orders",
-    module_id: "mod-002",
+    module_id: UUID_MAPPING['mod-002'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "perm-010",
+    id: UUID_MAPPING['perm-010'],
     code: "procurement.receive",
     name: "Receive Goods",
     description: "Process goods received notes",
-    module_id: "mod-002",
+    module_id: UUID_MAPPING['mod-002'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Accounting Module Permissions
   {
-    id: "perm-011",
+    id: UUID_MAPPING['perm-011'],
     code: "accounting.view",
     name: "View Financial Data",
     description: "View financial reports and accounts",
-    module_id: "mod-003",
+    module_id: UUID_MAPPING['mod-003'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "perm-012",
+    id: UUID_MAPPING['perm-012'],
     code: "accounting.journal",
     name: "Manage Journal Entries",
     description: "Create and edit journal entries",
-    module_id: "mod-003",
+    module_id: UUID_MAPPING['mod-003'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "perm-013",
+    id: UUID_MAPPING['perm-013'],
     code: "accounting.reports",
     name: "Financial Reports",
     description: "Generate and export financial reports",
-    module_id: "mod-003",
+    module_id: UUID_MAPPING['mod-003'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // HR Module Permissions
   {
-    id: "perm-014",
+    id: UUID_MAPPING['perm-014'],
     code: "hr.view",
     name: "View Employee Data",
     description: "View employee information and records",
-    module_id: "mod-004",
+    module_id: UUID_MAPPING['mod-004'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "perm-015",
+    id: UUID_MAPPING['perm-015'],
     code: "hr.manage",
     name: "Manage Employees",
     description: "Create, edit, and manage employee records",
-    module_id: "mod-004",
+    module_id: UUID_MAPPING['mod-004'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "perm-016",
+    id: UUID_MAPPING['perm-016'],
     code: "hr.payroll",
     name: "Manage Payroll",
     description: "Process payroll and salary information",
-    module_id: "mod-004",
+    module_id: UUID_MAPPING['mod-004'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // CRM Module Permissions
   {
-    id: "perm-017",
+    id: UUID_MAPPING['perm-017'],
     code: "crm.view",
     name: "View Customer Data",
     description: "View customer information and history",
-    module_id: "mod-005",
+    module_id: UUID_MAPPING['mod-005'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "perm-018",
+    id: UUID_MAPPING['perm-018'],
     code: "crm.manage",
     name: "Manage Customers",
     description: "Create and manage customer records",
-    module_id: "mod-005",
+    module_id: UUID_MAPPING['mod-005'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // PMS Module Permissions
   {
-    id: "perm-019",
+    id: UUID_MAPPING['perm-019'],
     code: "pms.view",
     name: "View Hotel Data",
     description: "View room status and reservations",
-    module_id: "mod-006",
+    module_id: UUID_MAPPING['mod-006'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "perm-020",
+    id: UUID_MAPPING['perm-020'],
     code: "pms.reservations",
     name: "Manage Reservations",
     description: "Create and manage hotel reservations",
-    module_id: "mod-006",
+    module_id: UUID_MAPPING['mod-006'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // POS Module Permissions
   {
-    id: "perm-021",
+    id: UUID_MAPPING['perm-021'],
     code: "pos.view",
     name: "View POS Data",
     description: "View sales and order information",
-    module_id: "mod-007",
+    module_id: UUID_MAPPING['mod-007'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "perm-022",
+    id: UUID_MAPPING['perm-022'],
     code: "pos.sell",
     name: "Process Sales",
     description: "Process sales transactions and orders",
-    module_id: "mod-007",
+    module_id: UUID_MAPPING['mod-007'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Reporting Module Permissions
   {
-    id: "perm-023",
+    id: UUID_MAPPING['perm-023'],
     code: "reporting.view",
     name: "View Reports",
     description: "View business reports and analytics",
-    module_id: "mod-008",
+    module_id: UUID_MAPPING['mod-008'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "perm-024",
+    id: UUID_MAPPING['perm-024'],
     code: "reporting.export",
     name: "Export Reports",
     description: "Export reports in various formats",
-    module_id: "mod-008",
+    module_id: UUID_MAPPING['mod-008'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Settings Module Permissions
   {
-    id: "perm-025",
+    id: UUID_MAPPING['perm-025'],
     code: "settings.view",
     name: "View System Settings",
     description: "View system configuration and settings",
-    module_id: "mod-009",
+    module_id: UUID_MAPPING['mod-009'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "perm-026",
+    id: UUID_MAPPING['perm-026'],
     code: "settings.manage",
     name: "Manage System Settings",
     description: "Modify system configuration and settings",
-    module_id: "mod-009",
+    module_id: UUID_MAPPING['mod-009'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "perm-027",
+    id: UUID_MAPPING['perm-027'],
     code: "settings.users",
     name: "Manage Users",
     description: "Create and manage user accounts",
-    module_id: "mod-009",
+    module_id: UUID_MAPPING['mod-009'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "perm-028",
+    id: UUID_MAPPING['perm-028'],
     code: "settings.roles",
     name: "Manage Roles",
     description: "Create and manage user roles and permissions",
-    module_id: "mod-009",
+    module_id: UUID_MAPPING['mod-009'],
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Quality Module Permissions
   {
-    id: "perm-029",
+    id: UUID_MAPPING['perm-029'],
     code: "quality.view",
     name: "View Quality Data",
     description: "View quality control information",
-    module_id: "mod-012",
+    module_id: UUID_MAPPING['mod-012'],
     is_active: true,
     created_at: "2023-04-01T00:00:00.000Z",
-    created_by_id: "user-003",
+    created_by_id: UUID_MAPPING['user-003'],
     updated_at: "2023-04-01T00:00:00.000Z",
-    updated_by_id: "user-003"
+    updated_by_id: UUID_MAPPING['user-003']
   },
   {
-    id: "perm-030",
+    id: UUID_MAPPING['perm-030'],
     code: "quality.inspect",
     name: "Perform Quality Inspections",
     description: "Conduct quality inspections and record results",
-    module_id: "mod-012",
+    module_id: UUID_MAPPING['mod-012'],
     is_active: true,
     created_at: "2023-04-01T00:00:00.000Z",
-    created_by_id: "user-003",
+    created_by_id: UUID_MAPPING['user-003'],
     updated_at: "2023-04-01T00:00:00.000Z",
-    updated_by_id: "user-003"
+    updated_by_id: UUID_MAPPING['user-003']
   }
 ];
 

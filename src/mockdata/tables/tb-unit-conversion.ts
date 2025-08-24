@@ -1,5 +1,6 @@
 import { TbUnitConversion } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_UNIT_CONVERSION DATA ===============
 export let mockTbUnitConversion: TbUnitConversion[] = [
@@ -24,9 +25,9 @@ export let mockTbUnitConversion: TbUnitConversion[] = [
     },
     dimension: {},
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -50,9 +51,9 @@ export let mockTbUnitConversion: TbUnitConversion[] = [
     },
     dimension: {},
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -77,9 +78,9 @@ export let mockTbUnitConversion: TbUnitConversion[] = [
     },
     dimension: {},
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -103,9 +104,9 @@ export let mockTbUnitConversion: TbUnitConversion[] = [
     },
     dimension: {},
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -131,9 +132,9 @@ export let mockTbUnitConversion: TbUnitConversion[] = [
     },
     dimension: {},
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -159,9 +160,9 @@ export let mockTbUnitConversion: TbUnitConversion[] = [
     },
     dimension: {},
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -187,9 +188,9 @@ export let mockTbUnitConversion: TbUnitConversion[] = [
     },
     dimension: {},
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -215,9 +216,9 @@ export let mockTbUnitConversion: TbUnitConversion[] = [
     },
     dimension: {},
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -242,9 +243,9 @@ export let mockTbUnitConversion: TbUnitConversion[] = [
     },
     dimension: {},
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -270,9 +271,9 @@ export let mockTbUnitConversion: TbUnitConversion[] = [
     },
     dimension: {},
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   }

@@ -626,6 +626,7 @@ export interface TbUser {
   is_active?: boolean | null;
   is_consent?: boolean | null;
   consent_at?: string | null;
+  permissions?: string[] | null;
   created_at?: string | null;
   created_by_id?: string | null;
   updated_at?: string | null;

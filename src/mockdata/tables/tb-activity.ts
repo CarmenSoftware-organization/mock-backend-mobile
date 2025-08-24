@@ -1,5 +1,6 @@
 import { TbActivity } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_ACTIVITY DATA ===============
 export let mockTbActivity: TbActivity[] = [
@@ -7,8 +8,8 @@ export let mockTbActivity: TbActivity[] = [
     id: "act-001",
     action: "login",
     entity_type: "user",
-    entity_id: "user-001",
-    actor_id: "user-001",
+    entity_id: UUID_MAPPING['user-001'],
+    actor_id: UUID_MAPPING['user-001'],
     meta_data: {
       login_method: "email_password",
       device: "web_browser",
@@ -23,14 +24,14 @@ export let mockTbActivity: TbActivity[] = [
     user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
     description: "User logged in successfully",
     created_at: getCurrentTimestamp(),
-    created_by_id: "user-001"
+    created_by_id: UUID_MAPPING['user-001']
   },
   {
     id: "act-002",
     action: "create",
     entity_type: "product",
     entity_id: "prod-001",
-    actor_id: "user-001",
+    actor_id: UUID_MAPPING['user-001'],
     meta_data: {
       module: "inventory",
       form: "product_create"
@@ -45,14 +46,14 @@ export let mockTbActivity: TbActivity[] = [
     user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
     description: "Created new product: Fresh Tomatoes",
     created_at: new Date(Date.now() - 60 * 60 * 1000).toISOString(),
-    created_by_id: "user-001"
+    created_by_id: UUID_MAPPING['user-001']
   },
   {
     id: "act-003",
     action: "update",
     entity_type: "product",
     entity_id: "prod-001",
-    actor_id: "user-002",
+    actor_id: UUID_MAPPING['user-002'],
     meta_data: {
       module: "inventory",
       form: "product_edit",
@@ -70,14 +71,14 @@ export let mockTbActivity: TbActivity[] = [
     user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
     description: "Updated product description and storage note",
     created_at: new Date(Date.now() - 45 * 60 * 1000).toISOString(),
-    created_by_id: "user-002"
+    created_by_id: UUID_MAPPING['user-002']
   },
   {
     id: "act-004",
     action: "create",
     entity_type: "purchase_request",
     entity_id: "pr-001",
-    actor_id: "user-003",
+    actor_id: UUID_MAPPING['user-003'],
     meta_data: {
       module: "procurement",
       form: "purchase_request_create",
@@ -94,14 +95,14 @@ export let mockTbActivity: TbActivity[] = [
     user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15",
     description: "Created purchase request PR-2024-001",
     created_at: new Date(Date.now() - 30 * 60 * 1000).toISOString(),
-    created_by_id: "user-003"
+    created_by_id: UUID_MAPPING['user-003']
   },
   {
     id: "act-005",
     action: "approve",
     entity_type: "purchase_request",
     entity_id: "pr-001",
-    actor_id: "user-001",
+    actor_id: UUID_MAPPING['user-001'],
     meta_data: {
       module: "procurement",
       workflow_stage: "department_head_approval",
@@ -113,21 +114,21 @@ export let mockTbActivity: TbActivity[] = [
     },
     new_data: {
       status: "approved",
-      approved_by: "user-001",
+      approved_by: UUID_MAPPING['user-001'],
       approved_at: getCurrentTimestamp()
     },
     ip_address: "192.168.1.100",
     user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
     description: "Approved purchase request PR-2024-001",
     created_at: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
-    created_by_id: "user-001"
+    created_by_id: UUID_MAPPING['user-001']
   },
   {
     id: "act-006",
     action: "view",
     entity_type: "menu",
     entity_id: "menu-006",
-    actor_id: "user-002",
+    actor_id: UUID_MAPPING['user-002'],
     meta_data: {
       module: "navigation",
       page_url: "/procurement/purchase-requests",
@@ -139,14 +140,14 @@ export let mockTbActivity: TbActivity[] = [
     user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
     description: "Viewed Purchase Requests page",
     created_at: new Date(Date.now() - 10 * 60 * 1000).toISOString(),
-    created_by_id: "user-002"
+    created_by_id: UUID_MAPPING['user-002']
   },
   {
     id: "act-007",
     action: "export",
     entity_type: "product",
     entity_id: null,
-    actor_id: "user-001",
+    actor_id: UUID_MAPPING['user-001'],
     meta_data: {
       module: "inventory",
       export_format: "excel",
@@ -165,14 +166,14 @@ export let mockTbActivity: TbActivity[] = [
     user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
     description: "Exported 156 active vegetable products to Excel",
     created_at: new Date(Date.now() - 5 * 60 * 1000).toISOString(),
-    created_by_id: "user-001"
+    created_by_id: UUID_MAPPING['user-001']
   },
   {
     id: "act-008",
     action: "delete",
     entity_type: "location",
     entity_id: "loc-999",
-    actor_id: "user-001",
+    actor_id: UUID_MAPPING['user-001'],
     meta_data: {
       module: "settings",
       form: "location_management",
@@ -184,20 +185,20 @@ export let mockTbActivity: TbActivity[] = [
     },
     new_data: {
       deleted_at: getCurrentTimestamp(),
-      deleted_by: "user-001"
+      deleted_by: UUID_MAPPING['user-001']
     },
     ip_address: "192.168.1.100",
     user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
     description: "Deleted duplicate location entry",
     created_at: new Date(Date.now() - 2 * 60 * 1000).toISOString(),
-    created_by_id: "user-001"
+    created_by_id: UUID_MAPPING['user-001']
   },
   {
     id: "act-009",
     action: "print",
     entity_type: "purchase_order",
     entity_id: "po-001",
-    actor_id: "user-002",
+    actor_id: UUID_MAPPING['user-002'],
     meta_data: {
       module: "procurement",
       document_type: "purchase_order",
@@ -212,14 +213,14 @@ export let mockTbActivity: TbActivity[] = [
     user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
     description: "Printed purchase order PO-001",
     created_at: new Date(Date.now() - 1 * 60 * 1000).toISOString(),
-    created_by_id: "user-002"
+    created_by_id: UUID_MAPPING['user-002']
   },
   {
     id: "act-010",
     action: "logout",
     entity_type: "user",
-    entity_id: "user-003",
-    actor_id: "user-003",
+    entity_id: UUID_MAPPING['user-003'],
+    actor_id: UUID_MAPPING['user-003'],
     meta_data: {
       session_duration: 3600,
       logout_type: "manual"
@@ -235,7 +236,7 @@ export let mockTbActivity: TbActivity[] = [
     user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15",
     description: "User logged out after 1 hour session",
     created_at: getCurrentTimestamp(),
-    created_by_id: "user-003"
+    created_by_id: UUID_MAPPING['user-003']
   }
 ];
 

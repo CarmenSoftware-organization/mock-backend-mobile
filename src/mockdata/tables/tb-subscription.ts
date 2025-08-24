@@ -1,12 +1,13 @@
 import { TbSubscription } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_SUBSCRIPTION DATA ===============
 export let mockTbSubscription: TbSubscription[] = [
   // Enterprise subscriptions
   {
-    id: "sub-001",
-    cluster_id: "cluster-001", // Carmen Software HQ
+    id: UUID_MAPPING['sub-001'],
+    cluster_id: UUID_MAPPING['cluster-001'], // Carmen Software HQ
     name: "Enterprise Plus",
     description: "Full enterprise suite with unlimited users and modules",
     status: "active",
@@ -14,15 +15,15 @@ export let mockTbSubscription: TbSubscription[] = [
     end_date: "2024-12-31T23:59:59.999Z",
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Hotel chain subscription
   {
-    id: "sub-002",
-    cluster_id: "cluster-002", // Hotel Chain
+    id: UUID_MAPPING['sub-002'],
+    cluster_id: UUID_MAPPING['cluster-002'], // Hotel Chain
     name: "Hospitality Pro",
     description: "Complete hotel management solution with PMS, POS, and reporting",
     status: "active",
@@ -30,15 +31,15 @@ export let mockTbSubscription: TbSubscription[] = [
     end_date: "2024-01-31T23:59:59.999Z",
     is_active: true,
     created_at: "2023-02-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-02-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Restaurant chain subscription
   {
-    id: "sub-003",
-    cluster_id: "cluster-003", // Restaurant Chain
+    id: UUID_MAPPING['sub-003'],
+    cluster_id: UUID_MAPPING['cluster-003'], // Restaurant Chain
     name: "Restaurant Business",
     description: "Restaurant management with POS, inventory, and delivery integration",
     status: "active",
@@ -46,15 +47,15 @@ export let mockTbSubscription: TbSubscription[] = [
     end_date: "2024-02-29T23:59:59.999Z",
     is_active: true,
     created_at: "2023-03-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-03-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Development subscription
   {
-    id: "sub-004",
-    cluster_id: "cluster-004", // Development
+    id: UUID_MAPPING['sub-004'],
+    cluster_id: UUID_MAPPING['cluster-004'], // Development
     name: "Developer Unlimited",
     description: "Development and testing environment with all modules",
     status: "active",
@@ -62,15 +63,15 @@ export let mockTbSubscription: TbSubscription[] = [
     end_date: null, // No expiration for dev
     is_active: true,
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Trial subscriptions
   {
-    id: "sub-005",
-    cluster_id: "cluster-002", // Hotel Chain
+    id: UUID_MAPPING['sub-005'],
+    cluster_id: UUID_MAPPING['cluster-002'], // Hotel Chain
     name: "Hotel Trial Extension",
     description: "Extended trial for additional hotel modules testing",
     status: "active",
@@ -78,15 +79,15 @@ export let mockTbSubscription: TbSubscription[] = [
     end_date: "2024-03-01T23:59:59.999Z",
     is_active: true,
     created_at: "2023-12-01T00:00:00.000Z",
-    created_by_id: "user-004",
+    created_by_id: UUID_MAPPING['user-004'],
     updated_at: "2023-12-01T00:00:00.000Z",
-    updated_by_id: "user-004"
+    updated_by_id: UUID_MAPPING['user-004']
   },
 
   // Expired subscription (for testing)
   {
-    id: "sub-006",
-    cluster_id: "cluster-003", // Restaurant Chain
+    id: UUID_MAPPING['sub-006'],
+    cluster_id: UUID_MAPPING['cluster-003'], // Restaurant Chain
     name: "Basic Plan",
     description: "Basic restaurant management features",
     status: "expired",
@@ -94,15 +95,15 @@ export let mockTbSubscription: TbSubscription[] = [
     end_date: "2023-02-28T23:59:59.999Z",
     is_active: false,
     created_at: "2022-03-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-03-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Inactive subscription (cancelled)
   {
-    id: "sub-007",
-    cluster_id: "cluster-001", // Carmen Software HQ
+    id: UUID_MAPPING['sub-007'],
+    cluster_id: UUID_MAPPING['cluster-001'], // Carmen Software HQ
     name: "Starter Plan",
     description: "Basic business management features",
     status: "inactive",
@@ -110,15 +111,15 @@ export let mockTbSubscription: TbSubscription[] = [
     end_date: "2023-05-31T23:59:59.999Z",
     is_active: false,
     created_at: "2022-06-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-06-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Upcoming renewal
   {
-    id: "sub-008",
-    cluster_id: "cluster-002", // Hotel Chain
+    id: UUID_MAPPING['sub-008'],
+    cluster_id: UUID_MAPPING['cluster-002'], // Hotel Chain
     name: "Hospitality Pro Renewal",
     description: "Renewed hospitality management subscription",
     status: "active",
@@ -126,15 +127,15 @@ export let mockTbSubscription: TbSubscription[] = [
     end_date: "2025-01-31T23:59:59.999Z",
     is_active: true,
     created_at: "2024-01-15T00:00:00.000Z",
-    created_by_id: "user-004",
+    created_by_id: UUID_MAPPING['user-004'],
     updated_at: "2024-01-15T00:00:00.000Z",
-    updated_by_id: "user-004"
+    updated_by_id: UUID_MAPPING['user-004']
   },
 
   // Additional cluster subscription
   {
-    id: "sub-009",
-    cluster_id: "cluster-001", // Carmen Software HQ
+    id: UUID_MAPPING['sub-009'],
+    cluster_id: UUID_MAPPING['cluster-001'], // Carmen Software HQ
     name: "Add-on Modules",
     description: "Additional specialized modules for enterprise users",
     status: "active",
@@ -142,15 +143,15 @@ export let mockTbSubscription: TbSubscription[] = [
     end_date: "2024-05-31T23:59:59.999Z",
     is_active: true,
     created_at: "2023-06-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-06-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Seasonal subscription
   {
-    id: "sub-010",
-    cluster_id: "cluster-003", // Restaurant Chain
+    id: UUID_MAPPING['sub-010'],
+    cluster_id: UUID_MAPPING['cluster-003'], // Restaurant Chain
     name: "Holiday Season Special",
     description: "Enhanced features for high-traffic holiday periods",
     status: "active",
@@ -158,9 +159,9 @@ export let mockTbSubscription: TbSubscription[] = [
     end_date: "2024-01-15T23:59:59.999Z",
     is_active: true,
     created_at: "2023-10-15T00:00:00.000Z",
-    created_by_id: "user-006",
+    created_by_id: UUID_MAPPING['user-006'],
     updated_at: "2023-10-15T00:00:00.000Z",
-    updated_by_id: "user-006"
+    updated_by_id: UUID_MAPPING['user-006']
   }
 ];
 

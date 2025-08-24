@@ -1,104 +1,105 @@
 import { TbApplicationRolePermission } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_APPLICATION_ROLE_TB_PERMISSION DATA ===============
 export let mockTbApplicationRolePermission: TbApplicationRolePermission[] = [
   // Super Admin - All permissions
-  { id: "rp-001", application_role_id: "app-role-001", permission_id: "perm-001", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-002", application_role_id: "app-role-001", permission_id: "perm-002", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-003", application_role_id: "app-role-001", permission_id: "perm-003", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-004", application_role_id: "app-role-001", permission_id: "perm-004", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-005", application_role_id: "app-role-001", permission_id: "perm-005", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-006", application_role_id: "app-role-001", permission_id: "perm-006", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-007", application_role_id: "app-role-001", permission_id: "perm-007", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-008", application_role_id: "app-role-001", permission_id: "perm-008", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-009", application_role_id: "app-role-001", permission_id: "perm-009", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-010", application_role_id: "app-role-001", permission_id: "perm-010", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-011", application_role_id: "app-role-001", permission_id: "perm-025", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-012", application_role_id: "app-role-001", permission_id: "perm-026", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-013", application_role_id: "app-role-001", permission_id: "perm-027", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-014", application_role_id: "app-role-001", permission_id: "perm-028", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
+  { id: "rp-001", application_role_id: UUID_MAPPING['app-role-001'], permission_id: UUID_MAPPING['perm-001'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-002", application_role_id: UUID_MAPPING['app-role-001'], permission_id: UUID_MAPPING['perm-002'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-003", application_role_id: UUID_MAPPING['app-role-001'], permission_id: UUID_MAPPING['perm-003'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-004", application_role_id: UUID_MAPPING['app-role-001'], permission_id: UUID_MAPPING['perm-004'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-005", application_role_id: UUID_MAPPING['app-role-001'], permission_id: UUID_MAPPING['perm-005'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-006", application_role_id: UUID_MAPPING['app-role-001'], permission_id: UUID_MAPPING['perm-006'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-007", application_role_id: UUID_MAPPING['app-role-001'], permission_id: UUID_MAPPING['perm-007'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-008", application_role_id: UUID_MAPPING['app-role-001'], permission_id: UUID_MAPPING['perm-008'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-009", application_role_id: UUID_MAPPING['app-role-001'], permission_id: UUID_MAPPING['perm-009'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-010", application_role_id: UUID_MAPPING['app-role-001'], permission_id: UUID_MAPPING['perm-010'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-011", application_role_id: UUID_MAPPING['app-role-001'], permission_id: UUID_MAPPING['perm-025'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-012", application_role_id: UUID_MAPPING['app-role-001'], permission_id: UUID_MAPPING['perm-026'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-013", application_role_id: UUID_MAPPING['app-role-001'], permission_id: UUID_MAPPING['perm-027'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-014", application_role_id: UUID_MAPPING['app-role-001'], permission_id: UUID_MAPPING['perm-028'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
 
   // System Admin - System management
-  { id: "rp-015", application_role_id: "app-role-002", permission_id: "perm-025", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-016", application_role_id: "app-role-002", permission_id: "perm-026", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-017", application_role_id: "app-role-002", permission_id: "perm-027", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-018", application_role_id: "app-role-002", permission_id: "perm-028", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-019", application_role_id: "app-role-002", permission_id: "perm-001", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-020", application_role_id: "app-role-002", permission_id: "perm-006", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
+  { id: "rp-015", application_role_id: UUID_MAPPING['app-role-002'], permission_id: UUID_MAPPING['perm-025'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-016", application_role_id: UUID_MAPPING['app-role-002'], permission_id: UUID_MAPPING['perm-026'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-017", application_role_id: UUID_MAPPING['app-role-002'], permission_id: UUID_MAPPING['perm-027'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-018", application_role_id: UUID_MAPPING['app-role-002'], permission_id: UUID_MAPPING['perm-028'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-019", application_role_id: UUID_MAPPING['app-role-002'], permission_id: UUID_MAPPING['perm-001'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-020", application_role_id: UUID_MAPPING['app-role-002'], permission_id: UUID_MAPPING['perm-006'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
 
   // Finance Manager - Financial permissions
-  { id: "rp-021", application_role_id: "app-role-003", permission_id: "perm-011", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-022", application_role_id: "app-role-003", permission_id: "perm-012", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-023", application_role_id: "app-role-003", permission_id: "perm-013", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-024", application_role_id: "app-role-003", permission_id: "perm-006", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-025", application_role_id: "app-role-003", permission_id: "perm-008", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
+  { id: "rp-021", application_role_id: UUID_MAPPING['app-role-003'], permission_id: UUID_MAPPING['perm-011'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-022", application_role_id: UUID_MAPPING['app-role-003'], permission_id: UUID_MAPPING['perm-012'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-023", application_role_id: UUID_MAPPING['app-role-003'], permission_id: UUID_MAPPING['perm-013'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-024", application_role_id: UUID_MAPPING['app-role-003'], permission_id: UUID_MAPPING['perm-006'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-025", application_role_id: UUID_MAPPING['app-role-003'], permission_id: UUID_MAPPING['perm-008'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
 
   // Procurement Manager - Procurement permissions
-  { id: "rp-026", application_role_id: "app-role-004", permission_id: "perm-006", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-027", application_role_id: "app-role-004", permission_id: "perm-007", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-028", application_role_id: "app-role-004", permission_id: "perm-008", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-029", application_role_id: "app-role-004", permission_id: "perm-009", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-030", application_role_id: "app-role-004", permission_id: "perm-010", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
+  { id: "rp-026", application_role_id: UUID_MAPPING['app-role-004'], permission_id: UUID_MAPPING['perm-006'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-027", application_role_id: UUID_MAPPING['app-role-004'], permission_id: UUID_MAPPING['perm-007'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-028", application_role_id: UUID_MAPPING['app-role-004'], permission_id: UUID_MAPPING['perm-008'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-029", application_role_id: UUID_MAPPING['app-role-004'], permission_id: UUID_MAPPING['perm-009'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-030", application_role_id: UUID_MAPPING['app-role-004'], permission_id: UUID_MAPPING['perm-010'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
 
   // Inventory Manager - Inventory permissions
-  { id: "rp-031", application_role_id: "app-role-005", permission_id: "perm-001", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-032", application_role_id: "app-role-005", permission_id: "perm-002", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-033", application_role_id: "app-role-005", permission_id: "perm-003", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-034", application_role_id: "app-role-005", permission_id: "perm-004", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-035", application_role_id: "app-role-005", permission_id: "perm-005", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-036", application_role_id: "app-role-005", permission_id: "perm-006", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
+  { id: "rp-031", application_role_id: UUID_MAPPING['app-role-005'], permission_id: UUID_MAPPING['perm-001'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-032", application_role_id: UUID_MAPPING['app-role-005'], permission_id: UUID_MAPPING['perm-002'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-033", application_role_id: UUID_MAPPING['app-role-005'], permission_id: UUID_MAPPING['perm-003'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-034", application_role_id: UUID_MAPPING['app-role-005'], permission_id: UUID_MAPPING['perm-004'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-035", application_role_id: UUID_MAPPING['app-role-005'], permission_id: UUID_MAPPING['perm-005'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-036", application_role_id: UUID_MAPPING['app-role-005'], permission_id: UUID_MAPPING['perm-006'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
 
   // HR Manager - HR permissions
-  { id: "rp-037", application_role_id: "app-role-006", permission_id: "perm-014", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-038", application_role_id: "app-role-006", permission_id: "perm-015", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-039", application_role_id: "app-role-006", permission_id: "perm-016", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
+  { id: "rp-037", application_role_id: UUID_MAPPING['app-role-006'], permission_id: UUID_MAPPING['perm-014'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-038", application_role_id: UUID_MAPPING['app-role-006'], permission_id: UUID_MAPPING['perm-015'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-039", application_role_id: UUID_MAPPING['app-role-006'], permission_id: UUID_MAPPING['perm-016'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
 
   // Employee - Basic view permissions
-  { id: "rp-040", application_role_id: "app-role-007", permission_id: "perm-001", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-041", application_role_id: "app-role-007", permission_id: "perm-006", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
-  { id: "rp-042", application_role_id: "app-role-007", permission_id: "perm-007", created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" },
+  { id: "rp-040", application_role_id: UUID_MAPPING['app-role-007'], permission_id: UUID_MAPPING['perm-001'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-041", application_role_id: UUID_MAPPING['app-role-007'], permission_id: UUID_MAPPING['perm-006'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
+  { id: "rp-042", application_role_id: UUID_MAPPING['app-role-007'], permission_id: UUID_MAPPING['perm-007'], created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] },
 
   // Hotel Manager - Hotel specific permissions
-  { id: "rp-043", application_role_id: "app-role-008", permission_id: "perm-019", created_at: "2023-02-15T00:00:00.000Z", created_by_id: "user-001" },
-  { id: "rp-044", application_role_id: "app-role-008", permission_id: "perm-020", created_at: "2023-02-15T00:00:00.000Z", created_by_id: "user-001" },
-  { id: "rp-045", application_role_id: "app-role-008", permission_id: "perm-001", created_at: "2023-02-15T00:00:00.000Z", created_by_id: "user-001" },
-  { id: "rp-046", application_role_id: "app-role-008", permission_id: "perm-006", created_at: "2023-02-15T00:00:00.000Z", created_by_id: "user-001" },
-  { id: "rp-047", application_role_id: "app-role-008", permission_id: "perm-014", created_at: "2023-02-15T00:00:00.000Z", created_by_id: "user-001" },
+  { id: "rp-043", application_role_id: UUID_MAPPING['app-role-008'], permission_id: UUID_MAPPING['perm-019'], created_at: "2023-02-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] },
+  { id: "rp-044", application_role_id: UUID_MAPPING['app-role-008'], permission_id: UUID_MAPPING['perm-020'], created_at: "2023-02-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] },
+  { id: "rp-045", application_role_id: UUID_MAPPING['app-role-008'], permission_id: UUID_MAPPING['perm-001'], created_at: "2023-02-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] },
+  { id: "rp-046", application_role_id: UUID_MAPPING['app-role-008'], permission_id: UUID_MAPPING['perm-006'], created_at: "2023-02-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] },
+  { id: "rp-047", application_role_id: UUID_MAPPING['app-role-008'], permission_id: UUID_MAPPING['perm-014'], created_at: "2023-02-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] },
 
   // Front Desk Manager - Front desk permissions
-  { id: "rp-048", application_role_id: "app-role-009", permission_id: "perm-019", created_at: "2023-02-15T00:00:00.000Z", created_by_id: "user-001" },
-  { id: "rp-049", application_role_id: "app-role-009", permission_id: "perm-020", created_at: "2023-02-15T00:00:00.000Z", created_by_id: "user-001" },
+  { id: "rp-048", application_role_id: UUID_MAPPING['app-role-009'], permission_id: UUID_MAPPING['perm-019'], created_at: "2023-02-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] },
+  { id: "rp-049", application_role_id: UUID_MAPPING['app-role-009'], permission_id: UUID_MAPPING['perm-020'], created_at: "2023-02-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] },
 
   // Receptionist - Basic hotel permissions
-  { id: "rp-050", application_role_id: "app-role-012", permission_id: "perm-019", created_at: "2023-02-15T00:00:00.000Z", created_by_id: "user-001" },
-  { id: "rp-051", application_role_id: "app-role-012", permission_id: "perm-020", created_at: "2023-02-15T00:00:00.000Z", created_by_id: "user-001" },
+  { id: "rp-050", application_role_id: UUID_MAPPING['app-role-012'], permission_id: UUID_MAPPING['perm-019'], created_at: "2023-02-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] },
+  { id: "rp-051", application_role_id: UUID_MAPPING['app-role-012'], permission_id: UUID_MAPPING['perm-020'], created_at: "2023-02-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] },
 
   // Restaurant Manager - Restaurant permissions
-  { id: "rp-052", application_role_id: "app-role-013", permission_id: "perm-021", created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-002" },
-  { id: "rp-053", application_role_id: "app-role-013", permission_id: "perm-022", created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-002" },
-  { id: "rp-054", application_role_id: "app-role-013", permission_id: "perm-001", created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-002" },
-  { id: "rp-055", application_role_id: "app-role-013", permission_id: "perm-006", created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-002" },
+  { id: "rp-052", application_role_id: UUID_MAPPING['app-role-013'], permission_id: UUID_MAPPING['perm-021'], created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-002'] },
+  { id: "rp-053", application_role_id: UUID_MAPPING['app-role-013'], permission_id: UUID_MAPPING['perm-022'], created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-002'] },
+  { id: "rp-054", application_role_id: UUID_MAPPING['app-role-013'], permission_id: UUID_MAPPING['perm-001'], created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-002'] },
+  { id: "rp-055", application_role_id: UUID_MAPPING['app-role-013'], permission_id: UUID_MAPPING['perm-006'], created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-002'] },
 
   // Cashier - POS permissions
-  { id: "rp-056", application_role_id: "app-role-015", permission_id: "perm-021", created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-002" },
-  { id: "rp-057", application_role_id: "app-role-015", permission_id: "perm-022", created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-002" },
+  { id: "rp-056", application_role_id: UUID_MAPPING['app-role-015'], permission_id: UUID_MAPPING['perm-021'], created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-002'] },
+  { id: "rp-057", application_role_id: UUID_MAPPING['app-role-015'], permission_id: UUID_MAPPING['perm-022'], created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-002'] },
 
   // Waiter - View permissions
-  { id: "rp-058", application_role_id: "app-role-016", permission_id: "perm-021", created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-002" },
+  { id: "rp-058", application_role_id: UUID_MAPPING['app-role-016'], permission_id: UUID_MAPPING['perm-021'], created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-002'] },
 
   // Developer - All development permissions
-  { id: "rp-059", application_role_id: "app-role-021", permission_id: "perm-025", created_at: getCurrentTimestamp(), created_by_id: "developer" },
-  { id: "rp-060", application_role_id: "app-role-021", permission_id: "perm-026", created_at: getCurrentTimestamp(), created_by_id: "developer" },
-  { id: "rp-061", application_role_id: "app-role-021", permission_id: "perm-001", created_at: getCurrentTimestamp(), created_by_id: "developer" },
-  { id: "rp-062", application_role_id: "app-role-021", permission_id: "perm-002", created_at: getCurrentTimestamp(), created_by_id: "developer" },
-  { id: "rp-063", application_role_id: "app-role-021", permission_id: "perm-003", created_at: getCurrentTimestamp(), created_by_id: "developer" },
-  { id: "rp-064", application_role_id: "app-role-021", permission_id: "perm-004", created_at: getCurrentTimestamp(), created_by_id: "developer" },
+  { id: "rp-059", application_role_id: UUID_MAPPING['app-role-021'], permission_id: UUID_MAPPING['perm-025'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] },
+  { id: "rp-060", application_role_id: UUID_MAPPING['app-role-021'], permission_id: UUID_MAPPING['perm-026'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] },
+  { id: "rp-061", application_role_id: UUID_MAPPING['app-role-021'], permission_id: UUID_MAPPING['perm-001'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] },
+  { id: "rp-062", application_role_id: UUID_MAPPING['app-role-021'], permission_id: UUID_MAPPING['perm-002'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] },
+  { id: "rp-063", application_role_id: UUID_MAPPING['app-role-021'], permission_id: UUID_MAPPING['perm-003'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] },
+  { id: "rp-064", application_role_id: UUID_MAPPING['app-role-021'], permission_id: UUID_MAPPING['perm-004'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] },
 
   // QA Tester - Testing permissions
-  { id: "rp-065", application_role_id: "app-role-022", permission_id: "perm-001", created_at: getCurrentTimestamp(), created_by_id: "developer" },
-  { id: "rp-066", application_role_id: "app-role-022", permission_id: "perm-006", created_at: getCurrentTimestamp(), created_by_id: "developer" },
-  { id: "rp-067", application_role_id: "app-role-022", permission_id: "perm-025", created_at: getCurrentTimestamp(), created_by_id: "developer" }
+  { id: "rp-065", application_role_id: UUID_MAPPING['app-role-022'], permission_id: UUID_MAPPING['perm-001'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] },
+  { id: "rp-066", application_role_id: UUID_MAPPING['app-role-022'], permission_id: UUID_MAPPING['perm-006'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] },
+  { id: "rp-067", application_role_id: UUID_MAPPING['app-role-022'], permission_id: UUID_MAPPING['perm-025'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] }
 ];
 
 // =============== TB_APPLICATION_ROLE_TB_PERMISSION CRUD FUNCTIONS ===============

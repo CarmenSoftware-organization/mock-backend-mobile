@@ -1,213 +1,214 @@
 import { TbUserBusinessUnit } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_USER_TB_BUSINESS_UNIT DATA ===============
 export let mockTbUserBusinessUnit: TbUserBusinessUnit[] = [
   // Admin user in Carmen Software Bangkok (HQ)
   {
     id: "ubu-001",
-    user_id: "user-001",
-    business_unit_id: "bu-001",
+    user_id: UUID_MAPPING['user-001'],
+    business_unit_id: UUID_MAPPING['bu-001'],
     role: "admin",
     is_default: true,
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // John Doe in Carmen Software Bangkok
   {
     id: "ubu-002",
-    user_id: "user-002",
-    business_unit_id: "bu-001",
+    user_id: UUID_MAPPING['user-002'],
+    business_unit_id: UUID_MAPPING['bu-001'],
     role: "user",
     is_default: true,
     is_active: true,
     created_at: "2023-01-15T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-01-15T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Jane Smith in Carmen Software Bangkok
   {
     id: "ubu-003",
-    user_id: "user-003",
-    business_unit_id: "bu-001",
+    user_id: UUID_MAPPING['user-003'],
+    business_unit_id: UUID_MAPPING['bu-001'],
     role: "user",
     is_default: true,
     is_active: true,
     created_at: "2023-02-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-02-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Michael Chen in Royal Grand Hotel
   {
     id: "ubu-004",
-    user_id: "user-004",
-    business_unit_id: "bu-002",
+    user_id: UUID_MAPPING['user-004'],
+    business_unit_id: UUID_MAPPING['bu-002'],
     role: "admin",
     is_default: true,
     is_active: true,
     created_at: "2023-02-15T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-02-15T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Sarah Johnson in Royal Grand Hotel
   {
     id: "ubu-005",
-    user_id: "user-005",
-    business_unit_id: "bu-002",
+    user_id: UUID_MAPPING['user-005'],
+    business_unit_id: UUID_MAPPING['bu-002'],
     role: "user",
     is_default: true,
     is_active: true,
     created_at: "2023-02-20T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-02-20T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // David Lee in Spice Garden Restaurant
   {
     id: "ubu-006",
-    user_id: "user-006",
-    business_unit_id: "bu-003",
+    user_id: UUID_MAPPING['user-006'],
+    business_unit_id: UUID_MAPPING['bu-003'],
     role: "admin",
     is_default: true,
     is_active: true,
     created_at: "2023-03-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-03-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Maria Garcia in Spice Garden Restaurant
   {
     id: "ubu-007",
-    user_id: "user-007",
-    business_unit_id: "bu-003",
+    user_id: UUID_MAPPING['user-007'],
+    business_unit_id: UUID_MAPPING['bu-003'],
     role: "user",
     is_default: true,
     is_active: true,
     created_at: "2023-03-05T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-03-05T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Alex Tan in Carmen Software Singapore
   {
     id: "ubu-008",
-    user_id: "user-008",
-    business_unit_id: "bu-004",
+    user_id: UUID_MAPPING['user-008'],
+    business_unit_id: UUID_MAPPING['bu-004'],
     role: "admin",
     is_default: true,
     is_active: true,
     created_at: "2023-04-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-04-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Lisa Wong in Carmen Software Singapore
   {
     id: "ubu-009",
-    user_id: "user-009",
-    business_unit_id: "bu-004",
+    user_id: UUID_MAPPING['user-009'],
+    business_unit_id: UUID_MAPPING['bu-004'],
     role: "user",
     is_default: true,
     is_active: true,
     created_at: "2023-04-15T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-04-15T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Developer in Development Test Unit
   {
     id: "ubu-010",
-    user_id: "user-010",
-    business_unit_id: "bu-005",
+    user_id: UUID_MAPPING['user-010'],
+    business_unit_id: UUID_MAPPING['bu-005'],
     role: "admin",
     is_default: true,
     is_active: true,
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Cross-business unit access - Admin can access multiple units
   {
     id: "ubu-011",
-    user_id: "user-001",
-    business_unit_id: "bu-002",
+    user_id: UUID_MAPPING['user-001'],
+    business_unit_id: UUID_MAPPING['bu-002'],
     role: "admin",
     is_default: false,
     is_active: true,
     created_at: "2023-02-15T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-02-15T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   {
     id: "ubu-012",
-    user_id: "user-001",
-    business_unit_id: "bu-003",
+    user_id: UUID_MAPPING['user-001'],
+    business_unit_id: UUID_MAPPING['bu-003'],
     role: "admin",
     is_default: false,
     is_active: true,
     created_at: "2023-03-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-03-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   {
     id: "ubu-013",
-    user_id: "user-001",
-    business_unit_id: "bu-004",
+    user_id: UUID_MAPPING['user-001'],
+    business_unit_id: UUID_MAPPING['bu-004'],
     role: "admin",
     is_default: false,
     is_active: true,
     created_at: "2023-04-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-04-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Support manager access to all units
   {
     id: "ubu-014",
-    user_id: "user-011",
-    business_unit_id: "bu-001",
+    user_id: UUID_MAPPING['user-011'],
+    business_unit_id: UUID_MAPPING['bu-001'],
     role: "user",
     is_default: true,
     is_active: true,
     created_at: "2023-05-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-05-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   {
     id: "ubu-015",
-    user_id: "user-011",
-    business_unit_id: "bu-002",
+    user_id: UUID_MAPPING['user-011'],
+    business_unit_id: UUID_MAPPING['bu-002'],
     role: "user",
     is_default: false,
     is_active: true,
     created_at: "2023-05-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-05-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   }
 ];
 

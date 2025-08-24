@@ -1,5 +1,6 @@
 import { TbNotification } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_NOTIFICATION DATA ===============
 export let mockTbNotification: TbNotification[] = [
@@ -17,9 +18,9 @@ export let mockTbNotification: TbNotification[] = [
     expires_at: "2024-12-31T23:59:59.999Z",
     is_active: true,
     created_at: "2024-12-20T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2024-12-20T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // User-specific notifications
@@ -29,16 +30,16 @@ export let mockTbNotification: TbNotification[] = [
     message: "Purchase Request #PR-2024-001 ได้รับการอนุมัติแล้ว สามารถดำเนินการต่อได้",
     type: "success",
     priority: "high",
-    user_id: "user-003", // Jane Smith
-    business_unit_id: "bu-001",
+    user_id: UUID_MAPPING['user-003'], // Jane Smith
+    business_unit_id: UUID_MAPPING['bu-001'],
     is_read: false,
     read_at: null,
     expires_at: "2024-12-25T23:59:59.999Z",
     is_active: true,
     created_at: "2024-12-20T08:30:00.000Z",
-    created_by_id: "user-002",
+    created_by_id: UUID_MAPPING['user-002'],
     updated_at: "2024-12-20T08:30:00.000Z",
-    updated_by_id: "user-002"
+    updated_by_id: UUID_MAPPING['user-002']
   },
 
   {
@@ -47,16 +48,16 @@ export let mockTbNotification: TbNotification[] = [
     message: "มีลูกค้าเช็คอินล่าช้าที่ห้อง 205 กรุณาตรวจสอบ",
     type: "warning",
     priority: "urgent",
-    user_id: "user-005", // Sarah Johnson
-    business_unit_id: "bu-002", // Hotel
+    user_id: UUID_MAPPING['user-005'], // Sarah Johnson
+    business_unit_id: UUID_MAPPING['bu-002'], // Hotel
     is_read: true,
     read_at: "2024-12-20T09:15:00.000Z",
     expires_at: "2024-12-21T23:59:59.999Z",
     is_active: true,
     created_at: "2024-12-20T09:00:00.000Z",
-    created_by_id: "user-004",
+    created_by_id: UUID_MAPPING['user-004'],
     updated_at: "2024-12-20T09:15:00.000Z",
-    updated_by_id: "user-005"
+    updated_by_id: UUID_MAPPING['user-005']
   },
 
   {
@@ -65,16 +66,16 @@ export let mockTbNotification: TbNotification[] = [
     message: "วัตถุดิบ 'เนื้อสัตว์' เหลือเพียง 5 กก. กรุณาสั่งซื้อเพิ่มเติม",
     type: "warning",
     priority: "high",
-    user_id: "user-006", // David Lee
-    business_unit_id: "bu-003", // Restaurant
+    user_id: UUID_MAPPING['user-006'], // David Lee
+    business_unit_id: UUID_MAPPING['bu-003'], // Restaurant
     is_read: false,
     read_at: null,
     expires_at: "2024-12-22T23:59:59.999Z",
     is_active: true,
     created_at: "2024-12-20T10:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2024-12-20T10:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Business unit notifications
@@ -85,15 +86,15 @@ export let mockTbNotification: TbNotification[] = [
     type: "info",
     priority: "medium",
     user_id: null,
-    business_unit_id: "bu-003", // Restaurant
+    business_unit_id: UUID_MAPPING['bu-003'], // Restaurant
     is_read: false,
     read_at: null,
     expires_at: "2024-12-30T23:59:59.999Z",
     is_active: true,
     created_at: "2024-12-01T16:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2024-12-01T16:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -103,15 +104,15 @@ export let mockTbNotification: TbNotification[] = [
     type: "info",
     priority: "medium",
     user_id: null,
-    business_unit_id: "bu-002", // Hotel
+    business_unit_id: UUID_MAPPING['bu-002'], // Hotel
     is_read: false,
     read_at: null,
     expires_at: "2024-12-22T06:00:00.000Z",
     is_active: true,
     created_at: "2024-12-19T14:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2024-12-19T14:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Error notifications
@@ -121,16 +122,16 @@ export let mockTbNotification: TbNotification[] = [
     message: "การชำระเงินผ่านบัตรเครดิตไม่สำเร็จ กรุณาลองใหม่อีกครั้ง",
     type: "error",
     priority: "urgent",
-    user_id: "user-007", // Maria Garcia
-    business_unit_id: "bu-003",
+    user_id: UUID_MAPPING['user-007'], // Maria Garcia
+    business_unit_id: UUID_MAPPING['bu-003'],
     is_read: false,
     read_at: null,
     expires_at: "2024-12-21T23:59:59.999Z",
     is_active: true,
     created_at: "2024-12-20T11:30:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2024-12-20T11:30:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Developer notifications
@@ -140,16 +141,16 @@ export let mockTbNotification: TbNotification[] = [
     message: "การ deploy version 2.1.3 เสร็จสิ้นแล้ว",
     type: "success",
     priority: "low",
-    user_id: "user-010", // Developer
-    business_unit_id: "bu-005",
+    user_id: UUID_MAPPING['user-010'], // Developer
+    business_unit_id: UUID_MAPPING['bu-005'],
     is_read: true,
     read_at: "2024-12-20T12:00:00.000Z",
     expires_at: "2024-12-25T23:59:59.999Z",
     is_active: true,
     created_at: "2024-12-20T11:45:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2024-12-20T12:00:00.000Z",
-    updated_by_id: "user-010"
+    updated_by_id: UUID_MAPPING['user-010']
   },
 
   // Multiple users notification example
@@ -159,16 +160,16 @@ export let mockTbNotification: TbNotification[] = [
     message: "นโยบายความเป็นส่วนตัวมีการเปลี่ยนแปลง กรุณาอ่านและยอมรับ",
     type: "info",
     priority: "medium",
-    user_id: "user-002", // John Doe
+    user_id: UUID_MAPPING['user-002'], // John Doe
     business_unit_id: null,
     is_read: false,
     read_at: null,
     expires_at: "2025-01-31T23:59:59.999Z",
     is_active: true,
     created_at: "2024-12-18T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2024-12-18T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Expired notification
@@ -178,16 +179,16 @@ export let mockTbNotification: TbNotification[] = [
     message: "ลูกค้าVIPรับส่วนลด 20% สำหรับการจองห้องในเดือนธันวาคม",
     type: "info",
     priority: "low",
-    user_id: "user-005",
-    business_unit_id: "bu-002",
+    user_id: UUID_MAPPING['user-005'],
+    business_unit_id: UUID_MAPPING['bu-002'],
     is_read: true,
     read_at: "2024-11-30T10:00:00.000Z",
     expires_at: "2024-11-30T23:59:59.999Z", // Expired
     is_active: false,
     created_at: "2024-11-01T00:00:00.000Z",
-    created_by_id: "user-004",
+    created_by_id: UUID_MAPPING['user-004'],
     updated_at: "2024-12-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Finance notifications
@@ -197,16 +198,16 @@ export let mockTbNotification: TbNotification[] = [
     message: "ใบแจ้งหนี้ #INV-2024-156 ครบกำหนดชำระในวันที่ 22 ธันวาคม",
     type: "warning",
     priority: "high",
-    user_id: "user-002", // John Doe (Finance)
-    business_unit_id: "bu-001",
+    user_id: UUID_MAPPING['user-002'], // John Doe (Finance)
+    business_unit_id: UUID_MAPPING['bu-001'],
     is_read: false,
     read_at: null,
     expires_at: "2024-12-22T23:59:59.999Z",
     is_active: true,
     created_at: "2024-12-20T13:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2024-12-20T13:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Support notifications
@@ -216,16 +217,16 @@ export let mockTbNotification: TbNotification[] = [
     message: "ตั๋วสนับสนุน #SUP-2024-089 ได้รับการสร้างขึ้น",
     type: "info",
     priority: "medium",
-    user_id: "user-009", // Lisa Wong (Support)
-    business_unit_id: "bu-001",
+    user_id: UUID_MAPPING['user-009'], // Lisa Wong (Support)
+    business_unit_id: UUID_MAPPING['bu-001'],
     is_read: false,
     read_at: null,
     expires_at: "2024-12-27T23:59:59.999Z",
     is_active: true,
     created_at: "2024-12-20T14:30:00.000Z",
-    created_by_id: "user-008",
+    created_by_id: UUID_MAPPING['user-008'],
     updated_at: "2024-12-20T14:30:00.000Z",
-    updated_by_id: "user-008"
+    updated_by_id: UUID_MAPPING['user-008']
   },
 
   // Recent notifications
@@ -235,16 +236,16 @@ export let mockTbNotification: TbNotification[] = [
     message: "มีการเข้าสู่ระบบจากตำแหน่งที่ไม่ปกติ กรุณาตรวจสอบ",
     type: "warning",
     priority: "urgent",
-    user_id: "user-001", // Admin
+    user_id: UUID_MAPPING['user-001'], // Admin
     business_unit_id: null,
     is_read: false,
     read_at: null,
     expires_at: "2024-12-21T23:59:59.999Z",
     is_active: true,
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -253,16 +254,16 @@ export let mockTbNotification: TbNotification[] = [
     message: "มีออเดอร์ใหม่ #ORD-2024-445 รอการจัดเตรียม",
     type: "info",
     priority: "high",
-    user_id: "user-007", // Maria Garcia (Cashier)
-    business_unit_id: "bu-003",
+    user_id: UUID_MAPPING['user-007'], // Maria Garcia (Cashier)
+    business_unit_id: UUID_MAPPING['bu-003'],
     is_read: false,
     read_at: null,
     expires_at: "2024-12-21T23:59:59.999Z",
     is_active: true,
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -271,16 +272,16 @@ export let mockTbNotification: TbNotification[] = [
     message: "การสำรองข้อมูลประจำวันเสร็จสิ้นแล้ว",
     type: "success",
     priority: "low",
-    user_id: "user-012", // Security Officer
+    user_id: UUID_MAPPING['user-012'], // Security Officer
     business_unit_id: null,
     is_read: false,
     read_at: null,
     expires_at: "2024-12-23T23:59:59.999Z",
     is_active: true,
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   }
 ];
 

@@ -1,5 +1,6 @@
 import { TbClusterUser } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_CLUSTER_USER DATA ===============
 export let mockTbClusterUser: TbClusterUser[] = [
@@ -7,247 +8,247 @@ export let mockTbClusterUser: TbClusterUser[] = [
   // Carmen Software HQ Admin
   {
     id: "cu-001",
-    cluster_id: "cluster-001", // Carmen Software HQ
-    user_id: "user-001", // admin
+    cluster_id: UUID_MAPPING['cluster-001'], // Carmen Software HQ
+    user_id: UUID_MAPPING['user-001'], // admin
     role: "admin",
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Hotel Chain Admin
   {
     id: "cu-002",
-    cluster_id: "cluster-002", // Hotel Chain
-    user_id: "user-004", // Michael Chen
+    cluster_id: UUID_MAPPING['cluster-002'], // Hotel Chain
+    user_id: UUID_MAPPING['user-004'], // Michael Chen
     role: "admin",
     is_active: true,
     created_at: "2023-02-15T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-02-15T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Restaurant Chain Admin
   {
     id: "cu-003",
-    cluster_id: "cluster-003", // Restaurant Chain
-    user_id: "user-006", // David Lee
+    cluster_id: UUID_MAPPING['cluster-003'], // Restaurant Chain
+    user_id: UUID_MAPPING['user-006'], // David Lee
     role: "admin",
     is_active: true,
     created_at: "2023-03-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-03-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Development Cluster Admin
   {
     id: "cu-004",
-    cluster_id: "cluster-004", // Development
-    user_id: "user-010", // Developer
+    cluster_id: UUID_MAPPING['cluster-004'], // Development
+    user_id: UUID_MAPPING['user-010'], // Developer
     role: "admin",
     is_active: true,
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Cross-cluster system users
   // Admin has access to all clusters
   {
     id: "cu-005",
-    cluster_id: "cluster-002", // Hotel Chain
-    user_id: "user-001", // admin
+    cluster_id: UUID_MAPPING['cluster-002'], // Hotel Chain
+    user_id: UUID_MAPPING['user-001'], // admin
     role: "admin",
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
     id: "cu-006",
-    cluster_id: "cluster-003", // Restaurant Chain
-    user_id: "user-001", // admin
+    cluster_id: UUID_MAPPING['cluster-003'], // Restaurant Chain
+    user_id: UUID_MAPPING['user-001'], // admin
     role: "admin",
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
     id: "cu-007",
-    cluster_id: "cluster-004", // Development
-    user_id: "user-001", // admin
+    cluster_id: UUID_MAPPING['cluster-004'], // Development
+    user_id: UUID_MAPPING['user-001'], // admin
     role: "admin",
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Regular users with cluster access
   // John Doe - Finance user across multiple clusters
   {
     id: "cu-008",
-    cluster_id: "cluster-001", // Carmen Software HQ
-    user_id: "user-002", // John Doe
+    cluster_id: UUID_MAPPING['cluster-001'], // Carmen Software HQ
+    user_id: UUID_MAPPING['user-002'], // John Doe
     role: "user",
     is_active: true,
     created_at: "2023-01-15T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-01-15T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
   {
     id: "cu-009",
-    cluster_id: "cluster-002", // Hotel Chain
-    user_id: "user-002", // John Doe (cross-cluster finance)
+    cluster_id: UUID_MAPPING['cluster-002'], // Hotel Chain
+    user_id: UUID_MAPPING['user-002'], // John Doe (cross-cluster finance)
     role: "user",
     is_active: true,
     created_at: "2023-02-01T00:00:00.000Z",
-    created_by_id: "user-004",
+    created_by_id: UUID_MAPPING['user-004'],
     updated_at: "2023-02-01T00:00:00.000Z",
-    updated_by_id: "user-004"
+    updated_by_id: UUID_MAPPING['user-004']
   },
 
   // Jane Smith - Procurement across clusters
   {
     id: "cu-010",
-    cluster_id: "cluster-001", // Carmen Software HQ
-    user_id: "user-003", // Jane Smith
+    cluster_id: UUID_MAPPING['cluster-001'], // Carmen Software HQ
+    user_id: UUID_MAPPING['user-003'], // Jane Smith
     role: "user",
     is_active: true,
     created_at: "2023-02-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-02-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
   {
     id: "cu-011",
-    cluster_id: "cluster-003", // Restaurant Chain
-    user_id: "user-003", // Jane Smith (procurement support)
+    cluster_id: UUID_MAPPING['cluster-003'], // Restaurant Chain
+    user_id: UUID_MAPPING['user-003'], // Jane Smith (procurement support)
     role: "user",
     is_active: true,
     created_at: "2023-03-15T00:00:00.000Z",
-    created_by_id: "user-006",
+    created_by_id: UUID_MAPPING['user-006'],
     updated_at: "2023-03-15T00:00:00.000Z",
-    updated_by_id: "user-006"
+    updated_by_id: UUID_MAPPING['user-006']
   },
 
   // Hotel Staff
   {
     id: "cu-012",
-    cluster_id: "cluster-002", // Hotel Chain
-    user_id: "user-005", // Sarah Johnson
+    cluster_id: UUID_MAPPING['cluster-002'], // Hotel Chain
+    user_id: UUID_MAPPING['user-005'], // Sarah Johnson
     role: "user",
     is_active: true,
     created_at: "2023-02-20T00:00:00.000Z",
-    created_by_id: "user-004",
+    created_by_id: UUID_MAPPING['user-004'],
     updated_at: "2023-02-20T00:00:00.000Z",
-    updated_by_id: "user-004"
+    updated_by_id: UUID_MAPPING['user-004']
   },
 
   // Restaurant Staff
   {
     id: "cu-013",
-    cluster_id: "cluster-003", // Restaurant Chain
-    user_id: "user-007", // Maria Garcia
+    cluster_id: UUID_MAPPING['cluster-003'], // Restaurant Chain
+    user_id: UUID_MAPPING['user-007'], // Maria Garcia
     role: "user",
     is_active: true,
     created_at: "2023-03-05T00:00:00.000Z",
-    created_by_id: "user-006",
+    created_by_id: UUID_MAPPING['user-006'],
     updated_at: "2023-03-05T00:00:00.000Z",
-    updated_by_id: "user-006"
+    updated_by_id: UUID_MAPPING['user-006']
   },
 
   // Support and Technical Staff
   {
     id: "cu-014",
-    cluster_id: "cluster-001", // Carmen Software HQ
-    user_id: "user-008", // Alex Tan
+    cluster_id: UUID_MAPPING['cluster-001'], // Carmen Software HQ
+    user_id: UUID_MAPPING['user-008'], // Alex Tan
     role: "user",
     is_active: true,
     created_at: "2023-04-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-04-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
   {
     id: "cu-015",
-    cluster_id: "cluster-001", // Carmen Software HQ
-    user_id: "user-009", // Lisa Wong
+    cluster_id: UUID_MAPPING['cluster-001'], // Carmen Software HQ
+    user_id: UUID_MAPPING['user-009'], // Lisa Wong
     role: "user",
     is_active: true,
     created_at: "2023-04-15T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-04-15T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
   {
     id: "cu-016",
-    cluster_id: "cluster-004", // Development
-    user_id: "user-009", // Lisa Wong (support in dev)
+    cluster_id: UUID_MAPPING['cluster-004'], // Development
+    user_id: UUID_MAPPING['user-009'], // Lisa Wong (support in dev)
     role: "user",
     is_active: true,
     created_at: getCurrentTimestamp(),
-    created_by_id: "user-010",
+    created_by_id: UUID_MAPPING['user-010'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "user-010"
+    updated_by_id: UUID_MAPPING['user-010']
   },
 
   // Support Manager and Security Officer with broad access
   {
     id: "cu-017",
-    cluster_id: "cluster-001", // Carmen Software HQ
-    user_id: "user-011", // Support Manager
+    cluster_id: UUID_MAPPING['cluster-001'], // Carmen Software HQ
+    user_id: UUID_MAPPING['user-011'], // Support Manager
     role: "admin",
     is_active: true,
     created_at: "2023-05-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-05-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
   {
     id: "cu-018",
-    cluster_id: "cluster-002", // Hotel Chain
-    user_id: "user-011", // Support Manager
+    cluster_id: UUID_MAPPING['cluster-002'], // Hotel Chain
+    user_id: UUID_MAPPING['user-011'], // Support Manager
     role: "user",
     is_active: true,
     created_at: "2023-05-01T00:00:00.000Z",
-    created_by_id: "user-004",
+    created_by_id: UUID_MAPPING['user-004'],
     updated_at: "2023-05-01T00:00:00.000Z",
-    updated_by_id: "user-004"
+    updated_by_id: UUID_MAPPING['user-004']
   },
   {
     id: "cu-019",
-    cluster_id: "cluster-001", // Carmen Software HQ
-    user_id: "user-012", // Security Officer
+    cluster_id: UUID_MAPPING['cluster-001'], // Carmen Software HQ
+    user_id: UUID_MAPPING['user-012'], // Security Officer
     role: "admin",
     is_active: true,
     created_at: "2023-05-15T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-05-15T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Some inactive assignments for testing
   {
     id: "cu-020",
-    cluster_id: "cluster-003", // Restaurant Chain
-    user_id: "user-008", // Alex Tan (temporarily inactive)
+    cluster_id: UUID_MAPPING['cluster-003'], // Restaurant Chain
+    user_id: UUID_MAPPING['user-008'], // Alex Tan (temporarily inactive)
     role: "user",
     is_active: false,
     created_at: "2023-04-01T00:00:00.000Z",
-    created_by_id: "user-006",
+    created_by_id: UUID_MAPPING['user-006'],
     updated_at: "2023-06-01T00:00:00.000Z",
-    updated_by_id: "user-006"
+    updated_by_id: UUID_MAPPING['user-006']
   }
 ];
 

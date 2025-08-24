@@ -2,6 +2,7 @@
 
 import { TbUserLocation } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // Mock User Locations Table (tb_user_location)
 export let mockTbUserLocation: TbUserLocation[] = [

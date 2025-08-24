@@ -1,172 +1,173 @@
 import { TbUserApplicationRole } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_USER_TB_APPLICATION_ROLE DATA ===============
 export let mockTbUserApplicationRole: TbUserApplicationRole[] = [
   // Admin user with Super Admin role
   {
     id: "uar-001",
-    user_id: "user-001",
-    application_role_id: "app-role-001", // Super Admin
+    user_id: UUID_MAPPING['user-001'],
+    application_role_id: UUID_MAPPING['app-role-001'], // Super Admin
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // John Doe with Finance Manager role
   {
     id: "uar-002",
-    user_id: "user-002",
-    application_role_id: "app-role-003", // Finance Manager
+    user_id: UUID_MAPPING['user-002'],
+    application_role_id: UUID_MAPPING['app-role-003'], // Finance Manager
     created_at: "2023-01-15T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-01-15T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Jane Smith with Procurement Manager role
   {
     id: "uar-003",
-    user_id: "user-003",
-    application_role_id: "app-role-004", // Procurement Manager
+    user_id: UUID_MAPPING['user-003'],
+    application_role_id: UUID_MAPPING['app-role-004'], // Procurement Manager
     created_at: "2023-02-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-02-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Michael Chen with Hotel Manager role
   {
     id: "uar-004",
-    user_id: "user-004",
-    application_role_id: "app-role-008", // Hotel Manager
+    user_id: UUID_MAPPING['user-004'],
+    application_role_id: UUID_MAPPING['app-role-008'], // Hotel Manager
     created_at: "2023-02-15T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-02-15T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Sarah Johnson with Receptionist role
   {
     id: "uar-005",
-    user_id: "user-005",
-    application_role_id: "app-role-012", // Receptionist
+    user_id: UUID_MAPPING['user-005'],
+    application_role_id: UUID_MAPPING['app-role-012'], // Receptionist
     created_at: "2023-02-20T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-02-20T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // David Lee with Restaurant Manager role
   {
     id: "uar-006",
-    user_id: "user-006",
-    application_role_id: "app-role-013", // Restaurant Manager
+    user_id: UUID_MAPPING['user-006'],
+    application_role_id: UUID_MAPPING['app-role-013'], // Restaurant Manager
     created_at: "2023-03-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-03-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Maria Garcia with Cashier role
   {
     id: "uar-007",
-    user_id: "user-007",
-    application_role_id: "app-role-015", // Cashier
+    user_id: UUID_MAPPING['user-007'],
+    application_role_id: UUID_MAPPING['app-role-015'], // Cashier
     created_at: "2023-03-05T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-03-05T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Alex Tan with Regional Manager role
   {
     id: "uar-008",
-    user_id: "user-008",
-    application_role_id: "app-role-018", // Regional Manager
+    user_id: UUID_MAPPING['user-008'],
+    application_role_id: UUID_MAPPING['app-role-018'], // Regional Manager
     created_at: "2023-04-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-04-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Lisa Wong with Support Engineer role
   {
     id: "uar-009",
-    user_id: "user-009",
-    application_role_id: "app-role-020", // Support Engineer
+    user_id: UUID_MAPPING['user-009'],
+    application_role_id: UUID_MAPPING['app-role-020'], // Support Engineer
     created_at: "2023-04-15T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-04-15T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Developer with Developer role
   {
     id: "uar-010",
-    user_id: "user-010",
-    application_role_id: "app-role-021", // Developer
+    user_id: UUID_MAPPING['user-010'],
+    application_role_id: UUID_MAPPING['app-role-021'], // Developer
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Support Manager with System Admin role
   {
     id: "uar-011",
-    user_id: "user-011",
-    application_role_id: "app-role-002", // System Admin
+    user_id: UUID_MAPPING['user-011'],
+    application_role_id: UUID_MAPPING['app-role-002'], // System Admin
     created_at: "2023-05-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-05-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Security Officer with System Admin role
   {
     id: "uar-012",
-    user_id: "user-012",
-    application_role_id: "app-role-002", // System Admin
+    user_id: UUID_MAPPING['user-012'],
+    application_role_id: UUID_MAPPING['app-role-002'], // System Admin
     created_at: "2023-05-15T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-05-15T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Multiple roles for some users
   // John Doe also has Employee role in Carmen Bangkok
   {
     id: "uar-013",
-    user_id: "user-002",
-    application_role_id: "app-role-007", // Employee
+    user_id: UUID_MAPPING['user-002'],
+    application_role_id: UUID_MAPPING['app-role-007'], // Employee
     created_at: "2023-01-15T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-01-15T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Jane Smith also has Inventory Manager role
   {
     id: "uar-014",
-    user_id: "user-003",
-    application_role_id: "app-role-005", // Inventory Manager
+    user_id: UUID_MAPPING['user-003'],
+    application_role_id: UUID_MAPPING['app-role-005'], // Inventory Manager
     created_at: "2023-02-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-02-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Developer also has QA Tester role
   {
     id: "uar-015",
-    user_id: "user-010",
-    application_role_id: "app-role-022", // QA Tester
+    user_id: UUID_MAPPING['user-010'],
+    application_role_id: UUID_MAPPING['app-role-022'], // QA Tester
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   }
 ];
 

@@ -1,5 +1,6 @@
 import { TbPricelist } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_PRICELIST DATA ===============
 export let mockTbPricelist: TbPricelist[] = [
@@ -26,9 +27,9 @@ export let mockTbPricelist: TbPricelist[] = [
     dimension: {},
     doc_version: 2,
     created_at: "2023-12-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "user-001",
+    updated_by_id: UUID_MAPPING['user-001'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -56,9 +57,9 @@ export let mockTbPricelist: TbPricelist[] = [
     dimension: {},
     doc_version: 1,
     created_at: "2023-11-15T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-11-30T00:00:00.000Z",
-    updated_by_id: "user-001",
+    updated_by_id: UUID_MAPPING['user-001'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -86,9 +87,9 @@ export let mockTbPricelist: TbPricelist[] = [
     dimension: {},
     doc_version: 5,
     created_at: getCurrentTimestamp(),
-    created_by_id: "user-002",
+    created_by_id: UUID_MAPPING['user-002'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "user-002",
+    updated_by_id: UUID_MAPPING['user-002'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -115,9 +116,9 @@ export let mockTbPricelist: TbPricelist[] = [
     dimension: {},
     doc_version: 1,
     created_at: "2023-12-28T00:00:00.000Z",
-    created_by_id: "user-002",
+    created_by_id: UUID_MAPPING['user-002'],
     updated_at: "2024-02-01T00:00:00.000Z",
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -146,9 +147,9 @@ export let mockTbPricelist: TbPricelist[] = [
     dimension: {},
     doc_version: 1,
     created_at: "2023-12-10T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-12-20T00:00:00.000Z",
-    updated_by_id: "user-001",
+    updated_by_id: UUID_MAPPING['user-001'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -175,9 +176,9 @@ export let mockTbPricelist: TbPricelist[] = [
     dimension: {},
     doc_version: 1,
     created_at: "2023-12-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2024-02-15T00:00:00.000Z",
-    updated_by_id: "user-001",
+    updated_by_id: UUID_MAPPING['user-001'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -205,9 +206,9 @@ export let mockTbPricelist: TbPricelist[] = [
     dimension: {},
     doc_version: 1,
     created_at: "2024-01-25T00:00:00.000Z",
-    created_by_id: "user-002",
+    created_by_id: UUID_MAPPING['user-002'],
     updated_at: "2024-01-30T00:00:00.000Z",
-    updated_by_id: "user-002",
+    updated_by_id: UUID_MAPPING['user-002'],
     deleted_at: null,
     deleted_by_id: null
   }

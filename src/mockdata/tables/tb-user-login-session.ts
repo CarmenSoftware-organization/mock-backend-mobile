@@ -1,5 +1,6 @@
 import { TbUserLoginSession } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_USER_LOGIN_SESSION DATA ===============
 export let mockTbUserLoginSession: TbUserLoginSession[] = [
@@ -8,14 +9,14 @@ export let mockTbUserLoginSession: TbUserLoginSession[] = [
     id: "session-001",
     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InVzZXItMDAxIiwidXNlcm5hbWUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AY2FybWVuc29mdHdhcmUuY29tIiwiaWF0IjoxNzM0NjEyMDAwLCJleHAiOjE3MzQ2OTg0MDB9.test-token-1",
     token_type: "access_token",
-    user_id: "user-001",
+    user_id: UUID_MAPPING['user-001'],
     expired_on: "2024-12-21T16:00:00.000Z"
   },
   {
     id: "session-002",
     token: "refresh_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InVzZXItMDAxIiwidXNlcm5hbWUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AY2FybWVuc29mdHdhcmUuY29tIiwiaWF0IjoxNzM0NjEyMDAwLCJleHAiOjE3MzUyMTY4MDB9.test-refresh-1",
     token_type: "refresh_token",
-    user_id: "user-001",
+    user_id: UUID_MAPPING['user-001'],
     expired_on: "2024-12-27T16:00:00.000Z"
   },
 
@@ -24,14 +25,14 @@ export let mockTbUserLoginSession: TbUserLoginSession[] = [
     id: "session-003",
     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InVzZXItMDAyIiwidXNlcm5hbWUiOiJqb2huLmRvZSIsImVtYWlsIjoiam9obi5kb2VAY2FybWVuc29mdHdhcmUuY29tIiwiaWF0IjoxNzM0NjEwMDAwLCJleHAiOjE3MzQ2OTY0MDB9.test-token-2",
     token_type: "access_token",
-    user_id: "user-002",
+    user_id: UUID_MAPPING['user-002'],
     expired_on: "2024-12-21T15:30:00.000Z"
   },
   {
     id: "session-004",
     token: "refresh_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InVzZXItMDAyIiwidXNlcm5hbWUiOiJqb2huLmRvZSIsImVtYWlsIjoiam9obi5kb2VAY2FybWVuc29mdHdhcmUuY29tIiwiaWF0IjoxNzM0NjEwMDAwLCJleHAiOjE3MzUyMTQ4MDB9.test-refresh-2",
     token_type: "refresh_token",
-    user_id: "user-002",
+    user_id: UUID_MAPPING['user-002'],
     expired_on: "2024-12-27T15:30:00.000Z"
   },
 
@@ -40,7 +41,7 @@ export let mockTbUserLoginSession: TbUserLoginSession[] = [
     id: "session-005",
     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InVzZXItMDAzIiwidXNlcm5hbWUiOiJqYW5lLnNtaXRoIiwiZW1haWwiOiJqYW5lLnNtaXRoQGNhcm1lbnNvZnR3YXJlLmNvbSIsImlhdCI6MTczNDYwODAwMCwiZXhwIjoxNzM0Njk0NDAwfQ.test-token-3",
     token_type: "access_token",
-    user_id: "user-003",
+    user_id: UUID_MAPPING['user-003'],
     expired_on: "2024-12-21T15:00:00.000Z"
   },
 
@@ -49,7 +50,7 @@ export let mockTbUserLoginSession: TbUserLoginSession[] = [
     id: "session-006",
     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InVzZXItMDA0IiwidXNlcm5hbWUiOiJtaWNoYWVsLmNoZW4iLCJlbWFpbCI6Im1pY2hhZWwuY2hlbkByb3lhbGdyYW5kaG90ZWwuY29tIiwiaWF0IjoxNzM0NjA2MDAwLCJleHAiOjE3MzQ2OTI0MDB9.test-token-4",
     token_type: "access_token",
-    user_id: "user-004",
+    user_id: UUID_MAPPING['user-004'],
     expired_on: "2024-12-21T14:30:00.000Z"
   },
 
@@ -58,14 +59,14 @@ export let mockTbUserLoginSession: TbUserLoginSession[] = [
     id: "session-007",
     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InVzZXItMDEwIiwidXNlcm5hbWUiOiJkZXZlbG9wZXIiLCJlbWFpbCI6ImRldkBjYXJtZW5zb2Z0d2FyZS5jb20iLCJpYXQiOjE3MzQ2MTUwMDAsImV4cCI6MTczNDcwMTQwMH0.test-token-dev",
     token_type: "access_token",
-    user_id: "user-010",
+    user_id: UUID_MAPPING['user-010'],
     expired_on: "2024-12-21T17:00:00.000Z"
   },
   {
     id: "session-008",
     token: "refresh_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InVzZXItMDEwIiwidXNlcm5hbWUiOiJkZXZlbG9wZXIiLCJlbWFpbCI6ImRldkBjYXJtZW5zb2Z0d2FyZS5jb20iLCJpYXQiOjE3MzQ2MTUwMDAsImV4cCI6MTczNTIxOTgwMH0.test-refresh-dev",
     token_type: "refresh_token",
-    user_id: "user-010",
+    user_id: UUID_MAPPING['user-010'],
     expired_on: "2024-12-27T17:00:00.000Z"
   },
 
@@ -74,7 +75,7 @@ export let mockTbUserLoginSession: TbUserLoginSession[] = [
     id: "session-009",
     token: "expired_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InVzZXItMDA1IiwidXNlcm5hbWUiOiJzYXJhaC5qb2huc29uIiwiZW1haWwiOiJzYXJhaC5qb2huc29uQHJveWFsZ3JhbmRob3RlbC5jb20iLCJpYXQiOjE3MzQ1MjAwMDAsImV4cCI6MTczNDYwNjQwMH0.expired-token",
     token_type: "access_token",
-    user_id: "user-005",
+    user_id: UUID_MAPPING['user-005'],
     expired_on: "2024-12-20T14:00:00.000Z" // Expired
   },
 
@@ -83,14 +84,14 @@ export let mockTbUserLoginSession: TbUserLoginSession[] = [
     id: "session-010",
     token: "mobile_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InVzZXItMDA2IiwidXNlcm5hbWUiOiJkYXZpZC5sZWUiLCJlbWFpbCI6ImRhdmlkLmxlZUBzcGljZWdhcmRlbi5jby50aCIsInBsYXRmb3JtIjoibW9iaWxlIiwiaWF0IjoxNzM0NjEyMDAwLCJleHAiOjE3MzQ2OTg0MDB9.mobile-token",
     token_type: "access_token",
-    user_id: "user-006",
+    user_id: UUID_MAPPING['user-006'],
     expired_on: "2024-12-21T16:00:00.000Z"
   },
   {
     id: "session-011",
     token: "web_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InVzZXItMDA2IiwidXNlcm5hbWUiOiJkYXZpZC5sZWUiLCJlbWFpbCI6ImRhdmlkLmxlZUBzcGljZWdhcmRlbi5jby50aCIsInBsYXRmb3JtIjoid2ViIiwiaWF0IjoxNzM0NjEwMDAwLCJleHAiOjE3MzQ2OTY0MDB9.web-token",
     token_type: "access_token",
-    user_id: "user-006",
+    user_id: UUID_MAPPING['user-006'],
     expired_on: "2024-12-21T15:30:00.000Z"
   }
 ];

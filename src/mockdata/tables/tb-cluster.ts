@@ -1,10 +1,11 @@
 import { TbCluster } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_CLUSTER DATA ===============
 export let mockTbCluster: TbCluster[] = [
   {
-    id: "cluster-001",
+    id: UUID_MAPPING['cluster-001'],
     code: "APAC",
     name: "Asia Pacific Region",
     is_active: true,
@@ -16,12 +17,12 @@ export let mockTbCluster: TbCluster[] = [
       countries: ["Thailand", "Singapore", "Malaysia", "Indonesia", "Philippines", "Vietnam"]
     },
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "cluster-002", 
+    id: UUID_MAPPING['cluster-002'], 
     code: "EMEA",
     name: "Europe, Middle East & Africa",
     is_active: true,
@@ -33,12 +34,12 @@ export let mockTbCluster: TbCluster[] = [
       countries: ["UK", "Germany", "France", "UAE", "South Africa"]
     },
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "cluster-003",
+    id: UUID_MAPPING['cluster-003'],
     code: "AMER",
     name: "Americas",
     is_active: true,
@@ -50,12 +51,12 @@ export let mockTbCluster: TbCluster[] = [
       countries: ["USA", "Canada", "Mexico", "Brazil", "Argentina"]
     },
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "cluster-004",
+    id: UUID_MAPPING['cluster-004'],
     code: "TH",
     name: "Thailand Local",
     is_active: true,
@@ -72,9 +73,9 @@ export let mockTbCluster: TbCluster[] = [
       }
     },
     created_at: "2023-06-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-06-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
   {
     id: "cluster-005",
@@ -91,9 +92,9 @@ export let mockTbCluster: TbCluster[] = [
       test_mode: true
     },
     created_at: getCurrentTimestamp(),
-    created_by_id: "developer",
+    created_by_id: UUID_MAPPING['developer'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "developer"
+    updated_by_id: UUID_MAPPING['developer']
   }
 ];
 

@@ -1,10 +1,11 @@
 import { TbModule } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_MODULE DATA ===============
 export let mockTbModule: TbModule[] = [
   {
-    id: "mod-001",
+    id: UUID_MAPPING['mod-001'],
     code: "inventory",
     name: "Inventory Management",
     description: "Manage products, stock levels, and inventory movements",
@@ -12,12 +13,12 @@ export let mockTbModule: TbModule[] = [
     is_active: true,
     sequence: 1,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "mod-002",
+    id: UUID_MAPPING['mod-002'],
     code: "procurement",
     name: "Procurement",
     description: "Purchase requests, orders, and vendor management",
@@ -25,12 +26,12 @@ export let mockTbModule: TbModule[] = [
     is_active: true,
     sequence: 2,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "mod-003",
+    id: UUID_MAPPING['mod-003'],
     code: "accounting",
     name: "Accounting & Finance",
     description: "Financial management, accounts, and reporting",
@@ -38,12 +39,12 @@ export let mockTbModule: TbModule[] = [
     is_active: true,
     sequence: 3,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "mod-004",
+    id: UUID_MAPPING['mod-004'],
     code: "hr",
     name: "Human Resources",
     description: "Employee management, payroll, and HR processes",
@@ -51,12 +52,12 @@ export let mockTbModule: TbModule[] = [
     is_active: true,
     sequence: 4,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "mod-005",
+    id: UUID_MAPPING['mod-005'],
     code: "crm",
     name: "Customer Relationship Management",
     description: "Customer data, sales pipeline, and relationship management",
@@ -64,12 +65,12 @@ export let mockTbModule: TbModule[] = [
     is_active: true,
     sequence: 5,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "mod-006",
+    id: UUID_MAPPING['mod-006'],
     code: "pms",
     name: "Property Management System",
     description: "Hotel room management, reservations, and guest services",
@@ -77,12 +78,12 @@ export let mockTbModule: TbModule[] = [
     is_active: true,
     sequence: 6,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "mod-007",
+    id: UUID_MAPPING['mod-007'],
     code: "pos",
     name: "Point of Sale",
     description: "Restaurant POS system, order management, and billing",
@@ -90,12 +91,12 @@ export let mockTbModule: TbModule[] = [
     is_active: true,
     sequence: 7,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "mod-008",
+    id: UUID_MAPPING['mod-008'],
     code: "reporting",
     name: "Reports & Analytics",
     description: "Business intelligence, reports, and data analytics",
@@ -103,12 +104,12 @@ export let mockTbModule: TbModule[] = [
     is_active: true,
     sequence: 8,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "mod-009",
+    id: UUID_MAPPING['mod-009'],
     code: "settings",
     name: "System Settings",
     description: "System configuration, user management, and security",
@@ -116,12 +117,12 @@ export let mockTbModule: TbModule[] = [
     is_active: true,
     sequence: 9,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
   {
-    id: "mod-010",
+    id: UUID_MAPPING['mod-010'],
     code: "delivery",
     name: "Delivery Management",
     description: "Order delivery, tracking, and logistics",
@@ -129,12 +130,12 @@ export let mockTbModule: TbModule[] = [
     is_active: true,
     sequence: 10,
     created_at: "2023-02-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-02-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
   {
-    id: "mod-011",
+    id: UUID_MAPPING['mod-011'],
     code: "maintenance",
     name: "Maintenance Management",
     description: "Equipment maintenance, scheduling, and work orders",
@@ -142,12 +143,12 @@ export let mockTbModule: TbModule[] = [
     is_active: true,
     sequence: 11,
     created_at: "2023-03-01T00:00:00.000Z",
-    created_by_id: "user-002",
+    created_by_id: UUID_MAPPING['user-002'],
     updated_at: "2023-03-01T00:00:00.000Z",
-    updated_by_id: "user-002"
+    updated_by_id: UUID_MAPPING['user-002']
   },
   {
-    id: "mod-012",
+    id: UUID_MAPPING['mod-012'],
     code: "quality",
     name: "Quality Control",
     description: "Quality assurance, inspections, and compliance",
@@ -155,12 +156,12 @@ export let mockTbModule: TbModule[] = [
     is_active: true,
     sequence: 12,
     created_at: "2023-04-01T00:00:00.000Z",
-    created_by_id: "user-003",
+    created_by_id: UUID_MAPPING['user-003'],
     updated_at: "2023-04-01T00:00:00.000Z",
-    updated_by_id: "user-003"
+    updated_by_id: UUID_MAPPING['user-003']
   },
   {
-    id: "mod-013",
+    id: UUID_MAPPING['mod-013'],
     code: "workflow",
     name: "Workflow Engine",
     description: "Business process automation and workflow management",
@@ -168,12 +169,12 @@ export let mockTbModule: TbModule[] = [
     is_active: true,
     sequence: 13,
     created_at: "2023-05-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-05-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
   {
-    id: "mod-014",
+    id: UUID_MAPPING['mod-014'],
     code: "communications",
     name: "Communications",
     description: "Internal messaging, notifications, and announcements",
@@ -181,12 +182,12 @@ export let mockTbModule: TbModule[] = [
     is_active: true,
     sequence: 14,
     created_at: "2023-06-01T00:00:00.000Z",
-    created_by_id: "user-002",
+    created_by_id: UUID_MAPPING['user-002'],
     updated_at: "2023-06-01T00:00:00.000Z",
-    updated_by_id: "user-002"
+    updated_by_id: UUID_MAPPING['user-002']
   },
   {
-    id: "mod-015",
+    id: UUID_MAPPING['mod-015'],
     code: "mobile",
     name: "Mobile Application",
     description: "Mobile app features and mobile-specific functionality",
@@ -194,9 +195,9 @@ export let mockTbModule: TbModule[] = [
     is_active: true,
     sequence: 15,
     created_at: getCurrentTimestamp(),
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   }
 ];
 

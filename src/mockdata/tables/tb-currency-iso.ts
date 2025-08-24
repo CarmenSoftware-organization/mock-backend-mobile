@@ -1,5 +1,6 @@
 import { TbCurrencyIso } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_CURRENCY_ISO DATA ===============
 export let mockTbCurrencyIso: TbCurrencyIso[] = [
@@ -12,9 +13,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 2,
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -25,9 +26,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 2,
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -38,9 +39,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 2,
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -51,9 +52,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 2,
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -64,9 +65,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 2,
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -77,9 +78,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 0, // Yen doesn't use decimal places
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -90,9 +91,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 2,
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -103,9 +104,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 0, // Won doesn't use decimal places
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -116,9 +117,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 2,
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -129,9 +130,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 2,
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // ASEAN currencies
@@ -143,9 +144,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 2,
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -156,9 +157,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 0, // Rupiah typically doesn't use decimal places
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -169,9 +170,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 2,
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -182,9 +183,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 0, // Dong doesn't use decimal places
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Middle East & Others
@@ -196,9 +197,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 2,
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -209,9 +210,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 2,
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -222,9 +223,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 2,
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -235,9 +236,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 2,
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -248,9 +249,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 2,
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -261,9 +262,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 2,
     is_active: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Digital currencies (for future use)
@@ -275,9 +276,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 8,
     is_active: false, // Disabled for now
     created_at: "2023-06-01T00:00:00.000Z",
-    created_by_id: "user-010",
+    created_by_id: UUID_MAPPING['user-010'],
     updated_at: "2023-06-01T00:00:00.000Z",
-    updated_by_id: "user-010"
+    updated_by_id: UUID_MAPPING['user-010']
   },
 
   {
@@ -288,9 +289,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 18,
     is_active: false, // Disabled for now
     created_at: "2023-06-01T00:00:00.000Z",
-    created_by_id: "user-010",
+    created_by_id: UUID_MAPPING['user-010'],
     updated_at: "2023-06-01T00:00:00.000Z",
-    updated_by_id: "user-010"
+    updated_by_id: UUID_MAPPING['user-010']
   },
 
   // Historical/Inactive currencies
@@ -302,9 +303,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 2,
     is_active: false, // Replaced by EUR
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -315,9 +316,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 2,
     is_active: false, // Replaced by EUR
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Recently added currencies
@@ -329,9 +330,9 @@ export let mockTbCurrencyIso: TbCurrencyIso[] = [
     decimal_places: 2,
     is_active: true,
     created_at: getCurrentTimestamp(),
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   }
 ];
 

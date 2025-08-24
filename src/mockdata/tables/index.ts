@@ -53,6 +53,64 @@ export * from './tb-password';
 export * from './tb-currency-iso';
 export * from './tb-message-format';
 
+// Export UUID mapping for reference
+export { UUID_MAPPING, getUuidFromOldId, convertIdsToUuid } from './uuid-mapping';
+
+// =============== HELPER FUNCTIONS ===============
+
+// Get user profile response with business unit information
+export const getUserProfileResponse = (userId: string) => {
+  try {
+    const user = tbUserCrud.findById(userId);
+    if (!user || !user.is_active) return null;
+
+    const userProfile = tbUserProfileCrud.findByUserId(userId);
+    if (!userProfile) return null;
+
+    const userBusinessUnits = tbUserBusinessUnitCrud.findByUserId(userId);
+    const businessUnitProfiles = userBusinessUnits.map(ubu => {
+      if (!ubu.business_unit_id) return null;
+      const businessUnit = tbBusinessUnitCrud.findById(ubu.business_unit_id);
+      const cluster = businessUnit && businessUnit.cluster_id ? tbClusterCrud.findById(businessUnit.cluster_id) : null;
+      
+      return businessUnit ? {
+        id: businessUnit.id,
+        name: businessUnit.name,
+        code: businessUnit.code,
+        description: businessUnit.description,
+        cluster: cluster ? {
+          id: cluster.id,
+          name: cluster.name,
+          code: cluster.code
+        } : null,
+        role: ubu.role,
+        is_active: ubu.is_active
+      } : null;
+    }).filter(Boolean);
+
+    return {
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        platform_role: user.platform_role,
+        is_active: user.is_active
+      },
+      profile: {
+        user_id: userProfile.user_id,
+        firstname: userProfile.firstname,
+        lastname: userProfile.lastname,
+        middlename: userProfile.middlename,
+        bio: userProfile.bio
+      },
+      business_units: businessUnitProfiles
+    };
+  } catch (error) {
+    console.error('Error getting user profile response:', error);
+    return null;
+  }
+};
+
 // Import CRUD functions for relationships
 import { tbUserProfileCrud } from './tb-user-profile';
 import { tbDepartmentCrud } from './tb-department';

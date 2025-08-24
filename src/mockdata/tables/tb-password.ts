@@ -1,12 +1,13 @@
 import { TbPassword } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_PASSWORD DATA ===============
 export let mockTbPassword: TbPassword[] = [
   // Current active passwords
   {
     id: "pwd-001",
-    user_id: "user-001",
+    user_id: UUID_MAPPING['user-001'],
     password_hash: "$2b$12$XvvlQDxKl2wkJvKwBQ9hPeY1LPp7GKcL8tOOq8gLKwV4nRGCk8vJm", // admin123
     salt: "$2b$12$XvvlQDxKl2wkJvKwBQ9hPe",
     algorithm: "bcrypt",
@@ -15,14 +16,14 @@ export let mockTbPassword: TbPassword[] = [
     expires_at: "2024-06-01T00:00:00.000Z",
     last_changed_at: "2023-12-01T00:00:00.000Z",
     created_at: "2023-12-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-12-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
     id: "pwd-002",
-    user_id: "user-002",
+    user_id: UUID_MAPPING['user-002'],
     password_hash: "$2b$12$YwwmRExLm3xlKwLxCR0iQfZ2MQq8HLdM9uPPr9hMLxW5oSHDl9wKn", // john123
     salt: "$2b$12$YwwmRExLm3xlKwLxCR0iQf",
     algorithm: "bcrypt",
@@ -31,14 +32,14 @@ export let mockTbPassword: TbPassword[] = [
     expires_at: "2024-07-15T00:00:00.000Z",
     last_changed_at: "2024-01-15T00:00:00.000Z",
     created_at: "2023-01-15T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2024-01-15T00:00:00.000Z",
-    updated_by_id: "user-002"
+    updated_by_id: UUID_MAPPING['user-002']
   },
 
   {
     id: "pwd-003",
-    user_id: "user-003",
+    user_id: UUID_MAPPING['user-003'],
     password_hash: "$2b$12$ZxxnSFyMn4ymLxMyDQ1jRgA3NRr9IMeN0vQQs0iNMyX6pTIEm0xLo", // jane123
     salt: "$2b$12$ZxxnSFyMn4ymLxMyDQ1jRg",
     algorithm: "bcrypt",
@@ -47,14 +48,14 @@ export let mockTbPassword: TbPassword[] = [
     expires_at: "2024-08-01T00:00:00.000Z",
     last_changed_at: "2024-02-01T00:00:00.000Z",
     created_at: "2023-02-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2024-02-01T00:00:00.000Z",
-    updated_by_id: "user-003"
+    updated_by_id: UUID_MAPPING['user-003']
   },
 
   {
     id: "pwd-004",
-    user_id: "user-004",
+    user_id: UUID_MAPPING['user-004'],
     password_hash: "$2b$12$AaaoTGzNo5znMyNzER2kShB4OSs0JOfO1wRRt1jONzY7qUJFn1yMp", // michael123
     salt: "$2b$12$AaaoTGzNo5znMyNzER2kSh",
     algorithm: "bcrypt",
@@ -63,14 +64,14 @@ export let mockTbPassword: TbPassword[] = [
     expires_at: "2024-08-15T00:00:00.000Z",
     last_changed_at: "2024-02-15T00:00:00.000Z",
     created_at: "2023-02-15T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2024-02-15T00:00:00.000Z",
-    updated_by_id: "user-004"
+    updated_by_id: UUID_MAPPING['user-004']
   },
 
   {
     id: "pwd-005",
-    user_id: "user-005",
+    user_id: UUID_MAPPING['user-005'],
     password_hash: "$2b$12$BbbpUH0Op6AoNzO0FS3lTiC5PTt1KPgP2xSSu2kPO0Z8rVKGo2zNq", // sarah123
     salt: "$2b$12$BbbpUH0Op6AoNzO0FS3lTi",
     algorithm: "bcrypt",
@@ -79,14 +80,14 @@ export let mockTbPassword: TbPassword[] = [
     expires_at: "2024-08-20T00:00:00.000Z",
     last_changed_at: "2024-02-20T00:00:00.000Z",
     created_at: "2023-02-20T00:00:00.000Z",
-    created_by_id: "user-004",
+    created_by_id: UUID_MAPPING['user-004'],
     updated_at: "2024-02-20T00:00:00.000Z",
-    updated_by_id: "user-005"
+    updated_by_id: UUID_MAPPING['user-005']
   },
 
   {
     id: "pwd-006",
-    user_id: "user-006",
+    user_id: UUID_MAPPING['user-006'],
     password_hash: "$2b$12$CccqVI1Pq7BpO0P1GT4mUjD6QUu2LQhQ3ySTs3lQP1A9sWLHp3AOr", // david123
     salt: "$2b$12$CccqVI1Pq7BpO0P1GT4mUj",
     algorithm: "bcrypt",
@@ -95,14 +96,14 @@ export let mockTbPassword: TbPassword[] = [
     expires_at: "2024-09-01T00:00:00.000Z",
     last_changed_at: "2024-03-01T00:00:00.000Z",
     created_at: "2023-03-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2024-03-01T00:00:00.000Z",
-    updated_by_id: "user-006"
+    updated_by_id: UUID_MAPPING['user-006']
   },
 
   {
     id: "pwd-007",
-    user_id: "user-007",
+    user_id: UUID_MAPPING['user-007'],
     password_hash: "$2b$12$DddrWJ2Qr8CqP1Q2HU5nVkE7RVv3MSiR4zTUt4mRP2B0tXMIq4BPs", // maria123
     salt: "$2b$12$DddrWJ2Qr8CqP1Q2HU5nVk",
     algorithm: "bcrypt",
@@ -111,14 +112,14 @@ export let mockTbPassword: TbPassword[] = [
     expires_at: "2024-09-05T00:00:00.000Z",
     last_changed_at: "2024-03-05T00:00:00.000Z",
     created_at: "2023-03-05T00:00:00.000Z",
-    created_by_id: "user-006",
+    created_by_id: UUID_MAPPING['user-006'],
     updated_at: "2024-03-05T00:00:00.000Z",
-    updated_by_id: "user-007"
+    updated_by_id: UUID_MAPPING['user-007']
   },
 
   {
     id: "pwd-008",
-    user_id: "user-008",
+    user_id: UUID_MAPPING['user-008'],
     password_hash: "$2b$12$EeesXK3Rs9DrQ2R3IV6oWlF8SWw4NTjS5AUVu5nSQ3C1uYNJr5CQt", // alex123
     salt: "$2b$12$EeesXK3Rs9DrQ2R3IV6oWl",
     algorithm: "bcrypt",
@@ -127,14 +128,14 @@ export let mockTbPassword: TbPassword[] = [
     expires_at: "2024-10-01T00:00:00.000Z",
     last_changed_at: "2024-04-01T00:00:00.000Z",
     created_at: "2023-04-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2024-04-01T00:00:00.000Z",
-    updated_by_id: "user-008"
+    updated_by_id: UUID_MAPPING['user-008']
   },
 
   {
     id: "pwd-009",
-    user_id: "user-009",
+    user_id: UUID_MAPPING['user-009'],
     password_hash: "$2b$12$FfftYL4St0EsR3S4JW7pXmG9TXx5OUkT6BVWv6oTR4D2vZOKs6DRu", // lisa123
     salt: "$2b$12$FfftYL4St0EsR3S4JW7pXm",
     algorithm: "bcrypt",
@@ -143,14 +144,14 @@ export let mockTbPassword: TbPassword[] = [
     expires_at: "2024-10-15T00:00:00.000Z",
     last_changed_at: "2024-04-15T00:00:00.000Z",
     created_at: "2023-04-15T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2024-04-15T00:00:00.000Z",
-    updated_by_id: "user-009"
+    updated_by_id: UUID_MAPPING['user-009']
   },
 
   {
     id: "pwd-010",
-    user_id: "user-010",
+    user_id: UUID_MAPPING['user-010'],
     password_hash: "$2b$12$GgguZM5Tu1FtS4T5KX8qYnH0UYy6PVlU7CWXw7pUS5E3wAPLt7ESv", // dev123
     salt: "$2b$12$GgguZM5Tu1FtS4T5KX8qYn",
     algorithm: "bcrypt",
@@ -159,14 +160,14 @@ export let mockTbPassword: TbPassword[] = [
     expires_at: null, // No expiration for dev account
     last_changed_at: getCurrentTimestamp(),
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
     id: "pwd-011",
-    user_id: "user-011",
+    user_id: UUID_MAPPING['user-011'],
     password_hash: "$2b$12$HhhvAN6Uv2GuT5U6LY9rZoI1VZz7QWmV8DXYx8qVT6F4xBQMu8FTw", // support123
     salt: "$2b$12$HhhvAN6Uv2GuT5U6LY9rZo",
     algorithm: "bcrypt",
@@ -175,14 +176,14 @@ export let mockTbPassword: TbPassword[] = [
     expires_at: "2024-11-01T00:00:00.000Z",
     last_changed_at: "2024-05-01T00:00:00.000Z",
     created_at: "2023-05-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2024-05-01T00:00:00.000Z",
-    updated_by_id: "user-011"
+    updated_by_id: UUID_MAPPING['user-011']
   },
 
   {
     id: "pwd-012",
-    user_id: "user-012",
+    user_id: UUID_MAPPING['user-012'],
     password_hash: "$2b$12$IiiwBO7Vw3HvU6V7MY0sApJ2WAA8RXnW9EYZy9rWT7G5yCRNv9GUx", // security123
     salt: "$2b$12$IiiwBO7Vw3HvU6V7MY0sAp",
     algorithm: "bcrypt",
@@ -191,15 +192,15 @@ export let mockTbPassword: TbPassword[] = [
     expires_at: "2024-11-15T00:00:00.000Z",
     last_changed_at: "2024-05-15T00:00:00.000Z",
     created_at: "2023-05-15T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2024-05-15T00:00:00.000Z",
-    updated_by_id: "user-012"
+    updated_by_id: UUID_MAPPING['user-012']
   },
 
   // Historical passwords (inactive)
   {
     id: "pwd-013",
-    user_id: "user-002",
+    user_id: UUID_MAPPING['user-002'],
     password_hash: "$2b$12$JjjxCP8Xx4IwV7W8NZ1tBqK3XBB9SYoX0FZAz0sXU8H6zDSOw0HVy", // old password
     salt: "$2b$12$JjjxCP8Xx4IwV7W8NZ1tBq",
     algorithm: "bcrypt",
@@ -208,14 +209,14 @@ export let mockTbPassword: TbPassword[] = [
     expires_at: "2024-01-15T00:00:00.000Z",
     last_changed_at: "2023-01-15T00:00:00.000Z",
     created_at: "2023-01-15T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2024-01-15T00:00:00.000Z",
-    updated_by_id: "user-002"
+    updated_by_id: UUID_MAPPING['user-002']
   },
 
   {
     id: "pwd-014",
-    user_id: "user-003",
+    user_id: UUID_MAPPING['user-003'],
     password_hash: "$2b$12$KkkyCQ9Yy5JxW8X9OA2uCrL4YCC0TZpY1GAB1tYV9I7AERTx1IWz", // old password
     salt: "$2b$12$KkkyCQ9Yy5JxW8X9OA2uCr",
     algorithm: "bcrypt",
@@ -224,15 +225,15 @@ export let mockTbPassword: TbPassword[] = [
     expires_at: "2024-02-01T00:00:00.000Z",
     last_changed_at: "2023-02-01T00:00:00.000Z",
     created_at: "2023-02-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2024-02-01T00:00:00.000Z",
-    updated_by_id: "user-003"
+    updated_by_id: UUID_MAPPING['user-003']
   },
 
   // Temporary passwords (expired)
   {
     id: "pwd-015",
-    user_id: "user-008",
+    user_id: UUID_MAPPING['user-008'],
     password_hash: "$2b$12$LlllDR0Zz6KyX9Y0PB3vDsM5ZDD1UAqZ2HBC2uZW0J8BFTUy2JXA", // temp password
     salt: "$2b$12$LlllDR0Zz6KyX9Y0PB3vDs",
     algorithm: "bcrypt",
@@ -241,9 +242,9 @@ export let mockTbPassword: TbPassword[] = [
     expires_at: "2024-03-02T00:00:00.000Z", // Short expiration for temp
     last_changed_at: "2024-03-01T00:00:00.000Z",
     created_at: "2024-03-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2024-04-01T00:00:00.000Z",
-    updated_by_id: "user-008"
+    updated_by_id: UUID_MAPPING['user-008']
   }
 ];
 

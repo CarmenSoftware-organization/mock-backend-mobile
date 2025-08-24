@@ -2,6 +2,7 @@
 
 import { TbDepartment } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // Mock Departments Table (tb_department)
 export let mockTbDepartment: TbDepartment[] = [

@@ -1,5 +1,6 @@
 import { TbGoodReceivedNote } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_GOOD_RECEIVED_NOTE DATA ===============
 export let mockTbGoodReceivedNote: TbGoodReceivedNote[] = [
@@ -13,7 +14,7 @@ export let mockTbGoodReceivedNote: TbGoodReceivedNote[] = [
     vendor_name: "ABC Food Suppliers",
     delivery_date: "2024-01-25T07:00:00.000Z",
     received_date: "2024-01-25T07:15:00.000Z",
-    received_by_id: "user-008",
+    received_by_id: UUID_MAPPING['user-008'],
     received_by_name: "Warehouse Staff",
     delivery_point_id: "dp-001",
     delivery_point_name: "Main Kitchen",
@@ -31,7 +32,7 @@ export let mockTbGoodReceivedNote: TbGoodReceivedNote[] = [
         { time: "07:15", temp: "3°C", status: "OK" }
       ],
       quality_check: {
-        inspector: "user-009",
+        inspector: UUID_MAPPING['user-009'],
         inspector_name: "Quality Controller",
         check_date: "2024-01-25T07:30:00.000Z",
         result: "passed",
@@ -47,9 +48,9 @@ export let mockTbGoodReceivedNote: TbGoodReceivedNote[] = [
     dimension: {},
     doc_version: 1,
     created_at: "2024-01-25T07:15:00.000Z",
-    created_by_id: "user-008",
+    created_by_id: UUID_MAPPING['user-008'],
     updated_at: "2024-01-25T07:30:00.000Z",
-    updated_by_id: "user-009",
+    updated_by_id: UUID_MAPPING['user-009'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -63,7 +64,7 @@ export let mockTbGoodReceivedNote: TbGoodReceivedNote[] = [
     vendor_name: "Siam Dairy Products",
     delivery_date: "2024-01-20T06:30:00.000Z",
     received_date: "2024-01-20T06:45:00.000Z",
-    received_by_id: "user-008",
+    received_by_id: UUID_MAPPING['user-008'],
     received_by_name: "Warehouse Staff",
     delivery_point_id: "dp-005",
     delivery_point_name: "Cold Storage",
@@ -81,7 +82,7 @@ export let mockTbGoodReceivedNote: TbGoodReceivedNote[] = [
         { time: "06:45", temp: "2°C", status: "OK" }
       ],
       quality_check: {
-        inspector: "user-009",
+        inspector: UUID_MAPPING['user-009'],
         inspector_name: "Quality Controller",
         check_date: "2024-01-20T07:00:00.000Z",
         result: "passed",
@@ -98,9 +99,9 @@ export let mockTbGoodReceivedNote: TbGoodReceivedNote[] = [
     dimension: {},
     doc_version: 1,
     created_at: "2024-01-20T06:45:00.000Z",
-    created_by_id: "user-008",
+    created_by_id: UUID_MAPPING['user-008'],
     updated_at: "2024-01-20T07:00:00.000Z",
-    updated_by_id: "user-009",
+    updated_by_id: UUID_MAPPING['user-009'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -114,7 +115,7 @@ export let mockTbGoodReceivedNote: TbGoodReceivedNote[] = [
     vendor_name: "Bangkok Meat Processing",
     delivery_date: "2024-01-23T06:00:00.000Z",
     received_date: "2024-01-23T06:10:00.000Z",
-    received_by_id: "user-008",
+    received_by_id: UUID_MAPPING['user-008'],
     received_by_name: "Warehouse Staff",
     delivery_point_id: "dp-005",
     delivery_point_name: "Cold Storage",
@@ -132,7 +133,7 @@ export let mockTbGoodReceivedNote: TbGoodReceivedNote[] = [
         { time: "06:10", temp: "0°C", status: "OK" }
       ],
       quality_check: {
-        inspector: "user-010",
+        inspector: UUID_MAPPING['user-010'],
         inspector_name: "Food Safety Inspector",
         check_date: "2024-01-23T06:20:00.000Z",
         result: "passed",
@@ -150,9 +151,9 @@ export let mockTbGoodReceivedNote: TbGoodReceivedNote[] = [
     dimension: {},
     doc_version: 1,
     created_at: "2024-01-23T06:10:00.000Z",
-    created_by_id: "user-008",
+    created_by_id: UUID_MAPPING['user-008'],
     updated_at: "2024-01-23T06:20:00.000Z",
-    updated_by_id: "user-010",
+    updated_by_id: UUID_MAPPING['user-010'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -166,7 +167,7 @@ export let mockTbGoodReceivedNote: TbGoodReceivedNote[] = [
     vendor_name: "Siam Dairy Products",
     delivery_date: "2024-01-22T06:30:00.000Z",
     received_date: "2024-01-22T06:40:00.000Z",
-    received_by_id: "user-008",
+    received_by_id: UUID_MAPPING['user-008'],
     received_by_name: "Warehouse Staff",
     delivery_point_id: "dp-005",
     delivery_point_name: "Cold Storage",
@@ -184,7 +185,7 @@ export let mockTbGoodReceivedNote: TbGoodReceivedNote[] = [
         { time: "06:40", temp: "2°C", status: "OK" }
       ],
       quality_check: {
-        inspector: "user-009",
+        inspector: UUID_MAPPING['user-009'],
         inspector_name: "Quality Controller",
         check_date: "2024-01-22T06:50:00.000Z",
         result: "passed",
@@ -202,9 +203,9 @@ export let mockTbGoodReceivedNote: TbGoodReceivedNote[] = [
     dimension: {},
     doc_version: 1,
     created_at: "2024-01-22T06:40:00.000Z",
-    created_by_id: "user-008",
+    created_by_id: UUID_MAPPING['user-008'],
     updated_at: "2024-01-22T06:50:00.000Z",
-    updated_by_id: "user-009",
+    updated_by_id: UUID_MAPPING['user-009'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -218,7 +219,7 @@ export let mockTbGoodReceivedNote: TbGoodReceivedNote[] = [
     vendor_name: "ABC Food Suppliers",
     delivery_date: getCurrentTimestamp(),
     received_date: getCurrentTimestamp(),
-    received_by_id: "user-008",
+    received_by_id: UUID_MAPPING['user-008'],
     received_by_name: "Warehouse Staff",
     delivery_point_id: "dp-001",
     delivery_point_name: "Main Kitchen",
@@ -253,9 +254,9 @@ export let mockTbGoodReceivedNote: TbGoodReceivedNote[] = [
     dimension: {},
     doc_version: 1,
     created_at: getCurrentTimestamp(),
-    created_by_id: "user-008",
+    created_by_id: UUID_MAPPING['user-008'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "user-008",
+    updated_by_id: UUID_MAPPING['user-008'],
     deleted_at: null,
     deleted_by_id: null
   }

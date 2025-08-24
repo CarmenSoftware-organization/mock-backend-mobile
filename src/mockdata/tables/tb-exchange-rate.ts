@@ -1,5 +1,6 @@
 import { TbExchangeRate } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_EXCHANGE_RATE DATA ===============
 export let mockTbExchangeRate: TbExchangeRate[] = [
@@ -18,9 +19,9 @@ export let mockTbExchangeRate: TbExchangeRate[] = [
     },
     dimension: {},
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -39,9 +40,9 @@ export let mockTbExchangeRate: TbExchangeRate[] = [
     },
     dimension: {},
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -60,9 +61,9 @@ export let mockTbExchangeRate: TbExchangeRate[] = [
     },
     dimension: {},
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -82,9 +83,9 @@ export let mockTbExchangeRate: TbExchangeRate[] = [
     },
     dimension: {},
     created_at: "2024-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2024-01-01T00:00:00.000Z",
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -103,9 +104,9 @@ export let mockTbExchangeRate: TbExchangeRate[] = [
     },
     dimension: {},
     created_at: "2024-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2024-01-01T00:00:00.000Z",
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -124,9 +125,9 @@ export let mockTbExchangeRate: TbExchangeRate[] = [
     },
     dimension: {},
     created_at: "2024-02-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2024-02-01T00:00:00.000Z",
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -145,9 +146,9 @@ export let mockTbExchangeRate: TbExchangeRate[] = [
     },
     dimension: {},
     created_at: "2024-03-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2024-03-01T00:00:00.000Z",
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   }

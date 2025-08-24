@@ -1,5 +1,6 @@
 import { TbMessageFormat } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_MESSAGE_FORMAT DATA ===============
 export let mockTbMessageFormat: TbMessageFormat[] = [
@@ -12,9 +13,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: false,
     is_in_app: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -25,9 +26,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: true,
     is_in_app: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Password related
@@ -39,9 +40,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: true,
     is_in_app: false,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -52,9 +53,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: false,
     is_in_app: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Order notifications
@@ -66,9 +67,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: true,
     is_in_app: true,
     created_at: "2023-02-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-02-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   {
@@ -79,9 +80,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: true,
     is_in_app: true,
     created_at: "2023-02-01T00:00:00.000Z",
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: "2023-02-01T00:00:00.000Z",
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   },
 
   // Payment notifications
@@ -93,9 +94,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: true,
     is_in_app: true,
     created_at: "2023-02-01T00:00:00.000Z",
-    created_by_id: "user-002",
+    created_by_id: UUID_MAPPING['user-002'],
     updated_at: "2023-02-01T00:00:00.000Z",
-    updated_by_id: "user-002"
+    updated_by_id: UUID_MAPPING['user-002']
   },
 
   {
@@ -106,9 +107,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: false,
     is_in_app: true,
     created_at: "2023-02-01T00:00:00.000Z",
-    created_by_id: "user-002",
+    created_by_id: UUID_MAPPING['user-002'],
     updated_at: "2023-02-01T00:00:00.000Z",
-    updated_by_id: "user-002"
+    updated_by_id: UUID_MAPPING['user-002']
   },
 
   // Hotel specific
@@ -120,9 +121,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: true,
     is_in_app: true,
     created_at: "2023-02-15T00:00:00.000Z",
-    created_by_id: "user-004",
+    created_by_id: UUID_MAPPING['user-004'],
     updated_at: "2023-02-15T00:00:00.000Z",
-    updated_by_id: "user-004"
+    updated_by_id: UUID_MAPPING['user-004']
   },
 
   {
@@ -133,9 +134,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: true,
     is_in_app: false,
     created_at: "2023-02-15T00:00:00.000Z",
-    created_by_id: "user-004",
+    created_by_id: UUID_MAPPING['user-004'],
     updated_at: "2023-02-15T00:00:00.000Z",
-    updated_by_id: "user-004"
+    updated_by_id: UUID_MAPPING['user-004']
   },
 
   // Restaurant specific
@@ -147,9 +148,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: true,
     is_in_app: true,
     created_at: "2023-03-01T00:00:00.000Z",
-    created_by_id: "user-006",
+    created_by_id: UUID_MAPPING['user-006'],
     updated_at: "2023-03-01T00:00:00.000Z",
-    updated_by_id: "user-006"
+    updated_by_id: UUID_MAPPING['user-006']
   },
 
   {
@@ -160,9 +161,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: true,
     is_in_app: true,
     created_at: "2023-03-01T00:00:00.000Z",
-    created_by_id: "user-006",
+    created_by_id: UUID_MAPPING['user-006'],
     updated_at: "2023-03-01T00:00:00.000Z",
-    updated_by_id: "user-006"
+    updated_by_id: UUID_MAPPING['user-006']
   },
 
   // System notifications
@@ -174,9 +175,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: false,
     is_in_app: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -187,9 +188,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: false,
     is_in_app: false,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Account security
@@ -201,9 +202,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: true,
     is_in_app: true,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   {
@@ -214,9 +215,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: true,
     is_in_app: false,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Approval workflows
@@ -228,9 +229,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: false,
     is_in_app: true,
     created_at: "2023-02-01T00:00:00.000Z",
-    created_by_id: "user-003",
+    created_by_id: UUID_MAPPING['user-003'],
     updated_at: "2023-02-01T00:00:00.000Z",
-    updated_by_id: "user-003"
+    updated_by_id: UUID_MAPPING['user-003']
   },
 
   {
@@ -241,9 +242,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: true,
     is_in_app: true,
     created_at: "2023-02-01T00:00:00.000Z",
-    created_by_id: "user-003",
+    created_by_id: UUID_MAPPING['user-003'],
     updated_at: "2023-02-01T00:00:00.000Z",
-    updated_by_id: "user-003"
+    updated_by_id: UUID_MAPPING['user-003']
   },
 
   {
@@ -254,9 +255,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: false,
     is_in_app: true,
     created_at: "2023-02-01T00:00:00.000Z",
-    created_by_id: "user-003",
+    created_by_id: UUID_MAPPING['user-003'],
     updated_at: "2023-02-01T00:00:00.000Z",
-    updated_by_id: "user-003"
+    updated_by_id: UUID_MAPPING['user-003']
   },
 
   // Inventory alerts
@@ -268,9 +269,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: false,
     is_in_app: true,
     created_at: "2023-02-01T00:00:00.000Z",
-    created_by_id: "user-003",
+    created_by_id: UUID_MAPPING['user-003'],
     updated_at: "2023-02-01T00:00:00.000Z",
-    updated_by_id: "user-003"
+    updated_by_id: UUID_MAPPING['user-003']
   },
 
   {
@@ -281,9 +282,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: false,
     is_in_app: true,
     created_at: "2023-02-01T00:00:00.000Z",
-    created_by_id: "user-003",
+    created_by_id: UUID_MAPPING['user-003'],
     updated_at: "2023-02-01T00:00:00.000Z",
-    updated_by_id: "user-003"
+    updated_by_id: UUID_MAPPING['user-003']
   },
 
   // Promotional messages
@@ -295,9 +296,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: true,
     is_in_app: true,
     created_at: "2023-03-01T00:00:00.000Z",
-    created_by_id: "user-006",
+    created_by_id: UUID_MAPPING['user-006'],
     updated_at: "2023-03-01T00:00:00.000Z",
-    updated_by_id: "user-006"
+    updated_by_id: UUID_MAPPING['user-006']
   },
 
   // Birthday & anniversary
@@ -309,9 +310,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: true,
     is_in_app: true,
     created_at: "2023-03-01T00:00:00.000Z",
-    created_by_id: "user-005",
+    created_by_id: UUID_MAPPING['user-005'],
     updated_at: "2023-03-01T00:00:00.000Z",
-    updated_by_id: "user-005"
+    updated_by_id: UUID_MAPPING['user-005']
   },
 
   // Two-factor authentication
@@ -323,9 +324,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: true,
     is_in_app: false,
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: "system"
+    updated_by_id: UUID_MAPPING['system']
   },
 
   // Recent addition
@@ -337,9 +338,9 @@ export let mockTbMessageFormat: TbMessageFormat[] = [
     is_sms: false,
     is_in_app: true,
     created_at: getCurrentTimestamp(),
-    created_by_id: "user-001",
+    created_by_id: UUID_MAPPING['user-001'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "user-001"
+    updated_by_id: UUID_MAPPING['user-001']
   }
 ];
 

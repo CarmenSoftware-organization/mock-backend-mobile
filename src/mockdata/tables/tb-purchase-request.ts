@@ -1,5 +1,6 @@
 import { TbPurchaseRequest } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_PURCHASE_REQUEST DATA ===============
 export let mockTbPurchaseRequest: TbPurchaseRequest[] = [
@@ -9,9 +10,9 @@ export let mockTbPurchaseRequest: TbPurchaseRequest[] = [
     reference_no: "REF-KIT-001",
     request_date: "2024-01-15T00:00:00.000Z",
     required_date: "2024-01-25T00:00:00.000Z",
-    requester_id: "user-003",
+    requester_id: UUID_MAPPING['user-003'],
     requester_name: "Chef Manager",
-    department_id: "dept-001",
+    department_id: UUID_MAPPING['dept-001'],
     department_name: "Kitchen",
     delivery_point_id: "dp-001",
     delivery_point_name: "Main Kitchen",
@@ -27,13 +28,13 @@ export let mockTbPurchaseRequest: TbPurchaseRequest[] = [
       approval_history: [
         {
           stage: "stage-2",
-          approved_by: "user-001",
+          approved_by: UUID_MAPPING['user-001'],
           approved_at: "2024-01-16T10:30:00.000Z",
           status: "approved"
         },
         {
           stage: "stage-3",
-          approved_by: "user-002",
+          approved_by: UUID_MAPPING['user-002'],
           approved_at: "2024-01-16T14:15:00.000Z",
           status: "approved"
         }
@@ -44,9 +45,9 @@ export let mockTbPurchaseRequest: TbPurchaseRequest[] = [
     dimension: {},
     doc_version: 3,
     created_at: "2024-01-15T09:00:00.000Z",
-    created_by_id: "user-003",
+    created_by_id: UUID_MAPPING['user-003'],
     updated_at: "2024-01-16T14:15:00.000Z",
-    updated_by_id: "user-002",
+    updated_by_id: UUID_MAPPING['user-002'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -56,9 +57,9 @@ export let mockTbPurchaseRequest: TbPurchaseRequest[] = [
     reference_no: "REF-BAR-001",
     request_date: "2024-01-16T00:00:00.000Z",
     required_date: "2024-01-20T00:00:00.000Z",
-    requester_id: "user-004",
+    requester_id: UUID_MAPPING['user-004'],
     requester_name: "Bar Manager",
-    department_id: "dept-002",
+    department_id: UUID_MAPPING['dept-002'],
     department_name: "Bar",
     delivery_point_id: "dp-003",
     delivery_point_name: "Beverage Station",
@@ -74,7 +75,7 @@ export let mockTbPurchaseRequest: TbPurchaseRequest[] = [
       approval_history: [
         {
           stage: "stage-1",
-          approved_by: "user-004",
+          approved_by: UUID_MAPPING['user-004'],
           approved_at: "2024-01-16T11:00:00.000Z",
           status: "submitted"
         }
@@ -85,9 +86,9 @@ export let mockTbPurchaseRequest: TbPurchaseRequest[] = [
     dimension: {},
     doc_version: 1,
     created_at: "2024-01-16T10:30:00.000Z",
-    created_by_id: "user-004",
+    created_by_id: UUID_MAPPING['user-004'],
     updated_at: "2024-01-16T11:00:00.000Z",
-    updated_by_id: "user-004",
+    updated_by_id: UUID_MAPPING['user-004'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -97,9 +98,9 @@ export let mockTbPurchaseRequest: TbPurchaseRequest[] = [
     reference_no: "REF-CAT-001",
     request_date: "2024-01-17T00:00:00.000Z",
     required_date: "2024-02-01T00:00:00.000Z",
-    requester_id: "user-005",
+    requester_id: UUID_MAPPING['user-005'],
     requester_name: "Catering Manager",
-    department_id: "dept-003",
+    department_id: UUID_MAPPING['dept-003'],
     department_name: "Catering",
     delivery_point_id: "dp-004",
     delivery_point_name: "Catering Kitchen",
@@ -120,9 +121,9 @@ export let mockTbPurchaseRequest: TbPurchaseRequest[] = [
     dimension: {},
     doc_version: 1,
     created_at: "2024-01-17T14:00:00.000Z",
-    created_by_id: "user-005",
+    created_by_id: UUID_MAPPING['user-005'],
     updated_at: "2024-01-17T16:30:00.000Z",
-    updated_by_id: "user-005",
+    updated_by_id: UUID_MAPPING['user-005'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -132,9 +133,9 @@ export let mockTbPurchaseRequest: TbPurchaseRequest[] = [
     reference_no: "REF-PACK-001",
     request_date: "2024-01-18T00:00:00.000Z",
     required_date: "2024-01-28T00:00:00.000Z",
-    requester_id: "user-006",
+    requester_id: UUID_MAPPING['user-006'],
     requester_name: "Operations Manager",
-    department_id: "dept-004",
+    department_id: UUID_MAPPING['dept-004'],
     department_name: "Operations",
     delivery_point_id: "dp-006",
     delivery_point_name: "Dry Storage",
@@ -150,7 +151,7 @@ export let mockTbPurchaseRequest: TbPurchaseRequest[] = [
       approval_history: [
         {
           stage: "stage-1",
-          approved_by: "user-006",
+          approved_by: UUID_MAPPING['user-006'],
           approved_at: "2024-01-18T09:15:00.000Z",
           status: "submitted"
         }
@@ -162,9 +163,9 @@ export let mockTbPurchaseRequest: TbPurchaseRequest[] = [
     dimension: {},
     doc_version: 1,
     created_at: "2024-01-18T08:45:00.000Z",
-    created_by_id: "user-006",
+    created_by_id: UUID_MAPPING['user-006'],
     updated_at: "2024-01-18T09:15:00.000Z",
-    updated_by_id: "user-006",
+    updated_by_id: UUID_MAPPING['user-006'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -174,9 +175,9 @@ export let mockTbPurchaseRequest: TbPurchaseRequest[] = [
     reference_no: "REF-SPICE-001",
     request_date: "2024-01-19T00:00:00.000Z",
     required_date: "2024-02-15T00:00:00.000Z",
-    requester_id: "user-003",
+    requester_id: UUID_MAPPING['user-003'],
     requester_name: "Chef Manager",
-    department_id: "dept-001",
+    department_id: UUID_MAPPING['dept-001'],
     department_name: "Kitchen",
     delivery_point_id: "dp-001",
     delivery_point_name: "Main Kitchen",
@@ -192,13 +193,13 @@ export let mockTbPurchaseRequest: TbPurchaseRequest[] = [
       approval_history: [
         {
           stage: "stage-2",
-          approved_by: "user-001",
+          approved_by: UUID_MAPPING['user-001'],
           approved_at: "2024-01-20T10:00:00.000Z",
           status: "approved"
         },
         {
           stage: "stage-3",
-          approved_by: "user-002",
+          approved_by: UUID_MAPPING['user-002'],
           approved_at: "2024-01-20T15:30:00.000Z",
           status: "rejected",
           reason: "Budget exceeded for Q1. Please resubmit in Q2."
@@ -211,9 +212,9 @@ export let mockTbPurchaseRequest: TbPurchaseRequest[] = [
     dimension: {},
     doc_version: 2,
     created_at: "2024-01-19T13:20:00.000Z",
-    created_by_id: "user-003",
+    created_by_id: UUID_MAPPING['user-003'],
     updated_at: "2024-01-20T15:30:00.000Z",
-    updated_by_id: "user-002",
+    updated_by_id: UUID_MAPPING['user-002'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -223,9 +224,9 @@ export let mockTbPurchaseRequest: TbPurchaseRequest[] = [
     reference_no: "REF-DAIRY-001",
     request_date: getCurrentTimestamp(),
     required_date: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
-    requester_id: "user-007",
+    requester_id: UUID_MAPPING['user-007'],
     requester_name: "Pastry Chef",
-    department_id: "dept-005",
+    department_id: UUID_MAPPING['dept-005'],
     department_name: "Bakery",
     delivery_point_id: "dp-002",
     delivery_point_name: "Bakery Section",
@@ -246,9 +247,9 @@ export let mockTbPurchaseRequest: TbPurchaseRequest[] = [
     dimension: {},
     doc_version: 1,
     created_at: getCurrentTimestamp(),
-    created_by_id: "user-007",
+    created_by_id: UUID_MAPPING['user-007'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "user-007",
+    updated_by_id: UUID_MAPPING['user-007'],
     deleted_at: null,
     deleted_by_id: null
   }

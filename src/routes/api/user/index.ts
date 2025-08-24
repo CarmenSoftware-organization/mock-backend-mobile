@@ -1,7 +1,7 @@
 import type { Elysia } from "elysia";
-import { mockUsers, getUserProfileResponse } from "@mockdata/index";
-import { tbUserProfileCrud, getUserWithDepartment } from "@mockdata/tables";
-import { resUnauthorized } from "@libs/res.error";
+import { mockUsers, getUserProfileResponse, UUID_MAPPING } from "@mockdata/index";
+import { tbUserCrud, getUserWithDepartment } from "@mockdata/tables";
+import { resNotFound, resUnauthorized } from "@libs/res.error";
 import { jwt } from "@elysiajs/jwt";
 import { t } from "elysia";
 
@@ -17,7 +17,7 @@ export default (app: Elysia) =>
     .get("/api/user", ({ params, query, body, headers }) => {
       try {
         // Get all users with their department relationships
-        const usersWithDepartments = mockUsers.map(user => {
+        const usersWithDepartments = mockUsers.map((user: any) => {
           try {
             return getUserWithDepartment(user.id);
           } catch {
@@ -59,17 +59,16 @@ export default (app: Elysia) =>
         
         // Fallback to first user (test@test.com) if profile not found
         if (!userProfile) {
-          userProfile = getUserProfileResponse("1bfdb891-58ee-499c-8115-34a964de8122");
+          userProfile = getUserProfileResponse(UUID_MAPPING['user-002']); // John Doe as fallback
         }
         
         if (!userProfile) {
           set.status = 404;
-          return {
-            message: "User profile not found"
-          };
+          return resNotFound;
         }
 
         return userProfile;
+
       } catch (error) {
         set.status = 500;
         return {
@@ -89,7 +88,7 @@ export default (app: Elysia) =>
           userProfile = getUserWithDepartment(id);
         } catch {
           // Fallback to basic user lookup
-          userProfile = mockUsers.find(user => user.id === id);
+          userProfile = mockUsers.find((user: any) => user.id === id);
         }
         
         if (!userProfile) {

@@ -1,5 +1,6 @@
 import { TbPurchaseOrder } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_PURCHASE_ORDER DATA ===============
 export let mockTbPurchaseOrder: TbPurchaseOrder[] = [
@@ -27,12 +28,12 @@ export let mockTbPurchaseOrder: TbPurchaseOrder[] = [
         {
           action: "created",
           timestamp: "2024-01-17T09:00:00.000Z",
-          user_id: "user-002"
+          user_id: UUID_MAPPING['user-002']
         },
         {
           action: "sent_to_vendor",
           timestamp: "2024-01-17T10:30:00.000Z",
-          user_id: "user-002",
+          user_id: UUID_MAPPING['user-002'],
           email: "orders@abcfood.co.th"
         },
         {
@@ -48,9 +49,9 @@ export let mockTbPurchaseOrder: TbPurchaseOrder[] = [
     dimension: {},
     doc_version: 2,
     created_at: "2024-01-17T09:00:00.000Z",
-    created_by_id: "user-002",
+    created_by_id: UUID_MAPPING['user-002'],
     updated_at: "2024-01-17T14:20:00.000Z",
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -78,12 +79,12 @@ export let mockTbPurchaseOrder: TbPurchaseOrder[] = [
         {
           action: "created",
           timestamp: "2024-01-18T08:00:00.000Z",
-          user_id: "user-002"
+          user_id: UUID_MAPPING['user-002']
         },
         {
           action: "sent_to_vendor",
           timestamp: "2024-01-18T09:15:00.000Z",
-          user_id: "user-002",
+          user_id: UUID_MAPPING['user-002'],
           email: "orders@siamdairy.com"
         },
         {
@@ -105,9 +106,9 @@ export let mockTbPurchaseOrder: TbPurchaseOrder[] = [
     dimension: {},
     doc_version: 3,
     created_at: "2024-01-18T08:00:00.000Z",
-    created_by_id: "user-002",
+    created_by_id: UUID_MAPPING['user-002'],
     updated_at: "2024-01-20T07:30:00.000Z",
-    updated_by_id: "user-008",
+    updated_by_id: UUID_MAPPING['user-008'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -135,12 +136,12 @@ export let mockTbPurchaseOrder: TbPurchaseOrder[] = [
         {
           action: "created",
           timestamp: "2024-01-19T09:30:00.000Z",
-          user_id: "user-002"
+          user_id: UUID_MAPPING['user-002']
         },
         {
           action: "sent_to_vendor",
           timestamp: "2024-01-19T10:00:00.000Z",
-          user_id: "user-002",
+          user_id: UUID_MAPPING['user-002'],
           email: "sales@bkkmeats.co.th"
         },
         {
@@ -151,7 +152,7 @@ export let mockTbPurchaseOrder: TbPurchaseOrder[] = [
         {
           action: "delivered",
           timestamp: "2024-01-23T06:00:00.000Z",
-          received_by: "user-008",
+          received_by: UUID_MAPPING['user-008'],
           quality_check: "passed"
         }
       ],
@@ -163,9 +164,9 @@ export let mockTbPurchaseOrder: TbPurchaseOrder[] = [
     dimension: {},
     doc_version: 3,
     created_at: "2024-01-19T09:30:00.000Z",
-    created_by_id: "user-002",
+    created_by_id: UUID_MAPPING['user-002'],
     updated_at: "2024-01-23T06:00:00.000Z",
-    updated_by_id: "user-008",
+    updated_by_id: UUID_MAPPING['user-008'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -193,12 +194,12 @@ export let mockTbPurchaseOrder: TbPurchaseOrder[] = [
         {
           action: "created",
           timestamp: getCurrentTimestamp(),
-          user_id: "user-002"
+          user_id: UUID_MAPPING['user-002']
         },
         {
           action: "sent_to_vendor",
           timestamp: getCurrentTimestamp(),
-          user_id: "user-002",
+          user_id: UUID_MAPPING['user-002'],
           email: "trade@globalspices.co.th"
         }
       ],
@@ -210,9 +211,9 @@ export let mockTbPurchaseOrder: TbPurchaseOrder[] = [
     dimension: {},
     doc_version: 1,
     created_at: getCurrentTimestamp(),
-    created_by_id: "user-002",
+    created_by_id: UUID_MAPPING['user-002'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "user-002",
+    updated_by_id: UUID_MAPPING['user-002'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -240,12 +241,12 @@ export let mockTbPurchaseOrder: TbPurchaseOrder[] = [
         {
           action: "created",
           timestamp: "2024-01-20T10:00:00.000Z",
-          user_id: "user-002"
+          user_id: UUID_MAPPING['user-002']
         },
         {
           action: "cancelled",
           timestamp: "2024-01-20T15:30:00.000Z",
-          user_id: "user-001",
+          user_id: UUID_MAPPING['user-001'],
           reason: "Vendor no longer active"
         }
       ],
@@ -256,9 +257,9 @@ export let mockTbPurchaseOrder: TbPurchaseOrder[] = [
     dimension: {},
     doc_version: 2,
     created_at: "2024-01-20T10:00:00.000Z",
-    created_by_id: "user-002",
+    created_by_id: UUID_MAPPING['user-002'],
     updated_at: "2024-01-20T15:30:00.000Z",
-    updated_by_id: "user-001",
+    updated_by_id: UUID_MAPPING['user-001'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -286,7 +287,7 @@ export let mockTbPurchaseOrder: TbPurchaseOrder[] = [
         {
           action: "created",
           timestamp: "2024-01-21T11:30:00.000Z",
-          user_id: "user-002"
+          user_id: UUID_MAPPING['user-002']
         }
       ],
       delivery_instructions: "Organic certification required",
@@ -297,9 +298,9 @@ export let mockTbPurchaseOrder: TbPurchaseOrder[] = [
     dimension: {},
     doc_version: 1,
     created_at: "2024-01-21T11:30:00.000Z",
-    created_by_id: "user-002",
+    created_by_id: UUID_MAPPING['user-002'],
     updated_at: "2024-01-21T11:30:00.000Z",
-    updated_by_id: "user-002",
+    updated_by_id: UUID_MAPPING['user-002'],
     deleted_at: null,
     deleted_by_id: null
   }

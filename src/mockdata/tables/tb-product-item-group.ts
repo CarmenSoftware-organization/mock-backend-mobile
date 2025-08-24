@@ -1,5 +1,6 @@
 import { TbProductItemGroup } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_PRODUCT_ITEM_GROUP DATA ===============
 export let mockTbProductItemGroup: TbProductItemGroup[] = [
@@ -22,9 +23,9 @@ export let mockTbProductItemGroup: TbProductItemGroup[] = [
     },
     dimension: {},
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -46,9 +47,9 @@ export let mockTbProductItemGroup: TbProductItemGroup[] = [
     },
     dimension: {},
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -71,9 +72,9 @@ export let mockTbProductItemGroup: TbProductItemGroup[] = [
     },
     dimension: {},
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -95,9 +96,9 @@ export let mockTbProductItemGroup: TbProductItemGroup[] = [
     },
     dimension: {},
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -119,9 +120,9 @@ export let mockTbProductItemGroup: TbProductItemGroup[] = [
     },
     dimension: {},
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -142,9 +143,9 @@ export let mockTbProductItemGroup: TbProductItemGroup[] = [
     },
     dimension: {},
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -166,9 +167,9 @@ export let mockTbProductItemGroup: TbProductItemGroup[] = [
     },
     dimension: {},
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -191,9 +192,9 @@ export let mockTbProductItemGroup: TbProductItemGroup[] = [
     },
     dimension: {},
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -216,9 +217,9 @@ export let mockTbProductItemGroup: TbProductItemGroup[] = [
     },
     dimension: {},
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   },
@@ -241,9 +242,9 @@ export let mockTbProductItemGroup: TbProductItemGroup[] = [
     },
     dimension: {},
     created_at: getCurrentTimestamp(),
-    created_by_id: "system",
+    created_by_id: UUID_MAPPING['system'],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: "system",
+    updated_by_id: UUID_MAPPING['system'],
     deleted_at: null,
     deleted_by_id: null
   }

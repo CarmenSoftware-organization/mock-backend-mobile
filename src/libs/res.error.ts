@@ -14,17 +14,13 @@ export const resBadRequest = t.Object({
   }),
 });
 
-export const resUnauthorized = t.Object({
-  message: t.String({
-    default: "Unauthorized",
-  }),
-});
+export const resUnauthorized = {
+    message: "Unauthorized",
+};
 
-export const resInternalServerError = t.Object({
-  message: t.String({
-    default: "Internal Server Error",
-  }),
-});
+export const resInternalServerError = {
+  message: "Internal Server Error",
+  };
 
 export const resNotFound = t.Object({
   message: t.String({

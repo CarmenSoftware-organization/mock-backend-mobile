@@ -1,66 +1,67 @@
 import { TbSubscriptionDetail } from './types';
 import { generateUuid, getCurrentTimestamp } from './utils';
+import { UUID_MAPPING } from './uuid-mapping';
 
 // =============== MOCK TB_SUBSCRIPTION_DETAIL DATA ===============
 export let mockTbSubscriptionDetail: TbSubscriptionDetail[] = [
   // Enterprise Plus (sub-001) - Carmen Software HQ
-  { id: "sd-001", subscription_id: "sub-001", business_unit_id: "bu-001", module_id: "mod-001", max_users: null, is_active: true, created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" }, // Inventory
-  { id: "sd-002", subscription_id: "sub-001", business_unit_id: "bu-001", module_id: "mod-002", max_users: null, is_active: true, created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" }, // Procurement
-  { id: "sd-003", subscription_id: "sub-001", business_unit_id: "bu-001", module_id: "mod-003", max_users: null, is_active: true, created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" }, // Accounting
-  { id: "sd-004", subscription_id: "sub-001", business_unit_id: "bu-001", module_id: "mod-004", max_users: null, is_active: true, created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" }, // HR
-  { id: "sd-005", subscription_id: "sub-001", business_unit_id: "bu-001", module_id: "mod-005", max_users: null, is_active: true, created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" }, // CRM
-  { id: "sd-006", subscription_id: "sub-001", business_unit_id: "bu-001", module_id: "mod-008", max_users: null, is_active: true, created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" }, // Reporting
-  { id: "sd-007", subscription_id: "sub-001", business_unit_id: "bu-001", module_id: "mod-009", max_users: null, is_active: true, created_at: "2023-01-01T00:00:00.000Z", created_by_id: "system" }, // Settings
+  { id: "sd-001", subscription_id: UUID_MAPPING['sub-001'], business_unit_id: UUID_MAPPING['bu-001'], module_id: UUID_MAPPING['mod-001'], max_users: null, is_active: true, created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] }, // Inventory
+  { id: "sd-002", subscription_id: UUID_MAPPING['sub-001'], business_unit_id: UUID_MAPPING['bu-001'], module_id: UUID_MAPPING['mod-002'], max_users: null, is_active: true, created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] }, // Procurement
+  { id: "sd-003", subscription_id: UUID_MAPPING['sub-001'], business_unit_id: UUID_MAPPING['bu-001'], module_id: UUID_MAPPING['mod-003'], max_users: null, is_active: true, created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] }, // Accounting
+  { id: "sd-004", subscription_id: UUID_MAPPING['sub-001'], business_unit_id: UUID_MAPPING['bu-001'], module_id: UUID_MAPPING['mod-004'], max_users: null, is_active: true, created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] }, // HR
+  { id: "sd-005", subscription_id: UUID_MAPPING['sub-001'], business_unit_id: UUID_MAPPING['bu-001'], module_id: UUID_MAPPING['mod-005'], max_users: null, is_active: true, created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] }, // CRM
+  { id: "sd-006", subscription_id: UUID_MAPPING['sub-001'], business_unit_id: UUID_MAPPING['bu-001'], module_id: UUID_MAPPING['mod-008'], max_users: null, is_active: true, created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] }, // Reporting
+  { id: "sd-007", subscription_id: UUID_MAPPING['sub-001'], business_unit_id: UUID_MAPPING['bu-001'], module_id: UUID_MAPPING['mod-009'], max_users: null, is_active: true, created_at: "2023-01-01T00:00:00.000Z", created_by_id: UUID_MAPPING['system'] }, // Settings
 
   // Hospitality Pro (sub-002) - Royal Grand Hotel
-  { id: "sd-008", subscription_id: "sub-002", business_unit_id: "bu-002", module_id: "mod-001", max_users: 50, is_active: true, created_at: "2023-02-01T00:00:00.000Z", created_by_id: "user-001" }, // Inventory
-  { id: "sd-009", subscription_id: "sub-002", business_unit_id: "bu-002", module_id: "mod-002", max_users: 20, is_active: true, created_at: "2023-02-01T00:00:00.000Z", created_by_id: "user-001" }, // Procurement
-  { id: "sd-010", subscription_id: "sub-002", business_unit_id: "bu-002", module_id: "mod-003", max_users: 10, is_active: true, created_at: "2023-02-01T00:00:00.000Z", created_by_id: "user-001" }, // Accounting
-  { id: "sd-011", subscription_id: "sub-002", business_unit_id: "bu-002", module_id: "mod-004", max_users: 30, is_active: true, created_at: "2023-02-01T00:00:00.000Z", created_by_id: "user-001" }, // HR
-  { id: "sd-012", subscription_id: "sub-002", business_unit_id: "bu-002", module_id: "mod-006", max_users: 100, is_active: true, created_at: "2023-02-01T00:00:00.000Z", created_by_id: "user-001" }, // PMS
-  { id: "sd-013", subscription_id: "sub-002", business_unit_id: "bu-002", module_id: "mod-007", max_users: 25, is_active: true, created_at: "2023-02-01T00:00:00.000Z", created_by_id: "user-001" }, // POS
-  { id: "sd-014", subscription_id: "sub-002", business_unit_id: "bu-002", module_id: "mod-008", max_users: 15, is_active: true, created_at: "2023-02-01T00:00:00.000Z", created_by_id: "user-001" }, // Reporting
-  { id: "sd-015", subscription_id: "sub-002", business_unit_id: "bu-002", module_id: "mod-009", max_users: 5, is_active: true, created_at: "2023-02-01T00:00:00.000Z", created_by_id: "user-001" }, // Settings
-  { id: "sd-016", subscription_id: "sub-002", business_unit_id: "bu-002", module_id: "mod-011", max_users: 20, is_active: true, created_at: "2023-02-01T00:00:00.000Z", created_by_id: "user-001" }, // Maintenance
+  { id: "sd-008", subscription_id: UUID_MAPPING['sub-002'], business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-001'], max_users: 50, is_active: true, created_at: "2023-02-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Inventory
+  { id: "sd-009", subscription_id: UUID_MAPPING['sub-002'], business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-002'], max_users: 20, is_active: true, created_at: "2023-02-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Procurement
+  { id: "sd-010", subscription_id: UUID_MAPPING['sub-002'], business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-003'], max_users: 10, is_active: true, created_at: "2023-02-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Accounting
+  { id: "sd-011", subscription_id: UUID_MAPPING['sub-002'], business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-004'], max_users: 30, is_active: true, created_at: "2023-02-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // HR
+  { id: "sd-012", subscription_id: UUID_MAPPING['sub-002'], business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-006'], max_users: 100, is_active: true, created_at: "2023-02-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // PMS
+  { id: "sd-013", subscription_id: UUID_MAPPING['sub-002'], business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-007'], max_users: 25, is_active: true, created_at: "2023-02-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // POS
+  { id: "sd-014", subscription_id: UUID_MAPPING['sub-002'], business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-008'], max_users: 15, is_active: true, created_at: "2023-02-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Reporting
+  { id: "sd-015", subscription_id: UUID_MAPPING['sub-002'], business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-009'], max_users: 5, is_active: true, created_at: "2023-02-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Settings
+  { id: "sd-016", subscription_id: UUID_MAPPING['sub-002'], business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-011'], max_users: 20, is_active: true, created_at: "2023-02-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Maintenance
 
   // Restaurant Business (sub-003) - Spice Garden Restaurant
-  { id: "sd-017", subscription_id: "sub-003", business_unit_id: "bu-003", module_id: "mod-001", max_users: 25, is_active: true, created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-001" }, // Inventory
-  { id: "sd-018", subscription_id: "sub-003", business_unit_id: "bu-003", module_id: "mod-002", max_users: 10, is_active: true, created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-001" }, // Procurement
-  { id: "sd-019", subscription_id: "sub-003", business_unit_id: "bu-003", module_id: "mod-003", max_users: 5, is_active: true, created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-001" }, // Accounting
-  { id: "sd-020", subscription_id: "sub-003", business_unit_id: "bu-003", module_id: "mod-004", max_users: 15, is_active: true, created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-001" }, // HR
-  { id: "sd-021", subscription_id: "sub-003", business_unit_id: "bu-003", module_id: "mod-007", max_users: 30, is_active: true, created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-001" }, // POS
-  { id: "sd-022", subscription_id: "sub-003", business_unit_id: "bu-003", module_id: "mod-008", max_users: 8, is_active: true, created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-001" }, // Reporting
-  { id: "sd-023", subscription_id: "sub-003", business_unit_id: "bu-003", module_id: "mod-009", max_users: 3, is_active: true, created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-001" }, // Settings
-  { id: "sd-024", subscription_id: "sub-003", business_unit_id: "bu-003", module_id: "mod-010", max_users: 20, is_active: true, created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-001" }, // Delivery
-  { id: "sd-025", subscription_id: "sub-003", business_unit_id: "bu-003", module_id: "mod-012", max_users: 10, is_active: true, created_at: "2023-03-01T00:00:00.000Z", created_by_id: "user-001" }, // Quality
+  { id: "sd-017", subscription_id: UUID_MAPPING['sub-003'], business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-001'], max_users: 25, is_active: true, created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Inventory
+  { id: "sd-018", subscription_id: UUID_MAPPING['sub-003'], business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-002'], max_users: 10, is_active: true, created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Procurement
+  { id: "sd-019", subscription_id: UUID_MAPPING['sub-003'], business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-003'], max_users: 5, is_active: true, created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Accounting
+  { id: "sd-020", subscription_id: UUID_MAPPING['sub-003'], business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-004'], max_users: 15, is_active: true, created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // HR
+  { id: "sd-021", subscription_id: UUID_MAPPING['sub-003'], business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-007'], max_users: 30, is_active: true, created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // POS
+  { id: "sd-022", subscription_id: UUID_MAPPING['sub-003'], business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-008'], max_users: 8, is_active: true, created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Reporting
+  { id: "sd-023", subscription_id: UUID_MAPPING['sub-003'], business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-009'], max_users: 3, is_active: true, created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Settings
+  { id: "sd-024", subscription_id: UUID_MAPPING['sub-003'], business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-010'], max_users: 20, is_active: true, created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Delivery
+  { id: "sd-025", subscription_id: UUID_MAPPING['sub-003'], business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-012'], max_users: 10, is_active: true, created_at: "2023-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Quality
 
   // Developer Unlimited (sub-004) - Development Test Unit
-  { id: "sd-026", subscription_id: "sub-004", business_unit_id: "bu-005", module_id: null, max_users: null, is_active: true, created_at: getCurrentTimestamp(), created_by_id: "system" }, // All modules unlimited
+  { id: "sd-026", subscription_id: UUID_MAPPING['sub-004'], business_unit_id: UUID_MAPPING['bu-005'], module_id: null, max_users: null, is_active: true, created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['system'] }, // All modules unlimited
 
   // Hotel Trial Extension (sub-005) - Royal Grand Hotel additional modules
-  { id: "sd-027", subscription_id: "sub-005", business_unit_id: "bu-002", module_id: "mod-014", max_users: 50, is_active: true, created_at: "2023-12-01T00:00:00.000Z", created_by_id: "user-004" }, // Communications
-  { id: "sd-028", subscription_id: "sub-005", business_unit_id: "bu-002", module_id: "mod-015", max_users: 100, is_active: true, created_at: "2023-12-01T00:00:00.000Z", created_by_id: "user-004" }, // Mobile
+  { id: "sd-027", subscription_id: UUID_MAPPING['sub-005'], business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-014'], max_users: 50, is_active: true, created_at: "2023-12-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-004'] }, // Communications
+  { id: "sd-028", subscription_id: UUID_MAPPING['sub-005'], business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-015'], max_users: 100, is_active: true, created_at: "2023-12-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-004'] }, // Mobile
 
   // Expired Basic Plan (sub-006) - Spice Garden Restaurant (inactive)
-  { id: "sd-029", subscription_id: "sub-006", business_unit_id: "bu-003", module_id: "mod-001", max_users: 10, is_active: false, created_at: "2022-03-01T00:00:00.000Z", created_by_id: "user-001" }, // Inventory (expired)
-  { id: "sd-030", subscription_id: "sub-006", business_unit_id: "bu-003", module_id: "mod-007", max_users: 15, is_active: false, created_at: "2022-03-01T00:00:00.000Z", created_by_id: "user-001" }, // POS (expired)
+  { id: "sd-029", subscription_id: UUID_MAPPING['sub-006'], business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-001'], max_users: 10, is_active: false, created_at: "2022-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Inventory (expired)
+  { id: "sd-030", subscription_id: UUID_MAPPING['sub-006'], business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-007'], max_users: 15, is_active: false, created_at: "2022-03-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // POS (expired)
 
   // Hospitality Pro Renewal (sub-008) - Royal Grand Hotel
-  { id: "sd-031", subscription_id: "sub-008", business_unit_id: "bu-002", module_id: "mod-001", max_users: 60, is_active: true, created_at: "2024-01-15T00:00:00.000Z", created_by_id: "user-004" }, // Inventory (upgraded)
-  { id: "sd-032", subscription_id: "sub-008", business_unit_id: "bu-002", module_id: "mod-002", max_users: 25, is_active: true, created_at: "2024-01-15T00:00:00.000Z", created_by_id: "user-004" }, // Procurement (upgraded)
-  { id: "sd-033", subscription_id: "sub-008", business_unit_id: "bu-002", module_id: "mod-006", max_users: 120, is_active: true, created_at: "2024-01-15T00:00:00.000Z", created_by_id: "user-004" }, // PMS (upgraded)
-  { id: "sd-034", subscription_id: "sub-008", business_unit_id: "bu-002", module_id: "mod-013", max_users: 10, is_active: true, created_at: "2024-01-15T00:00:00.000Z", created_by_id: "user-004" }, // Workflow (new)
+  { id: "sd-031", subscription_id: UUID_MAPPING['sub-008'], business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-001'], max_users: 60, is_active: true, created_at: "2024-01-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-004'] }, // Inventory (upgraded)
+  { id: "sd-032", subscription_id: UUID_MAPPING['sub-008'], business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-002'], max_users: 25, is_active: true, created_at: "2024-01-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-004'] }, // Procurement (upgraded)
+  { id: "sd-033", subscription_id: UUID_MAPPING['sub-008'], business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-006'], max_users: 120, is_active: true, created_at: "2024-01-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-004'] }, // PMS (upgraded)
+  { id: "sd-034", subscription_id: UUID_MAPPING['sub-008'], business_unit_id: UUID_MAPPING['bu-002'], module_id: UUID_MAPPING['mod-013'], max_users: 10, is_active: true, created_at: "2024-01-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-004'] }, // Workflow (new)
 
   // Add-on Modules (sub-009) - Carmen Software HQ
-  { id: "sd-035", subscription_id: "sub-009", business_unit_id: "bu-001", module_id: "mod-013", max_users: null, is_active: true, created_at: "2023-06-01T00:00:00.000Z", created_by_id: "user-001" }, // Workflow
-  { id: "sd-036", subscription_id: "sub-009", business_unit_id: "bu-001", module_id: "mod-014", max_users: null, is_active: true, created_at: "2023-06-01T00:00:00.000Z", created_by_id: "user-001" }, // Communications
-  { id: "sd-037", subscription_id: "sub-009", business_unit_id: "bu-001", module_id: "mod-015", max_users: null, is_active: true, created_at: "2023-06-01T00:00:00.000Z", created_by_id: "user-001" }, // Mobile
+  { id: "sd-035", subscription_id: UUID_MAPPING['sub-009'], business_unit_id: UUID_MAPPING['bu-001'], module_id: UUID_MAPPING['mod-013'], max_users: null, is_active: true, created_at: "2023-06-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Workflow
+  { id: "sd-036", subscription_id: UUID_MAPPING['sub-009'], business_unit_id: UUID_MAPPING['bu-001'], module_id: UUID_MAPPING['mod-014'], max_users: null, is_active: true, created_at: "2023-06-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Communications
+  { id: "sd-037", subscription_id: UUID_MAPPING['sub-009'], business_unit_id: UUID_MAPPING['bu-001'], module_id: UUID_MAPPING['mod-015'], max_users: null, is_active: true, created_at: "2023-06-01T00:00:00.000Z", created_by_id: UUID_MAPPING['user-001'] }, // Mobile
 
   // Holiday Season Special (sub-010) - Spice Garden Restaurant
-  { id: "sd-038", subscription_id: "sub-010", business_unit_id: "bu-003", module_id: "mod-001", max_users: 40, is_active: true, created_at: "2023-10-15T00:00:00.000Z", created_by_id: "user-006" }, // Enhanced Inventory
-  { id: "sd-039", subscription_id: "sub-010", business_unit_id: "bu-003", module_id: "mod-007", max_users: 50, is_active: true, created_at: "2023-10-15T00:00:00.000Z", created_by_id: "user-006" }, // Enhanced POS
-  { id: "sd-040", subscription_id: "sub-010", business_unit_id: "bu-003", module_id: "mod-010", max_users: 35, is_active: true, created_at: "2023-10-15T00:00:00.000Z", created_by_id: "user-006" }, // Enhanced Delivery
-  { id: "sd-041", subscription_id: "sub-010", business_unit_id: "bu-003", module_id: "mod-014", max_users: 25, is_active: true, created_at: "2023-10-15T00:00:00.000Z", created_by_id: "user-006" }  // Communications
+  { id: "sd-038", subscription_id: UUID_MAPPING['sub-010'], business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-001'], max_users: 40, is_active: true, created_at: "2023-10-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-006'] }, // Enhanced Inventory
+  { id: "sd-039", subscription_id: UUID_MAPPING['sub-010'], business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-007'], max_users: 50, is_active: true, created_at: "2023-10-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-006'] }, // Enhanced POS
+  { id: "sd-040", subscription_id: UUID_MAPPING['sub-010'], business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-010'], max_users: 35, is_active: true, created_at: "2023-10-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-006'] }, // Enhanced Delivery
+  { id: "sd-041", subscription_id: UUID_MAPPING['sub-010'], business_unit_id: UUID_MAPPING['bu-003'], module_id: UUID_MAPPING['mod-014'], max_users: 25, is_active: true, created_at: "2023-10-15T00:00:00.000Z", created_by_id: UUID_MAPPING['user-006'] }  // Communications
 ];
 
 // =============== TB_SUBSCRIPTION_DETAIL CRUD FUNCTIONS ===============
