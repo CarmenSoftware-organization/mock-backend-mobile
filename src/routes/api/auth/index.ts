@@ -9,55 +9,15 @@ import type { LoginDto, LoginError, LoginResponse } from "@/types/auth";
 export default (app: Elysia) =>
   app
     .model({
-      loginDto: t.Object(
-        {
-          email: t.String({
-            format: "email",
-            description: "User email address",
-            examples: ["admin@example.com", "manager@example.com"]
-          }),
-          password: t.String({
-            description: "User password",
-            examples: ["123456"]
-          }),
-        },
-        {
-          examples: [
-            {
-              email: "admin@example.com",
-              password: "123456"
-            },
-            {
-              email: "manager@example.com",
-              password: "123456"
-            },
-            {
-              email: "purchaser@example.com",
-              password: "123456"
-            },
-            {
-              email: "accountant@example.com",
-              password: "123456"
-            },
-            {
-              email: "warehouse@example.com",
-              password: "123456"
-            },
-            {
-              email: "sales@example.com",
-              password: "123456"
-            },
-            {
-              email: "hr@example.com",
-              password: "123456"
-            },
-            {
-              email: "system@example.com",
-              password: "123456"
-            }
-          ]
-        }
-      ),
+      loginDto: t.Object({
+        email: t.String({
+          format: "email",
+          description: "User email address"
+        }),
+        password: t.String({
+          description: "User password"
+        }),
+      }),
     })
 
     .use(
@@ -70,13 +30,14 @@ export default (app: Elysia) =>
     // Login
     .post(
       "/api/auth/login",
-      (ctx) => {
+      async (ctx) => {
         const body = ctx.body as LoginDto;
-        const fn = login(body, ctx.jwt);
+        const fn = await login(body, ctx.jwt);
         if ('message' in fn) {
-          return Response.json(fn, { status: 401 });
+          ctx.set.status = 401;
+          return fn;
         }
-        return Response.json(fn);
+        return fn;
       },
       {
         body: "loginDto",
@@ -98,69 +59,77 @@ export default (app: Elysia) =>
           description:
             "Authenticate user with email and password to receive access and refresh tokens",
           requestBody: {
+            description: "Login credentials",
             required: true,
             content: {
               "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    email: {
+                      type: "string",
+                      format: "email",
+                      description: "User email address"
+                    },
+                    password: {
+                      type: "string",
+                      description: "User password"
+                    }
+                  },
+                  required: ["email", "password"]
+                },
                 examples: {
-                  AdminLogin: {
+                  Admin: {
                     summary: "Admin Login",
-                    description: "Login as administrator",
                     value: {
                       email: "admin@example.com",
                       password: "123456"
                     }
                   },
-                  ManagerLogin: {
+                  Manager: {
                     summary: "Manager Login",
-                    description: "Login as manager",
                     value: {
                       email: "manager@example.com",
                       password: "123456"
                     }
                   },
-                  PurchaserLogin: {
+                  Purchaser: {
                     summary: "Purchaser Login",
-                    description: "Login as purchaser",
                     value: {
                       email: "purchaser@example.com",
                       password: "123456"
                     }
                   },
-                  AccountantLogin: {
+                  Accountant: {
                     summary: "Accountant Login",
-                    description: "Login as accountant",
                     value: {
                       email: "accountant@example.com",
                       password: "123456"
                     }
                   },
-                  WarehouseLogin: {
+                  Warehouse: {
                     summary: "Warehouse Login",
-                    description: "Login as warehouse staff",
                     value: {
                       email: "warehouse@example.com",
                       password: "123456"
                     }
                   },
-                  SalesLogin: {
+                  Sales: {
                     summary: "Sales Login",
-                    description: "Login as sales staff",
                     value: {
                       email: "sales@example.com",
                       password: "123456"
                     }
                   },
-                  HRLogin: {
+                  HR: {
                     summary: "HR Login",
-                    description: "Login as HR staff",
                     value: {
                       email: "hr@example.com",
                       password: "123456"
                     }
                   },
-                  SystemLogin: {
+                  System: {
                     summary: "System Login",
-                    description: "Login as system user",
                     value: {
                       email: "system@example.com",
                       password: "123456"
@@ -238,7 +207,8 @@ export default (app: Elysia) =>
       (ctx) => {
         const token = ctx.headers.authorization?.split(" ")[1];
         const fn = logout(token || "");
-        return Response.json(fn, { status: fn.status });
+        ctx.set.status = fn.status;
+        return { message: fn.message };
       },
       {
         detail: {
@@ -250,45 +220,52 @@ export default (app: Elysia) =>
     )
 
     // Register
-    .post("/api/auth/register", ({ params, query, body, headers }) => {
-      return Response.json(resNotImplemented, { status: 501 });
+    .post("/api/auth/register", (ctx) => {
+      ctx.set.status = 501;
+      return resNotImplemented;
     })
 
     // Invite User
-    .post("/api/auth/invite-user", ({ params, query, body, headers }) => {
-      return Response.json(resNotImplemented, { status: 501 });
+    .post("/api/auth/invite-user", (ctx) => {
+      ctx.set.status = 501;
+      return resNotImplemented;
     })
 
     // Register Confirm
-    .post("/api/auth/register-confirm", ({ params, query, body, headers }) => {
-      return Response.json(resNotImplemented, { status: 501 });
+    .post("/api/auth/register-confirm", (ctx) => {
+      ctx.set.status = 501;
+      return resNotImplemented;
     })
 
     // Refresh Token
-    .post("/api/auth/refresh-token", ({ params, query, body, headers }) => {
-      return Response.json(resNotImplemented, { status: 501 });
+    .post("/api/auth/refresh-token", (ctx) => {
+      ctx.set.status = 501;
+      return resNotImplemented;
     })
 
     // Forgot Password
-    .post("/api/auth/forgot-password", ({ params, query, body, headers }) => {
-      return Response.json(resNotImplemented, { status: 501 });
+    .post("/api/auth/forgot-password", (ctx) => {
+      ctx.set.status = 501;
+      return resNotImplemented;
     })
 
     // Mobile Auth
-    .post("/api/auth/mobile", ({ params, query, body, headers }) => {
-      return Response.json(resNotImplemented, { status: 501 });
+    .post("/api/auth/mobile", (ctx) => {
+      ctx.set.status = 501;
+      return resNotImplemented;
     })
 
     // Web Auth
-    .post("/api/auth/web", ({ params, query, body, headers }) => {
-      return Response.json(resNotImplemented, { status: 501 });
+    .post("/api/auth/web", (ctx) => {
+      ctx.set.status = 501;
+      return resNotImplemented;
     });
 
 // Login function implementation
-function login(
+async function login(
   body: LoginDto,
   jwt: any
-): LoginResponse | LoginError {
+): Promise<LoginResponse | LoginError> {
   const user = mockdata.mockUsers.find((user) => user.email === body.email);
 
   if (!user) {
@@ -303,10 +280,24 @@ function login(
     return { message: "JWT secret is not configured" };
   }
 
-  return {
-    access_token: "123",
-    refresh_token: "456",
-  };
+  try {
+    const accessToken = await jwt.sign({
+      id: user.id,
+      email: user.email
+    });
+
+    const refreshToken = await jwt.sign({
+      id: user.id,
+      type: "refresh"
+    });
+
+    return {
+      access_token: accessToken,
+      refresh_token: refreshToken,
+    };
+  } catch (error) {
+    return { message: "Failed to generate tokens" };
+  }
 }
 
 function logout(token: string) {

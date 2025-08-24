@@ -31,7 +31,7 @@ export interface UserProfile {
 export const mockUsers: User[] = [
   {
     id: '550e8400-e29b-41d4-a716-446655440001',
-    email: 'admin@example.com',
+    email: 'admin@test.com',
     password: '123456',
     first_name: 'สมชาย',
     middle_name: '',
@@ -42,7 +42,7 @@ export const mockUsers: User[] = [
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440002',
-    email: 'manager@example.com',
+    email: 'manager@test.com',
     password: '123456',
     first_name: 'สมหญิง',
     middle_name: 'รักดี',
@@ -53,7 +53,7 @@ export const mockUsers: User[] = [
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440003',
-    email: 'purchaser@example.com',
+    email: 'purchaser@test.com',
     password: '123456',
     first_name: 'วิชัย',
     middle_name: '',
@@ -64,7 +64,7 @@ export const mockUsers: User[] = [
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440004',
-    email: 'accountant@example.com',
+    email: 'accountant@test.com',
     password: '123456',
     first_name: 'สมศรี',
     middle_name: 'บัญชี',
@@ -75,7 +75,7 @@ export const mockUsers: User[] = [
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440005',
-    email: 'warehouse@example.com',
+    email: 'warehouse@test.com',
     password: '123456',
     first_name: 'สมศักดิ์',
     middle_name: '',
@@ -86,7 +86,7 @@ export const mockUsers: User[] = [
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440006',
-    email: 'sales@example.com',
+    email: 'sales@test.com',
     password: '123456',
     first_name: 'สมปอง',
     middle_name: 'ขายของ',
@@ -97,7 +97,7 @@ export const mockUsers: User[] = [
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440007',
-    email: 'hr@example.com',
+    email: 'hr@test.com',
     password: '123456',
     first_name: 'สมพร',
     middle_name: '',
@@ -108,7 +108,7 @@ export const mockUsers: User[] = [
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440008',
-    email: 'it@example.com',
+    email: 'it@test.com',
     password: '123456',
     first_name: 'สมชาย',
     middle_name: 'ไอที',
@@ -119,7 +119,7 @@ export const mockUsers: User[] = [
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440009',
-    email: 'marketing@example.com',
+    email: 'marketing@test.com',
     password: '123456',
     first_name: 'สมหญิง',
     middle_name: 'การตลาด',
@@ -130,7 +130,7 @@ export const mockUsers: User[] = [
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440010',
-    email: 'support@example.com',
+    email: 'support@test.com',
     password: '123456',
     first_name: 'สมศักดิ์',
     middle_name: '',
