@@ -3,6 +3,7 @@ import { Elysia, t } from "elysia";
 import { jwt } from "@elysiajs/jwt";
 import { resNotImplemented } from "@libs/res.error";
 import type { LoginDto, LoginError, LoginResponse } from "@/types/auth";
+import { APP_ID } from "@mockdata/index";
 
 // Types moved to src/types/auth.ts
 
@@ -33,9 +34,15 @@ export default (app: Elysia) =>
       async (ctx) => {
         const headers = ctx.headers;
         if (!headers["x-app-id"]) {
-          ctx.set.status = 401;
-          return { message: "Invalid app id" };
+          ctx.set.status = 400;
+          return { message: "Invalid header 'x-app-id'" };
         }
+
+        if (headers["x-app-id"] !== APP_ID) {
+          ctx.set.status = 400;
+          return { message: "Invalid header 'x-app-id' should be '" + APP_ID + "'" };
+        }
+
         const body = ctx.body as LoginDto;
         const fn = await login(body, ctx.jwt);
         if ('message' in fn) {
@@ -51,6 +58,9 @@ export default (app: Elysia) =>
             access_token: t.String(),
             refresh_token: t.String(),
           }),
+          400: t.Object({
+            message: t.String({ default: "Invalid header 'x-app-id'" }),
+          }),
           401: t.Object({
             message: t.String({ default: "Invalid login credentials" }),
           }),
@@ -62,7 +72,20 @@ export default (app: Elysia) =>
           tags: ["auth"],
           summary: "Login",
           description:
-            "Authenticate user with email and password to receive access and refresh tokens",
+            "Authenticate user with email and password to receive access and refresh tokens. Requires 'x-app-id' header with value '00000000-0000-0000-0000-000000000000'",
+          parameters: [
+            {
+              name: "x-app-id",
+              in: "header",
+              required: true,
+              description: "Application ID for authentication",
+              schema: {
+                type: "string",
+                pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                example: "00000000-0000-0000-0000-000000000000"
+              }
+            }
+          ],
           requestBody: {
             description: "Login credentials",
             required: true,
@@ -165,6 +188,33 @@ export default (app: Elysia) =>
                   example: {
                     access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
                     refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  }
+                }
+              }
+            },
+            400: {
+              description: "Bad request - Missing or invalid headers",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      message: { type: "string" }
+                    }
+                  },
+                  examples: {
+                    MissingAppId: {
+                      summary: "Missing x-app-id header",
+                      value: {
+                        message: "Invalid header 'x-app-id'"
+                      }
+                    },
+                    InvalidAppId: {
+                      summary: "Invalid x-app-id value",
+                      value: {
+                        message: "Invalid header 'x-app-id' should be '00000000-0000-0000-0000-000000000000'"
+                      }
+                    }
                   }
                 }
               }
@@ -293,6 +343,7 @@ async function login(
 
     const refreshToken = await jwt.sign({
       id: user.id,
+      email: user.email,
       type: "refresh"
     });
 

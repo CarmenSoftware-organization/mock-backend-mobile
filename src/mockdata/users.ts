@@ -1,312 +1,171 @@
-// Types based on OpenAPI specification
-export interface User {
-  id: string;
-  email: string;
-  password: string;
-  first_name: string;
-  middle_name?: string;
-  last_name: string;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
-}
+// =============== MOCKDATA USERS - MAIN ENTRY POINT ===============
 
-export interface UserBusinessUnit {
-  id: string;
-  user_id: string;
-  business_unit_id: string;
-  role: 'admin' | 'user';
-  is_default: boolean;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
-}
+// Import all types from separated files
+export * from './legacy-types';
+export * from './tables/types';
 
-export interface UserProfile {
-  user: User;
-  business_units: UserBusinessUnit[];
-}
+// Import mock tables and CRUD functions
+export * from './tables';
 
-// Mock Users Data
+// Import types for backward compatibility
+import type { 
+  User, 
+  UserBusinessUnit, 
+  UserProfile,
+  UserProfileResponse 
+} from './legacy-types';
+
+import { 
+  tbUserProfileCrud, 
+  tbDepartmentCrud,
+  tbDepartmentUserCrud,
+  tbApplicationConfigCrud,
+  tbApplicationUserConfigCrud,
+  tbLocationCrud,
+  tbUserLocationCrud,
+  getUserWithDepartment,
+  getDepartmentWithUsers,
+  mockTbUserProfile,
+  mockTbDepartment,
+  mockTbDepartmentUser,
+  mockTbApplicationConfig,
+  mockTbApplicationUserConfig,
+  mockTbLocation,
+  mockTbUserLocation
+} from './tables';
+
+// =============== LEGACY MOCK DATA ===============
+
+// Legacy Mock Users Data for backward compatibility
 export const mockUsers: User[] = [
   {
-    id: '550e8400-e29b-41d4-a716-446655440001',
-    email: 'admin@test.com',
+    id: '1bfdb891-58ee-499c-8115-34a964de8122',
+    email: 'staff@test.com',
     password: '123456',
-    first_name: 'สมชาย',
+    first_name: 'staff',
     middle_name: '',
-    last_name: 'ใจดี',
+    last_name: 'staff',
     is_active: true,
     created_at: '2024-01-15T08:00:00Z',
     updated_at: '2024-01-15T08:00:00Z'
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440002',
-    email: 'manager@test.com',
+    email: 'department-manager@test.com',
     password: '123456',
-    first_name: 'สมหญิง',
-    middle_name: 'รักดี',
-    last_name: 'สุขใจ',
+    first_name: 'department',
+    middle_name: '',
+    last_name: 'manager',
     is_active: true,
     created_at: '2024-01-16T09:00:00Z',
     updated_at: '2024-01-16T09:00:00Z'
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440003',
-    email: 'purchaser@test.com',
+    email: 'financial-manager@test.com',
     password: '123456',
-    first_name: 'วิชัย',
+    first_name: 'financial',
     middle_name: '',
-    last_name: 'ซื้อของ',
+    last_name: 'manager',
     is_active: true,
     created_at: '2024-01-17T10:00:00Z',
     updated_at: '2024-01-17T10:00:00Z'
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440004',
-    email: 'accountant@test.com',
+    email: 'purchasing-staff@test.com',
     password: '123456',
-    first_name: 'สมศรี',
-    middle_name: 'บัญชี',
-    last_name: 'เงินทอง',
+    first_name: 'purchasing',
+    middle_name: '',
+    last_name: 'staff',
     is_active: true,
     created_at: '2024-01-18T11:00:00Z',
     updated_at: '2024-01-18T11:00:00Z'
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440005',
-    email: 'warehouse@test.com',
+    email: 'counter-staff@test.com',
     password: '123456',
-    first_name: 'สมศักดิ์',
+    first_name: 'counter',
     middle_name: '',
-    last_name: 'คลังสินค้า',
+    last_name: 'staff',
     is_active: true,
     created_at: '2024-01-19T12:00:00Z',
     updated_at: '2024-01-19T12:00:00Z'
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440006',
-    email: 'sales@test.com',
+    email: 'chef@test.com',
     password: '123456',
-    first_name: 'สมปอง',
-    middle_name: 'ขายของ',
-    last_name: 'รุ่งเรือง',
+    first_name: 'chef',
+    middle_name: '',
+    last_name: 'staff',
     is_active: true,
     created_at: '2024-01-20T13:00:00Z',
     updated_at: '2024-01-20T13:00:00Z'
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-446655440007',
-    email: 'hr@test.com',
-    password: '123456',
-    first_name: 'สมพร',
-    middle_name: '',
-    last_name: 'ทรัพยากร',
-    is_active: true,
-    created_at: '2024-01-21T14:00:00Z',
-    updated_at: '2024-01-21T14:00:00Z'
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-446655440008',
-    email: 'it@test.com',
-    password: '123456',
-    first_name: 'สมชาย',
-    middle_name: 'ไอที',
-    last_name: 'เทคโนโลยี',
-    is_active: true,
-    created_at: '2024-01-22T15:00:00Z',
-    updated_at: '2024-01-22T15:00:00Z'
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-446655440009',
-    email: 'marketing@test.com',
-    password: '123456',
-    first_name: 'สมหญิง',
-    middle_name: 'การตลาด',
-    last_name: 'โฆษณา',
-    is_active: true,
-    created_at: '2024-01-23T16:00:00Z',
-    updated_at: '2024-01-23T16:00:00Z'
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-446655440010',
-    email: 'support@test.com',
-    password: '123456',
-    first_name: 'สมศักดิ์',
-    middle_name: '',
-    last_name: 'ลูกค้า',
-    is_active: true,
-    created_at: '2024-01-24T17:00:00Z',
-    updated_at: '2024-01-24T17:00:00Z'
   }
 ];
 
-// Mock Business Unit IDs (using fixed UUIDs)
-export const mockBusinessUnitIds = {
-  headquarters: '550e8400-e29b-41d4-a716-446655440101',
-  bangkok: '550e8400-e29b-41d4-a716-446655440102',
-  chiangmai: '550e8400-e29b-41d4-a716-446655440103',
-  phuket: '550e8400-e29b-41d4-a716-446655440104'
-};
+// =============== USER PROFILE RESPONSE FUNCTION ===============
 
-// Mock User Business Units Data
-export const mockUserBusinessUnits: UserBusinessUnit[] = [
-  // Admin user - HQ (default)
-  {
-    id: '550e8400-e29b-41d4-a716-446655440201',
-    user_id: mockUsers[0].id,
-    business_unit_id: mockBusinessUnitIds.headquarters,
-    role: 'admin',
-    is_default: true,
-    is_active: true,
-    created_at: '2024-01-15T08:00:00Z',
-    updated_at: '2024-01-15T08:00:00Z'
-  },
-  // Manager user - HQ (default)
-  {
-    id: '550e8400-e29b-41d4-a716-446655440202',
-    user_id: mockUsers[1].id,
-    business_unit_id: mockBusinessUnitIds.headquarters,
-    role: 'admin',
-    is_default: true,
-    is_active: true,
-    created_at: '2024-01-16T09:00:00Z',
-    updated_at: '2024-01-16T09:00:00Z'
-  },
-  // Purchaser user - HQ (default)
-  {
-    id: '550e8400-e29b-41d4-a716-446655440203',
-    user_id: mockUsers[2].id,
-    business_unit_id: mockBusinessUnitIds.headquarters,
-    role: 'user',
-    is_default: true,
-    is_active: true,
-    created_at: '2024-01-17T10:00:00Z',
-    updated_at: '2024-01-17T10:00:00Z'
-  },
-  // Accountant user - HQ (default)
-  {
-    id: '550e8400-e29b-41d4-a716-446655440204',
-    user_id: mockUsers[3].id,
-    business_unit_id: mockBusinessUnitIds.headquarters,
-    role: 'user',
-    is_default: true,
-    is_active: true,
-    created_at: '2024-01-18T11:00:00Z',
-    updated_at: '2024-01-18T11:00:00Z'
-  },
-  // Warehouse user - HQ (default)
-  {
-    id: '550e8400-e29b-41d4-a716-446655440205',
-    user_id: mockUsers[4].id,
-    business_unit_id: mockBusinessUnitIds.headquarters,
-    role: 'user',
-    is_default: true,
-    is_active: true,
-    created_at: '2024-01-19T12:00:00Z',
-    updated_at: '2024-01-19T12:00:00Z'
-  },
-  // Sales user - Bangkok (default)
-  {
-    id: '550e8400-e29b-41d4-a716-446655440206',
-    user_id: mockUsers[5].id,
-    business_unit_id: mockBusinessUnitIds.bangkok,
-    role: 'user',
-    is_default: true,
-    is_active: true,
-    created_at: '2024-01-20T13:00:00Z',
-    updated_at: '2024-01-20T13:00:00Z'
-  },
-  // HR user - HQ (default)
-  {
-    id: '550e8400-e29b-41d4-a716-446655440207',
-    user_id: mockUsers[6].id,
-    business_unit_id: mockBusinessUnitIds.headquarters,
-    role: 'user',
-    is_default: true,
-    is_active: true,
-    created_at: '2024-01-21T14:00:00Z',
-    updated_at: '2024-01-21T14:00:00Z'
-  },
-  // IT user - HQ (default)
-  {
-    id: '550e8400-e29b-41d4-a716-446655440208',
-    user_id: mockUsers[7].id,
-    business_unit_id: mockBusinessUnitIds.headquarters,
-    role: 'user',
-    is_default: true,
-    is_active: true,
-    created_at: '2024-01-22T15:00:00Z',
-    updated_at: '2024-01-22T15:00:00Z'
-  },
-  // Marketing user - Bangkok (default)
-  {
-    id: '550e8400-e29b-41d4-a716-446655440209',
-    user_id: mockUsers[8].id,
-    business_unit_id: mockBusinessUnitIds.bangkok,
-    role: 'user',
-    is_default: true,
-    is_active: true,
-    created_at: '2024-01-23T16:00:00Z',
-    updated_at: '2024-01-23T16:00:00Z'
-  },
-  // Support user - HQ (default)
-  {
-    id: '550e8400-e29b-41d4-a716-446655440210',
-    user_id: mockUsers[9].id,
-    business_unit_id: mockBusinessUnitIds.headquarters,
-    role: 'user',
-    is_default: true,
-    is_active: true,
-    created_at: '2024-01-24T17:00:00Z',
-    updated_at: '2024-01-24T17:00:00Z'
-  }
-];
+// Function to get user profile in new format
+export const getUserProfileResponse = (userId: string): UserProfileResponse | null => {
+  const userProfile = tbUserProfileCrud.findByUserId(userId);
+  if (!userProfile) return null;
 
-// Helper function to get user profile by ID
-export const getUserProfile = (userId: string): UserProfile | null => {
-  const user = mockUsers.find(u => u.id === userId);
-  if (!user) return null;
+  // Get user's department info
+  const userWithDept = getUserWithDepartment(userId);
+  const defaultDepartment = userWithDept?.departments?.[0];
 
-  const businessUnits = mockUserBusinessUnits.filter(ubu => ubu.user_id === userId);
-  
+  // Get business units from application config
+  const businessUnits = tbApplicationConfigCrud.getBusinessUnits();
+
   return {
-    user,
-    business_units: businessUnits
+    id: userId,
+    email: mockUsers.find(u => u.id === userId)?.email || '',
+    user_info: {
+      firstname: userProfile.firstname,
+      middlename: userProfile.middlename || "",
+      lastname: userProfile.lastname
+    },
+    business_unit: businessUnits.map(bu => ({
+      ...bu,
+      department: {
+        is_hod: defaultDepartment?.is_hod || false,
+        id: defaultDepartment?.id || '',
+        name: defaultDepartment?.name || ''
+      }
+    }))
   };
 };
 
-// Helper function to get all users with their business units
-export const getAllUsersWithBusinessUnits = (): UserProfile[] => {
-  return mockUsers.map(user => {
-    const businessUnits = mockUserBusinessUnits.filter(ubu => ubu.user_id === user.id);
-    return {
-      user,
-      business_units: businessUnits
-    };
-  });
-};
+// =============== LEGACY EXPORTS ===============
 
-// Helper function to get users by business unit
-export const getUsersByBusinessUnit = (businessUnitId: string): UserProfile[] => {
-  const userBusinessUnits = mockUserBusinessUnits.filter(ubu => ubu.business_unit_id === businessUnitId);
-  
-  return userBusinessUnits.map(ubu => {
-    const user = mockUsers.find(u => u.id === ubu.user_id);
-    if (!user) return null;
-    
-    return {
-      user,
-      business_units: [ubu]
-    };
-  }).filter(Boolean) as UserProfile[];
-};
-
-// Export default for easy import
+// Export default for easy import - Updated to use new structure
 export default {
+  // Legacy exports for backward compatibility (basic data only)
   users: mockUsers,
-  userBusinessUnits: mockUserBusinessUnits,
-  getUserProfile,
-  getAllUsersWithBusinessUnits,
-  getUsersByBusinessUnit
+  getUserProfileResponse,
+  
+  // New CRUD functions - Primary way to interact with data
+  tbUserProfileCrud,
+  tbDepartmentCrud,
+  tbDepartmentUserCrud,
+  tbApplicationConfigCrud,
+  tbApplicationUserConfigCrud,
+  tbLocationCrud,
+  tbUserLocationCrud,
+  
+  // Relationship functions
+  getUserWithDepartment,
+  getDepartmentWithUsers,
+  
+  // Mock tables (for direct access if needed)
+  mockTbUserProfile,
+  mockTbDepartment,
+  mockTbDepartmentUser,
+  mockTbApplicationConfig,
+  mockTbApplicationUserConfig,
+  mockTbLocation,
+  mockTbUserLocation
 };
