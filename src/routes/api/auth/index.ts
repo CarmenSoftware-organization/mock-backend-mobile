@@ -286,10 +286,10 @@ export default (app: Elysia) =>
     })
 
     // Mobile Auth
-    .post("/api/auth/mobile", (ctx) => {
-      ctx.set.status = 501;
-      return resNotImplemented;
-    })
+    // .post("/api/auth/mobile", (ctx) => {
+    //   ctx.set.status = 501;
+    //   return resNotImplemented;
+    // })
 
     // Web Auth
     .post("/api/auth/web", (ctx) => {

@@ -58,7 +58,91 @@ export { UUID_MAPPING, getUuidFromOldId, convertIdsToUuid } from './uuid-mapping
 
 // =============== HELPER FUNCTIONS ===============
 
-// Get user profile response with business unit information
+// Get new user profile response pattern
+export const getNewUserProfileResponse = (userId: string) => {
+  try {
+    const user = tbUserCrud.findById(userId);
+    if (!user || !user.is_active) return null;
+
+    const userProfile = tbUserProfileCrud.findByUserId(userId);
+    if (!userProfile) return null;
+
+    const userBusinessUnits = tbUserBusinessUnitCrud.findByUserId(userId);
+    
+    const businessUnits = userBusinessUnits.map(ubu => {
+      if (!ubu.business_unit_id) return null;
+      const businessUnit = tbBusinessUnitCrud.findById(ubu.business_unit_id);
+      if (!businessUnit) return null;
+
+      // Use default department info since TbUserBusinessUnit doesn't have department_id
+      return {
+        id: businessUnit.id,
+        name: businessUnit.code || businessUnit.name,
+        is_default: ubu.is_default || false,
+        department: {
+          is_hod: false, // Default to false since no field available
+          id: "9722b9f0-7646-4f06-a0f5-2f7ffccdedef",
+          name: "Front Office"
+        },
+        config: {
+          hotel: {
+            name: "The Yama Phuket Hotel",
+            email: "fc@theyamaphuket.com",
+            address: "5 Patak Soi 2,  Karon, Muang Phuket, Phuket, 83100",
+            country: "THAILAND",
+            zip_code: "83100",
+            telephone: "076-303-456"
+          },
+          company: {
+            name: "Puranakarn Co., Ltd   (Head Office)",
+            email: "fc@theyamaphuket.com",
+            address: "5 Patak Soi 2,  Karon, Muang Phuket, Phuket, 83100",
+            country: "THAILAND",
+            zip_code: "83100",
+            telephone: "076-303-456"
+          },
+          tax_id: "0835553001610",
+          branch_no: "00000",
+          calculation_method: businessUnit.name?.includes("2") ? "FIFO" : "AVG",
+          currency_base: "THB",
+          date_format: businessUnit.name?.includes("3") ? "dd/MM/yyyy" : "dd/mm/yyyy",
+          long_time_format: "HH:mm:ss",
+          short_time_format: "HH:mm",
+          timezone: "Asia/Bangkok",
+          perpage: "20",
+          amount: {
+            locales: "th-TH",
+            minimumIntegerDigits: 2
+          },
+          quantity: {
+            locales: "th-TH",
+            minimumIntegerDigits: 2
+          },
+          recipe: {
+            locales: "th-TH",
+            minimumIntegerDigits: 3
+          }
+        }
+      };
+    }).filter(Boolean);
+
+    return {
+      id: user.id,
+      email: user.email,
+      user_info: {
+        firstname: userProfile.firstname || "test",
+        middlename: userProfile.middlename || "",
+        lastname: userProfile.lastname || "test"
+      },
+      business_unit: businessUnits
+    };
+  } catch (error) {
+    console.error('Error getting new user profile response:', error);
+    return null;
+  }
+};
+
+// Get user profile response with business unit information (legacy)
 export const getUserProfileResponse = (userId: string) => {
   try {
     const user = tbUserCrud.findById(userId);
