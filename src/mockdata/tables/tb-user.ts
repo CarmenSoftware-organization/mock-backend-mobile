@@ -1,224 +1,232 @@
-import { TbUser } from './types';
-import { generateUuid, getCurrentTimestamp } from './utils';
-import { UUID_MAPPING } from './uuid-mapping';
+import { TbUser } from "./types";
+import { generateUuid, getCurrentTimestamp } from "./utils";
+import { UUID_MAPPING } from "./uuid-mapping";
 
 // =============== MOCK TB_USER DATA ===============
 export let mockTbUser: TbUser[] = [
   {
-    id: UUID_MAPPING['user-001'],
+    id: UUID_MAPPING["user-001"],
     username: "staff@test.com",
     email: "staff@test.com",
     platform_role: "user",
     is_active: true,
     is_consent: true,
-    permissions: [ "pr.view","pr.view.department",
+    permissions: [
+      "pr.view",
+      "pr.view.department",
       "sr.view",
       "grn.view",
       "pc.view",
-      "spc.view"],
+      "spc.view",
+    ],
     consent_at: "2023-01-01T00:00:00.000Z",
     created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: UUID_MAPPING['system'],
+    created_by_id: UUID_MAPPING["system"],
     updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING['system']
+    updated_by_id: UUID_MAPPING["system"],
   },
   {
-    id: UUID_MAPPING['user-002'],
+    id: UUID_MAPPING["user-002"],
     username: "department-manager@test.com",
     email: "department-manager@test.com",
     platform_role: "user",
     is_active: true,
     is_consent: true,
-    permissions: [ "pr.view","pr.view.department",
+    permissions: [
+      "pr.view",
+      "pr.view.department",
       "sr.view",
       "grn.view",
       "pc.view",
-      "spc.view"],
+      "spc.view",
+    ],
     consent_at: "2023-01-15T00:00:00.000Z",
     created_at: "2023-01-15T00:00:00.000Z",
-    created_by_id: UUID_MAPPING['user-001'],
+    created_by_id: UUID_MAPPING["user-001"],
     updated_at: "2023-01-15T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING['user-001']
+    updated_by_id: UUID_MAPPING["user-001"],
   },
   {
-    id: UUID_MAPPING['user-003'],
+    id: UUID_MAPPING["user-003"],
     username: "financial-manager@test.com",
     email: "financial-manager@test.com",
     platform_role: "user",
     is_active: true,
     is_consent: true,
-    permissions: [ "pr.view","pr.view.all",
+    permissions: [
+      "pr.view",
+      "pr.view.all",
       "sr.view",
       "grn.view",
       "pc.view",
-      "spc.view"],
+      "spc.view",
+    ],
     consent_at: "2023-02-01T00:00:00.000Z",
     created_at: "2023-02-01T00:00:00.000Z",
-    created_by_id: UUID_MAPPING['user-001'],
+    created_by_id: UUID_MAPPING["user-001"],
     updated_at: "2023-02-01T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING['user-001']
+    updated_by_id: UUID_MAPPING["user-001"],
   },
   {
-    id: UUID_MAPPING['user-004'],
+    id: UUID_MAPPING["user-004"],
     username: "purchasing-staff@test.com",
     email: "purchasing-staff@test.com",
     platform_role: "user",
     is_active: true,
     is_consent: true,
-    permissions: [ "pr.view","pr.view.all",
+    permissions: [
+      "pr.view",
+      "pr.view.all",
       "sr.view",
       "grn.view",
       "pc.view",
-      "spc.view"],
+      "spc.view",
+    ],
     consent_at: "2023-02-15T00:00:00.000Z",
     created_at: "2023-02-15T00:00:00.000Z",
-    created_by_id: UUID_MAPPING['user-001'],
+    created_by_id: UUID_MAPPING["user-001"],
     updated_at: "2023-02-15T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING['user-001']
+    updated_by_id: UUID_MAPPING["user-001"],
   },
   {
-    id: UUID_MAPPING['user-005'],
+    id: UUID_MAPPING["user-005"],
     username: "counter-staff@test.com",
     email: "counter-staff@test.com",
     platform_role: "user",
     is_active: true,
     is_consent: true,
-    permissions: [
-      "sr.view",
-      "grn.view",
-      "pc.view",
-      "spc.view"],
+    permissions: ["sr.view", "grn.view", "pc.view", "spc.view"],
     consent_at: "2023-02-20T00:00:00.000Z",
     created_at: "2023-02-20T00:00:00.000Z",
-    created_by_id: UUID_MAPPING['user-001'],
+    created_by_id: UUID_MAPPING["user-001"],
     updated_at: "2023-02-20T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING['user-001']
+    updated_by_id: UUID_MAPPING["user-001"],
   },
   {
-    id: UUID_MAPPING['user-006'],
+    id: UUID_MAPPING["user-006"],
     username: "chef@test.com",
     email: "chef@test.com",
     platform_role: "user",
     is_active: true,
     is_consent: true,
-    permissions: [ "pr.view","pr.view.department",
+    permissions: [
+      "pr.view",
+      "pr.view.department",
       "sr.view",
       "grn.view",
       "pc.view",
-      "spc.view"],
+      "spc.view",
+    ],
     consent_at: "2023-03-01T00:00:00.000Z",
     created_at: "2023-03-01T00:00:00.000Z",
-    created_by_id: UUID_MAPPING['user-001'],
+    created_by_id: UUID_MAPPING["user-001"],
     updated_at: "2023-03-01T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING['user-001']
+    updated_by_id: UUID_MAPPING["user-001"],
   },
   {
-    id: UUID_MAPPING['user-007'],
+    id: UUID_MAPPING["user-007"],
     username: "admin@test.com",
     email: "admin@test.com",
     platform_role: "platform_admin",
     is_active: true,
     is_consent: true,
-    permissions: [ "pr.view","pr.view.all",
+    permissions: [
+      "pr.view",
+      "pr.view.all",
       "sr.view",
       "grn.view",
       "pc.view",
-      "spc.view"],
+      "spc.view",
+    ],
     consent_at: "2023-03-05T00:00:00.000Z",
     created_at: "2023-03-05T00:00:00.000Z",
-    created_by_id: UUID_MAPPING['user-001'],
+    created_by_id: UUID_MAPPING["user-001"],
     updated_at: "2023-03-05T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING['user-001']
+    updated_by_id: UUID_MAPPING["user-001"],
   },
   {
-    id: UUID_MAPPING['user-008'],
+    id: UUID_MAPPING["user-008"],
     username: "test@test.com",
     email: "test@test.com",
     platform_role: "user",
     is_active: true,
     is_consent: true,
-    permissions: [ "pr.view","pr.view.all",
+    permissions: [
+      "pr.view",
+      "pr.view.all",
       "sr.view",
       "grn.view",
       "pc.view",
-      "spc.view"],
+      "spc.view",
+    ],
     consent_at: "2023-04-01T00:00:00.000Z",
     created_at: "2023-04-01T00:00:00.000Z",
-    created_by_id: UUID_MAPPING['user-001'],
+    created_by_id: UUID_MAPPING["user-001"],
     updated_at: "2023-04-01T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING['user-001']
+    updated_by_id: UUID_MAPPING["user-001"],
   },
   {
-    id: UUID_MAPPING['user-009'],
+    id: UUID_MAPPING["user-009"],
     username: "staff2@test.com",
     email: "staff2@test.com",
     platform_role: "support_staff",
     is_active: true,
     is_consent: true,
-    permissions: [ "pr.view",
+    permissions: [
+      "pr.view",
+      "pr.view.department",
       "sr.view",
       "grn.view",
       "pc.view",
-      "spc.view"],
+      "spc.view",
+    ],
     consent_at: "2023-04-15T00:00:00.000Z",
     created_at: "2023-04-15T00:00:00.000Z",
-    created_by_id: UUID_MAPPING['user-001'],
+    created_by_id: UUID_MAPPING["user-001"],
     updated_at: "2023-04-15T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING['user-001']
+    updated_by_id: UUID_MAPPING["user-001"],
   },
   {
-    id: UUID_MAPPING['user-010'],
+    id: UUID_MAPPING["user-010"],
     username: "developer",
     email: "dev@carmensoftware.com",
     platform_role: "integration_developer",
     is_active: true,
     is_consent: true,
-    permissions: [ "pr.view",
-      "sr.view",
-      "grn.view",
-      "pc.view",
-      "spc.view"],
+    permissions: ["pr.view", "sr.view", "grn.view", "pc.view", "spc.view"],
     consent_at: getCurrentTimestamp(),
     created_at: getCurrentTimestamp(),
-    created_by_id: UUID_MAPPING['system'],
+    created_by_id: UUID_MAPPING["system"],
     updated_at: getCurrentTimestamp(),
-    updated_by_id: UUID_MAPPING['system']
+    updated_by_id: UUID_MAPPING["system"],
   },
   {
-    id: UUID_MAPPING['user-011'],
+    id: UUID_MAPPING["user-011"],
     username: "support.manager",
     email: "support@carmensoftware.com",
     platform_role: "support_manager",
     is_active: true,
     is_consent: true,
-    permissions: [ "pr.view",
-      "sr.view",
-      "grn.view",
-      "pc.view",
-      "spc.view"],
+    permissions: ["pr.view", "sr.view", "grn.view", "pc.view", "spc.view"],
     consent_at: "2023-05-01T00:00:00.000Z",
     created_at: "2023-05-01T00:00:00.000Z",
-    created_by_id: UUID_MAPPING['user-001'],
+    created_by_id: UUID_MAPPING["user-001"],
     updated_at: "2023-05-01T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING['user-001']
+    updated_by_id: UUID_MAPPING["user-001"],
   },
   {
-    id: UUID_MAPPING['user-012'],
+    id: UUID_MAPPING["user-012"],
     username: "security.officer",
     email: "security@carmensoftware.com",
     platform_role: "security_officer",
     is_active: true,
     is_consent: true,
-    permissions: [ "pr.view",
-      "sr.view",
-      "grn.view",
-      "pc.view",
-      "spc.view"],
+    permissions: ["pr.view", "sr.view", "grn.view", "pc.view", "spc.view"],
     consent_at: "2023-05-15T00:00:00.000Z",
     created_at: "2023-05-15T00:00:00.000Z",
-    created_by_id: UUID_MAPPING['user-001'],
+    created_by_id: UUID_MAPPING["user-001"],
     updated_at: "2023-05-15T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING['user-001']
+    updated_by_id: UUID_MAPPING["user-001"],
   },
   {
     id: "user-013",
@@ -227,31 +235,27 @@ export let mockTbUser: TbUser[] = [
     platform_role: "user",
     is_active: false,
     is_consent: false,
-    permissions: [ "pr.view",
-      "sr.view",
-      "grn.view",
-      "pc.view",
-      "spc.view"],
+    permissions: ["pr.view", "sr.view", "grn.view", "pc.view", "spc.view"],
     consent_at: null,
     created_at: "2023-06-01T00:00:00.000Z",
-    created_by_id: UUID_MAPPING['user-001'],
+    created_by_id: UUID_MAPPING["user-001"],
     updated_at: "2023-06-15T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING['user-001']
-  }
+    updated_by_id: UUID_MAPPING["user-001"],
+  },
 ];
 
 // =============== TB_USER CRUD FUNCTIONS ===============
 export const tbUserCrud = {
   // Create new user
-  create: (data: Omit<TbUser, 'id' | 'created_at' | 'updated_at'>): TbUser => {
+  create: (data: Omit<TbUser, "id" | "created_at" | "updated_at">): TbUser => {
     const newUser: TbUser = {
       id: generateUuid(),
       created_at: getCurrentTimestamp(),
       updated_at: getCurrentTimestamp(),
-      platform_role: 'user',
+      platform_role: "user",
       is_active: false,
       is_consent: false,
-      ...data
+      ...data,
     };
     mockTbUser.push(newUser);
     return newUser;
@@ -259,23 +263,23 @@ export const tbUserCrud = {
 
   // Find by ID
   findById: (id: string): TbUser | null => {
-    return mockTbUser.find(user => user.id === id) || null;
+    return mockTbUser.find((user) => user.id === id) || null;
   },
 
   // Find by username
   findByUsername: (username: string): TbUser | null => {
-    return mockTbUser.find(user => user.username === username) || null;
+    return mockTbUser.find((user) => user.username === username) || null;
   },
 
   // Find by email
   findByEmail: (email: string): TbUser | null => {
-    return mockTbUser.find(user => user.email === email) || null;
+    return mockTbUser.find((user) => user.email === email) || null;
   },
 
   // Find all active users
   findActive: (): TbUser[] => {
     return mockTbUser
-      .filter(user => user.is_active)
+      .filter((user) => user.is_active)
       .sort((a, b) => a.username.localeCompare(b.username));
   },
 
@@ -285,9 +289,9 @@ export const tbUserCrud = {
   },
 
   // Find by platform role
-  findByPlatformRole: (platformRole: TbUser['platform_role']): TbUser[] => {
+  findByPlatformRole: (platformRole: TbUser["platform_role"]): TbUser[] => {
     return mockTbUser
-      .filter(user => user.platform_role === platformRole && user.is_active)
+      .filter((user) => user.platform_role === platformRole && user.is_active)
       .sort((a, b) => a.username.localeCompare(b.username));
   },
 
@@ -295,10 +299,11 @@ export const tbUserCrud = {
   search: (query: string): TbUser[] => {
     const lowerQuery = query.toLowerCase();
     return mockTbUser
-      .filter(user => 
-        user.is_active &&
-        (user.username.toLowerCase().includes(lowerQuery) ||
-         user.email.toLowerCase().includes(lowerQuery))
+      .filter(
+        (user) =>
+          user.is_active &&
+          (user.username.toLowerCase().includes(lowerQuery) ||
+            user.email.toLowerCase().includes(lowerQuery))
       )
       .sort((a, b) => a.username.localeCompare(b.username));
   },
@@ -306,20 +311,25 @@ export const tbUserCrud = {
   // Find users by domain
   findByEmailDomain: (domain: string): TbUser[] => {
     return mockTbUser
-      .filter(user => 
-        user.is_active && 
-        user.email.toLowerCase().includes(`@${domain.toLowerCase()}`)
+      .filter(
+        (user) =>
+          user.is_active &&
+          user.email.toLowerCase().includes(`@${domain.toLowerCase()}`)
       )
       .sort((a, b) => a.username.localeCompare(b.username));
   },
 
   // Find admin users
   findAdmins: (): TbUser[] => {
-    const adminRoles = ['platform_admin', 'support_manager', 'security_officer'];
+    const adminRoles = [
+      "platform_admin",
+      "support_manager",
+      "security_officer",
+    ];
     return mockTbUser
-      .filter(user => 
-        user.is_active && 
-        adminRoles.includes(user.platform_role || 'user')
+      .filter(
+        (user) =>
+          user.is_active && adminRoles.includes(user.platform_role || "user")
       )
       .sort((a, b) => a.username.localeCompare(b.username));
   },
@@ -327,8 +337,8 @@ export const tbUserCrud = {
   // Find users who haven't consented
   findWithoutConsent: (): TbUser[] => {
     return mockTbUser
-      .filter(user => !user.is_consent)
-      .sort((a, b) => (a.created_at || '').localeCompare(b.created_at || ''));
+      .filter((user) => !user.is_consent)
+      .sort((a, b) => (a.created_at || "").localeCompare(b.created_at || ""));
   },
 
   // Find recently created users
@@ -338,23 +348,24 @@ export const tbUserCrud = {
     const cutoffIso = cutoffDate.toISOString();
 
     return mockTbUser
-      .filter(user => 
-        user.created_at && 
-        user.created_at >= cutoffIso
-      )
-      .sort((a, b) => (b.created_at || '').localeCompare(a.created_at || ''));
+      .filter((user) => user.created_at && user.created_at >= cutoffIso)
+      .sort((a, b) => (b.created_at || "").localeCompare(a.created_at || ""));
   },
 
   // Update user
-  update: (id: string, data: Partial<TbUser>, updated_by_id?: string): TbUser | null => {
-    const index = mockTbUser.findIndex(user => user.id === id);
+  update: (
+    id: string,
+    data: Partial<TbUser>,
+    updated_by_id?: string
+  ): TbUser | null => {
+    const index = mockTbUser.findIndex((user) => user.id === id);
     if (index === -1) return null;
 
     mockTbUser[index] = {
       ...mockTbUser[index],
       ...data,
       updated_at: getCurrentTimestamp(),
-      updated_by_id: updated_by_id || null
+      updated_by_id: updated_by_id || null,
     };
     return mockTbUser[index];
   },
@@ -370,88 +381,101 @@ export const tbUserCrud = {
   },
 
   // Set user consent
-  setConsent: (id: string, consent: boolean, updated_by_id?: string): TbUser | null => {
-    const consentData = consent ? {
-      is_consent: true,
-      consent_at: getCurrentTimestamp()
-    } : {
-      is_consent: false,
-      consent_at: null
-    };
+  setConsent: (
+    id: string,
+    consent: boolean,
+    updated_by_id?: string
+  ): TbUser | null => {
+    const consentData = consent
+      ? {
+          is_consent: true,
+          consent_at: getCurrentTimestamp(),
+        }
+      : {
+          is_consent: false,
+          consent_at: null,
+        };
 
     return tbUserCrud.update(id, consentData, updated_by_id);
   },
 
   // Change platform role
-  changePlatformRole: (id: string, platformRole: TbUser['platform_role'], updated_by_id?: string): TbUser | null => {
-    return tbUserCrud.update(id, { platform_role: platformRole }, updated_by_id);
+  changePlatformRole: (
+    id: string,
+    platformRole: TbUser["platform_role"],
+    updated_by_id?: string
+  ): TbUser | null => {
+    return tbUserCrud.update(
+      id,
+      { platform_role: platformRole },
+      updated_by_id
+    );
   },
 
   // Check if username exists
   usernameExists: (username: string, excludeId?: string): boolean => {
-    return mockTbUser.some(user => 
-      user.username === username && 
-      user.id !== excludeId
+    return mockTbUser.some(
+      (user) => user.username === username && user.id !== excludeId
     );
   },
 
   // Check if email exists
   emailExists: (email: string, excludeId?: string): boolean => {
-    return mockTbUser.some(user => 
-      user.email === email && 
-      user.id !== excludeId
+    return mockTbUser.some(
+      (user) => user.email === email && user.id !== excludeId
     );
   },
 
   // Validate user login
   validateLogin: (username: string, checkActive = true): TbUser | null => {
-    const user = tbUserCrud.findByUsername(username) || tbUserCrud.findByEmail(username);
-    
+    const user =
+      tbUserCrud.findByUsername(username) || tbUserCrud.findByEmail(username);
+
     if (!user) return null;
     if (checkActive && !user.is_active) return null;
-    
+
     return user;
   },
 
   // Get user statistics
   getStats: () => {
     const allUsers = mockTbUser;
-    const activeUsers = allUsers.filter(user => user.is_active);
-    
+    const activeUsers = allUsers.filter((user) => user.is_active);
+
     return {
       total: allUsers.length,
       active: activeUsers.length,
       inactive: allUsers.length - activeUsers.length,
-      withConsent: allUsers.filter(user => user.is_consent).length,
-      withoutConsent: allUsers.filter(user => !user.is_consent).length,
+      withConsent: allUsers.filter((user) => user.is_consent).length,
+      withoutConsent: allUsers.filter((user) => !user.is_consent).length,
       byPlatformRole: activeUsers.reduce((acc, user) => {
-        const role = user.platform_role || 'user';
+        const role = user.platform_role || "user";
         acc[role] = (acc[role] || 0) + 1;
         return acc;
       }, {} as Record<string, number>),
       byDomain: activeUsers.reduce((acc, user) => {
-        const domain = user.email.split('@')[1] || 'unknown';
+        const domain = user.email.split("@")[1] || "unknown";
         acc[domain] = (acc[domain] || 0) + 1;
         return acc;
       }, {} as Record<string, number>),
-      recentlyCreated: tbUserCrud.findRecentlyCreated().length
+      recentlyCreated: tbUserCrud.findRecentlyCreated().length,
     };
   },
 
   // Delete user (hard delete - use with caution)
   delete: (id: string): boolean => {
-    const index = mockTbUser.findIndex(user => user.id === id);
+    const index = mockTbUser.findIndex((user) => user.id === id);
     if (index === -1) return false;
-    
+
     mockTbUser.splice(index, 1);
     return true;
   },
 
   // Get user permissions
   getUserPermissions: (userId: string): string[] => {
-    const user = mockTbUser.find(user => user.id === userId);
+    const user = mockTbUser.find((user) => user.id === userId);
     if (!user) return [];
 
     return user.permissions || [];
-  }
+  },
 };
