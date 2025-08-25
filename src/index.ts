@@ -56,6 +56,10 @@ const app = new Elysia()
           },
           {
             url: "https://mock-backend-mobile.onrender.com",
+            description: "MOCK server",
+          },
+          {
+            url: "https://dev.blueledgers.com:4001/",
             description: "Production server",
           },
         ],
