@@ -11,7 +11,7 @@ export const UUID_MAPPING = {
   'user-006': '550e8400-e29b-41d4-a716-446655440006', // chef@test.com
   'user-007': '550e8400-e29b-41d4-a716-446655440007', // admin@test.com
   'user-008': '550e8400-e29b-41d4-a716-446655440008', // test@test.com
-  'user-009': '550e8400-e29b-41d4-a716-446655440009', // Lisa Wong
+  'user-009': '550e8400-e29b-41d4-a716-446655440009', // staff2@test.com
   'user-010': '550e8400-e29b-41d4-a716-446655440010', // Developer
   'user-011': '550e8400-e29b-41d4-a716-446655440011', // Support Manager
   'user-012': '550e8400-e29b-41d4-a716-446655440012', // Security Officer

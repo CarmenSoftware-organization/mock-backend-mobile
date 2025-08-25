@@ -232,6 +232,12 @@ export default (app: Elysia) =>
           message: error instanceof Error ? error.message : "Internal server error"
         };
       }
+    }, {
+      detail: {
+        tags: ["user"],
+        summary: "Get user profile",
+        description: "Get user profile",
+      },
     })
 
     // Get user by ID

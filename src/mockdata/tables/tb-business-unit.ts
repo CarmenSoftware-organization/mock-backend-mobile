@@ -35,7 +35,7 @@ export let mockTbBusinessUnit: TbBusinessUnit[] = [
       time_format: "HH:mm",
       business_hours: {
         monday: "08:00-17:00",
-        tuesday: "08:00-17:00", 
+        tuesday: "08:00-17:00",
         wednesday: "08:00-17:00",
         thursday: "08:00-17:00",
         friday: "08:00-17:00",

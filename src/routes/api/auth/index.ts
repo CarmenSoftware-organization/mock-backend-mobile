@@ -3,7 +3,7 @@ import { Elysia, t } from "elysia";
 import { jwt } from "@elysiajs/jwt";
 import { resNotImplemented, resUnauthorized } from "@libs/res.error";
 import type { LoginDto, LoginError, LoginResponse } from "@/types/auth";
-import { APP_ID, tbPasswordCrud, tbUserCrud } from "@mockdata/index";
+import { APP_ID, PARAM_X_APP_ID, tbPasswordCrud, tbUserCrud } from "@mockdata/index";
 
 // Types moved to src/types/auth.ts
 
@@ -113,17 +113,7 @@ export default (app: Elysia) =>
           description:
             "Authenticate user with email and password to receive access and refresh tokens. Requires 'x-app-id' header with value '00000000-0000-0000-0000-000000000000'",
           parameters: [
-            {
-              name: "x-app-id",
-              in: "header",
-              required: true,
-              description: "Application ID for authentication",
-              schema: {
-                type: "string",
-                pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-                example: "00000000-0000-0000-0000-000000000000"
-              }
-            }
+             PARAM_X_APP_ID,
           ],
           requestBody: {
             description: "Login credentials",
