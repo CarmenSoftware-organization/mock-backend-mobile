@@ -382,6 +382,328 @@ export let mockTbPermission: TbPermission[] = [
     created_by_id: UUID_MAPPING['user-003'],
     updated_at: "2023-04-01T00:00:00.000Z",
     updated_by_id: UUID_MAPPING['user-003']
+  },
+
+  // Hotel Procurement & Inventory Permissions
+  {
+    id: UUID_MAPPING['perm-pr-create'],
+    code: "pr.create",
+    name: "Create Purchase Request",
+    description: "Create new purchase requests",
+    module_id: UUID_MAPPING['mod-002'],
+    is_active: true,
+    abac_rule: {
+      condition: "user.can_create_requisitions == true || user.authority_level in ['supervisor', 'manager', 'department_head', 'executive']",
+      context_check: "resource.department_id in user.department_ids"
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['perm-pr-view-own'],
+    code: "pr.view.own",
+    name: "View Own Purchase Requests",
+    description: "View purchase requests created by user",
+    module_id: UUID_MAPPING['mod-002'],
+    is_active: true,
+    abac_rule: {
+      condition: "resource.created_by_id == user.id",
+      context_check: "always_allow"
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['perm-pr-view-dept'],
+    code: "pr.view.department",
+    name: "View Department Purchase Requests",
+    description: "View purchase requests from user's department",
+    module_id: UUID_MAPPING['mod-002'],
+    is_active: true,
+    abac_rule: {
+      condition: "user.authority_level in ['supervisor', 'manager', 'department_head']",
+      context_check: "resource.department_id in user.department_ids"
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['perm-pr-view-all'],
+    code: "pr.view.all",
+    name: "View All Purchase Requests",
+    description: "View all purchase requests across departments",
+    module_id: UUID_MAPPING['mod-002'],
+    is_active: true,
+    abac_rule: {
+      condition: "user.authority_level in ['executive'] || user.role_code == 'purchasing_manager'",
+      context_check: "user.can_view_all_departments == true"
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['perm-pr-approve-l1'],
+    code: "pr.approve.level1",
+    name: "Approve PR Level 1 (≤$5,000)",
+    description: "Approve purchase requests up to $5,000",
+    module_id: UUID_MAPPING['mod-002'],
+    is_active: true,
+    abac_rule: {
+      condition: "user.approval_limit >= 5000",
+      context_check: "resource.amount <= 5000 && resource.department_id in user.department_ids"
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['perm-pr-approve-l2'],
+    code: "pr.approve.level2",
+    name: "Approve PR Level 2 (≤$25,000)",
+    description: "Approve purchase requests up to $25,000",
+    module_id: UUID_MAPPING['mod-002'],
+    is_active: true,
+    abac_rule: {
+      condition: "user.approval_limit >= 25000",
+      context_check: "resource.amount <= 25000 && resource.category in user.approval_categories"
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['perm-pr-approve-l3'],
+    code: "pr.approve.level3",
+    name: "Approve PR Level 3 (≤$100,000)",
+    description: "Approve purchase requests up to $100,000",
+    module_id: UUID_MAPPING['mod-002'],
+    is_active: true,
+    abac_rule: {
+      condition: "user.approval_limit >= 100000 || user.authority_level == 'executive'",
+      context_check: "resource.amount <= 100000"
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['perm-pr-approve-unlimited'],
+    code: "pr.approve.unlimited",
+    name: "Approve PR Unlimited",
+    description: "Approve purchase requests of any amount",
+    module_id: UUID_MAPPING['mod-002'],
+    is_active: true,
+    abac_rule: {
+      condition: "user.approval_limit == 'unlimited' || user.role_code == 'GENERAL_MANAGER'",
+      context_check: "user.can_override_budget == true"
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['perm-pr-emergency'],
+    code: "pr.emergency",
+    name: "Create Emergency Purchase Request",
+    description: "Create emergency purchase requests with expedited approval",
+    module_id: UUID_MAPPING['mod-002'],
+    is_active: true,
+    abac_rule: {
+      condition: "user.can_approve_emergency == true",
+      context_check: "resource.urgency == 'emergency' || context.inventory_level == 'critical'"
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['perm-sr-create'],
+    code: "sr.create",
+    name: "Create Store Requisition",
+    description: "Create new store requisitions",
+    module_id: UUID_MAPPING['mod-001'],
+    is_active: true,
+    abac_rule: {
+      condition: "user.can_create_requisitions == true",
+      context_check: "resource.department_id in user.department_ids"
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['perm-sr-view-own'],
+    code: "sr.view.own",
+    name: "View Own Store Requisitions",
+    description: "View store requisitions created by user",
+    module_id: UUID_MAPPING['mod-001'],
+    is_active: true,
+    abac_rule: {
+      condition: "resource.created_by_id == user.id",
+      context_check: "always_allow"
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['perm-sr-view-dept'],
+    code: "sr.view.department",
+    name: "View Department Store Requisitions",
+    description: "View store requisitions from user's department",
+    module_id: UUID_MAPPING['mod-001'],
+    is_active: true,
+    abac_rule: {
+      condition: "user.authority_level in ['supervisor', 'manager', 'department_head']",
+      context_check: "resource.department_id in user.department_ids"
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['perm-sr-view-all'],
+    code: "sr.view.all",
+    name: "View All Store Requisitions",
+    description: "View all store requisitions across departments",
+    module_id: UUID_MAPPING['mod-001'],
+    is_active: true,
+    abac_rule: {
+      condition: "user.authority_level in ['executive'] || user.role_code in ['STOREKEEPER', 'PURCHASING_MANAGER']",
+      context_check: "user.can_view_all_departments == true"
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['perm-sr-approve'],
+    code: "sr.approve",
+    name: "Approve Store Requisitions",
+    description: "Approve store requisitions from departments",
+    module_id: UUID_MAPPING['mod-001'],
+    is_active: true,
+    abac_rule: {
+      condition: "user.authority_level in ['supervisor', 'manager', 'department_head'] || user.role_code == 'STOREKEEPER'",
+      context_check: "resource.department_id in user.department_ids || user.can_approve_all_departments == true"
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['perm-sr-issue'],
+    code: "sr.issue",
+    name: "Issue Store Items",
+    description: "Issue items from store inventory to departments",
+    module_id: UUID_MAPPING['mod-001'],
+    is_active: true,
+    abac_rule: {
+      condition: "user.can_issue_items == true",
+      context_check: "user.department_ids contains 'dept-stores'"
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['perm-sr-emergency'],
+    code: "sr.emergency",
+    name: "Create Emergency Store Requisition",
+    description: "Create emergency store requisitions with expedited processing",
+    module_id: UUID_MAPPING['mod-001'],
+    is_active: true,
+    abac_rule: {
+      condition: "user.can_approve_emergency == true || 'critical_repairs' in user.emergency_categories",
+      context_check: "resource.urgency == 'emergency'"
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['perm-inv-view'],
+    code: "inventory.view",
+    name: "View Inventory Levels",
+    description: "View current inventory stock levels and item details",
+    module_id: UUID_MAPPING['mod-001'],
+    is_active: true,
+    abac_rule: {
+      condition: "user.authority_level in ['staff', 'supervisor', 'manager', 'department_head', 'executive']",
+      context_check: "user.can_view_inventory == true"
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['perm-inv-adjust'],
+    code: "inventory.adjust",
+    name: "Adjust Inventory Levels",
+    description: "Make inventory adjustments for stock corrections",
+    module_id: UUID_MAPPING['mod-001'],
+    is_active: true,
+    abac_rule: {
+      condition: "user.role_code in ['STOREKEEPER', 'STORE_CLERK'] || user.authority_level in ['department_head', 'executive']",
+      context_check: "user.can_adjust_inventory == true"
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['perm-inv-transfer'],
+    code: "inventory.transfer",
+    name: "Transfer Inventory",
+    description: "Transfer inventory items between departments or locations",
+    module_id: UUID_MAPPING['mod-001'],
+    is_active: true,
+    abac_rule: {
+      condition: "user.role_code in ['STOREKEEPER', 'PURCHASING_MANAGER'] || user.authority_level in ['department_head', 'executive']",
+      context_check: "user.can_transfer_inventory == true"
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['perm-inv-count'],
+    code: "inventory.count",
+    name: "Perform Inventory Count",
+    description: "Conduct physical inventory counting and reconciliation",
+    module_id: UUID_MAPPING['mod-001'],
+    is_active: true,
+    abac_rule: {
+      condition: "user.role_code in ['STOREKEEPER', 'STORE_CLERK'] || user.authority_level in ['supervisor', 'manager', 'department_head']",
+      context_check: "user.can_count_inventory == true"
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
   }
 ];
 

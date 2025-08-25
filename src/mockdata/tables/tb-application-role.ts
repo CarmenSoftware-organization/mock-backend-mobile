@@ -276,6 +276,410 @@ export let mockTbApplicationRole: TbApplicationRole[] = [
     created_by_id: UUID_MAPPING['developer'],
     updated_at: getCurrentTimestamp(),
     updated_by_id: UUID_MAPPING['developer']
+  },
+
+  // Hotel Procurement & Operations Roles (Royal Grand Hotel)
+  {
+    id: UUID_MAPPING['role-gm'],
+    business_unit_id: UUID_MAPPING['bu-002'],
+    code: "GENERAL_MANAGER",
+    name: "General Manager",
+    description: "Chief executive of hotel operations with unlimited approval authority",
+    is_active: true,
+    abac_attributes: {
+      approval_limit: "unlimited",
+      can_approve_emergency: true,
+      authority_level: "executive",
+      can_override_budget: true,
+      reports_to: null
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['role-financial-controller'],
+    business_unit_id: UUID_MAPPING['bu-002'],
+    code: "FINANCIAL_CONTROLLER",
+    name: "Financial Controller",
+    description: "Financial oversight and high-value procurement approvals",
+    is_active: true,
+    abac_attributes: {
+      approval_limit: 100000,
+      can_approve_emergency: true,
+      authority_level: "executive",
+      budget_oversight: true,
+      reports_to: UUID_MAPPING['role-gm']
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['role-exec-chef'],
+    business_unit_id: UUID_MAPPING['bu-002'],
+    code: "EXECUTIVE_CHEF",
+    name: "Executive Chef",
+    description: "Head of kitchen operations and food procurement",
+    is_active: true,
+    abac_attributes: {
+      approval_limit: 25000,
+      can_approve_emergency: true,
+      authority_level: "department_head",
+      department_ids: [UUID_MAPPING['dept-kitchen']],
+      approval_categories: ["food", "kitchen_equipment", "kitchen_supplies"],
+      reports_to: UUID_MAPPING['role-fb-manager']
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['role-sous-chef'],
+    business_unit_id: UUID_MAPPING['bu-002'],
+    code: "SOUS_CHEF",
+    name: "Sous Chef",
+    description: "Kitchen supervisor and food procurement assistant",
+    is_active: true,
+    abac_attributes: {
+      approval_limit: 5000,
+      can_approve_emergency: false,
+      authority_level: "supervisor",
+      department_ids: [UUID_MAPPING['dept-kitchen']],
+      approval_categories: ["food", "kitchen_supplies"],
+      reports_to: UUID_MAPPING['role-exec-chef']
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['role-exec-housekeeper'],
+    business_unit_id: UUID_MAPPING['bu-002'],
+    code: "EXECUTIVE_HOUSEKEEPER",
+    name: "Executive Housekeeper",
+    description: "Head of housekeeping operations and supplies procurement",
+    is_active: true,
+    abac_attributes: {
+      approval_limit: 15000,
+      can_approve_emergency: true,
+      authority_level: "department_head",
+      department_ids: [UUID_MAPPING['dept-housekeeping'], UUID_MAPPING['dept-laundry']],
+      approval_categories: ["cleaning_supplies", "linens", "toiletries", "housekeeping_equipment"],
+      reports_to: UUID_MAPPING['role-gm']
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['role-fb-manager'],
+    business_unit_id: UUID_MAPPING['bu-002'],
+    code: "FB_MANAGER",
+    name: "Food & Beverage Manager",
+    description: "F&B operations manager with procurement oversight",
+    is_active: true,
+    abac_attributes: {
+      approval_limit: 20000,
+      can_approve_emergency: true,
+      authority_level: "department_head",
+      department_ids: [UUID_MAPPING['dept-kitchen'], UUID_MAPPING['dept-fb-service']],
+      approval_categories: ["food", "beverages", "fb_equipment", "pos_supplies"],
+      reports_to: UUID_MAPPING['role-gm']
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['role-chief-engineer'],
+    business_unit_id: UUID_MAPPING['bu-002'],
+    code: "CHIEF_ENGINEER",
+    name: "Chief Engineer",
+    description: "Head of engineering and maintenance procurement",
+    is_active: true,
+    abac_attributes: {
+      approval_limit: 30000,
+      can_approve_emergency: true,
+      authority_level: "department_head",
+      department_ids: [UUID_MAPPING['dept-engineering']],
+      approval_categories: ["maintenance_supplies", "tools", "spare_parts", "safety_equipment", "engineering_services"],
+      reports_to: UUID_MAPPING['role-gm']
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['role-purchasing-manager'],
+    business_unit_id: UUID_MAPPING['bu-002'],
+    code: "PURCHASING_MANAGER",
+    name: "Purchasing Manager",
+    description: "Central procurement manager with cross-department authority",
+    is_active: true,
+    abac_attributes: {
+      approval_limit: 50000,
+      can_approve_emergency: true,
+      authority_level: "department_head",
+      department_ids: [UUID_MAPPING['dept-purchasing']],
+      approval_categories: ["all_categories"],
+      reports_to: UUID_MAPPING['role-financial-controller']
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['role-kitchen-supervisor'],
+    business_unit_id: UUID_MAPPING['bu-002'],
+    code: "KITCHEN_SUPERVISOR",
+    name: "Kitchen Supervisor",
+    description: "Kitchen operations supervisor with limited procurement authority",
+    is_active: true,
+    abac_attributes: {
+      approval_limit: 2000,
+      can_approve_emergency: false,
+      authority_level: "supervisor",
+      department_ids: [UUID_MAPPING['dept-kitchen']],
+      approval_categories: ["food", "kitchen_supplies"],
+      reports_to: UUID_MAPPING['role-sous-chef']
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['role-housekeeping-supervisor'],
+    business_unit_id: UUID_MAPPING['bu-002'],
+    code: "HOUSEKEEPING_SUPERVISOR",
+    name: "Housekeeping Supervisor",
+    description: "Housekeeping operations supervisor with supplies authority",
+    is_active: true,
+    abac_attributes: {
+      approval_limit: 3000,
+      can_approve_emergency: false,
+      authority_level: "supervisor",
+      department_ids: [UUID_MAPPING['dept-housekeeping']],
+      approval_categories: ["cleaning_supplies", "linens", "toiletries"],
+      reports_to: UUID_MAPPING['role-exec-housekeeper']
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['role-restaurant-supervisor'],
+    business_unit_id: UUID_MAPPING['bu-002'],
+    code: "RESTAURANT_SUPERVISOR",
+    name: "Restaurant Supervisor",
+    description: "F&B service supervisor with limited procurement authority",
+    is_active: true,
+    abac_attributes: {
+      approval_limit: 3000,
+      can_approve_emergency: false,
+      authority_level: "supervisor",
+      department_ids: [UUID_MAPPING['dept-fb-service']],
+      approval_categories: ["beverages", "pos_supplies", "service_equipment"],
+      reports_to: UUID_MAPPING['role-fb-manager']
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['role-maintenance-supervisor'],
+    business_unit_id: UUID_MAPPING['bu-002'],
+    code: "MAINTENANCE_SUPERVISOR",
+    name: "Maintenance Supervisor",
+    description: "Engineering supervisor with tools and supplies authority",
+    is_active: true,
+    abac_attributes: {
+      approval_limit: 5000,
+      can_approve_emergency: true,
+      authority_level: "supervisor",
+      department_ids: [UUID_MAPPING['dept-engineering']],
+      approval_categories: ["maintenance_supplies", "tools", "spare_parts"],
+      reports_to: UUID_MAPPING['role-chief-engineer']
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['role-storekeeper'],
+    business_unit_id: UUID_MAPPING['bu-002'],
+    code: "STOREKEEPER",
+    name: "Storekeeper",
+    description: "Inventory manager with store requisition authority",
+    is_active: true,
+    abac_attributes: {
+      approval_limit: 5000,
+      can_approve_emergency: false,
+      authority_level: "manager",
+      department_ids: [UUID_MAPPING['dept-stores']],
+      can_issue_items: true,
+      manages_categories: ["all_inventory"],
+      reports_to: UUID_MAPPING['role-purchasing-manager']
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['role-purchase-officer'],
+    business_unit_id: UUID_MAPPING['bu-002'],
+    code: "PURCHASE_OFFICER",
+    name: "Purchase Officer",
+    description: "Procurement specialist with vendor management authority",
+    is_active: true,
+    abac_attributes: {
+      approval_limit: 10000,
+      can_approve_emergency: false,
+      authority_level: "officer",
+      department_ids: [UUID_MAPPING['dept-purchasing']],
+      can_create_po: true,
+      approval_categories: ["general_supplies", "services"],
+      reports_to: UUID_MAPPING['role-purchasing-manager']
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['role-store-clerk'],
+    business_unit_id: UUID_MAPPING['bu-002'],
+    code: "STORE_CLERK",
+    name: "Store Clerk",
+    description: "Inventory clerk with item issuance authority",
+    is_active: true,
+    abac_attributes: {
+      approval_limit: 1000,
+      can_approve_emergency: false,
+      authority_level: "staff",
+      department_ids: [UUID_MAPPING['dept-stores']],
+      can_issue_items: true,
+      can_receive_items: true,
+      reports_to: UUID_MAPPING['role-storekeeper']
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['role-kitchen-staff'],
+    business_unit_id: UUID_MAPPING['bu-002'],
+    code: "KITCHEN_STAFF",
+    name: "Kitchen Staff",
+    description: "Kitchen worker with requisition creation authority",
+    is_active: true,
+    abac_attributes: {
+      approval_limit: 0,
+      can_approve_emergency: false,
+      authority_level: "staff",
+      department_ids: [UUID_MAPPING['dept-kitchen']],
+      can_create_requisitions: true,
+      reports_to: UUID_MAPPING['role-kitchen-supervisor']
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['role-room-attendant'],
+    business_unit_id: UUID_MAPPING['bu-002'],
+    code: "ROOM_ATTENDANT",
+    name: "Room Attendant",
+    description: "Housekeeping staff with supplies requisition authority",
+    is_active: true,
+    abac_attributes: {
+      approval_limit: 0,
+      can_approve_emergency: false,
+      authority_level: "staff",
+      department_ids: [UUID_MAPPING['dept-housekeeping']],
+      can_create_requisitions: true,
+      reports_to: UUID_MAPPING['role-housekeeping-supervisor']
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['role-maintenance-tech'],
+    business_unit_id: UUID_MAPPING['bu-002'],
+    code: "MAINTENANCE_TECH",
+    name: "Maintenance Technician",
+    description: "Engineering technician with tools and parts requisition authority",
+    is_active: true,
+    abac_attributes: {
+      approval_limit: 0,
+      can_approve_emergency: true,
+      authority_level: "staff",
+      department_ids: [UUID_MAPPING['dept-engineering']],
+      can_create_requisitions: true,
+      emergency_categories: ["critical_repairs", "safety_equipment"],
+      reports_to: UUID_MAPPING['role-maintenance-supervisor']
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['role-restaurant-staff'],
+    business_unit_id: UUID_MAPPING['bu-002'],
+    code: "RESTAURANT_STAFF",
+    name: "Restaurant Staff",
+    description: "F&B service staff with supplies requisition authority",
+    is_active: true,
+    abac_attributes: {
+      approval_limit: 0,
+      can_approve_emergency: false,
+      authority_level: "staff",
+      department_ids: [UUID_MAPPING['dept-fb-service']],
+      can_create_requisitions: true,
+      reports_to: UUID_MAPPING['role-restaurant-supervisor']
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
+  },
+  {
+    id: UUID_MAPPING['role-laundry-attendant'],
+    business_unit_id: UUID_MAPPING['bu-002'],
+    code: "LAUNDRY_ATTENDANT",
+    name: "Laundry Attendant",
+    description: "Laundry staff with chemical and supplies requisition authority",
+    is_active: true,
+    abac_attributes: {
+      approval_limit: 0,
+      can_approve_emergency: false,
+      authority_level: "staff",
+      department_ids: [UUID_MAPPING['dept-laundry']],
+      can_create_requisitions: true,
+      reports_to: UUID_MAPPING['role-exec-housekeeper']
+    },
+    created_at: "2024-01-01T00:00:00.000Z",
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: "2024-01-01T00:00:00.000Z",
+    updated_by_id: UUID_MAPPING['system']
   }
 ];
 

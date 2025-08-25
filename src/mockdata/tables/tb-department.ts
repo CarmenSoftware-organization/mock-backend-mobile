@@ -50,6 +50,163 @@ export let mockTbDepartment: TbDepartment[] = [
     updated_by_id: null,
     deleted_at: null,
     deleted_by_id: null
+  },
+  {
+    id: UUID_MAPPING['dept-housekeeping'],
+    name: 'Housekeeping',
+    description: 'Housekeeping and Room Services',
+    is_active: true,
+    note: 'Responsible for guest room cleaning, laundry, and maintenance',
+    info: {
+      budget_monthly: 50000,
+      staff_count: 25,
+      approval_chain: ['exec-housekeeper', 'fb-manager', 'gm'],
+      emergency_supplies: ['cleaning_chemicals', 'linens', 'toiletries']
+    },
+    dimension: {
+      cost_center: 'HSK001',
+      approval_limits: {
+        supervisor: 2000,
+        manager: 10000
+      }
+    },
+    created_at: '2024-01-15T08:00:00Z',
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: '2024-01-15T08:00:00Z',
+    updated_by_id: UUID_MAPPING['system'],
+    deleted_at: null,
+    deleted_by_id: null
+  },
+  {
+    id: UUID_MAPPING['dept-fb-service'],
+    name: 'Food & Beverage Service',
+    description: 'Restaurant, Bar, and Room Service Operations',
+    is_active: true,
+    note: 'Front-of-house F&B operations and guest dining services',
+    info: {
+      budget_monthly: 75000,
+      staff_count: 30,
+      approval_chain: ['restaurant-supervisor', 'fb-manager', 'gm'],
+      emergency_supplies: ['beverages', 'service_equipment', 'pos_supplies']
+    },
+    dimension: {
+      cost_center: 'FB001',
+      approval_limits: {
+        supervisor: 3000,
+        manager: 15000
+      }
+    },
+    created_at: '2024-01-15T08:00:00Z',
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: '2024-01-15T08:00:00Z',
+    updated_by_id: UUID_MAPPING['system'],
+    deleted_at: null,
+    deleted_by_id: null
+  },
+  {
+    id: UUID_MAPPING['dept-engineering'],
+    name: 'Engineering & Maintenance',
+    description: 'Hotel Maintenance, HVAC, and Technical Services',
+    is_active: true,
+    note: 'Responsible for hotel infrastructure and equipment maintenance',
+    info: {
+      budget_monthly: 100000,
+      staff_count: 15,
+      approval_chain: ['maintenance-supervisor', 'chief-engineer', 'gm'],
+      emergency_supplies: ['spare_parts', 'tools', 'safety_equipment', 'chemicals']
+    },
+    dimension: {
+      cost_center: 'ENG001',
+      approval_limits: {
+        supervisor: 5000,
+        manager: 25000
+      }
+    },
+    created_at: '2024-01-15T08:00:00Z',
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: '2024-01-15T08:00:00Z',
+    updated_by_id: UUID_MAPPING['system'],
+    deleted_at: null,
+    deleted_by_id: null
+  },
+  {
+    id: UUID_MAPPING['dept-laundry'],
+    name: 'Laundry',
+    description: 'Commercial Laundry Operations',
+    is_active: true,
+    note: 'Guest and hotel linen processing and dry cleaning services',
+    info: {
+      budget_monthly: 25000,
+      staff_count: 8,
+      approval_chain: ['laundry-supervisor', 'exec-housekeeper', 'gm'],
+      emergency_supplies: ['detergents', 'fabric_softener', 'starch', 'dry_cleaning_chemicals']
+    },
+    dimension: {
+      cost_center: 'LAU001',
+      approval_limits: {
+        supervisor: 1500,
+        manager: 7500
+      }
+    },
+    created_at: '2024-01-15T08:00:00Z',
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: '2024-01-15T08:00:00Z',
+    updated_by_id: UUID_MAPPING['system'],
+    deleted_at: null,
+    deleted_by_id: null
+  },
+  {
+    id: UUID_MAPPING['dept-purchasing'],
+    name: 'Purchasing',
+    description: 'Central Procurement and Vendor Management',
+    is_active: true,
+    note: 'Centralized purchasing, vendor relations, and contract management',
+    info: {
+      budget_monthly: 200000,
+      staff_count: 6,
+      approval_chain: ['purchase-officer', 'purchasing-manager', 'financial-controller', 'gm'],
+      manages_categories: ['food', 'beverages', 'supplies', 'equipment', 'services']
+    },
+    dimension: {
+      cost_center: 'PUR001',
+      approval_limits: {
+        officer: 10000,
+        manager: 50000,
+        controller: 100000
+      }
+    },
+    created_at: '2024-01-15T08:00:00Z',
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: '2024-01-15T08:00:00Z',
+    updated_by_id: UUID_MAPPING['system'],
+    deleted_at: null,
+    deleted_by_id: null
+  },
+  {
+    id: UUID_MAPPING['dept-stores'],
+    name: 'Stores & Inventory',
+    description: 'Inventory Management and Store Operations',
+    is_active: true,
+    note: 'Central stores, inventory control, and distribution to departments',
+    info: {
+      budget_monthly: 30000,
+      staff_count: 4,
+      approval_chain: ['store-clerk', 'storekeeper', 'purchasing-manager'],
+      manages_inventory: ['food_items', 'beverages', 'cleaning_supplies', 'linens', 'amenities', 'office_supplies']
+    },
+    dimension: {
+      cost_center: 'STO001',
+      approval_limits: {
+        clerk: 1000,
+        keeper: 5000
+      }
+    },
+    created_at: '2024-01-15T08:00:00Z',
+    created_by_id: UUID_MAPPING['system'],
+    updated_at: '2024-01-15T08:00:00Z',
+    updated_by_id: UUID_MAPPING['system'],
+    deleted_at: null,
+    deleted_by_id: null
   }
 ];
 

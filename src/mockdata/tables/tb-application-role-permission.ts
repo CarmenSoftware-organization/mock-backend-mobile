@@ -99,7 +99,129 @@ export let mockTbApplicationRolePermission: TbApplicationRolePermission[] = [
   // QA Tester - Testing permissions
   { id: "rp-065", application_role_id: UUID_MAPPING['app-role-022'], permission_id: UUID_MAPPING['perm-001'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] },
   { id: "rp-066", application_role_id: UUID_MAPPING['app-role-022'], permission_id: UUID_MAPPING['perm-006'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] },
-  { id: "rp-067", application_role_id: UUID_MAPPING['app-role-022'], permission_id: UUID_MAPPING['perm-025'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] }
+  { id: "rp-067", application_role_id: UUID_MAPPING['app-role-022'], permission_id: UUID_MAPPING['perm-025'], created_at: getCurrentTimestamp(), created_by_id: UUID_MAPPING['developer'] },
+
+  // =============== HOTEL PROCUREMENT & OPERATIONS ROLE-PERMISSION MAPPINGS ===============
+
+  // General Manager - All permissions
+  { id: UUID_MAPPING['rp-gm-pr-create'], application_role_id: UUID_MAPPING['role-gm'], permission_id: UUID_MAPPING['perm-pr-create'], created_at: '2024-01-15T08:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-gm-pr-view'], application_role_id: UUID_MAPPING['role-gm'], permission_id: UUID_MAPPING['perm-pr-view'], created_at: '2024-01-15T08:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-gm-pr-view-all'], application_role_id: UUID_MAPPING['role-gm'], permission_id: UUID_MAPPING['perm-pr-view-all'], created_at: '2024-01-15T08:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-gm-pr-approve-l5'], application_role_id: UUID_MAPPING['role-gm'], permission_id: UUID_MAPPING['perm-pr-approve-l5'], created_at: '2024-01-15T08:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-gm-pr-approve-emergency'], application_role_id: UUID_MAPPING['role-gm'], permission_id: UUID_MAPPING['perm-pr-approve-emergency'], created_at: '2024-01-15T08:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-gm-sr-create'], application_role_id: UUID_MAPPING['role-gm'], permission_id: UUID_MAPPING['perm-sr-create'], created_at: '2024-01-15T08:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-gm-sr-view'], application_role_id: UUID_MAPPING['role-gm'], permission_id: UUID_MAPPING['perm-sr-view'], created_at: '2024-01-15T08:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-gm-sr-approve-l5'], application_role_id: UUID_MAPPING['role-gm'], permission_id: UUID_MAPPING['perm-sr-approve-l5'], created_at: '2024-01-15T08:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-gm-grn-create'], application_role_id: UUID_MAPPING['role-gm'], permission_id: UUID_MAPPING['perm-grn-create'], created_at: '2024-01-15T08:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-gm-grn-view'], application_role_id: UUID_MAPPING['role-gm'], permission_id: UUID_MAPPING['perm-grn-view'], created_at: '2024-01-15T08:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-gm-grn-approve-l5'], application_role_id: UUID_MAPPING['role-gm'], permission_id: UUID_MAPPING['perm-grn-approve-l5'], created_at: '2024-01-15T08:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-gm-inventory-view'], application_role_id: UUID_MAPPING['role-gm'], permission_id: UUID_MAPPING['perm-inventory-view'], created_at: '2024-01-15T08:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-gm-inventory-manage'], application_role_id: UUID_MAPPING['role-gm'], permission_id: UUID_MAPPING['perm-inventory-manage'], created_at: '2024-01-15T08:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-gm-inventory-adjust'], application_role_id: UUID_MAPPING['role-gm'], permission_id: UUID_MAPPING['perm-inventory-adjust'], created_at: '2024-01-15T08:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-gm-budget-view'], application_role_id: UUID_MAPPING['role-gm'], permission_id: UUID_MAPPING['perm-budget-view'], created_at: '2024-01-15T08:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-gm-budget-override'], application_role_id: UUID_MAPPING['role-gm'], permission_id: UUID_MAPPING['perm-budget-override'], created_at: '2024-01-15T08:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-gm-emergency-override'], application_role_id: UUID_MAPPING['role-gm'], permission_id: UUID_MAPPING['perm-emergency-override'], created_at: '2024-01-15T08:00:00Z', created_by_id: UUID_MAPPING['system'] },
+
+  // Financial Controller - Financial and budget permissions
+  { id: UUID_MAPPING['rp-fc-pr-view'], application_role_id: UUID_MAPPING['role-financial-controller'], permission_id: UUID_MAPPING['perm-pr-view'], created_at: '2024-01-15T08:30:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-fc-pr-view-all'], application_role_id: UUID_MAPPING['role-financial-controller'], permission_id: UUID_MAPPING['perm-pr-view-all'], created_at: '2024-01-15T08:30:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-fc-pr-approve-l4'], application_role_id: UUID_MAPPING['role-financial-controller'], permission_id: UUID_MAPPING['perm-pr-approve-l4'], created_at: '2024-01-15T08:30:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-fc-budget-view'], application_role_id: UUID_MAPPING['role-financial-controller'], permission_id: UUID_MAPPING['perm-budget-view'], created_at: '2024-01-15T08:30:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-fc-budget-manage'], application_role_id: UUID_MAPPING['role-financial-controller'], permission_id: UUID_MAPPING['perm-budget-manage'], created_at: '2024-01-15T08:30:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-fc-budget-override'], application_role_id: UUID_MAPPING['role-financial-controller'], permission_id: UUID_MAPPING['perm-budget-override'], created_at: '2024-01-15T08:30:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-fc-grn-view'], application_role_id: UUID_MAPPING['role-financial-controller'], permission_id: UUID_MAPPING['perm-grn-view'], created_at: '2024-01-15T08:30:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-fc-grn-approve-l4'], application_role_id: UUID_MAPPING['role-financial-controller'], permission_id: UUID_MAPPING['perm-grn-approve-l4'], created_at: '2024-01-15T08:30:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-fc-inventory-view'], application_role_id: UUID_MAPPING['role-financial-controller'], permission_id: UUID_MAPPING['perm-inventory-view'], created_at: '2024-01-15T08:30:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-fc-inventory-audit'], application_role_id: UUID_MAPPING['role-financial-controller'], permission_id: UUID_MAPPING['perm-inventory-audit'], created_at: '2024-01-15T08:30:00Z', created_by_id: UUID_MAPPING['system'] },
+
+  // Executive Chef - Kitchen department permissions
+  { id: UUID_MAPPING['rp-exec-chef-pr-create'], application_role_id: UUID_MAPPING['role-exec-chef'], permission_id: UUID_MAPPING['perm-pr-create'], created_at: '2024-01-15T09:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-exec-chef-pr-view'], application_role_id: UUID_MAPPING['role-exec-chef'], permission_id: UUID_MAPPING['perm-pr-view'], created_at: '2024-01-15T09:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-exec-chef-pr-view-department'], application_role_id: UUID_MAPPING['role-exec-chef'], permission_id: UUID_MAPPING['perm-pr-view-department'], created_at: '2024-01-15T09:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-exec-chef-pr-approve-l3'], application_role_id: UUID_MAPPING['role-exec-chef'], permission_id: UUID_MAPPING['perm-pr-approve-l3'], created_at: '2024-01-15T09:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-exec-chef-sr-create'], application_role_id: UUID_MAPPING['role-exec-chef'], permission_id: UUID_MAPPING['perm-sr-create'], created_at: '2024-01-15T09:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-exec-chef-sr-view'], application_role_id: UUID_MAPPING['role-exec-chef'], permission_id: UUID_MAPPING['perm-sr-view'], created_at: '2024-01-15T09:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-exec-chef-sr-approve-l3'], application_role_id: UUID_MAPPING['role-exec-chef'], permission_id: UUID_MAPPING['perm-sr-approve-l3'], created_at: '2024-01-15T09:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-exec-chef-grn-create'], application_role_id: UUID_MAPPING['role-exec-chef'], permission_id: UUID_MAPPING['perm-grn-create'], created_at: '2024-01-15T09:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-exec-chef-grn-view'], application_role_id: UUID_MAPPING['role-exec-chef'], permission_id: UUID_MAPPING['perm-grn-view'], created_at: '2024-01-15T09:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-exec-chef-grn-approve-l3'], application_role_id: UUID_MAPPING['role-exec-chef'], permission_id: UUID_MAPPING['perm-grn-approve-l3'], created_at: '2024-01-15T09:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-exec-chef-inventory-view'], application_role_id: UUID_MAPPING['role-exec-chef'], permission_id: UUID_MAPPING['perm-inventory-view'], created_at: '2024-01-15T09:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-exec-chef-inventory-manage'], application_role_id: UUID_MAPPING['role-exec-chef'], permission_id: UUID_MAPPING['perm-inventory-manage'], created_at: '2024-01-15T09:00:00Z', created_by_id: UUID_MAPPING['system'] },
+
+  // Executive Housekeeper - Housekeeping department permissions
+  { id: UUID_MAPPING['rp-exec-housekeeper-pr-create'], application_role_id: UUID_MAPPING['role-exec-housekeeper'], permission_id: UUID_MAPPING['perm-pr-create'], created_at: '2024-01-15T09:15:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-exec-housekeeper-pr-view'], application_role_id: UUID_MAPPING['role-exec-housekeeper'], permission_id: UUID_MAPPING['perm-pr-view'], created_at: '2024-01-15T09:15:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-exec-housekeeper-pr-view-department'], application_role_id: UUID_MAPPING['role-exec-housekeeper'], permission_id: UUID_MAPPING['perm-pr-view-department'], created_at: '2024-01-15T09:15:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-exec-housekeeper-pr-approve-l3'], application_role_id: UUID_MAPPING['role-exec-housekeeper'], permission_id: UUID_MAPPING['perm-pr-approve-l3'], created_at: '2024-01-15T09:15:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-exec-housekeeper-sr-create'], application_role_id: UUID_MAPPING['role-exec-housekeeper'], permission_id: UUID_MAPPING['perm-sr-create'], created_at: '2024-01-15T09:15:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-exec-housekeeper-sr-view'], application_role_id: UUID_MAPPING['role-exec-housekeeper'], permission_id: UUID_MAPPING['perm-sr-view'], created_at: '2024-01-15T09:15:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-exec-housekeeper-sr-approve-l3'], application_role_id: UUID_MAPPING['role-exec-housekeeper'], permission_id: UUID_MAPPING['perm-sr-approve-l3'], created_at: '2024-01-15T09:15:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-exec-housekeeper-grn-create'], application_role_id: UUID_MAPPING['role-exec-housekeeper'], permission_id: UUID_MAPPING['perm-grn-create'], created_at: '2024-01-15T09:15:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-exec-housekeeper-grn-view'], application_role_id: UUID_MAPPING['role-exec-housekeeper'], permission_id: UUID_MAPPING['perm-grn-view'], created_at: '2024-01-15T09:15:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-exec-housekeeper-grn-approve-l3'], application_role_id: UUID_MAPPING['role-exec-housekeeper'], permission_id: UUID_MAPPING['perm-grn-approve-l3'], created_at: '2024-01-15T09:15:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-exec-housekeeper-inventory-view'], application_role_id: UUID_MAPPING['role-exec-housekeeper'], permission_id: UUID_MAPPING['perm-inventory-view'], created_at: '2024-01-15T09:15:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-exec-housekeeper-inventory-manage'], application_role_id: UUID_MAPPING['role-exec-housekeeper'], permission_id: UUID_MAPPING['perm-inventory-manage'], created_at: '2024-01-15T09:15:00Z', created_by_id: UUID_MAPPING['system'] },
+
+  // Purchasing Manager - Procurement permissions
+  { id: UUID_MAPPING['rp-purchasing-manager-pr-create'], application_role_id: UUID_MAPPING['role-purchasing-manager'], permission_id: UUID_MAPPING['perm-pr-create'], created_at: '2024-01-15T10:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-purchasing-manager-pr-view'], application_role_id: UUID_MAPPING['role-purchasing-manager'], permission_id: UUID_MAPPING['perm-pr-view'], created_at: '2024-01-15T10:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-purchasing-manager-pr-view-all'], application_role_id: UUID_MAPPING['role-purchasing-manager'], permission_id: UUID_MAPPING['perm-pr-view-all'], created_at: '2024-01-15T10:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-purchasing-manager-pr-approve-l4'], application_role_id: UUID_MAPPING['role-purchasing-manager'], permission_id: UUID_MAPPING['perm-pr-approve-l4'], created_at: '2024-01-15T10:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-purchasing-manager-sr-create'], application_role_id: UUID_MAPPING['role-purchasing-manager'], permission_id: UUID_MAPPING['perm-sr-create'], created_at: '2024-01-15T10:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-purchasing-manager-sr-view'], application_role_id: UUID_MAPPING['role-purchasing-manager'], permission_id: UUID_MAPPING['perm-sr-view'], created_at: '2024-01-15T10:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-purchasing-manager-sr-approve-l4'], application_role_id: UUID_MAPPING['role-purchasing-manager'], permission_id: UUID_MAPPING['perm-sr-approve-l4'], created_at: '2024-01-15T10:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-purchasing-manager-grn-create'], application_role_id: UUID_MAPPING['role-purchasing-manager'], permission_id: UUID_MAPPING['perm-grn-create'], created_at: '2024-01-15T10:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-purchasing-manager-grn-view'], application_role_id: UUID_MAPPING['role-purchasing-manager'], permission_id: UUID_MAPPING['perm-grn-view'], created_at: '2024-01-15T10:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-purchasing-manager-grn-approve-l4'], application_role_id: UUID_MAPPING['role-purchasing-manager'], permission_id: UUID_MAPPING['perm-grn-approve-l4'], created_at: '2024-01-15T10:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-purchasing-manager-inventory-view'], application_role_id: UUID_MAPPING['role-purchasing-manager'], permission_id: UUID_MAPPING['perm-inventory-view'], created_at: '2024-01-15T10:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-purchasing-manager-inventory-manage'], application_role_id: UUID_MAPPING['role-purchasing-manager'], permission_id: UUID_MAPPING['perm-inventory-manage'], created_at: '2024-01-15T10:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-purchasing-manager-vendor-manage'], application_role_id: UUID_MAPPING['role-purchasing-manager'], permission_id: UUID_MAPPING['perm-vendor-manage'], created_at: '2024-01-15T10:00:00Z', created_by_id: UUID_MAPPING['system'] },
+
+  // Storekeeper - Inventory management permissions
+  { id: UUID_MAPPING['rp-storekeeper-pr-view'], application_role_id: UUID_MAPPING['role-storekeeper'], permission_id: UUID_MAPPING['perm-pr-view'], created_at: '2024-01-15T11:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-storekeeper-pr-view-department'], application_role_id: UUID_MAPPING['role-storekeeper'], permission_id: UUID_MAPPING['perm-pr-view-department'], created_at: '2024-01-15T11:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-storekeeper-sr-create'], application_role_id: UUID_MAPPING['role-storekeeper'], permission_id: UUID_MAPPING['perm-sr-create'], created_at: '2024-01-15T11:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-storekeeper-sr-view'], application_role_id: UUID_MAPPING['role-storekeeper'], permission_id: UUID_MAPPING['perm-sr-view'], created_at: '2024-01-15T11:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-storekeeper-sr-approve-l2'], application_role_id: UUID_MAPPING['role-storekeeper'], permission_id: UUID_MAPPING['perm-sr-approve-l2'], created_at: '2024-01-15T11:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-storekeeper-grn-create'], application_role_id: UUID_MAPPING['role-storekeeper'], permission_id: UUID_MAPPING['perm-grn-create'], created_at: '2024-01-15T11:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-storekeeper-grn-view'], application_role_id: UUID_MAPPING['role-storekeeper'], permission_id: UUID_MAPPING['perm-grn-view'], created_at: '2024-01-15T11:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-storekeeper-grn-approve-l2'], application_role_id: UUID_MAPPING['role-storekeeper'], permission_id: UUID_MAPPING['perm-grn-approve-l2'], created_at: '2024-01-15T11:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-storekeeper-inventory-view'], application_role_id: UUID_MAPPING['role-storekeeper'], permission_id: UUID_MAPPING['perm-inventory-view'], created_at: '2024-01-15T11:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-storekeeper-inventory-manage'], application_role_id: UUID_MAPPING['role-storekeeper'], permission_id: UUID_MAPPING['perm-inventory-manage'], created_at: '2024-01-15T11:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-storekeeper-inventory-issue'], application_role_id: UUID_MAPPING['role-storekeeper'], permission_id: UUID_MAPPING['perm-inventory-issue'], created_at: '2024-01-15T11:00:00Z', created_by_id: UUID_MAPPING['system'] },
+
+  // Night Manager - Emergency permissions
+  { id: UUID_MAPPING['rp-night-manager-pr-create'], application_role_id: UUID_MAPPING['role-night-manager'], permission_id: UUID_MAPPING['perm-pr-create'], created_at: '2024-01-15T14:45:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-night-manager-pr-view'], application_role_id: UUID_MAPPING['role-night-manager'], permission_id: UUID_MAPPING['perm-pr-view'], created_at: '2024-01-15T14:45:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-night-manager-pr-view-all'], application_role_id: UUID_MAPPING['role-night-manager'], permission_id: UUID_MAPPING['perm-pr-view-all'], created_at: '2024-01-15T14:45:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-night-manager-pr-approve-emergency'], application_role_id: UUID_MAPPING['role-night-manager'], permission_id: UUID_MAPPING['perm-pr-approve-emergency'], created_at: '2024-01-15T14:45:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-night-manager-sr-create'], application_role_id: UUID_MAPPING['role-night-manager'], permission_id: UUID_MAPPING['perm-sr-create'], created_at: '2024-01-15T14:45:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-night-manager-sr-view'], application_role_id: UUID_MAPPING['role-night-manager'], permission_id: UUID_MAPPING['perm-sr-view'], created_at: '2024-01-15T14:45:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-night-manager-sr-approve-l3'], application_role_id: UUID_MAPPING['role-night-manager'], permission_id: UUID_MAPPING['perm-sr-approve-l3'], created_at: '2024-01-15T14:45:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-night-manager-grn-view'], application_role_id: UUID_MAPPING['role-night-manager'], permission_id: UUID_MAPPING['perm-grn-view'], created_at: '2024-01-15T14:45:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-night-manager-inventory-view'], application_role_id: UUID_MAPPING['role-night-manager'], permission_id: UUID_MAPPING['perm-inventory-view'], created_at: '2024-01-15T14:45:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-night-manager-emergency-override'], application_role_id: UUID_MAPPING['role-night-manager'], permission_id: UUID_MAPPING['perm-emergency-override'], created_at: '2024-01-15T14:45:00Z', created_by_id: UUID_MAPPING['system'] },
+
+  // Additional supervisor and staff level mappings
+  // Sous Chef
+  { id: UUID_MAPPING['rp-sous-chef-pr-create'], application_role_id: UUID_MAPPING['role-sous-chef'], permission_id: UUID_MAPPING['perm-pr-create'], created_at: '2024-01-15T10:15:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-sous-chef-pr-view'], application_role_id: UUID_MAPPING['role-sous-chef'], permission_id: UUID_MAPPING['perm-pr-view'], created_at: '2024-01-15T10:15:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-sous-chef-pr-view-department'], application_role_id: UUID_MAPPING['role-sous-chef'], permission_id: UUID_MAPPING['perm-pr-view-department'], created_at: '2024-01-15T10:15:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-sous-chef-pr-approve-l2'], application_role_id: UUID_MAPPING['role-sous-chef'], permission_id: UUID_MAPPING['perm-pr-approve-l2'], created_at: '2024-01-15T10:15:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-sous-chef-sr-create'], application_role_id: UUID_MAPPING['role-sous-chef'], permission_id: UUID_MAPPING['perm-sr-create'], created_at: '2024-01-15T10:15:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-sous-chef-sr-view'], application_role_id: UUID_MAPPING['role-sous-chef'], permission_id: UUID_MAPPING['perm-sr-view'], created_at: '2024-01-15T10:15:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-sous-chef-sr-approve-l2'], application_role_id: UUID_MAPPING['role-sous-chef'], permission_id: UUID_MAPPING['perm-sr-approve-l2'], created_at: '2024-01-15T10:15:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-sous-chef-grn-create'], application_role_id: UUID_MAPPING['role-sous-chef'], permission_id: UUID_MAPPING['perm-grn-create'], created_at: '2024-01-15T10:15:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-sous-chef-grn-view'], application_role_id: UUID_MAPPING['role-sous-chef'], permission_id: UUID_MAPPING['perm-grn-view'], created_at: '2024-01-15T10:15:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-sous-chef-inventory-view'], application_role_id: UUID_MAPPING['role-sous-chef'], permission_id: UUID_MAPPING['perm-inventory-view'], created_at: '2024-01-15T10:15:00Z', created_by_id: UUID_MAPPING['system'] },
+
+  // Line Cook (basic permissions)
+  { id: UUID_MAPPING['rp-line-cook-pr-create'], application_role_id: UUID_MAPPING['role-line-cook'], permission_id: UUID_MAPPING['perm-pr-create'], created_at: '2024-01-15T12:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-line-cook-pr-view'], application_role_id: UUID_MAPPING['role-line-cook'], permission_id: UUID_MAPPING['perm-pr-view'], created_at: '2024-01-15T12:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-line-cook-pr-view-department'], application_role_id: UUID_MAPPING['role-line-cook'], permission_id: UUID_MAPPING['perm-pr-view-department'], created_at: '2024-01-15T12:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-line-cook-sr-create'], application_role_id: UUID_MAPPING['role-line-cook'], permission_id: UUID_MAPPING['perm-sr-create'], created_at: '2024-01-15T12:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-line-cook-sr-view'], application_role_id: UUID_MAPPING['role-line-cook'], permission_id: UUID_MAPPING['perm-sr-view'], created_at: '2024-01-15T12:00:00Z', created_by_id: UUID_MAPPING['system'] },
+  { id: UUID_MAPPING['rp-line-cook-inventory-view'], application_role_id: UUID_MAPPING['role-line-cook'], permission_id: UUID_MAPPING['perm-inventory-view'], created_at: '2024-01-15T12:00:00Z', created_by_id: UUID_MAPPING['system'] }
 ];
 
 // =============== TB_APPLICATION_ROLE_TB_PERMISSION CRUD FUNCTIONS ===============

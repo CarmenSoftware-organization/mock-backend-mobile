@@ -242,6 +242,501 @@ export let mockTbUser: TbUser[] = [
     updated_at: "2023-06-15T00:00:00.000Z",
     updated_by_id: UUID_MAPPING["user-001"],
   },
+  
+  // =============== HOTEL PROCUREMENT & OPERATIONS USERS ===============
+  
+  // Executive Level
+  {
+    id: UUID_MAPPING["user-gm"],
+    username: "general.manager",
+    email: "gm@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.create", "pr.view", "pr.view.all", "pr.approve", "pr.approve.emergency",
+      "sr.create", "sr.view", "sr.approve", 
+      "grn.create", "grn.view", "grn.approve",
+      "inventory.view", "inventory.manage", "inventory.adjust",
+      "budget.view", "budget.override", "emergency.override"
+    ],
+    consent_at: "2024-01-10T08:00:00.000Z",
+    created_at: "2024-01-10T08:00:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T08:00:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  {
+    id: UUID_MAPPING["user-financial-controller"],
+    username: "financial.controller",
+    email: "fc@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.view", "pr.view.all", "pr.approve",
+      "budget.view", "budget.manage", "budget.override",
+      "grn.view", "grn.approve",
+      "inventory.view", "inventory.audit"
+    ],
+    consent_at: "2024-01-10T08:30:00.000Z",
+    created_at: "2024-01-10T08:30:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T08:30:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  
+  // Department Heads
+  {
+    id: UUID_MAPPING["user-exec-chef"],
+    username: "executive.chef",
+    email: "exec.chef@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.create", "pr.view", "pr.view.department", "pr.approve",
+      "sr.create", "sr.view", "sr.approve",
+      "grn.create", "grn.view", "grn.approve",
+      "inventory.view", "inventory.manage"
+    ],
+    consent_at: "2024-01-10T09:00:00.000Z",
+    created_at: "2024-01-10T09:00:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T09:00:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  {
+    id: UUID_MAPPING["user-exec-housekeeper"],
+    username: "executive.housekeeper",
+    email: "exec.housekeeper@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.create", "pr.view", "pr.view.department", "pr.approve",
+      "sr.create", "sr.view", "sr.approve",
+      "grn.create", "grn.view", "grn.approve",
+      "inventory.view", "inventory.manage"
+    ],
+    consent_at: "2024-01-10T09:15:00.000Z",
+    created_at: "2024-01-10T09:15:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T09:15:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  {
+    id: UUID_MAPPING["user-fb-manager"],
+    username: "fb.manager",
+    email: "fb.manager@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.create", "pr.view", "pr.view.department", "pr.approve",
+      "sr.create", "sr.view", "sr.approve",
+      "grn.create", "grn.view", "grn.approve",
+      "inventory.view", "inventory.manage"
+    ],
+    consent_at: "2024-01-10T09:30:00.000Z",
+    created_at: "2024-01-10T09:30:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T09:30:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  {
+    id: UUID_MAPPING["user-chief-engineer"],
+    username: "chief.engineer",
+    email: "chief.engineer@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.create", "pr.view", "pr.view.department", "pr.approve",
+      "sr.create", "sr.view", "sr.approve",
+      "grn.create", "grn.view", "grn.approve",
+      "inventory.view", "inventory.manage"
+    ],
+    consent_at: "2024-01-10T09:45:00.000Z",
+    created_at: "2024-01-10T09:45:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T09:45:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  {
+    id: UUID_MAPPING["user-purchasing-manager"],
+    username: "purchasing.manager",
+    email: "purchasing.manager@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.create", "pr.view", "pr.view.all", "pr.approve",
+      "sr.create", "sr.view", "sr.approve",
+      "grn.create", "grn.view", "grn.approve",
+      "inventory.view", "inventory.manage", "vendor.manage"
+    ],
+    consent_at: "2024-01-10T10:00:00.000Z",
+    created_at: "2024-01-10T10:00:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T10:00:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  
+  // Supervisors & Officers
+  {
+    id: UUID_MAPPING["user-sous-chef"],
+    username: "sous.chef",
+    email: "sous.chef@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.create", "pr.view", "pr.view.department", "pr.approve",
+      "sr.create", "sr.view", "sr.approve",
+      "grn.create", "grn.view", "inventory.view"
+    ],
+    consent_at: "2024-01-10T10:15:00.000Z",
+    created_at: "2024-01-10T10:15:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T10:15:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  {
+    id: UUID_MAPPING["user-asst-housekeeper"],
+    username: "assistant.housekeeper",
+    email: "asst.housekeeper@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.create", "pr.view", "pr.view.department", "pr.approve",
+      "sr.create", "sr.view", "sr.approve",
+      "grn.create", "grn.view", "inventory.view"
+    ],
+    consent_at: "2024-01-10T10:30:00.000Z",
+    created_at: "2024-01-10T10:30:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T10:30:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  {
+    id: UUID_MAPPING["user-purchase-officer"],
+    username: "purchase.officer",
+    email: "purchase.officer@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.create", "pr.view", "pr.view.all", "pr.approve",
+      "sr.create", "sr.view", "sr.approve",
+      "grn.create", "grn.view", "grn.approve",
+      "inventory.view", "vendor.view"
+    ],
+    consent_at: "2024-01-10T10:45:00.000Z",
+    created_at: "2024-01-10T10:45:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T10:45:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  {
+    id: UUID_MAPPING["user-storekeeper"],
+    username: "storekeeper",
+    email: "storekeeper@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.view", "pr.view.department",
+      "sr.create", "sr.view", "sr.approve",
+      "grn.create", "grn.view", "grn.approve",
+      "inventory.view", "inventory.manage", "inventory.issue"
+    ],
+    consent_at: "2024-01-10T11:00:00.000Z",
+    created_at: "2024-01-10T11:00:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T11:00:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  {
+    id: UUID_MAPPING["user-restaurant-supervisor"],
+    username: "restaurant.supervisor",
+    email: "restaurant.supervisor@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.create", "pr.view", "pr.view.department", "pr.approve",
+      "sr.create", "sr.view", "sr.approve",
+      "grn.view", "inventory.view"
+    ],
+    consent_at: "2024-01-10T11:15:00.000Z",
+    created_at: "2024-01-10T11:15:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T11:15:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  {
+    id: UUID_MAPPING["user-maintenance-supervisor"],
+    username: "maintenance.supervisor",
+    email: "maintenance.supervisor@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.create", "pr.view", "pr.view.department", "pr.approve",
+      "sr.create", "sr.view", "sr.approve",
+      "grn.view", "inventory.view"
+    ],
+    consent_at: "2024-01-10T11:30:00.000Z",
+    created_at: "2024-01-10T11:30:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T11:30:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  {
+    id: UUID_MAPPING["user-laundry-supervisor"],
+    username: "laundry.supervisor",
+    email: "laundry.supervisor@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.create", "pr.view", "pr.view.department", "pr.approve",
+      "sr.create", "sr.view", "sr.approve",
+      "grn.view", "inventory.view"
+    ],
+    consent_at: "2024-01-10T11:45:00.000Z",
+    created_at: "2024-01-10T11:45:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T11:45:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  
+  // Staff Level
+  {
+    id: UUID_MAPPING["user-line-cook"],
+    username: "line.cook.1",
+    email: "line.cook1@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.create", "pr.view", "pr.view.department",
+      "sr.create", "sr.view", "inventory.view"
+    ],
+    consent_at: "2024-01-10T12:00:00.000Z",
+    created_at: "2024-01-10T12:00:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T12:00:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  {
+    id: UUID_MAPPING["user-line-cook-2"],
+    username: "line.cook.2",
+    email: "line.cook2@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.create", "pr.view", "pr.view.department",
+      "sr.create", "sr.view", "inventory.view"
+    ],
+    consent_at: "2024-01-10T12:15:00.000Z",
+    created_at: "2024-01-10T12:15:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T12:15:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  {
+    id: UUID_MAPPING["user-room-attendant-1"],
+    username: "room.attendant.1",
+    email: "room.attendant1@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.create", "pr.view", "pr.view.department",
+      "sr.create", "sr.view", "inventory.view"
+    ],
+    consent_at: "2024-01-10T12:30:00.000Z",
+    created_at: "2024-01-10T12:30:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T12:30:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  {
+    id: UUID_MAPPING["user-room-attendant-2"],
+    username: "room.attendant.2",
+    email: "room.attendant2@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.create", "pr.view", "pr.view.department",
+      "sr.create", "sr.view", "inventory.view"
+    ],
+    consent_at: "2024-01-10T12:45:00.000Z",
+    created_at: "2024-01-10T12:45:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T12:45:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  {
+    id: UUID_MAPPING["user-server-1"],
+    username: "server.1",
+    email: "server1@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.create", "pr.view", "pr.view.department",
+      "sr.create", "sr.view", "inventory.view"
+    ],
+    consent_at: "2024-01-10T13:00:00.000Z",
+    created_at: "2024-01-10T13:00:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T13:00:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  {
+    id: UUID_MAPPING["user-server-2"],
+    username: "server.2",
+    email: "server2@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.create", "pr.view", "pr.view.department",
+      "sr.create", "sr.view", "inventory.view"
+    ],
+    consent_at: "2024-01-10T13:15:00.000Z",
+    created_at: "2024-01-10T13:15:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T13:15:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  {
+    id: UUID_MAPPING["user-maintenance-tech-1"],
+    username: "maintenance.tech.1",
+    email: "maintenance.tech1@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.create", "pr.view", "pr.view.department",
+      "sr.create", "sr.view", "inventory.view"
+    ],
+    consent_at: "2024-01-10T13:30:00.000Z",
+    created_at: "2024-01-10T13:30:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T13:30:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  {
+    id: UUID_MAPPING["user-maintenance-tech-2"],
+    username: "maintenance.tech.2",
+    email: "maintenance.tech2@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.create", "pr.view", "pr.view.department",
+      "sr.create", "sr.view", "inventory.view"
+    ],
+    consent_at: "2024-01-10T13:45:00.000Z",
+    created_at: "2024-01-10T13:45:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T13:45:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  {
+    id: UUID_MAPPING["user-store-clerk"],
+    username: "store.clerk",
+    email: "store.clerk@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.view", "sr.create", "sr.view", "sr.approve",
+      "grn.create", "grn.view", "inventory.view", "inventory.issue"
+    ],
+    consent_at: "2024-01-10T14:00:00.000Z",
+    created_at: "2024-01-10T14:00:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T14:00:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  {
+    id: UUID_MAPPING["user-laundry-attendant-1"],
+    username: "laundry.attendant.1",
+    email: "laundry.attendant1@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.create", "pr.view", "pr.view.department",
+      "sr.create", "sr.view", "inventory.view"
+    ],
+    consent_at: "2024-01-10T14:15:00.000Z",
+    created_at: "2024-01-10T14:15:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T14:15:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  {
+    id: UUID_MAPPING["user-laundry-attendant-2"],
+    username: "laundry.attendant.2",
+    email: "laundry.attendant2@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.create", "pr.view", "pr.view.department",
+      "sr.create", "sr.view", "inventory.view"
+    ],
+    consent_at: "2024-01-10T14:30:00.000Z",
+    created_at: "2024-01-10T14:30:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T14:30:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  
+  // Special Roles
+  {
+    id: UUID_MAPPING["user-night-manager"],
+    username: "night.manager",
+    email: "night.manager@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.create", "pr.view", "pr.view.all", "pr.approve.emergency",
+      "sr.create", "sr.view", "sr.approve",
+      "grn.view", "inventory.view", "emergency.override"
+    ],
+    consent_at: "2024-01-10T14:45:00.000Z",
+    created_at: "2024-01-10T14:45:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T14:45:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
+  {
+    id: UUID_MAPPING["user-security-guard"],
+    username: "security.guard",
+    email: "security.guard@hoteltest.com",
+    platform_role: "user",
+    is_active: true,
+    is_consent: true,
+    permissions: [
+      "pr.view", "sr.view", "emergency.view", "security.report"
+    ],
+    consent_at: "2024-01-10T15:00:00.000Z",
+    created_at: "2024-01-10T15:00:00.000Z",
+    created_by_id: UUID_MAPPING["system"],
+    updated_at: "2024-01-10T15:00:00.000Z",
+    updated_by_id: UUID_MAPPING["system"]
+  },
 ];
 
 // =============== TB_USER CRUD FUNCTIONS ===============

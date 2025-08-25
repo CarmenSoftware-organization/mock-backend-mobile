@@ -124,6 +124,119 @@ export const UUID_MAPPING = {
   'app-role-020': 'cc0e8400-e29b-41d4-a716-446655440020', // Support Engineer
   'app-role-021': 'cc0e8400-e29b-41d4-a716-446655440021', // Developer
   'app-role-022': 'cc0e8400-e29b-41d4-a716-446655440022', // QA Tester
+  
+  // Hotel Procurement & Operations Roles
+  'role-gm': 'cc0e8400-e29b-41d4-a716-446655440023', // General Manager
+  'role-financial-controller': 'cc0e8400-e29b-41d4-a716-446655440024', // Financial Controller
+  'role-exec-chef': 'cc0e8400-e29b-41d4-a716-446655440025', // Executive Chef
+  'role-sous-chef': 'cc0e8400-e29b-41d4-a716-446655440026', // Sous Chef
+  'role-exec-housekeeper': 'cc0e8400-e29b-41d4-a716-446655440027', // Executive Housekeeper
+  'role-fb-manager': 'cc0e8400-e29b-41d4-a716-446655440028', // F&B Manager
+  'role-chief-engineer': 'cc0e8400-e29b-41d4-a716-446655440029', // Chief Engineer
+  'role-purchasing-manager': 'cc0e8400-e29b-41d4-a716-446655440030', // Purchasing Manager
+  'role-kitchen-supervisor': 'cc0e8400-e29b-41d4-a716-446655440031', // Kitchen Supervisor
+  'role-housekeeping-supervisor': 'cc0e8400-e29b-41d4-a716-446655440032', // Housekeeping Supervisor
+  'role-restaurant-supervisor': 'cc0e8400-e29b-41d4-a716-446655440033', // Restaurant Supervisor
+  'role-maintenance-supervisor': 'cc0e8400-e29b-41d4-a716-446655440034', // Maintenance Supervisor
+  'role-storekeeper': 'cc0e8400-e29b-41d4-a716-446655440035', // Storekeeper
+  'role-purchase-officer': 'cc0e8400-e29b-41d4-a716-446655440036', // Purchase Officer
+  'role-store-clerk': 'cc0e8400-e29b-41d4-a716-446655440037', // Store Clerk
+  'role-kitchen-staff': 'cc0e8400-e29b-41d4-a716-446655440038', // Kitchen Staff
+  'role-room-attendant': 'cc0e8400-e29b-41d4-a716-446655440039', // Room Attendant
+  'role-maintenance-tech': 'cc0e8400-e29b-41d4-a716-446655440040', // Maintenance Technician
+  'role-restaurant-staff': 'cc0e8400-e29b-41d4-a716-446655440041', // Restaurant Staff
+  'role-laundry-attendant': 'cc0e8400-e29b-41d4-a716-446655440042', // Laundry Attendant
+
+  // Hotel Departments
+  'dept-kitchen': '880e8400-e29b-41d4-a716-446655440017', // Kitchen
+  'dept-housekeeping': '880e8400-e29b-41d4-a716-446655440011', // Housekeeping
+  'dept-fb-service': '880e8400-e29b-41d4-a716-446655440012', // Food & Beverage Service
+  'dept-engineering': '880e8400-e29b-41d4-a716-446655440013', // Engineering/Maintenance
+  'dept-laundry': '880e8400-e29b-41d4-a716-446655440014', // Laundry
+  'dept-purchasing': '880e8400-e29b-41d4-a716-446655440015', // Purchasing
+  'dept-stores': '880e8400-e29b-41d4-a716-446655440016', // Stores/Inventory
+
+  // Hotel Staff Users
+  'user-gm': '550e8400-e29b-41d4-a716-446655440013', // General Manager
+  'user-financial-controller': '550e8400-e29b-41d4-a716-446655440014', // Financial Controller
+  'user-exec-chef': '550e8400-e29b-41d4-a716-446655440015', // Executive Chef
+  'user-sous-chef-1': '550e8400-e29b-41d4-a716-446655440016', // Sous Chef 1
+  'user-sous-chef-2': '550e8400-e29b-41d4-a716-446655440017', // Sous Chef 2
+  'user-kitchen-supervisor-1': '550e8400-e29b-41d4-a716-446655440018', // Kitchen Supervisor 1
+  'user-kitchen-supervisor-2': '550e8400-e29b-41d4-a716-446655440019', // Kitchen Supervisor 2
+  'user-kitchen-staff-1': '550e8400-e29b-41d4-a716-446655440020', // Kitchen Staff 1
+  'user-kitchen-staff-2': '550e8400-e29b-41d4-a716-446655440021', // Kitchen Staff 2
+  'user-kitchen-staff-3': '550e8400-e29b-41d4-a716-446655440022', // Kitchen Staff 3
+  'user-exec-housekeeper': '550e8400-e29b-41d4-a716-446655440023', // Executive Housekeeper
+  'user-housekeeping-supervisor-1': '550e8400-e29b-41d4-a716-446655440024', // Housekeeping Supervisor 1
+  'user-housekeeping-supervisor-2': '550e8400-e29b-41d4-a716-446655440025', // Housekeeping Supervisor 2
+  'user-room-attendant-1': '550e8400-e29b-41d4-a716-446655440026', // Room Attendant 1
+  'user-room-attendant-2': '550e8400-e29b-41d4-a716-446655440027', // Room Attendant 2
+  'user-room-attendant-3': '550e8400-e29b-41d4-a716-446655440028', // Room Attendant 3
+  'user-room-attendant-4': '550e8400-e29b-41d4-a716-446655440029', // Room Attendant 4
+  'user-laundry-attendant': '550e8400-e29b-41d4-a716-446655440030', // Laundry Attendant
+  'user-fb-manager': '550e8400-e29b-41d4-a716-446655440031', // F&B Manager
+  'user-restaurant-supervisor': '550e8400-e29b-41d4-a716-446655440032', // Restaurant Supervisor
+  'user-restaurant-staff-1': '550e8400-e29b-41d4-a716-446655440033', // Restaurant Staff 1
+  'user-restaurant-staff-2': '550e8400-e29b-41d4-a716-446655440034', // Restaurant Staff 2
+  'user-restaurant-staff-3': '550e8400-e29b-41d4-a716-446655440035', // Restaurant Staff 3
+  'user-restaurant-staff-4': '550e8400-e29b-41d4-a716-446655440036', // Restaurant Staff 4
+  'user-chief-engineer': '550e8400-e29b-41d4-a716-446655440037', // Chief Engineer
+  'user-maintenance-supervisor': '550e8400-e29b-41d4-a716-446655440038', // Maintenance Supervisor
+  'user-maintenance-tech-1': '550e8400-e29b-41d4-a716-446655440039', // Maintenance Technician 1
+  'user-maintenance-tech-2': '550e8400-e29b-41d4-a716-446655440040', // Maintenance Technician 2
+  'user-maintenance-tech-3': '550e8400-e29b-41d4-a716-446655440041', // Maintenance Technician 3
+  'user-purchasing-manager': '550e8400-e29b-41d4-a716-446655440042', // Purchasing Manager
+  'user-purchase-officer-1': '550e8400-e29b-41d4-a716-446655440043', // Purchase Officer 1
+  'user-purchase-officer-2': '550e8400-e29b-41d4-a716-446655440044', // Purchase Officer 2
+  'user-storekeeper': '550e8400-e29b-41d4-a716-446655440045', // Storekeeper
+  'user-store-clerk-1': '550e8400-e29b-41d4-a716-446655440046', // Store Clerk 1
+  'user-store-clerk-2': '550e8400-e29b-41d4-a716-446655440047', // Store Clerk 2
+
+  // Additional Hotel Staff Users  
+  'user-sous-chef': '550e8400-e29b-41d4-a716-446655440048', // Sous Chef (single)
+  'user-asst-housekeeper': '550e8400-e29b-41d4-a716-446655440049', // Assistant Housekeeper
+  'user-purchase-officer': '550e8400-e29b-41d4-a716-446655440050', // Purchase Officer (single)
+  'user-laundry-supervisor': '550e8400-e29b-41d4-a716-446655440051', // Laundry Supervisor
+  'user-line-cook': '550e8400-e29b-41d4-a716-446655440052', // Line Cook 1
+  'user-line-cook-2': '550e8400-e29b-41d4-a716-446655440053', // Line Cook 2
+  'user-server-1': '550e8400-e29b-41d4-a716-446655440054', // Server 1
+  'user-server-2': '550e8400-e29b-41d4-a716-446655440055', // Server 2
+  'user-store-clerk': '550e8400-e29b-41d4-a716-446655440056', // Store Clerk (single)
+  'user-laundry-attendant-1': '550e8400-e29b-41d4-a716-446655440057', // Laundry Attendant 1
+  'user-laundry-attendant-2': '550e8400-e29b-41d4-a716-446655440058', // Laundry Attendant 2
+  'user-night-manager': '550e8400-e29b-41d4-a716-446655440059', // Night Manager
+  'user-security-guard': '550e8400-e29b-41d4-a716-446655440060', // Security Guard
+
+  // Procurement Permissions
+  'perm-pr-create': 'bb0e8400-e29b-41d4-a716-446655440033', // pr.create
+  'perm-pr-view-own': 'bb0e8400-e29b-41d4-a716-446655440034', // pr.view.own
+  'perm-pr-view-dept': 'bb0e8400-e29b-41d4-a716-446655440035', // pr.view.department
+  'perm-pr-view-all': 'bb0e8400-e29b-41d4-a716-446655440036', // pr.view.all
+  'perm-pr-approve-l1': 'bb0e8400-e29b-41d4-a716-446655440037', // pr.approve.level1
+  'perm-pr-approve-l2': 'bb0e8400-e29b-41d4-a716-446655440038', // pr.approve.level2
+  'perm-pr-approve-l3': 'bb0e8400-e29b-41d4-a716-446655440039', // pr.approve.level3
+  'perm-pr-approve-unlimited': 'bb0e8400-e29b-41d4-a716-446655440040', // pr.approve.unlimited
+  'perm-pr-emergency': 'bb0e8400-e29b-41d4-a716-446655440041', // pr.emergency
+  'perm-sr-create': 'bb0e8400-e29b-41d4-a716-446655440042', // sr.create
+  'perm-sr-view-own': 'bb0e8400-e29b-41d4-a716-446655440043', // sr.view.own
+  'perm-sr-view-dept': 'bb0e8400-e29b-41d4-a716-446655440044', // sr.view.department
+  'perm-sr-view-all': 'bb0e8400-e29b-41d4-a716-446655440045', // sr.view.all
+  'perm-sr-approve': 'bb0e8400-e29b-41d4-a716-446655440046', // sr.approve
+  'perm-sr-issue': 'bb0e8400-e29b-41d4-a716-446655440047', // sr.issue
+  'perm-sr-emergency': 'bb0e8400-e29b-41d4-a716-446655440048', // sr.emergency
+  'perm-inv-view': 'bb0e8400-e29b-41d4-a716-446655440049', // inventory.view
+  'perm-inv-adjust': 'bb0e8400-e29b-41d4-a716-446655440050', // inventory.adjust
+  'perm-inv-transfer': 'bb0e8400-e29b-41d4-a716-446655440051', // inventory.transfer
+  'perm-inv-count': 'bb0e8400-e29b-41d4-a716-446655440052', // inventory.count
+
+  // Workflows
+  'workflow-kitchen-pr': 'ee0e8400-e29b-41d4-a716-446655440001', // Kitchen PR Workflow
+  'workflow-housekeeping-sr': 'ee0e8400-e29b-41d4-a716-446655440002', // Housekeeping SR Workflow
+  'workflow-fb-pr': 'ee0e8400-e29b-41d4-a716-446655440003', // F&B PR Workflow
+  'workflow-engineering-pr': 'ee0e8400-e29b-41d4-a716-446655440004', // Engineering PR Workflow
+  'workflow-emergency-pr': 'ee0e8400-e29b-41d4-a716-446655440005', // Emergency PR Workflow
+  'workflow-cross-dept': 'ee0e8400-e29b-41d4-a716-446655440006', // Cross-Department Workflow
 
   // Subscriptions
   'sub-001': 'dd0e8400-e29b-41d4-a716-446655440001', // Enterprise Plus
