@@ -4,248 +4,7 @@ import { UUID_MAPPING } from "./uuid-mapping";
 
 // =============== MOCK TB_USER DATA ===============
 export let mockTbUser: TbUser[] = [
-  {
-    id: UUID_MAPPING["user-001"],
-    username: "staff@test.com",
-    email: "staff@test.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.view",
-      "pr.view.department",
-      "sr.view",
-      "grn.view",
-      "pc.view",
-      "spc.view",
-    ],
-    consent_at: "2023-01-01T00:00:00.000Z",
-    created_at: "2023-01-01T00:00:00.000Z",
-    created_by_id: UUID_MAPPING["system"],
-    updated_at: "2023-01-01T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING["system"],
-  },
-  {
-    id: UUID_MAPPING["user-002"],
-    username: "department-manager@test.com",
-    email: "department-manager@test.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.view",
-      "pr.view.department",
-      "sr.view",
-      "grn.view",
-      "pc.view",
-      "spc.view",
-    ],
-    consent_at: "2023-01-15T00:00:00.000Z",
-    created_at: "2023-01-15T00:00:00.000Z",
-    created_by_id: UUID_MAPPING["user-001"],
-    updated_at: "2023-01-15T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING["user-001"],
-  },
-  {
-    id: UUID_MAPPING["user-003"],
-    username: "financial-manager@test.com",
-    email: "financial-manager@test.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.view",
-      "pr.view.all",
-      "sr.view",
-      "grn.view",
-      "pc.view",
-      "spc.view",
-    ],
-    consent_at: "2023-02-01T00:00:00.000Z",
-    created_at: "2023-02-01T00:00:00.000Z",
-    created_by_id: UUID_MAPPING["user-001"],
-    updated_at: "2023-02-01T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING["user-001"],
-  },
-  {
-    id: UUID_MAPPING["user-004"],
-    username: "purchasing-staff@test.com",
-    email: "purchasing-staff@test.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.view",
-      "pr.view.all",
-      "sr.view",
-      "grn.view",
-      "pc.view",
-      "spc.view",
-    ],
-    consent_at: "2023-02-15T00:00:00.000Z",
-    created_at: "2023-02-15T00:00:00.000Z",
-    created_by_id: UUID_MAPPING["user-001"],
-    updated_at: "2023-02-15T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING["user-001"],
-  },
-  {
-    id: UUID_MAPPING["user-005"],
-    username: "counter-staff@test.com",
-    email: "counter-staff@test.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: ["sr.view", "grn.view", "pc.view", "spc.view"],
-    consent_at: "2023-02-20T00:00:00.000Z",
-    created_at: "2023-02-20T00:00:00.000Z",
-    created_by_id: UUID_MAPPING["user-001"],
-    updated_at: "2023-02-20T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING["user-001"],
-  },
-  {
-    id: UUID_MAPPING["user-006"],
-    username: "chef@test.com",
-    email: "chef@test.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.view",
-      "pr.view.department",
-      "sr.view",
-      "grn.view",
-      "pc.view",
-      "spc.view",
-    ],
-    consent_at: "2023-03-01T00:00:00.000Z",
-    created_at: "2023-03-01T00:00:00.000Z",
-    created_by_id: UUID_MAPPING["user-001"],
-    updated_at: "2023-03-01T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING["user-001"],
-  },
-  {
-    id: UUID_MAPPING["user-007"],
-    username: "admin@test.com",
-    email: "admin@test.com",
-    platform_role: "platform_admin",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.view",
-      "pr.view.all",
-      "sr.view",
-      "grn.view",
-      "pc.view",
-      "spc.view",
-    ],
-    consent_at: "2023-03-05T00:00:00.000Z",
-    created_at: "2023-03-05T00:00:00.000Z",
-    created_by_id: UUID_MAPPING["user-001"],
-    updated_at: "2023-03-05T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING["user-001"],
-  },
-  {
-    id: UUID_MAPPING["user-008"],
-    username: "test@test.com",
-    email: "test@test.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.view",
-      "pr.view.all",
-      "sr.view",
-      "grn.view",
-      "pc.view",
-      "spc.view",
-    ],
-    consent_at: "2023-04-01T00:00:00.000Z",
-    created_at: "2023-04-01T00:00:00.000Z",
-    created_by_id: UUID_MAPPING["user-001"],
-    updated_at: "2023-04-01T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING["user-001"],
-  },
-  {
-    id: UUID_MAPPING["user-009"],
-    username: "staff2@test.com",
-    email: "staff2@test.com",
-    platform_role: "support_staff",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.view",
-      "pr.view.department",
-      "sr.view",
-      "grn.view",
-      "pc.view",
-      "spc.view",
-    ],
-    consent_at: "2023-04-15T00:00:00.000Z",
-    created_at: "2023-04-15T00:00:00.000Z",
-    created_by_id: UUID_MAPPING["user-001"],
-    updated_at: "2023-04-15T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING["user-001"],
-  },
-  {
-    id: UUID_MAPPING["user-010"],
-    username: "dev@carmensoftware.com",
-    email: "dev@carmensoftware.com",
-    platform_role: "integration_developer",
-    is_active: true,
-    is_consent: true,
-    permissions: ["pr.view", "sr.view", "grn.view", "pc.view", "spc.view"],
-    consent_at: getCurrentTimestamp(),
-    created_at: getCurrentTimestamp(),
-    created_by_id: UUID_MAPPING["system"],
-    updated_at: getCurrentTimestamp(),
-    updated_by_id: UUID_MAPPING["system"],
-  },
-  {
-    id: UUID_MAPPING["user-011"],
-    username: "support@carmensoftware.com",
-    email: "support@carmensoftware.com",
-    platform_role: "support_manager",
-    is_active: true,
-    is_consent: true,
-    permissions: ["pr.view", "sr.view", "grn.view", "pc.view", "spc.view"],
-    consent_at: "2023-05-01T00:00:00.000Z",
-    created_at: "2023-05-01T00:00:00.000Z",
-    created_by_id: UUID_MAPPING["user-001"],
-    updated_at: "2023-05-01T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING["user-001"],
-  },
-  {
-    id: UUID_MAPPING["user-012"],
-    username: "security@carmensoftware.com",
-    email: "security@carmensoftware.com",
-    platform_role: "security_officer",
-    is_active: true,
-    is_consent: true,
-    permissions: ["pr.view", "sr.view", "grn.view", "pc.view", "spc.view"],
-    consent_at: "2023-05-15T00:00:00.000Z",
-    created_at: "2023-05-15T00:00:00.000Z",
-    created_by_id: UUID_MAPPING["user-001"],
-    updated_at: "2023-05-15T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING["user-001"],
-  },
-  {
-    id: "user-013",
-    username: "inactive@example.com",
-    email: "inactive@example.com",
-    platform_role: "user",
-    is_active: false,
-    is_consent: false,
-    permissions: ["pr.view", "sr.view", "grn.view", "pc.view", "spc.view"],
-    consent_at: null,
-    created_at: "2023-06-01T00:00:00.000Z",
-    created_by_id: UUID_MAPPING["user-001"],
-    updated_at: "2023-06-15T00:00:00.000Z",
-    updated_by_id: UUID_MAPPING["user-001"],
-  },
-  
-  // =============== HOTEL PROCUREMENT & OPERATIONS USERS ===============
-  
-  // Executive Level
+  // 1. General Manager
   {
     id: UUID_MAPPING["user-gm"],
     username: "gm@hoteltest.com",
@@ -266,6 +25,8 @@ export let mockTbUser: TbUser[] = [
     updated_at: "2024-01-10T08:00:00.000Z",
     updated_by_id: UUID_MAPPING["system"]
   },
+
+  // 2. Financial Controller
   {
     id: UUID_MAPPING["user-financial-controller"],
     username: "fc@hoteltest.com",
@@ -285,8 +46,8 @@ export let mockTbUser: TbUser[] = [
     updated_at: "2024-01-10T08:30:00.000Z",
     updated_by_id: UUID_MAPPING["system"]
   },
-  
-  // Department Heads
+
+  // 3. Executive Chef
   {
     id: UUID_MAPPING["user-exec-chef"],
     username: "exec.chef@hoteltest.com",
@@ -306,6 +67,8 @@ export let mockTbUser: TbUser[] = [
     updated_at: "2024-01-10T09:00:00.000Z",
     updated_by_id: UUID_MAPPING["system"]
   },
+
+  // 4. Executive Housekeeper
   {
     id: UUID_MAPPING["user-exec-housekeeper"],
     username: "exec.housekeeper@hoteltest.com",
@@ -325,25 +88,8 @@ export let mockTbUser: TbUser[] = [
     updated_at: "2024-01-10T09:15:00.000Z",
     updated_by_id: UUID_MAPPING["system"]
   },
-  {
-    id: UUID_MAPPING["user-fb-manager"],
-    username: "fb.manager@hoteltest.com",
-    email: "fb.manager@hoteltest.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.create", "pr.view", "pr.view.department", "pr.approve",
-      "sr.create", "sr.view", "sr.approve",
-      "grn.create", "grn.view", "grn.approve",
-      "inventory.view", "inventory.manage"
-    ],
-    consent_at: "2024-01-10T09:30:00.000Z",
-    created_at: "2024-01-10T09:30:00.000Z",
-    created_by_id: UUID_MAPPING["system"],
-    updated_at: "2024-01-10T09:30:00.000Z",
-    updated_by_id: UUID_MAPPING["system"]
-  },
+
+  // 5. Chief Engineer
   {
     id: UUID_MAPPING["user-chief-engineer"],
     username: "chief.engineer@hoteltest.com",
@@ -363,6 +109,8 @@ export let mockTbUser: TbUser[] = [
     updated_at: "2024-01-10T09:45:00.000Z",
     updated_by_id: UUID_MAPPING["system"]
   },
+
+  // 6. Purchasing Manager
   {
     id: UUID_MAPPING["user-purchasing-manager"],
     username: "purchasing.manager@hoteltest.com",
@@ -382,8 +130,8 @@ export let mockTbUser: TbUser[] = [
     updated_at: "2024-01-10T10:00:00.000Z",
     updated_by_id: UUID_MAPPING["system"]
   },
-  
-  // Supervisors & Officers
+
+  // 7. Sous Chef
   {
     id: UUID_MAPPING["user-sous-chef"],
     username: "sous.chef@hoteltest.com",
@@ -402,6 +150,8 @@ export let mockTbUser: TbUser[] = [
     updated_at: "2024-01-10T10:15:00.000Z",
     updated_by_id: UUID_MAPPING["system"]
   },
+
+  // 8. Assistant Housekeeper
   {
     id: UUID_MAPPING["user-asst-housekeeper"],
     username: "asst.housekeeper@hoteltest.com",
@@ -420,25 +170,8 @@ export let mockTbUser: TbUser[] = [
     updated_at: "2024-01-10T10:30:00.000Z",
     updated_by_id: UUID_MAPPING["system"]
   },
-  {
-    id: UUID_MAPPING["user-purchase-officer"],
-    username: "purchase.officer@hoteltest.com",
-    email: "purchase.officer@hoteltest.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.create", "pr.view", "pr.view.all", "pr.approve",
-      "sr.create", "sr.view", "sr.approve",
-      "grn.create", "grn.view", "grn.approve",
-      "inventory.view", "vendor.view"
-    ],
-    consent_at: "2024-01-10T10:45:00.000Z",
-    created_at: "2024-01-10T10:45:00.000Z",
-    created_by_id: UUID_MAPPING["system"],
-    updated_at: "2024-01-10T10:45:00.000Z",
-    updated_by_id: UUID_MAPPING["system"]
-  },
+
+  // 9. Storekeeper
   {
     id: UUID_MAPPING["user-storekeeper"],
     username: "storekeeper@hoteltest.com",
@@ -458,198 +191,8 @@ export let mockTbUser: TbUser[] = [
     updated_at: "2024-01-10T11:00:00.000Z",
     updated_by_id: UUID_MAPPING["system"]
   },
-  {
-    id: UUID_MAPPING["user-restaurant-supervisor"],
-    username: "restaurant.supervisor@hoteltest.com",
-    email: "restaurant.supervisor@hoteltest.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.create", "pr.view", "pr.view.department", "pr.approve",
-      "sr.create", "sr.view", "sr.approve",
-      "grn.view", "inventory.view"
-    ],
-    consent_at: "2024-01-10T11:15:00.000Z",
-    created_at: "2024-01-10T11:15:00.000Z",
-    created_by_id: UUID_MAPPING["system"],
-    updated_at: "2024-01-10T11:15:00.000Z",
-    updated_by_id: UUID_MAPPING["system"]
-  },
-  {
-    id: UUID_MAPPING["user-maintenance-supervisor"],
-    username: "maintenance.supervisor@hoteltest.com",
-    email: "maintenance.supervisor@hoteltest.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.create", "pr.view", "pr.view.department", "pr.approve",
-      "sr.create", "sr.view", "sr.approve",
-      "grn.view", "inventory.view"
-    ],
-    consent_at: "2024-01-10T11:30:00.000Z",
-    created_at: "2024-01-10T11:30:00.000Z",
-    created_by_id: UUID_MAPPING["system"],
-    updated_at: "2024-01-10T11:30:00.000Z",
-    updated_by_id: UUID_MAPPING["system"]
-  },
-  {
-    id: UUID_MAPPING["user-laundry-supervisor"],
-    username: "laundry.supervisor@hoteltest.com",
-    email: "laundry.supervisor@hoteltest.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.create", "pr.view", "pr.view.department", "pr.approve",
-      "sr.create", "sr.view", "sr.approve",
-      "grn.view", "inventory.view"
-    ],
-    consent_at: "2024-01-10T11:45:00.000Z",
-    created_at: "2024-01-10T11:45:00.000Z",
-    created_by_id: UUID_MAPPING["system"],
-    updated_at: "2024-01-10T11:45:00.000Z",
-    updated_by_id: UUID_MAPPING["system"]
-  },
-  
-  // Staff Level
-  {
-    id: UUID_MAPPING["user-line-cook"],
-    username: "line.cook1@hoteltest.com",
-    email: "line.cook1@hoteltest.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.create", "pr.view", "pr.view.department",
-      "sr.create", "sr.view", "inventory.view"
-    ],
-    consent_at: "2024-01-10T12:00:00.000Z",
-    created_at: "2024-01-10T12:00:00.000Z",
-    created_by_id: UUID_MAPPING["system"],
-    updated_at: "2024-01-10T12:00:00.000Z",
-    updated_by_id: UUID_MAPPING["system"]
-  },
-  {
-    id: UUID_MAPPING["user-line-cook-2"],
-    username: "line.cook2@hoteltest.com",
-    email: "line.cook2@hoteltest.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.create", "pr.view", "pr.view.department",
-      "sr.create", "sr.view", "inventory.view"
-    ],
-    consent_at: "2024-01-10T12:15:00.000Z",
-    created_at: "2024-01-10T12:15:00.000Z",
-    created_by_id: UUID_MAPPING["system"],
-    updated_at: "2024-01-10T12:15:00.000Z",
-    updated_by_id: UUID_MAPPING["system"]
-  },
-  {
-    id: UUID_MAPPING["user-room-attendant-1"],
-    username: "room.attendant1@hoteltest.com",
-    email: "room.attendant1@hoteltest.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.create", "pr.view", "pr.view.department",
-      "sr.create", "sr.view", "inventory.view"
-    ],
-    consent_at: "2024-01-10T12:30:00.000Z",
-    created_at: "2024-01-10T12:30:00.000Z",
-    created_by_id: UUID_MAPPING["system"],
-    updated_at: "2024-01-10T12:30:00.000Z",
-    updated_by_id: UUID_MAPPING["system"]
-  },
-  {
-    id: UUID_MAPPING["user-room-attendant-2"],
-    username: "room.attendant2@hoteltest.com",
-    email: "room.attendant2@hoteltest.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.create", "pr.view", "pr.view.department",
-      "sr.create", "sr.view", "inventory.view"
-    ],
-    consent_at: "2024-01-10T12:45:00.000Z",
-    created_at: "2024-01-10T12:45:00.000Z",
-    created_by_id: UUID_MAPPING["system"],
-    updated_at: "2024-01-10T12:45:00.000Z",
-    updated_by_id: UUID_MAPPING["system"]
-  },
-  {
-    id: UUID_MAPPING["user-server-1"],
-    username: "server1@hoteltest.com",
-    email: "server1@hoteltest.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.create", "pr.view", "pr.view.department",
-      "sr.create", "sr.view", "inventory.view"
-    ],
-    consent_at: "2024-01-10T13:00:00.000Z",
-    created_at: "2024-01-10T13:00:00.000Z",
-    created_by_id: UUID_MAPPING["system"],
-    updated_at: "2024-01-10T13:00:00.000Z",
-    updated_by_id: UUID_MAPPING["system"]
-  },
-  {
-    id: UUID_MAPPING["user-server-2"],
-    username: "server2@hoteltest.com",
-    email: "server2@hoteltest.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.create", "pr.view", "pr.view.department",
-      "sr.create", "sr.view", "inventory.view"
-    ],
-    consent_at: "2024-01-10T13:15:00.000Z",
-    created_at: "2024-01-10T13:15:00.000Z",
-    created_by_id: UUID_MAPPING["system"],
-    updated_at: "2024-01-10T13:15:00.000Z",
-    updated_by_id: UUID_MAPPING["system"]
-  },
-  {
-    id: UUID_MAPPING["user-maintenance-tech-1"],
-    username: "maintenance.tech1@hoteltest.com",
-    email: "maintenance.tech1@hoteltest.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.create", "pr.view", "pr.view.department",
-      "sr.create", "sr.view", "inventory.view"
-    ],
-    consent_at: "2024-01-10T13:30:00.000Z",
-    created_at: "2024-01-10T13:30:00.000Z",
-    created_by_id: UUID_MAPPING["system"],
-    updated_at: "2024-01-10T13:30:00.000Z",
-    updated_by_id: UUID_MAPPING["system"]
-  },
-  {
-    id: UUID_MAPPING["user-maintenance-tech-2"],
-    username: "maintenance.tech2@hoteltest.com",
-    email: "maintenance.tech2@hoteltest.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.create", "pr.view", "pr.view.department",
-      "sr.create", "sr.view", "inventory.view"
-    ],
-    consent_at: "2024-01-10T13:45:00.000Z",
-    created_at: "2024-01-10T13:45:00.000Z",
-    created_by_id: UUID_MAPPING["system"],
-    updated_at: "2024-01-10T13:45:00.000Z",
-    updated_by_id: UUID_MAPPING["system"]
-  },
+
+  // 10. Store Clerk
   {
     id: UUID_MAPPING["user-store-clerk"],
     username: "store.clerk@hoteltest.com",
@@ -666,78 +209,9 @@ export let mockTbUser: TbUser[] = [
     created_by_id: UUID_MAPPING["system"],
     updated_at: "2024-01-10T14:00:00.000Z",
     updated_by_id: UUID_MAPPING["system"]
-  },
-  {
-    id: UUID_MAPPING["user-laundry-attendant-1"],
-    username: "laundry.attendant1@hoteltest.com",
-    email: "laundry.attendant1@hoteltest.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.create", "pr.view", "pr.view.department",
-      "sr.create", "sr.view", "inventory.view"
-    ],
-    consent_at: "2024-01-10T14:15:00.000Z",
-    created_at: "2024-01-10T14:15:00.000Z",
-    created_by_id: UUID_MAPPING["system"],
-    updated_at: "2024-01-10T14:15:00.000Z",
-    updated_by_id: UUID_MAPPING["system"]
-  },
-  {
-    id: UUID_MAPPING["user-laundry-attendant-2"],
-    username: "laundry.attendant2@hoteltest.com",
-    email: "laundry.attendant2@hoteltest.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.create", "pr.view", "pr.view.department",
-      "sr.create", "sr.view", "inventory.view"
-    ],
-    consent_at: "2024-01-10T14:30:00.000Z",
-    created_at: "2024-01-10T14:30:00.000Z",
-    created_by_id: UUID_MAPPING["system"],
-    updated_at: "2024-01-10T14:30:00.000Z",
-    updated_by_id: UUID_MAPPING["system"]
-  },
-  
-  // Special Roles
-  {
-    id: UUID_MAPPING["user-night-manager"],
-    username: "night.manager@hoteltest.com",
-    email: "night.manager@hoteltest.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.create", "pr.view", "pr.view.all", "pr.approve.emergency",
-      "sr.create", "sr.view", "sr.approve",
-      "grn.view", "inventory.view", "emergency.override"
-    ],
-    consent_at: "2024-01-10T14:45:00.000Z",
-    created_at: "2024-01-10T14:45:00.000Z",
-    created_by_id: UUID_MAPPING["system"],
-    updated_at: "2024-01-10T14:45:00.000Z",
-    updated_by_id: UUID_MAPPING["system"]
-  },
-  {
-    id: UUID_MAPPING["user-security-guard"],
-    username: "security.guard@hoteltest.com",
-    email: "security.guard@hoteltest.com",
-    platform_role: "user",
-    is_active: true,
-    is_consent: true,
-    permissions: [
-      "pr.view", "sr.view", "emergency.view", "security.report"
-    ],
-    consent_at: "2024-01-10T15:00:00.000Z",
-    created_at: "2024-01-10T15:00:00.000Z",
-    created_by_id: UUID_MAPPING["system"],
-    updated_at: "2024-01-10T15:00:00.000Z",
-    updated_by_id: UUID_MAPPING["system"]
-  },
+  }
 ];
+
 
 // =============== TB_USER CRUD FUNCTIONS ===============
 export const tbUserCrud = {
@@ -814,17 +288,17 @@ export const tbUserCrud = {
       .sort((a, b) => a.username.localeCompare(b.username));
   },
 
-  // Find admin users
+  // Find admin users (now only hotel management)
   findAdmins: (): TbUser[] => {
     const adminRoles = [
-      "platform_admin",
-      "support_manager",
-      "security_officer",
+      "user", // All hotel operations users are platform_role: "user"
     ];
     return mockTbUser
       .filter(
         (user) =>
-          user.is_active && adminRoles.includes(user.platform_role || "user")
+          user.is_active && 
+          adminRoles.includes(user.platform_role || "user") &&
+          (user.permissions?.includes("pr.approve") || user.permissions?.includes("budget.override"))
       )
       .sort((a, b) => a.username.localeCompare(b.username));
   },
