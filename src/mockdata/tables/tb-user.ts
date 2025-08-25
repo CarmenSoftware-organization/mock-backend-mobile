@@ -188,7 +188,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-010"],
-    username: "developer",
+    username: "dev@carmensoftware.com",
     email: "dev@carmensoftware.com",
     platform_role: "integration_developer",
     is_active: true,
@@ -202,7 +202,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-011"],
-    username: "support.manager",
+    username: "support@carmensoftware.com",
     email: "support@carmensoftware.com",
     platform_role: "support_manager",
     is_active: true,
@@ -216,7 +216,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-012"],
-    username: "security.officer",
+    username: "security@carmensoftware.com",
     email: "security@carmensoftware.com",
     platform_role: "security_officer",
     is_active: true,
@@ -230,7 +230,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: "user-013",
-    username: "inactive.user",
+    username: "inactive@example.com",
     email: "inactive@example.com",
     platform_role: "user",
     is_active: false,
@@ -248,7 +248,7 @@ export let mockTbUser: TbUser[] = [
   // Executive Level
   {
     id: UUID_MAPPING["user-gm"],
-    username: "general.manager",
+    username: "gm@hoteltest.com",
     email: "gm@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -268,7 +268,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-financial-controller"],
-    username: "financial.controller",
+    username: "fc@hoteltest.com",
     email: "fc@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -289,7 +289,7 @@ export let mockTbUser: TbUser[] = [
   // Department Heads
   {
     id: UUID_MAPPING["user-exec-chef"],
-    username: "executive.chef",
+    username: "exec.chef@hoteltest.com",
     email: "exec.chef@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -308,7 +308,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-exec-housekeeper"],
-    username: "executive.housekeeper",
+    username: "exec.housekeeper@hoteltest.com",
     email: "exec.housekeeper@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -327,7 +327,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-fb-manager"],
-    username: "fb.manager",
+    username: "fb.manager@hoteltest.com",
     email: "fb.manager@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -346,7 +346,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-chief-engineer"],
-    username: "chief.engineer",
+    username: "chief.engineer@hoteltest.com",
     email: "chief.engineer@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -365,7 +365,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-purchasing-manager"],
-    username: "purchasing.manager",
+    username: "purchasing.manager@hoteltest.com",
     email: "purchasing.manager@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -386,7 +386,7 @@ export let mockTbUser: TbUser[] = [
   // Supervisors & Officers
   {
     id: UUID_MAPPING["user-sous-chef"],
-    username: "sous.chef",
+    username: "sous.chef@hoteltest.com",
     email: "sous.chef@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -404,7 +404,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-asst-housekeeper"],
-    username: "assistant.housekeeper",
+    username: "asst.housekeeper@hoteltest.com",
     email: "asst.housekeeper@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -422,7 +422,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-purchase-officer"],
-    username: "purchase.officer",
+    username: "purchase.officer@hoteltest.com",
     email: "purchase.officer@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -441,7 +441,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-storekeeper"],
-    username: "storekeeper",
+    username: "storekeeper@hoteltest.com",
     email: "storekeeper@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -460,7 +460,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-restaurant-supervisor"],
-    username: "restaurant.supervisor",
+    username: "restaurant.supervisor@hoteltest.com",
     email: "restaurant.supervisor@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -478,7 +478,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-maintenance-supervisor"],
-    username: "maintenance.supervisor",
+    username: "maintenance.supervisor@hoteltest.com",
     email: "maintenance.supervisor@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -496,7 +496,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-laundry-supervisor"],
-    username: "laundry.supervisor",
+    username: "laundry.supervisor@hoteltest.com",
     email: "laundry.supervisor@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -516,7 +516,7 @@ export let mockTbUser: TbUser[] = [
   // Staff Level
   {
     id: UUID_MAPPING["user-line-cook"],
-    username: "line.cook.1",
+    username: "line.cook1@hoteltest.com",
     email: "line.cook1@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -533,7 +533,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-line-cook-2"],
-    username: "line.cook.2",
+    username: "line.cook2@hoteltest.com",
     email: "line.cook2@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -550,7 +550,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-room-attendant-1"],
-    username: "room.attendant.1",
+    username: "room.attendant1@hoteltest.com",
     email: "room.attendant1@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -567,7 +567,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-room-attendant-2"],
-    username: "room.attendant.2",
+    username: "room.attendant2@hoteltest.com",
     email: "room.attendant2@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -584,7 +584,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-server-1"],
-    username: "server.1",
+    username: "server1@hoteltest.com",
     email: "server1@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -601,7 +601,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-server-2"],
-    username: "server.2",
+    username: "server2@hoteltest.com",
     email: "server2@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -618,7 +618,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-maintenance-tech-1"],
-    username: "maintenance.tech.1",
+    username: "maintenance.tech1@hoteltest.com",
     email: "maintenance.tech1@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -635,7 +635,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-maintenance-tech-2"],
-    username: "maintenance.tech.2",
+    username: "maintenance.tech2@hoteltest.com",
     email: "maintenance.tech2@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -652,7 +652,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-store-clerk"],
-    username: "store.clerk",
+    username: "store.clerk@hoteltest.com",
     email: "store.clerk@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -669,7 +669,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-laundry-attendant-1"],
-    username: "laundry.attendant.1",
+    username: "laundry.attendant1@hoteltest.com",
     email: "laundry.attendant1@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -686,7 +686,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-laundry-attendant-2"],
-    username: "laundry.attendant.2",
+    username: "laundry.attendant2@hoteltest.com",
     email: "laundry.attendant2@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -705,7 +705,7 @@ export let mockTbUser: TbUser[] = [
   // Special Roles
   {
     id: UUID_MAPPING["user-night-manager"],
-    username: "night.manager",
+    username: "night.manager@hoteltest.com",
     email: "night.manager@hoteltest.com",
     platform_role: "user",
     is_active: true,
@@ -723,7 +723,7 @@ export let mockTbUser: TbUser[] = [
   },
   {
     id: UUID_MAPPING["user-security-guard"],
-    username: "security.guard",
+    username: "security.guard@hoteltest.com",
     email: "security.guard@hoteltest.com",
     platform_role: "user",
     is_active: true,
