@@ -38,15 +38,6 @@ const app = new Elysia()
               scheme: "bearer",
               bearerFormat: "JWT",
             },
-            "Basic": {
-              type: "http",
-              scheme: "basic",
-            },
-            "ApiKey": {
-              type: "apiKey",
-              in: "header",
-              name: "X-API-KEY",
-            },
           }
         },
         servers: [
