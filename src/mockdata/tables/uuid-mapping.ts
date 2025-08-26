@@ -1,11 +1,27 @@
 // =============== UUID MAPPING FOR CONSISTENT REFERENCES ===============
 
+export enum enum_user_list {
+  'user-sous-chef' = 'user-sous-chef', // Sous Chef (single)
+  'user-asst-housekeeper' = 'user-asst-housekeeper', // Assistant Housekeeper
+  'user-purchase-officer' = 'user-purchase-officer', // Purchase Officer (single)
+  'user-laundry-supervisor' = 'user-laundry-supervisor', // Laundry Supervisor
+  'user-line-cook' = 'user-line-cook', // Line Cook 1
+  'user-line-cook-2' = 'user-line-cook-2', // Line Cook 2
+  'user-server-1' = 'user-server-1', // Server 1
+  'user-server-2' = 'user-server-2', // Server 2
+  'user-store-clerk' = 'user-store-clerk', // Store Clerk (single)
+  'user-laundry-attendant-1' = 'user-laundry-attendant-1', // Laundry Attendant 1
+  'user-laundry-attendant-2' = 'user-laundry-attendant-2', // Laundry Attendant 2
+  'user-night-manager' = 'user-night-manager', // Night Manager
+  'user-security-guard' = 'user-security-guard', // Security Guard
+}
+
 // Core Entity UUIDs
 export const UUID_MAPPING = {
   // Users
   'user-001': '550e8400-e29b-41d4-a716-446655440001', // staff@test.com
   'user-002': '550e8400-e29b-41d4-a716-446655440002', // department-manager@test.com
-  'user-003': '550e8400-e29b-41d4-a716-446655440003', // financial-manager@test.com  
+  'user-003': '550e8400-e29b-41d4-a716-446655440003', // financial-manager@test.com
   'user-004': '550e8400-e29b-41d4-a716-446655440004', // purchasing-staff@test.com
   'user-005': '550e8400-e29b-41d4-a716-446655440005', // counter-staff@test.com
   'user-006': '550e8400-e29b-41d4-a716-446655440006', // chef@test.com

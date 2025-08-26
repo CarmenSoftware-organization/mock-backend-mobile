@@ -1,4 +1,3 @@
-import { t } from "elysia";
 
 // Utility function for not implemented endpoints
 export const resNotImplemented = {
@@ -8,52 +7,49 @@ export const resNotImplemented = {
   timestamp: new Date().toISOString(),
 };
 
-export const resBadRequest = t.Object({
-  message: t.String({
-    default: "Bad Request",
-  }),
-});
-
-export const resUnauthorized = {
-    message: "Unauthorized",
+export const resBadRequest = {
+  status: 400,
+  message: "Bad Request",
+  timestamp: new Date().toISOString(),
 };
 
-export const resInternalServerError = {
-  message: "Internal Server Error",
+export const resUnauthorized = {
+  status: 401,
+  message: "Unauthorized",
+  timestamp: new Date().toISOString(),
+};
+
+export const resInternalServerError = (message: string = "Internal Server Error") => {
+  return {
+    status: 500,
+    message: message,
+    timestamp: new Date().toISOString(),
   };
+};
 
-export const resNotFound = t.Object({
-  message: t.String({
-    default: "Not Found",
-  }),
-});
+export const resNotFound = (message: string = "Not Found") => {
+  return {
+    status: 404,
+    message: message,
+    timestamp: new Date().toISOString(),
+  };
+};
 
-export const resError = t.Object({
-  message: t.String(),
-});
+export const resError = (status: number, message: string = "Unknown error") =>  {
+  return {
+    status: status,
+    message: message,
+    timestamp: new Date().toISOString(),
+  };
+};
 
-export const resErrorWithStatus = t.Object({
-  message: t.String(),
-  status: t.Number(),
-});
-
-export const resErrorWithStatusAndData = t.Object({
-  message: t.String(),
-  status: t.Number(),
-  data: t.Any(),
-});
-
-export const resErrorWithStatusAndDataAndMessage = t.Object({
-  status: t.Number(),
-  message: t.String(),
-  data: t.Any(),
-});
-
-export const resErrorWithStatusAndDataAndMessageAndStatus = t.Object({
-  status: t.Number(),
-  message: t.String(),
-  data: t.Any(),
-});
-
+export const resErrorWithData = (status: number, message: string = "Unknown error", data: any) => {
+  return {
+    status: status,
+    message: message,
+    data: data,
+    timestamp: new Date().toISOString(),
+  };
+};
 
 

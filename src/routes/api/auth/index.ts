@@ -282,6 +282,9 @@ export default (app: Elysia) =>
           tags: ["auth"],
           summary: "Logout",
           description: "Logout from the system",
+          parameters: [
+            PARAM_X_APP_ID,
+          ],
         },
       }
     )
