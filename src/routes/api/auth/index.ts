@@ -3,7 +3,7 @@ import { Elysia, t } from "elysia";
 import { jwt } from "@elysiajs/jwt";
 import { resNotImplemented, resUnauthorized } from "@libs/res.error";
 import type { LoginDto, LoginError, LoginResponse } from "@/types/auth";
-import { APP_ID, PARAM_X_APP_ID, tbPasswordCrud, tbUserCrud } from "@mockdata/index";
+import { APP_ID, PARAM_X_APP_ID, PARAM_X_TENANT_ID_OPTIONAL, tbPasswordCrud, tbUserCrud } from "@mockdata/index";
 
 // Types moved to src/types/auth.ts
 
@@ -32,12 +32,44 @@ export default (app: Elysia) =>
       return mockdata.mockUsers;
       }, {
         detail: {
-          tags: ["auth"],
+          tags: ["Mock"],
           summary: "Mock data users",
           description: "Mock data users",
         },
       }
     )
+
+    .get('/api/auth/', async ({headers, status, set, jwt}) => {
+
+        // check token
+        const token = headers.authorization?.split(" ")[1];
+        if (!token) {
+          set.status = 401;
+          return resUnauthorized;
+        }
+        const currentUser = await jwt.verify(token);
+        if (!currentUser) {
+          set.status = 401;
+          return resUnauthorized;
+        }
+  
+        // get user permissions
+        const userPermissions = await tbUserCrud.getUserPermissions(currentUser.id as string);
+
+      return {
+        
+      };
+    }, {
+      detail: {
+        tags: ["user"],
+        summary: "all permissions of current user",
+        description: "all permissions of current user. if add x-tenant-id header it will return all permissions of user in that tenant",
+        parameters: [
+          PARAM_X_APP_ID,
+          PARAM_X_TENANT_ID_OPTIONAL,
+        ],
+      },
+    })
 
     .get('/api/auth/mobile', async ({headers, jwt, set}) => {
       // check token
@@ -46,6 +78,11 @@ export default (app: Elysia) =>
         set.status = 401;
         return resUnauthorized;
       }
+
+      // check x-tenant-id
+      const tenantId = headers["x-tenant-id"];
+      const isUseTenantId = tenantId ? true : false;
+
       const currentUser = await jwt.verify(token);
       if (!currentUser) {
         set.status = 401;
@@ -61,9 +98,13 @@ export default (app: Elysia) =>
 
     }, {
       detail: {
-        tags: ["auth"],
-        summary: "Mobile authorization",
-        description: "Mobile authorization",
+        tags: ["user"],
+        summary: "all permissions of current user (Mobile)",
+        description: "all permissions of current user (Mobile). if add x-tenant-id header it will return all permissions of user in that tenant",
+        parameters: [
+          PARAM_X_APP_ID,
+          PARAM_X_TENANT_ID_OPTIONAL,
+        ],
       },
     })
 

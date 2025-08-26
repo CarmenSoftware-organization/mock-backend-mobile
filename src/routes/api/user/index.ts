@@ -4,6 +4,7 @@ import { tbUserCrud, getUserWithDepartment } from "@mockdata/tables";
 import { resNotFound, resUnauthorized } from "@libs/res.error";
 import { jwt } from "@elysiajs/jwt";
 import { t } from "elysia";
+import { PARAM_X_APP_ID } from "@mockdata/const";
 
 export default (app: Elysia) =>
   app
@@ -93,8 +94,11 @@ export default (app: Elysia) =>
     }, {
       detail: {
         tags: ["user"],
-        summary: "Get user profile",
-        description: "Get user profile",
+        summary: "current user profile",
+        description: "Get current user profile",
+        parameters: [
+          PARAM_X_APP_ID
+        ],
       },
     })
 
