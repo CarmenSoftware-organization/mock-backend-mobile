@@ -2,7 +2,11 @@ import { Elysia, t } from "elysia";
 import { jwt } from "@elysiajs/jwt";
 import { resNotImplemented, resUnauthorized } from "@libs/res.error";
 import type { LoginDto, LoginError, LoginResponse } from "@/types/auth";
-import { APP_ID, PARAM_X_APP_ID, PARAM_X_TENANT_ID_OPTIONAL } from "@mockdata/const";
+import {
+  APP_ID,
+  PARAM_X_APP_ID,
+  PARAM_X_TENANT_ID_OPTIONAL,
+} from "@mockdata/const";
 import { tbUser } from "@mockdata/index";
 
 // Types moved to src/types/auth.ts
@@ -13,10 +17,10 @@ export default (app: Elysia) =>
       loginDto: t.Object({
         email: t.String({
           format: "email",
-          description: "User email address"
+          description: "User email address",
         }),
         password: t.String({
-          description: "User password"
+          description: "User password",
         }),
       }),
     })
@@ -28,9 +32,12 @@ export default (app: Elysia) =>
       })
     )
 
-    .get('/mockdata/users', (ctx) => {
-      return tbUser.users;
-      }, {
+    .get(
+      "/mockdata/users",
+      (ctx) => {
+        return tbUser.users;
+      },
+      {
         detail: {
           tags: ["Mock"],
           summary: "Mock data users",
@@ -39,8 +46,9 @@ export default (app: Elysia) =>
       }
     )
 
-    .get('/api/auth/', async ({headers, status, set, jwt}) => {
-
+    .get(
+      "/api/auth/",
+      async ({ headers, status, set, jwt }) => {
         // check token
         const token = headers.authorization?.split(" ")[1];
         if (!token) {
@@ -52,72 +60,71 @@ export default (app: Elysia) =>
           set.status = 401;
           return resUnauthorized;
         }
-  
+
         // get user permissions
         // const userPermissions = await tbUserCrud.getUserPermissions(currentUser.id as string);
 
-      return {
-        
-      };
-    }, {
-      detail: {
-        tags: ["user"],
-        summary: "all permissions of current user",
-        description: "all permissions of current user. if add x-tenant-id header it will return all permissions of user in that tenant",
-        parameters: [
-          PARAM_X_APP_ID,
-          PARAM_X_TENANT_ID_OPTIONAL,
-        ],
+        return {};
       },
-    })
-
-    .get('/api/auth/mobile', async ({headers, jwt, set}) => {
-      // check token
-      const token = headers.authorization?.split(" ")[1];
-      if (!token) {
-        set.status = 401;
-        return resUnauthorized;
+      {
+        detail: {
+          tags: ["user"],
+          summary: "all permissions of current user",
+          description:
+            "all permissions of current user. if add x-tenant-id header it will return all permissions of user in that tenant",
+          parameters: [PARAM_X_APP_ID, PARAM_X_TENANT_ID_OPTIONAL],
+        },
       }
+    )
 
-      // check x-tenant-id
-      const tenantId = headers["x-tenant-id"];
-      const isUseTenantId = tenantId ? true : false;
+    .get(
+      "/api/auth",
+      async ({ headers, jwt, set }) => {
+        // check token
+        const token = headers.authorization?.split(" ")[1];
+        if (!token) {
+          set.status = 401;
+          return resUnauthorized;
+        }
 
-      const currentUser = await jwt.verify(token);
-      if (!currentUser) {
-        set.status = 401;
-        return resUnauthorized;
-      }
+        // check x-tenant-id
+        const tenantId = headers["x-tenant-id"];
+        const isUseTenantId = tenantId ? true : false;
 
-      // get user permissions
-      // const userPermissions = await tbUserCrud.getUserPermissions(currentUser.id as string);
+        const currentUser = await jwt.verify(token);
+        if (!currentUser) {
+          set.status = 401;
+          return resUnauthorized;
+        }
 
-      // Mock user permissions data
-      const userPermissions = {
-        user_id: currentUser.id,
-        permissions: [
-          "read:user",
-          "write:user",
-          "read:product",
-          "write:product"
-        ]
-      };
+        // get user permissions
+        // const userPermissions = await tbUserCrud.getUserPermissions(currentUser.id as string);
 
-      return {
-       data : userPermissions,
-      };
+        // Mock user permissions data
+        const userPermissions = {
+          user_id: currentUser.id,
+          permissions: [
+            "read:user",
+            "write:user",
+            "read:product",
+            "write:product",
+          ],
+        };
 
-    }, {
-      detail: {
-        tags: ["user"],
-        summary: "all permissions of current user (Mobile)",
-        description: "all permissions of current user (Mobile). if add x-tenant-id header it will return all permissions of user in that tenant",
-        parameters: [
-          PARAM_X_APP_ID,
-          PARAM_X_TENANT_ID_OPTIONAL,
-        ],
+        return {
+          data: userPermissions,
+        };
       },
-    })
+      {
+        detail: {
+          tags: ["user"],
+          summary: "all permissions of current user (Mobile)",
+          description:
+            "all permissions of current user (Mobile). if add x-tenant-id header it will return all permissions of user in that tenant",
+          parameters: [PARAM_X_APP_ID, PARAM_X_TENANT_ID_OPTIONAL],
+        },
+      }
+    )
 
     // Login
     .post(
@@ -131,12 +138,14 @@ export default (app: Elysia) =>
 
         if (headers["x-app-id"] !== APP_ID) {
           ctx.set.status = 400;
-          return { message: "Invalid header 'x-app-id' should be '" + APP_ID + "'" };
+          return {
+            message: "Invalid header 'x-app-id' should be '" + APP_ID + "'",
+          };
         }
 
         const body = ctx.body as LoginDto;
         const fn = await login(body, ctx.jwt);
-        if ('message' in fn) {
+        if ("message" in fn) {
           ctx.set.status = 401;
           return fn;
         }
@@ -164,9 +173,7 @@ export default (app: Elysia) =>
           summary: "Login",
           description:
             "Authenticate user with email and password to receive access and refresh tokens. Requires 'x-app-id' header with value '00000000-0000-0000-0000-000000000000'",
-          parameters: [
-             PARAM_X_APP_ID,
-          ],
+          parameters: [PARAM_X_APP_ID],
           requestBody: {
             description: "Login credentials",
             required: true,
@@ -178,17 +185,17 @@ export default (app: Elysia) =>
                     email: {
                       type: "string",
                       format: "email",
-                      description: "User email address"
+                      description: "User email address",
                     },
                     password: {
                       type: "string",
-                      description: "User password"
-                    }
+                      description: "User password",
+                    },
                   },
-                  required: ["email", "password"]
+                  required: ["email", "password"],
                 },
-              }
-            }
+              },
+            },
           },
           responses: {
             200: {
@@ -200,20 +207,20 @@ export default (app: Elysia) =>
                     properties: {
                       access_token: {
                         type: "string",
-                        description: "JWT access token"
+                        description: "JWT access token",
                       },
                       refresh_token: {
                         type: "string",
-                        description: "JWT refresh token"
-                      }
-                    }
+                        description: "JWT refresh token",
+                      },
+                    },
                   },
                   example: {
                     access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-                    refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                  }
-                }
-              }
+                    refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                  },
+                },
+              },
             },
             400: {
               description: "Bad request - Missing or invalid headers",
@@ -222,25 +229,26 @@ export default (app: Elysia) =>
                   schema: {
                     type: "object",
                     properties: {
-                      message: { type: "string" }
-                    }
+                      message: { type: "string" },
+                    },
                   },
                   examples: {
                     MissingAppId: {
                       summary: "Missing x-app-id header",
                       value: {
-                        message: "Invalid header 'x-app-id'"
-                      }
+                        message: "Invalid header 'x-app-id'",
+                      },
                     },
                     InvalidAppId: {
                       summary: "Invalid x-app-id value",
                       value: {
-                        message: "Invalid header 'x-app-id' should be '00000000-0000-0000-0000-000000000000'"
-                      }
-                    }
-                  }
-                }
-              }
+                        message:
+                          "Invalid header 'x-app-id' should be '00000000-0000-0000-0000-000000000000'",
+                      },
+                    },
+                  },
+                },
+              },
             },
             401: {
               description: "Invalid credentials",
@@ -249,14 +257,14 @@ export default (app: Elysia) =>
                   schema: {
                     type: "object",
                     properties: {
-                      message: { type: "string" }
-                    }
+                      message: { type: "string" },
+                    },
                   },
                   example: {
-                    message: "Invalid login credentials"
-                  }
-                }
-              }
+                    message: "Invalid login credentials",
+                  },
+                },
+              },
             },
             500: {
               description: "Internal server error",
@@ -265,16 +273,16 @@ export default (app: Elysia) =>
                   schema: {
                     type: "object",
                     properties: {
-                      message: { type: "string" }
-                    }
+                      message: { type: "string" },
+                    },
                   },
                   example: {
-                    message: "Internal Server Error"
-                  }
-                }
-              }
-            }
-          }
+                    message: "Internal Server Error",
+                  },
+                },
+              },
+            },
+          },
         },
       }
     )
@@ -293,9 +301,7 @@ export default (app: Elysia) =>
           tags: ["auth"],
           summary: "Logout",
           description: "Logout from the system",
-          parameters: [
-            PARAM_X_APP_ID,
-          ],
+          parameters: [PARAM_X_APP_ID],
         },
       }
     )
@@ -366,13 +372,13 @@ async function login(
   try {
     const accessToken = await jwt.sign({
       id: user.id,
-      email: user.email
+      email: user.email,
     });
 
     const refreshToken = await jwt.sign({
       id: user.id,
       email: user.email,
-      type: "refresh"
+      type: "refresh",
     });
 
     return {

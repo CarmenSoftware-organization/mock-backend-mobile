@@ -106,16 +106,12 @@ export default (app: Elysia) =>
               )
             )
             .map((user_bu) => {
-
               const getBU = tbBusinessUnit.businessUnits.find(
                 (u) => u.id === user_bu.business_unit_id
               );
 
-              const getDepartmentUser = tbDepartmentUser.getDepartmentUsersByUserId(
-                user_bu.user_id
-              );
-
-              console.log(getDepartmentUser);
+              const getDepartmentUser =
+                tbDepartmentUser.getDepartmentUsersByUserId(user_bu.user_id);
 
               let departmentInfo = {};
               if (getDepartmentUser) {
