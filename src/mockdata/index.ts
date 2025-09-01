@@ -1,3 +1,4 @@
+import { tbUserBusinessUnitCrud } from './tables/tb-user-business-unit';
 // export const
 export * as const from './const';
 
@@ -72,3 +73,5 @@ export * as tbVendorAddress from './tb_vendor_address';
 export * as tbVendorBusinessType from './tb_vendor_business_type';
 export * as tbVendorContact from './tb_vendor_contact';
 export * as tbWorkflow from './tb_workflow';
+export * as tbBusinessUnit from './tb_business_unit';
+export * as tbUserTbBusinessUnit from './tb_user_tb_business_unit';

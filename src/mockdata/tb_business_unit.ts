@@ -25,7 +25,7 @@ export interface BusinessUnit {
   updated_at: string;
   updated_by_id: string | null;
   info: any | null;
-  alias_name: string | null;
+  alias_name: string;
 }
 
 export const businessUnits: BusinessUnit[] = [

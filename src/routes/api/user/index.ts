@@ -6,37 +6,7 @@ import {
 } from "@libs/res.error";
 import { jwt } from "@elysiajs/jwt";
 import { t } from "elysia";
-
-// Mock users data
-const mockUsers = [
-  {
-    id: "user-123",
-    name: "John Doe",
-    email: "john.doe@company.com",
-    firstname: "John",
-    middlename: "",
-    lastname: "Doe",
-    is_active: true
-  },
-  {
-    id: "user-456",
-    name: "Jane Smith",
-    email: "jane.smith@company.com",
-    firstname: "Jane",
-    middlename: "",
-    lastname: "Smith",
-    is_active: true
-  },
-  {
-    id: "user-789",
-    name: "Bob Johnson",
-    email: "bob.johnson@company.com",
-    firstname: "Bob",
-    middlename: "",
-    lastname: "Johnson",
-    is_active: false
-  }
-];
+import { tbUser, tbUserProfile, tbBusinessUnit, tbUserTbBusinessUnit, tbDepartmentUser, tbDepartment } from "@/mockdata";
 
 export default (app: Elysia) =>
   app
@@ -52,7 +22,7 @@ export default (app: Elysia) =>
     .get("/api/user", ({ params, query, body, headers }) => {
       try {
         // Get all users from mock data
-        const allUsers = mockUsers;
+        const allUsers = tbUser.users;
         return {
           success: true,
           data: allUsers,
@@ -89,11 +59,11 @@ export default (app: Elysia) =>
 
         try {
           // Get the actual user from mock data
-          let user = mockUsers.find((u: any) => u.id === currentUser.id);
+          let user = tbUser.users.find((u: any) => u.id === currentUser.id);
 
           // Fallback to first user if current user not found
           if (!user) {
-            user = mockUsers[0] || null;
+            user = tbUser.users[0] || null;
           }
 
           // If no user found, return error
@@ -101,23 +71,66 @@ export default (app: Elysia) =>
             return resNotFound("User not found");
           }
 
+          const user_info = tbUserProfile.userProfiles.find((u: any) => u.user_id === user.id);
+
+
           // Use user data directly since we don't have separate profile table
           const userProfile = {
-            user_id: user.id,
-            firstname: user.firstname || user.name?.split(' ')[0] || 'Unknown',
-            middlename: user.middlename || '',
-            lastname: user.lastname || user.name?.split(' ').slice(1).join(' ') || 'Unknown'
+              firstname: user_info?.firstname || user_info?.firstname?.split(' ')[0] || 'Unknown',
+              middlename: user_info?.middlename || '',
+              lastname: user_info?.lastname || user_info?.lastname?.split(' ').slice(1).join(' ') || 'Unknown'
           };
+
+          // get all bu list
+          const bu_user = tbUserTbBusinessUnit.userBusinessUnits.filter((u: any) => u.user_id === user.id);
+          const business_unit =  bu_user.filter((user_bu) =>  tbBusinessUnit.businessUnits.find((u) => u.id === user_bu.business_unit_id)).map((user_bu) => {
+
+            const getBU = tbBusinessUnit.businessUnits.find((u) => u.id === user_bu.business_unit_id);
+
+            const getDepartmentUser = tbDepartmentUser.getDepartmentUserById(user_bu.business_unit_id);
+            
+            let departmentInfo = {};
+            if (getDepartmentUser) {
+            const getDepartment = tbDepartment.getDepartmentById(getDepartmentUser.department_id);
+            departmentInfo = {
+              id: getDepartment?.id,
+              name: getDepartment?.name,
+              is_hod: getDepartmentUser?.is_hod,
+            }
+            }
+
+          
+
+            if (getBU) { 
+             return  {
+               id: getBU.id,
+               name: getBU.name,
+               alias_name: getBU.alias_name,
+               is_default: user_bu.is_default,
+               department: departmentInfo,
+             }
+            }
+            return {
+              id: user_bu.business_unit_id,
+              is_default: user_bu.is_default,
+              department: departmentInfo,
+             }
+          }
+        );
+
+
+          // for (const bu of business_unit) {
+          //   const department = tbDepartmentUser.getDepartmentUserById(bu.id);
+          //   if (department) {
+          //     business_unit.push(department);
+          //   }
+          // }
 
           res = {
             id: user.id,
             email: user.email,
-            user_info: {
-              firstname: userProfile.firstname,
-              middlename: userProfile.middlename,
-              lastname: userProfile.lastname,
-            },
-            business_unit: "",
+            user_info: userProfile,
+            business_unit:business_unit,
           };
 
           // Return the actual user data from mock database
