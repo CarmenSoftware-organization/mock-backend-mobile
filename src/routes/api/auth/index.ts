@@ -1,9 +1,9 @@
-import * as mockdata from "@mockdata/index";
 import { Elysia, t } from "elysia";
 import { jwt } from "@elysiajs/jwt";
 import { resNotImplemented, resUnauthorized } from "@libs/res.error";
 import type { LoginDto, LoginError, LoginResponse } from "@/types/auth";
-import { APP_ID, PARAM_X_APP_ID, PARAM_X_TENANT_ID_OPTIONAL, tbPasswordCrud, tbUserCrud } from "@mockdata/index";
+import { APP_ID, PARAM_X_APP_ID, PARAM_X_TENANT_ID_OPTIONAL } from "@mockdata/const";
+import { tbUser } from "@mockdata/index";
 
 // Types moved to src/types/auth.ts
 
@@ -29,7 +29,7 @@ export default (app: Elysia) =>
     )
 
     .get('/mockdata/users', (ctx) => {
-      return mockdata.mockUsers;
+      return tbUser.users;
       }, {
         detail: {
           tags: ["Mock"],
@@ -54,7 +54,7 @@ export default (app: Elysia) =>
         }
   
         // get user permissions
-        const userPermissions = await tbUserCrud.getUserPermissions(currentUser.id as string);
+        // const userPermissions = await tbUserCrud.getUserPermissions(currentUser.id as string);
 
       return {
         
@@ -90,7 +90,18 @@ export default (app: Elysia) =>
       }
 
       // get user permissions
-      const userPermissions = await tbUserCrud.getUserPermissions(currentUser.id as string);
+      // const userPermissions = await tbUserCrud.getUserPermissions(currentUser.id as string);
+
+      // Mock user permissions data
+      const userPermissions = {
+        user_id: currentUser.id,
+        permissions: [
+          "read:user",
+          "write:user",
+          "read:product",
+          "write:product"
+        ]
+      };
 
       return {
        data : userPermissions,
@@ -336,7 +347,7 @@ async function login(
   body: LoginDto,
   jwt: any
 ): Promise<LoginResponse | LoginError> {
-  const user = mockdata.mockUsers.find((user: any) => user.email === body.email);
+  const user = tbUser.users.find((user: any) => user.email === body.email);
 
   if (!user) {
     return { message: "Invalid login credentials" };

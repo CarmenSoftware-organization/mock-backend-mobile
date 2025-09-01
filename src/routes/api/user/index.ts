@@ -1,18 +1,42 @@
 import type { Elysia } from "elysia";
 import {
-  getUserProfileResponse,
-  getNewUserProfileResponse,
-  UUID_MAPPING,
-} from "@mockdata/index";
-import { tbUserCrud, getUserWithDepartment, mockTbUserProfile } from "@mockdata/tables";
-import {
   resInternalServerError,
   resNotFound,
   resUnauthorized,
 } from "@libs/res.error";
 import { jwt } from "@elysiajs/jwt";
 import { t } from "elysia";
-import { PARAM_X_APP_ID } from "@mockdata/const";
+
+// Mock users data
+const mockUsers = [
+  {
+    id: "user-123",
+    name: "John Doe",
+    email: "john.doe@company.com",
+    firstname: "John",
+    middlename: "",
+    lastname: "Doe",
+    is_active: true
+  },
+  {
+    id: "user-456",
+    name: "Jane Smith",
+    email: "jane.smith@company.com",
+    firstname: "Jane",
+    middlename: "",
+    lastname: "Smith",
+    is_active: true
+  },
+  {
+    id: "user-789",
+    name: "Bob Johnson",
+    email: "bob.johnson@company.com",
+    firstname: "Bob",
+    middlename: "",
+    lastname: "Johnson",
+    is_active: false
+  }
+];
 
 export default (app: Elysia) =>
   app
@@ -27,18 +51,11 @@ export default (app: Elysia) =>
     // Get all users in tenant
     .get("/api/user", ({ params, query, body, headers }) => {
       try {
-        // Get all users with their department relationships
-        const allUsers = tbUserCrud.findAll();
-        const usersWithDepartments = allUsers.map((user: any) => {
-          try {
-            return getUserWithDepartment(user.id);
-          } catch {
-            return user;
-          }
-        });
+        // Get all users from mock data
+        const allUsers = mockUsers;
         return {
           success: true,
-          data: usersWithDepartments,
+          data: allUsers,
           message: "Users retrieved successfully",
           timestamp: new Date().toISOString(),
         };
@@ -72,12 +89,11 @@ export default (app: Elysia) =>
 
         try {
           // Get the actual user from mock data
-          let user = tbUserCrud.findById(currentUser.id as string);
+          let user = mockUsers.find((u: any) => u.id === currentUser.id);
 
-          // Fallback to first active user if current user not found
+          // Fallback to first user if current user not found
           if (!user) {
-            const activeUsers = tbUserCrud.findActive();
-            user = activeUsers.length > 0 ? activeUsers[0] : null;
+            user = mockUsers[0] || null;
           }
 
           // If no user found, return error
@@ -85,11 +101,13 @@ export default (app: Elysia) =>
             return resNotFound("User not found");
           }
 
-          const userProfile = mockTbUserProfile.find((profile) => profile.user_id === user.id);
-
-          if (!userProfile) {
-            return resNotFound("User profile not found");
-          }
+          // Use user data directly since we don't have separate profile table
+          const userProfile = {
+            user_id: user.id,
+            firstname: user.firstname || user.name?.split(' ')[0] || 'Unknown',
+            middlename: user.middlename || '',
+            lastname: user.lastname || user.name?.split(' ').slice(1).join(' ') || 'Unknown'
+          };
 
           res = {
             id: user.id,
@@ -115,7 +133,6 @@ export default (app: Elysia) =>
           tags: ["user"],
           summary: "current user profile",
           description: "Get current user profile",
-          parameters: [PARAM_X_APP_ID],
         },
       }
     )
@@ -125,14 +142,8 @@ export default (app: Elysia) =>
       try {
         const { id } = params;
 
-        // Try to get user with department relationship
-        let userProfile;
-        try {
-          userProfile = getUserWithDepartment(id);
-        } catch {
-          // Fallback to basic user lookup
-          userProfile = tbUserCrud.findById(id);
-        }
+        // Get user from mock data
+        const userProfile = mockUsers.find((u: any) => u.id === id);
 
         if (!userProfile) {
           return {

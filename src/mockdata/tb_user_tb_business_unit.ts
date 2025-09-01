@@ -1,0 +1,135 @@
+export interface UserBusinessUnit {
+  id: string;
+  user_id: string;
+  business_unit_id: string;
+  role: 'admin' | 'user';
+  is_default: boolean;
+  is_active: boolean;
+  created_at: string;
+  created_by_id: string | null;
+  updated_at: string;
+  updated_by_id: string | null;
+}
+
+export const userBusinessUnits: UserBusinessUnit[] = [
+  {
+    id: "4416754c-3a12-4dfc-b3b9-37e1d7b2e9f6",
+    user_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
+    business_unit_id: "e4a432c0-86d9-4d75-8b03-096caf03c2d1",
+    role: "admin",
+    is_default: false,
+    is_active: true,
+    created_at: "2025-07-29T01:37:29.005Z",
+    created_by_id: null,
+    updated_at: "2025-07-29T01:37:29.006Z",
+    updated_by_id: null
+  },
+  {
+    id: "fb0e8944-3727-493f-a6bc-6bd408d62fa3",
+    user_id: "3c5280a7-492e-421d-b739-7447455ce99e",
+    business_unit_id: "e4a432c0-86d9-4d75-8b03-096caf03c2d1",
+    role: "admin",
+    is_default: false,
+    is_active: true,
+    created_at: "2025-07-29T01:37:29.007Z",
+    created_by_id: null,
+    updated_at: "2025-07-29T01:37:29.008Z",
+    updated_by_id: null
+  },
+  {
+    id: "966a0679-0c68-437c-ad36-687f82c389a9",
+    user_id: "c7092848-78f7-4cfe-bb6d-095c286a1019",
+    business_unit_id: "e4a432c0-86d9-4d75-8b03-096caf03c2d1",
+    role: "user",
+    is_default: false,
+    is_active: true,
+    created_at: "2025-07-29T01:37:29.008Z",
+    created_by_id: null,
+    updated_at: "2025-07-29T01:37:29.009Z",
+    updated_by_id: null
+  },
+  {
+    id: "862b7169-8af5-430c-963e-dd12b82a0359",
+    user_id: "d9aef974-0dd1-4acd-93b7-93c8ccc8cfeb",
+    business_unit_id: "e4a432c0-86d9-4d75-8b03-096caf03c2d1",
+    role: "user",
+    is_default: false,
+    is_active: true,
+    created_at: "2025-07-29T01:37:29.009Z",
+    created_by_id: null,
+    updated_at: "2025-07-29T01:37:29.009Z",
+    updated_by_id: null
+  },
+  {
+    id: "8e9aa186-2abe-4496-b69b-95b1d1d404a4",
+    user_id: "e88e8da4-ad87-4255-befc-1556d1b66b69",
+    business_unit_id: "e4a432c0-86d9-4d75-8b03-096caf03c2d1",
+    role: "user",
+    is_default: false,
+    is_active: true,
+    created_at: "2025-07-29T01:37:29.009Z",
+    created_by_id: null,
+    updated_at: "2025-07-29T01:37:29.010Z",
+    updated_by_id: null
+  },
+  {
+    id: "c874ef4a-c6c2-4849-9d49-036be1700122",
+    user_id: "57c0721a-4afd-4e8f-b118-f0480c537215",
+    business_unit_id: "e4a432c0-86d9-4d75-8b03-096caf03c2d1",
+    role: "user",
+    is_default: false,
+    is_active: true,
+    created_at: "2025-07-29T01:37:29.010Z",
+    created_by_id: null,
+    updated_at: "2025-07-29T01:37:29.010Z",
+    updated_by_id: null
+  },
+  {
+    id: "49896d9f-c1a4-437a-ab71-5aa537de5716",
+    user_id: "59c4ce87-84e5-48e5-b246-7d0f6d2c5594",
+    business_unit_id: "e4a432c0-86d9-4d75-8b03-096caf03c2d1",
+    role: "user",
+    is_default: false,
+    is_active: true,
+    created_at: "2025-07-29T01:37:29.010Z",
+    created_by_id: null,
+    updated_at: "2025-07-29T01:37:29.011Z",
+    updated_by_id: null
+  },
+  {
+    id: "cc6e2fb7-b9e7-4cde-b267-f0c9e5dcab91",
+    user_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
+    business_unit_id: "5c7b29ca-484f-401a-a21f-325f3d20eecc",
+    role: "admin",
+    is_default: false,
+    is_active: true,
+    created_at: "2025-07-29T01:37:29.011Z",
+    created_by_id: null,
+    updated_at: "2025-07-29T01:37:29.011Z",
+    updated_by_id: null
+  },
+  {
+    id: "0932f78a-35f7-4e11-aed7-35191a3b6ad4",
+    user_id: "3c5280a7-492e-421d-b739-7447455ce99e",
+    business_unit_id: "5c7b29ca-484f-401a-a21f-325f3d20eecc",
+    role: "admin",
+    is_default: false,
+    is_active: true,
+    created_at: "2025-07-29T01:37:29.011Z",
+    created_by_id: null,
+    updated_at: "2025-07-29T01:37:29.012Z",
+    updated_by_id: null
+  },
+  {
+    id: "6f377b13-3c8f-48be-a8d9-4cfcd6fbbe2b",
+    user_id: "c7092848-78f7-4cfe-bb6d-095c286a1019",
+    business_unit_id: "5c7b29ca-484f-401a-a21f-325f3d20eecc",
+    role: "user",
+    is_default: false,
+    is_active: true,
+    created_at: "2025-07-29T01:37:29.012Z",
+    created_by_id: null,
+    updated_at: "2025-07-29T01:37:29.012Z",
+    updated_by_id: null
+  }
+];

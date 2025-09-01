@@ -10,7 +10,7 @@ export const PARAM_X_APP_ID = {
   description: "Application ID for authentication",
   schema: {
     type: "string" as const,
-    pattern: uuid().regex,
+    pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
     example: APP_ID,
   },
 } as const;

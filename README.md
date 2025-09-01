@@ -212,7 +212,52 @@ bun run format
 
 # Clean build artifacts
 bun run clean
+
+# Test database connection and check tables
+npm run test-db "postgresql://user:pass@host:port/db"
+
+# Export data from PostgreSQL to JSON
+npm run export-postgres "postgresql://user:pass@host:port/db"
+
+# Import JSON data to TypeScript mock data
+npm run import-mock-data
 ```
+
+### PostgreSQL to Mock Data Migration
+
+This project includes scripts to copy data from PostgreSQL database to mock data:
+
+#### Step 1: Export from PostgreSQL
+
+```bash
+# Set DATABASE_URL environment variable
+export DATABASE_URL="postgresql://username:password@host:port/database"
+
+# Run export script
+npm run export-postgres
+```
+
+This will create JSON files in `./exported-data/` directory containing data from all supported tables.
+
+#### Step 2: Import to Mock Data
+
+```bash
+# Run import script
+npm run import-mock-data
+```
+
+This will generate TypeScript mock data files in `./src/mockdata/tables/` directory.
+
+#### Supported Tables
+
+- User management (users, profiles, roles)
+- Business units and departments
+- Products and inventory
+- Financial data (currencies, credit terms)
+- Procurement (purchase requests, orders, GRNs)
+- System configuration and workflows
+
+For detailed instructions, see [scripts/README.md](./scripts/README.md).
 
 ### Development Workflow
 
