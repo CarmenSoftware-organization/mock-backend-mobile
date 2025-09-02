@@ -15,7 +15,7 @@ import {
   PARAM_X_APP_ID,
   PARAM_X_TENANT_ID_OPTIONAL,
 } from "@mockdata/const";
-import { tbUser, tbUserProfile } from "@mockdata/index";
+import { tbPermission, tbUser, tbUserPermission, tbUserProfile } from "@mockdata/index";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
 
 // Types moved to src/types/auth.ts
@@ -105,7 +105,7 @@ export default (app: Elysia) =>
           return appIdError;
         }
 
-        const { error: errorAccessToken, jwtUser } =
+        const { error: errorAccessToken, jwtUser , currentUser, userProfile, bussiness_Units } =
           await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
         if (errorAccessToken) {
           ctx.set.status = 401;
@@ -116,28 +116,40 @@ export default (app: Elysia) =>
 
         try {
 
-          const currentUser = tbUser.users.find((user: any) => user.id === jwtUser.id);
+          const cBusiness_unit = bussiness_Units.map((bu: any) => {
+            // get permission by business unit id
+            // dummy data is  know is same business unit id
+            const permissions = tbUserPermission.getUserPermissionsByUserId(currentUser.id).map((permission: any) => {
+              const permissionObject = tbPermission.permissions.find((p: any) => p.id === permission.permission_id);
+              return {
+                id: permission.id,
+                name: permissionObject?.resource + ":" + permissionObject?.action,
+              };
+            });
 
-          if (!currentUser) {
-            return resNotFound("User not found");
-          }
+            // สร้าง permissions array ในรูปแบบ string เช่น "pr.view", "po.view" ฯลฯ
+            const permissionNames: string[] = tbUserPermission
+              .getUserPermissionsByUserId(currentUser.id)
+              .map((permission: any) => {
+                const permissionObject = tbPermission.permissions.find(
+                  (p: any) => p.id === permission.permission_id
+                );
+                if (!permissionObject) return null;
+                // resource:action เช่น pr:view → pr.view
+                return `${permissionObject.resource}.${permissionObject.action}`;
+              })
+              .filter((name: string | null): name is string => !!name);
 
-          const getUserInfo = tbUserProfile.userProfiles.find(
-            (u: any) => u.user_id === currentUser.id
-          );
-
-          const userPermissions = {
-            user_id: currentUser.id,
-            permissions: [
-              "read:user",
-              "write:user",
-              "read:product",
-              "write:product",
-            ],
-          };
+            return {
+              id: bu.id,
+              name: bu.name,
+              alias_name: bu.alias_name,
+              permissions: permissionNames,
+            };
+          });
 
           res = {
-            data: userPermissions,
+            business_unit: cBusiness_unit,
           };
 
           return res;

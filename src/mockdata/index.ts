@@ -75,3 +75,5 @@ export * as tbVendorContact from "./tb_vendor_contact";
 export * as tbWorkflow from "./tb_workflow";
 export * as tbBusinessUnit from "./tb_business_unit";
 export * as tbUserTbBusinessUnit from "./tb_user_tb_business_unit";
+export * as tbPermission from "./tb_permission";
+export * as tbUserPermission from "./temp_tb_user_permission";

@@ -4,7 +4,7 @@ import {
   PARAM_X_TENANT_ID,
 } from "@/mockdata/const";
 import { resError, resNotFound, resUnauthorized } from "./res.error";
-import { tbUser, tbUserProfile } from "@/mockdata";
+import { tbBusinessUnit, tbUser, tbUserProfile, tbUserTbBusinessUnit } from "@/mockdata";
 
 export const CheckHeaderHasAppId = (headers: any) => {
   let error = null;
@@ -68,5 +68,17 @@ export const CheckHeaderHasAccessToken = async (headers: any, jwt: any) => {
     return { error: { ...resNotFound('User profile not found') }, jwtUser: null, currentUser: null, userProfile: null };
   }
 
-  return { error: null, jwtUser, currentUser, userProfile };
+  const bussiness_Units = tbUserTbBusinessUnit.userBusinessUnits.filter((bu: any) => bu.user_id === currentUser.id).map((bu: any) => {
+    const buObject = tbBusinessUnit.businessUnits.find((b: any) => b.id === bu.business_unit_id);
+    return {
+      id: bu.id,
+      name: buObject?.name,
+      alias_name: buObject?.alias_name,
+      is_default: bu.is_default,
+      is_active: bu.is_active,
+    };
+  });
+
+  return { error: null, jwtUser, currentUser, userProfile, bussiness_Units };
 };
+
