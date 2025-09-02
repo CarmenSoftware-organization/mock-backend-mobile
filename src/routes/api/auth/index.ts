@@ -8,6 +8,7 @@ import {
   PARAM_X_TENANT_ID_OPTIONAL,
 } from "@mockdata/const";
 import { tbUser } from "@mockdata/index";
+import { CheckHeaderHasAppId } from "@/libs/header";
 
 // Types moved to src/types/auth.ts
 
@@ -47,7 +48,7 @@ export default (app: Elysia) =>
     )
 
     .get(
-      "/api/auth/",
+      "/api/auth",
       async ({ headers, status, set, jwt }) => {
         // check token
         const token = headers.authorization?.split(" ")[1];
@@ -130,26 +131,18 @@ export default (app: Elysia) =>
     .post(
       "/api/auth/login",
       async (ctx) => {
-        const headers = ctx.headers;
-        if (!headers["x-app-id"]) {
+        const { error } = CheckHeaderHasAppId(ctx.headers);
+        if (error) {
           ctx.set.status = 400;
-          return { message: "Invalid header 'x-app-id'" };
+          return { message: error };
         }
 
-        if (headers["x-app-id"] !== APP_ID) {
-          ctx.set.status = 400;
-          return {
-            message: "Invalid header 'x-app-id' should be '" + APP_ID + "'",
-          };
-        }
-
-        const body = ctx.body as LoginDto;
-        const fn = await login(body, ctx.jwt);
-        if ("message" in fn) {
+        const result = await login(ctx.body, ctx.jwt);
+        if ("message" in result) {
           ctx.set.status = 401;
-          return fn;
+          return result;
         }
-        return fn;
+        return result;
       },
       {
         body: "loginDto",
@@ -349,10 +342,7 @@ export default (app: Elysia) =>
     });
 
 // Login function implementation
-async function login(
-  body: LoginDto,
-  jwt: any
-): Promise<LoginResponse | LoginError> {
+async function login(body: LoginDto, jwt: any): Promise<LoginResponse | LoginError> {
   const user = tbUser.users.find((user: any) => user.email === body.email);
 
   if (!user) {
