@@ -15,7 +15,12 @@ import {
   PARAM_X_APP_ID,
   PARAM_X_TENANT_ID_OPTIONAL,
 } from "@mockdata/const";
-import { tbPermission, tbUser, tbUserPermission, tbUserProfile } from "@mockdata/index";
+import {
+  tbPermission,
+  tbUser,
+  tbUserPermission,
+  tbUserProfile,
+} from "@mockdata/index";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
 
 // Types moved to src/types/auth.ts
@@ -105,8 +110,13 @@ export default (app: Elysia) =>
           return appIdError;
         }
 
-        const { error: errorAccessToken, jwtUser , currentUser, userProfile, bussiness_Units } =
-          await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+        const {
+          error: errorAccessToken,
+          jwtUser,
+          currentUser,
+          userProfile,
+          bussiness_Units,
+        } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
         if (errorAccessToken) {
           ctx.set.status = 401;
           return errorAccessToken;
@@ -115,17 +125,21 @@ export default (app: Elysia) =>
         let res = {};
 
         try {
-
           const cBusiness_unit = bussiness_Units.map((bu: any) => {
             // get permission by business unit id
             // dummy data is  know is same business unit id
-            const permissions = tbUserPermission.getUserPermissionsByUserId(currentUser.id).map((permission: any) => {
-              const permissionObject = tbPermission.permissions.find((p: any) => p.id === permission.permission_id);
-              return {
-                id: permission.id,
-                name: permissionObject?.resource + ":" + permissionObject?.action,
-              };
-            });
+            const permissions = tbUserPermission
+              .getUserPermissionsByUserId(currentUser.id)
+              .map((permission: any) => {
+                const permissionObject = tbPermission.permissions.find(
+                  (p: any) => p.id === permission.permission_id
+                );
+                return {
+                  id: permission.id,
+                  name:
+                    permissionObject?.resource + ":" + permissionObject?.action,
+                };
+              });
 
             // สร้าง permissions array ในรูปแบบ string เช่น "pr.view", "po.view" ฯลฯ
             const permissionNames: string[] = tbUserPermission
@@ -186,7 +200,7 @@ export default (app: Elysia) =>
           return errorAccessToken;
         }
 
-        const fn = await logout(jwtUser.id);
+        const fn = await logout(jwtUser.id, ctx.jwt);
         ctx.set.status = fn.status;
         return fn;
       },
@@ -225,10 +239,61 @@ export default (app: Elysia) =>
     })
 
     // Refresh Token
-    .post("/api/auth/refresh-token", (ctx) => {
-      ctx.set.status = 501;
-      return resNotImplemented;
-    })
+    .post(
+      "/api/auth/refresh-token",
+      async (ctx) => {
+
+        console.log("Refresh Token");
+        const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+        if (errorAppId) {
+          ctx.set.status = 400;
+          return errorAppId;
+        }
+
+        try {
+
+          console.log(ctx.request.body);
+
+          const getRefreshToken = ctx.request.body as unknown as   { refresh_token: string };
+          const { access_token, refresh_token } = await refreshToken(getRefreshToken.refresh_token, ctx.jwt);
+          return { access_token, refresh_token };
+
+        } catch (error) {
+          console.error(error);
+          return resInternalServerError(
+            error instanceof Error ? error.message : "Unknown error"
+          );
+        }
+      },
+      {
+        detail: {
+          tags: ["auth"],
+          summary: "Refresh Token",
+          description: "Refresh access token",
+          parameters: [PARAM_X_APP_ID],
+        },
+        requestBody: {
+          description: "Refresh token",
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  refresh_token: {
+                    type: "string",
+                    description: "Refresh token",
+                  },
+                },
+              },
+            },
+          },
+          example: {
+            refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+          },
+        },
+      }
+    )
 
     // Forgot Password
     .post("/api/auth/forgot-password", (ctx) => {
@@ -290,8 +355,25 @@ async function login(
   }
 }
 
-async function logout(token: string) {
+async function logout(token: string, jwt: any) {
+
+  // delete refresh token from database
+  const refreshToken = await jwt.verify(token);
+  if (refreshToken) {
+    await jwt.revoke(token);
+  } else {
+    return resUnauthorized("Invalid refresh token");
+  }
+
   return resSuccess("Logged out");
+}
+
+async function refreshToken(refresh_token: string, jwt: any) {
+  const { id, email } = await jwt.verify(refresh_token);
+  return {
+    access_token: await jwt.sign({ id, email }),
+    refresh_token: await jwt.sign({ id, email, type: "refresh" }),
+  };
 }
 
 const loginEndpointDetail = {
