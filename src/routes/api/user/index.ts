@@ -7,7 +7,7 @@ import {
   resUnauthorized,
 } from "@libs/res.error";
 import { jwt } from "@elysiajs/jwt";
-import { t } from "elysia";
+import { error, t } from "elysia";
 import {
   tbUser,
   tbUserProfile,
@@ -58,55 +58,44 @@ export default (app: Elysia) =>
         const { error: appIdError } = CheckHeaderHasAppId(ctx.headers);
         if (appIdError) {
           ctx.set.status = 400;
-          return resError(400, appIdError);
+          return appIdError;
         }
 
-        const { error, currentUser } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+        const { error, jwtUser, currentUser, userProfile } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
         if (error) {
-          ctx.set.status = 401;
+          ctx.set.status = error.status;
           return error;
         }
 
         let res = {};
 
         try {
-          // Get the actual user from mock data
-          let getUser = tbUser.users.find((u: any) => u.id === currentUser.id);
-
-          // If no user found, return error
-          if (!getUser) {
-            return resNotFound("User not found");
-          }
-
-          const getUserInfo = tbUserProfile.userProfiles.find(
-            (u: any) => u.user_id === getUser.id
-          );
 
           // Use user data directly since we don't have separate profile table
           const cUserProfile = {
             firstname:
-              getUserInfo?.firstname ||
-              getUserInfo?.firstname?.split(" ")[0] ||
+              userProfile?.firstname ||
+              userProfile?.firstname?.split(" ")[0] ||
               "Unknown",
-            middlename: getUserInfo?.middlename || "",
+            middlename: userProfile?.middlename || "",
             lastname:
-              getUserInfo?.lastname ||
-              getUserInfo?.lastname?.split(" ").slice(1).join(" ") ||
+              userProfile?.lastname ||
+              userProfile?.lastname?.split(" ").slice(1).join(" ") ||
               "Unknown",
           };
 
           // get all bu list
-          const getUserBU = tbUserTbBusinessUnit.userBusinessUnits.filter(
-            (u: any) => u.user_id === getUser.id
+          const cUserBU = tbUserTbBusinessUnit.userBusinessUnits.filter(
+            (u: any) => u.user_id === currentUser.id
           );
 
-          const cBusiness_unit = getUserBU
-            .filter((user_bu) =>
+          const cBusiness_unit = cUserBU
+            .filter((user_bu: any) =>
               tbBusinessUnit.businessUnits.find(
                 (u) => u.id === user_bu.business_unit_id
               )
             )
-            .map((user_bu) => {
+            .map((user_bu: any) => {
               const cBU = tbBusinessUnit.businessUnits.find(
                 (u) => u.id === user_bu.business_unit_id
               );
@@ -143,8 +132,8 @@ export default (app: Elysia) =>
             });
 
           res = {
-            id: getUser.id,
-            email: getUser.email,
+            id: currentUser.id,
+            email: currentUser.email,
             user_info: cUserProfile,
             business_unit: cBusiness_unit,
           };
@@ -167,14 +156,14 @@ export default (app: Elysia) =>
     )
 
     // Get user by ID
-    .get("/api/user/:id", ({ params, query, body, headers }) => {
+    .get("/api/user/:id", async (ctx) => {
       try {
-        const { id } = params;
 
-        // Get user from mock data
-        const userProfile = mockUsers.find((u: any) => u.id === id);
+        const { id } = ctx.params;
 
-        if (!userProfile) {
+        // get user by id
+        const user = tbUser.users.find((u: any) => u.id === id);
+        if (!user) {
           return {
             success: false,
             error: "User not found",
@@ -183,9 +172,21 @@ export default (app: Elysia) =>
           };
         }
 
+        // Get user from mock data
+        const userProfile = tbUser.users.find((u: any) => u.id === id);
+
+        if (!userProfile) {
+          return {
+            success: false,
+            error: "User not found in mock data",
+            message: `User with ID ${id} not found`,
+            timestamp: new Date().toISOString(),
+          };
+        }
+
         return {
           success: true,
-          data: userProfile,
+          data: {user, userProfile},
           message: "User retrieved successfully",
           timestamp: new Date().toISOString(),
         };

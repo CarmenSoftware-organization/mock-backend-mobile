@@ -1,13 +1,21 @@
 import { Elysia, t } from "elysia";
 import { jwt } from "@elysiajs/jwt";
-import { resBadRequest, resError, resNotImplemented, resUnauthorized } from "@libs/res.error";
+import {
+  resBadRequest,
+  resError,
+  resInternalServerError,
+  resNotFound,
+  resNotImplemented,
+  resSuccess,
+  resUnauthorized,
+} from "@libs/res.error";
 import type { LoginDto, LoginError, LoginResponse } from "@/types/auth";
 import {
-  APP_ID,
+  APP_ID_VALUE,
   PARAM_X_APP_ID,
   PARAM_X_TENANT_ID_OPTIONAL,
 } from "@mockdata/const";
-import { tbUser } from "@mockdata/index";
+import { tbUser, tbUserProfile } from "@mockdata/index";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
 
 // Types moved to src/types/auth.ts
@@ -36,62 +44,34 @@ export default (app: Elysia) =>
     .get(
       "/mockdata/users",
       (ctx) => {
-
         const allUsers = tbUser.getAllUsers();
         console.log(allUsers);
 
-        const users = allUsers.map((users) => {
-          let res = {};
-          res = {
-            id: users.id,
-            username: users.username,
-            email: users.email,
-            is_active: users.is_active,
-          };
-          return res;
-        })
+        try {
+          const users = allUsers.map((users) => {
+            let res = {};
+            res = {
+              id: users.id,
+              username: users.username,
+              email: users.email,
+              is_active: users.is_active,
+            };
+            return res;
+          });
 
-        return users;
+          return users;
+        } catch (error) {
+          return resInternalServerError(
+            error instanceof Error ? error.message : "Unknown error"
+          );
+        }
       },
       {
         detail: {
           tags: ["Mock"],
           summary: "Mock data users",
-          description: "แสดงรายการผู้ใช้งานทั้งหมด ที่อยู่ในฐานข้อมูล (Mock data)",
-        },
-      }
-    )
-
-    .get(
-      "/api/auth",
-      async (ctx) => {
-        // check token
-        const { error, currentUser } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
-        if (error) {
-          ctx.set.status = 401;
-          return error;
-        }
-
-        const userPermissions = {
-          user_id: currentUser.id,
-          permissions: [
-            "read:user",
-            "write:user",
-            "read:product",
-            "write:product",
-          ],
-        };
-
-        return {data : userPermissions};
-
-      },
-      {
-        detail: {
-          tags: ["user"],
-          summary: "all permissions of current user",
           description:
-            `all permissions of current user. if add '${PARAM_X_TENANT_ID_OPTIONAL.name}' header it will return all permissions of user in that tenant`,
-          parameters: [PARAM_X_APP_ID, PARAM_X_TENANT_ID_OPTIONAL],
+            "แสดงรายการผู้ใช้งานทั้งหมด ที่อยู่ในฐานข้อมูล (Mock data)",
         },
       }
     )
@@ -100,151 +80,79 @@ export default (app: Elysia) =>
     .post(
       "/api/auth/login",
       async (ctx) => {
-        const { error } = CheckHeaderHasAppId(ctx.headers);
-        if (error) {
+        const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+        if (errorAppId) {
           ctx.set.status = 400;
-          return resError(400, error);
+          return errorAppId;
         }
 
-        const result = await login(ctx.body, ctx.jwt);
+        const result = await login(ctx.body as LoginDto, ctx.jwt);
         if ("message" in result) {
           ctx.set.status = 401;
-          return resError(401, result.message);
         }
         return result;
       },
+      { loginEndpointDetail }
+    )
+
+    .get(
+      "/api/auth",
+      async (ctx) => {
+        // check app id
+        const { error: appIdError } = CheckHeaderHasAppId(ctx.headers);
+        if (appIdError) {
+          ctx.set.status = 400;
+          return appIdError;
+        }
+
+        const { error: errorAccessToken, jwtUser } =
+          await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+        if (errorAccessToken) {
+          ctx.set.status = 401;
+          return errorAccessToken;
+        }
+
+        let res = {};
+
+        try {
+
+          const currentUser = tbUser.users.find((user: any) => user.id === jwtUser.id);
+
+          if (!currentUser) {
+            return resNotFound("User not found");
+          }
+
+          const getUserInfo = tbUserProfile.userProfiles.find(
+            (u: any) => u.user_id === currentUser.id
+          );
+
+          const userPermissions = {
+            user_id: currentUser.id,
+            permissions: [
+              "read:user",
+              "write:user",
+              "read:product",
+              "write:product",
+            ],
+          };
+
+          res = {
+            data: userPermissions,
+          };
+
+          return res;
+        } catch (error) {
+          return resInternalServerError(
+            error instanceof Error ? error.message : "Unknown error"
+          );
+        }
+      },
       {
-        body: "loginDto",
-        response: {
-          200: t.Object({
-            access_token: t.String(),
-            refresh_token: t.String(),
-          }),
-          400: t.Object({
-            message: t.String({ default: `Invalid header '${PARAM_X_APP_ID.name}'` }),
-          }),
-          401: t.Object({
-            message: t.String({ default: "Invalid login credentials" }),
-          }),
-          500: t.Object({
-            message: t.String({ default: "Internal Server Error" }),
-          }),
-        },
         detail: {
-          tags: ["auth"],
-          summary: "Login",
-          description:
-            `Authenticate user with email and password to receive access and refresh tokens. Requires '${PARAM_X_APP_ID.name}' header with value '${PARAM_X_APP_ID.schema.example}'`,
-          parameters: [PARAM_X_APP_ID],
-          requestBody: {
-            description: "Login credentials",
-            required: true,
-            content: {
-              "application/json": {
-                schema: {
-                  type: "object",
-                  properties: {
-                    email: {
-                      type: "string",
-                      format: "email",
-                      description: "User email address",
-                    },
-                    password: {
-                      type: "string",
-                      description: "User password",
-                    },
-                  },
-                  required: ["email", "password"],
-                },
-              },
-            },
-          },
-          responses: {
-            200: {
-              description: "Login successful",
-              content: {
-                "application/json": {
-                  schema: {
-                    type: "object",
-                    properties: {
-                      access_token: {
-                        type: "string",
-                        description: "JWT access token",
-                      },
-                      refresh_token: {
-                        type: "string",
-                        description: "JWT refresh token",
-                      },
-                    },
-                  },
-                  example: {
-                    access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-                    refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-                  },
-                },
-              },
-            },
-            400: {
-              description: "Bad request - Missing or invalid headers",
-              content: {
-                "application/json": {
-                  schema: {
-                    type: "object",
-                    properties: {
-                      message: { type: "string" },
-                    },
-                  },
-                  examples: {
-                    MissingAppId: {
-                      summary: `Missing ${PARAM_X_APP_ID.name} header`,
-                      value: {
-                        message: `Invalid header '${PARAM_X_APP_ID.name}'`,
-                      },
-                    },
-                    InvalidAppId: {
-                      summary: `Invalid ${PARAM_X_APP_ID.name} value`,
-                      value: {
-                        message:
-                          `Invalid header '${PARAM_X_APP_ID.name}' should be '${PARAM_X_APP_ID.schema.example}'`,
-                      },
-                    },
-                  },
-                },
-              },
-            },
-            401: {
-              description: "Invalid credentials",
-              content: {
-                "application/json": {
-                  schema: {
-                    type: "object",
-                    properties: {
-                      message: { type: "string" },
-                    },
-                  },
-                  example: {
-                    message: "Invalid login credentials",
-                  },
-                },
-              },
-            },
-            500: {
-              description: "Internal server error",
-              content: {
-                "application/json": {
-                  schema: {
-                    type: "object",
-                    properties: {
-                      message: { type: "string" },
-                    },
-                  },
-                  example: {
-                    message: "Internal Server Error",
-                  },
-                },
-              },
-            },
-          },
+          tags: ["user"],
+          summary: "all permissions of current user",
+          description: `all permissions of current user. if add '${PARAM_X_TENANT_ID_OPTIONAL.name}' header it will return all permissions of user in that tenant`,
+          parameters: [PARAM_X_APP_ID, PARAM_X_TENANT_ID_OPTIONAL],
         },
       }
     )
@@ -253,15 +161,22 @@ export default (app: Elysia) =>
     .post(
       "/api/auth/logout",
       async (ctx) => {
-        const { error, currentUser } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
-        if (error) {
-          ctx.set.status = 401;
-          return error;
+        const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+        if (errorAppId) {
+          ctx.set.status = 400;
+          return errorAppId;
         }
 
-        const fn = await logout(currentUser.id);
+        const { error: errorAccessToken, jwtUser } =
+          await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+        if (errorAccessToken) {
+          ctx.set.status = 401;
+          return errorAccessToken;
+        }
+
+        const fn = await logout(jwtUser.id);
         ctx.set.status = fn.status;
-        return { message: fn.message };
+        return fn;
       },
       {
         detail: {
@@ -274,7 +189,13 @@ export default (app: Elysia) =>
     )
 
     // Register
-    .post("/api/auth/register", (ctx) => {
+    .post("/api/auth/register", async (ctx) => {
+      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+      if (errorAppId) {
+        ctx.set.status = 400;
+        return errorAppId;
+      }
+
       ctx.set.status = 501;
       return resNotImplemented;
     })
@@ -316,21 +237,24 @@ export default (app: Elysia) =>
     });
 
 // Login function implementation
-async function login(body: LoginDto, jwt: any): Promise<LoginResponse | LoginError> {
+async function login(
+  body: LoginDto,
+  jwt: any
+): Promise<LoginResponse | LoginError> {
   const user = tbUser.users.find((user: any) => user.email === body.email);
 
   if (!user) {
-    return { message: "Invalid login credentials" };
+    return resError(401, "Invalid login credentials");
   }
 
   // For demo purposes, accept any password
   // In production, would use tbPasswordCrud.verifyPassword(user.id, body.password)
   if (body.password !== "123456") {
-    return { message: "Invalid login credentials" };
+    return resUnauthorized("Invalid login credentials");
   }
 
   if (!process.env.JWT_SECRET) {
-    return { message: "JWT secret is not configured" };
+    return resInternalServerError("JWT secret is not configured");
   }
 
   try {
@@ -350,10 +274,145 @@ async function login(body: LoginDto, jwt: any): Promise<LoginResponse | LoginErr
       refresh_token: refreshToken,
     };
   } catch (error) {
-    return { message: "Failed to generate tokens" };
+    return resInternalServerError("Failed to generate tokens");
   }
 }
 
 async function logout(token: string) {
-  return { status: 200, message: "Logged out" };
+  return resSuccess("Logged out");
 }
+
+const loginEndpointDetail = {
+  body: "loginDto",
+  response: {
+    200: t.Object({
+      access_token: t.String(),
+      refresh_token: t.String(),
+    }),
+    400: t.Object({
+      message: t.String({
+        default: `Invalid header '${PARAM_X_APP_ID.name}'`,
+      }),
+    }),
+    401: t.Object({
+      message: t.String({ default: "Invalid login credentials" }),
+    }),
+    500: t.Object({
+      message: t.String({ default: "Internal Server Error" }),
+    }),
+  },
+  detail: {
+    tags: ["auth"],
+    summary: "Login",
+    description: `Authenticate user with email and password to receive access and refresh tokens. Requires '${PARAM_X_APP_ID.name}' header with value '${PARAM_X_APP_ID.schema.example}'`,
+    parameters: [PARAM_X_APP_ID],
+    requestBody: {
+      description: "Login credentials",
+      required: true,
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              email: {
+                type: "string",
+                format: "email",
+                description: "User email address",
+              },
+              password: {
+                type: "string",
+                description: "User password",
+              },
+            },
+            required: ["email", "password"],
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Login successful",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                access_token: {
+                  type: "string",
+                  description: "JWT access token",
+                },
+                refresh_token: {
+                  type: "string",
+                  description: "JWT refresh token",
+                },
+              },
+            },
+            example: {
+              access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+              refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+            },
+          },
+        },
+      },
+      400: {
+        description: "Bad request - Missing or invalid headers",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                message: { type: "string" },
+              },
+            },
+            examples: {
+              MissingAppId: {
+                summary: `Missing ${PARAM_X_APP_ID.name} header`,
+                value: {
+                  message: `Invalid header '${PARAM_X_APP_ID.name}'`,
+                },
+              },
+              InvalidAppId: {
+                summary: `Invalid ${PARAM_X_APP_ID.name} value`,
+                value: {
+                  message: `Invalid header '${PARAM_X_APP_ID.name}' should be '${PARAM_X_APP_ID.schema.example}'`,
+                },
+              },
+            },
+          },
+        },
+      },
+      401: {
+        description: "Invalid credentials",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                message: { type: "string" },
+              },
+            },
+            example: {
+              message: "Invalid login credentials",
+            },
+          },
+        },
+      },
+      500: {
+        description: "Internal server error",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                message: { type: "string" },
+              },
+            },
+            example: {
+              message: "Internal Server Error",
+            },
+          },
+        },
+      },
+    },
+  },
+};

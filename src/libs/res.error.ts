@@ -13,10 +13,30 @@ export const resBadRequest = {
   timestamp: new Date().toISOString(),
 };
 
-export const resUnauthorized = {
-  status: 401,
-  message: "Unauthorized",
-  timestamp: new Date().toISOString(),
+export const resSuccess = (message: string = "Success") => {
+  return {
+    status: 200,
+    message: message,
+    timestamp: new Date().toISOString(),
+  };
+};
+
+export const resUnauthorized = (message: string = "Unauthorized") => {
+  return {
+    status: 401,
+    message: message,
+    timestamp: new Date().toISOString(),
+  };
+};
+
+
+export const resSuccessWithData = (message: string = "Success", data: any) => {
+  return {
+    status: 200,
+    message: message,
+    data: data,
+    timestamp: new Date().toISOString(),
+  };
 };
 
 export const resInternalServerError = (message: string = "Internal Server Error") => {

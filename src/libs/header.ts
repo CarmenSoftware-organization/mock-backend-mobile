@@ -1,5 +1,10 @@
-import { APP_ID, PARAM_X_APP_ID } from "@/mockdata/const";
-import { resUnauthorized } from "./res.error";
+import {
+  APP_ID_VALUE,
+  PARAM_X_APP_ID,
+  PARAM_X_TENANT_ID,
+} from "@/mockdata/const";
+import { resError, resNotFound, resUnauthorized } from "./res.error";
+import { tbUser, tbUserProfile } from "@/mockdata";
 
 export const CheckHeaderHasAppId = (headers: any) => {
   let error = null;
@@ -7,16 +12,30 @@ export const CheckHeaderHasAppId = (headers: any) => {
 
   if (!appId) {
     error = "Invalid header '" + PARAM_X_APP_ID.name + "'";
-    return { error };
+    return { error: resError(400, error) };
   }
 
-  if (appId !== APP_ID) {
+  if (appId !== APP_ID_VALUE) {
     error =
-      "Invalid header '" + PARAM_X_APP_ID.name + "' should be '" + APP_ID + "'";
-    return { error };
+      "Invalid header '" +
+      PARAM_X_APP_ID.name +
+      "' should be '" +
+      APP_ID_VALUE +
+      "'";
+    return { error: resError(400, error) };
   }
 
-  return { error };
+  return { error: null };
+};
+
+export const CheckHeaderHasTenantId = (headers: any) => {
+  const tenantId = headers[PARAM_X_TENANT_ID.name];
+  if (!tenantId) {
+    return {
+      error: resError(400, "Invalid header '" + PARAM_X_TENANT_ID.name + "'"),
+    };
+  }
+  return { error: null };
 };
 
 export const CheckHeaderHasAppIdAndTenantId = (headers: any) => {
@@ -31,13 +50,23 @@ export const CheckHeaderHasAppIdAndTenantId = (headers: any) => {
 export const CheckHeaderHasAccessToken = async (headers: any, jwt: any) => {
   const token = headers.authorization?.split(" ")[1];
   if (!token) {
-    return { error: { ...resUnauthorized }, currentUser: null };
+    return { error: { ...resUnauthorized() }, jwtUser: null, currentUser: null, userProfile: null };
   }
 
-  const currentUser = await jwt.verify(token);
+  const jwtUser = await jwt.verify(token);
+  if (!jwtUser) {
+    return { error: { ...resUnauthorized() }, jwtUser: null, currentUser: null, userProfile: null };
+  }
+
+  const currentUser = tbUser.users.find((user: any) => user.id === jwtUser.id);
   if (!currentUser) {
-    return { error: { ...resUnauthorized }, currentUser: null };
+    return { error: { ...resNotFound('User not found') }, jwtUser: null, currentUser: null, userProfile: null };
   }
 
-  return { error: null, currentUser };
+  const userProfile = tbUserProfile.userProfiles.find((profile: any) => profile.user_id === jwtUser.id);
+  if (!userProfile) {
+    return { error: { ...resNotFound('User profile not found') }, jwtUser: null, currentUser: null, userProfile: null };
+  }
+
+  return { error: null, jwtUser, currentUser, userProfile };
 };
