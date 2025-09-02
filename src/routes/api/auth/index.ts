@@ -1,6 +1,6 @@
 import { Elysia, t } from "elysia";
 import { jwt } from "@elysiajs/jwt";
-import { resNotImplemented, resUnauthorized } from "@libs/res.error";
+import { resBadRequest, resError, resNotImplemented, resUnauthorized } from "@libs/res.error";
 import type { LoginDto, LoginError, LoginResponse } from "@/types/auth";
 import {
   APP_ID,
@@ -8,7 +8,7 @@ import {
   PARAM_X_TENANT_ID_OPTIONAL,
 } from "@mockdata/const";
 import { tbUser } from "@mockdata/index";
-import { CheckHeaderHasAppId } from "@/libs/header";
+import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
 
 // Types moved to src/types/auth.ts
 
@@ -134,13 +134,13 @@ export default (app: Elysia) =>
         const { error } = CheckHeaderHasAppId(ctx.headers);
         if (error) {
           ctx.set.status = 400;
-          return { message: error };
+          return resError(400, error);
         }
 
         const result = await login(ctx.body, ctx.jwt);
         if ("message" in result) {
           ctx.set.status = 401;
-          return result;
+          return resError(401, result.message);
         }
         return result;
       },
@@ -152,7 +152,7 @@ export default (app: Elysia) =>
             refresh_token: t.String(),
           }),
           400: t.Object({
-            message: t.String({ default: "Invalid header 'x-app-id'" }),
+            message: t.String({ default: `Invalid header '${PARAM_X_APP_ID.name}'` }),
           }),
           401: t.Object({
             message: t.String({ default: "Invalid login credentials" }),
@@ -165,7 +165,7 @@ export default (app: Elysia) =>
           tags: ["auth"],
           summary: "Login",
           description:
-            "Authenticate user with email and password to receive access and refresh tokens. Requires 'x-app-id' header with value '00000000-0000-0000-0000-000000000000'",
+            `Authenticate user with email and password to receive access and refresh tokens. Requires '${PARAM_X_APP_ID.name}' header with value '${PARAM_X_APP_ID.schema.example}'`,
           parameters: [PARAM_X_APP_ID],
           requestBody: {
             description: "Login credentials",
@@ -227,16 +227,16 @@ export default (app: Elysia) =>
                   },
                   examples: {
                     MissingAppId: {
-                      summary: "Missing x-app-id header",
+                      summary: `Missing ${PARAM_X_APP_ID.name} header`,
                       value: {
-                        message: "Invalid header 'x-app-id'",
+                        message: `Invalid header '${PARAM_X_APP_ID.name}'`,
                       },
                     },
                     InvalidAppId: {
-                      summary: "Invalid x-app-id value",
+                      summary: `Invalid ${PARAM_X_APP_ID.name} value`,
                       value: {
                         message:
-                          "Invalid header 'x-app-id' should be '00000000-0000-0000-0000-000000000000'",
+                          `Invalid header '${PARAM_X_APP_ID.name}' should be '${PARAM_X_APP_ID.schema.example}'`,
                       },
                     },
                   },
@@ -283,9 +283,14 @@ export default (app: Elysia) =>
     // Logout
     .post(
       "/api/auth/logout",
-      (ctx) => {
-        const token = ctx.headers.authorization?.split(" ")[1];
-        const fn = logout(token || "");
+      async (ctx) => {
+        const { error, currentUser } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+        if (error) {
+          ctx.set.status = 401;
+          return error;
+        }
+
+        const fn = await logout(currentUser.id);
         ctx.set.status = fn.status;
         return { message: fn.message };
       },
@@ -380,6 +385,6 @@ async function login(body: LoginDto, jwt: any): Promise<LoginResponse | LoginErr
   }
 }
 
-function logout(token: string) {
+async function logout(token: string) {
   return { status: 200, message: "Logged out" };
 }
