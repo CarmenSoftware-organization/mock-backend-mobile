@@ -44,7 +44,7 @@ export const businessUnits: BusinessUnit[] = [
       database: "postgres",
       password: "123456",
       provider: "postgresql",
-      username: "developer"
+      username: "developer",
     },
     config: null,
     created_at: "2025-07-29T01:37:29.002Z",
@@ -52,7 +52,7 @@ export const businessUnits: BusinessUnit[] = [
     updated_at: "2025-07-29T01:37:29.002Z",
     updated_by_id: null,
     info: null,
-    alias_name: "AA"
+    alias_name: "AA",
   },
   {
     id: "5c7b29ca-484f-401a-a21f-325f3d20eecc",
@@ -69,7 +69,7 @@ export const businessUnits: BusinessUnit[] = [
       database: "postgres",
       password: "123456",
       provider: "postgresql",
-      username: "developer"
+      username: "developer",
     },
     config: null,
     created_at: "2025-07-29T01:37:29.004Z",
@@ -77,7 +77,7 @@ export const businessUnits: BusinessUnit[] = [
     updated_at: "2025-07-29T01:37:29.004Z",
     updated_by_id: null,
     info: null,
-    alias_name: "BB"
+    alias_name: "BB",
   },
   {
     id: "3a397114-e1fc-42a8-836c-d8cfef1bd169",
@@ -94,7 +94,7 @@ export const businessUnits: BusinessUnit[] = [
       database: "postgres",
       password: "123456",
       provider: "postgresql",
-      username: "developer"
+      username: "developer",
     },
     config: null,
     created_at: "2025-07-29T01:37:29.005Z",
@@ -102,19 +102,21 @@ export const businessUnits: BusinessUnit[] = [
     updated_at: "2025-07-29T01:37:29.005Z",
     updated_by_id: null,
     info: null,
-    alias_name: "CC"
-  }
+    alias_name: "CC",
+  },
 ];
 
 // CREATE - สร้าง BusinessUnit ใหม่
-export const createBusinessUnit = (businessUnitData: Omit<BusinessUnit, 'id' | 'created_at' | 'updated_at'>): BusinessUnit => {
+export const createBusinessUnit = (
+  businessUnitData: Omit<BusinessUnit, "id" | "created_at" | "updated_at">
+): BusinessUnit => {
   const newBusinessUnit: BusinessUnit = {
     ...businessUnitData,
     id: generateId(),
     created_at: getCurrentTimestamp(),
-    updated_at: getCurrentTimestamp()
+    updated_at: getCurrentTimestamp(),
   };
-  
+
   businessUnits.push(newBusinessUnit);
   return newBusinessUnit;
 };
@@ -126,121 +128,162 @@ export const getAllBusinessUnits = (): BusinessUnit[] => {
 
 // READ - อ่าน BusinessUnit ตาม ID
 export const getBusinessUnitById = (id: string): BusinessUnit | undefined => {
-  return businessUnits.find(businessUnit => businessUnit.id === id);
+  return businessUnits.find((businessUnit) => businessUnit.id === id);
 };
 
 // READ - อ่าน BusinessUnit ตาม code
-export const getBusinessUnitByCode = (code: string): BusinessUnit | undefined => {
-  return businessUnits.find(businessUnit => businessUnit.code === code);
+export const getBusinessUnitByCode = (
+  code: string
+): BusinessUnit | undefined => {
+  return businessUnits.find((businessUnit) => businessUnit.code === code);
 };
 
 // READ - อ่าน BusinessUnit ตาม name
 export const getBusinessUnitByName = (name: string): BusinessUnit[] => {
-  return businessUnits.filter(businessUnit => 
+  return businessUnits.filter((businessUnit) =>
     businessUnit.name.toLowerCase().includes(name.toLowerCase())
   );
 };
 
 // READ - อ่าน BusinessUnit ตาม cluster_id
-export const getBusinessUnitsByCluster = (clusterId: string): BusinessUnit[] => {
-  return businessUnits.filter(businessUnit => businessUnit.cluster_id === clusterId);
+export const getBusinessUnitsByCluster = (
+  clusterId: string
+): BusinessUnit[] => {
+  return businessUnits.filter(
+    (businessUnit) => businessUnit.cluster_id === clusterId
+  );
 };
 
 // READ - อ่าน BusinessUnit ที่ active
 export const getActiveBusinessUnits = (): BusinessUnit[] => {
-  return businessUnits.filter(businessUnit => businessUnit.is_active);
+  return businessUnits.filter((businessUnit) => businessUnit.is_active);
 };
 
 // READ - อ่าน BusinessUnit ที่ inactive
 export const getInactiveBusinessUnits = (): BusinessUnit[] => {
-  return businessUnits.filter(businessUnit => !businessUnit.is_active);
+  return businessUnits.filter((businessUnit) => !businessUnit.is_active);
 };
 
 // READ - อ่าน BusinessUnit ที่เป็น HQ
 export const getHQBusinessUnits = (): BusinessUnit[] => {
-  return businessUnits.filter(businessUnit => businessUnit.is_hq);
+  return businessUnits.filter((businessUnit) => businessUnit.is_hq);
 };
 
 // READ - อ่าน BusinessUnit ที่ไม่ใช่ HQ
 export const getNonHQBusinessUnits = (): BusinessUnit[] => {
-  return businessUnits.filter(businessUnit => !businessUnit.is_hq);
+  return businessUnits.filter((businessUnit) => !businessUnit.is_hq);
 };
 
 // READ - อ่าน BusinessUnit ที่มี alias_name
 export const getBusinessUnitsWithAlias = (): BusinessUnit[] => {
-  return businessUnits.filter(businessUnit => businessUnit.alias_name !== null);
+  return businessUnits.filter(
+    (businessUnit) => businessUnit.alias_name !== null
+  );
 };
 
 // READ - อ่าน BusinessUnit ที่ไม่มี alias_name
 export const getBusinessUnitsWithoutAlias = (): BusinessUnit[] => {
-  return businessUnits.filter(businessUnit => businessUnit.alias_name === null);
+  return businessUnits.filter(
+    (businessUnit) => businessUnit.alias_name === null
+  );
 };
 
 // UPDATE - อัปเดต BusinessUnit
-export const updateBusinessUnit = (id: string, updateData: Partial<Omit<BusinessUnit, 'id' | 'created_at' | 'created_by_id'>>): BusinessUnit | null => {
-  const index = businessUnits.findIndex(businessUnit => businessUnit.id === id);
-  
+export const updateBusinessUnit = (
+  id: string,
+  updateData: Partial<Omit<BusinessUnit, "id" | "created_at" | "created_by_id">>
+): BusinessUnit | null => {
+  const index = businessUnits.findIndex(
+    (businessUnit) => businessUnit.id === id
+  );
+
   if (index === -1) {
     return null;
   }
-  
+
   businessUnits[index] = {
     ...businessUnits[index],
     ...updateData,
-    updated_at: getCurrentTimestamp()
+    updated_at: getCurrentTimestamp(),
   };
-  
+
   return businessUnits[index];
 };
 
 // UPDATE - อัปเดต BusinessUnit status
-export const updateBusinessUnitStatus = (id: string, isActive: boolean): BusinessUnit | null => {
+export const updateBusinessUnitStatus = (
+  id: string,
+  isActive: boolean
+): BusinessUnit | null => {
   return updateBusinessUnit(id, { is_active: isActive });
 };
 
 // UPDATE - อัปเดต BusinessUnit HQ status
-export const updateBusinessUnitHQStatus = (id: string, isHQ: boolean): BusinessUnit | null => {
+export const updateBusinessUnitHQStatus = (
+  id: string,
+  isHQ: boolean
+): BusinessUnit | null => {
   return updateBusinessUnit(id, { is_hq: isHQ });
 };
 
 // UPDATE - อัปเดต BusinessUnit code
-export const updateBusinessUnitCode = (id: string, code: string): BusinessUnit | null => {
+export const updateBusinessUnitCode = (
+  id: string,
+  code: string
+): BusinessUnit | null => {
   return updateBusinessUnit(id, { code });
 };
 
 // UPDATE - อัปเดต BusinessUnit name
-export const updateBusinessUnitName = (id: string, name: string): BusinessUnit | null => {
+export const updateBusinessUnitName = (
+  id: string,
+  name: string
+): BusinessUnit | null => {
   return updateBusinessUnit(id, { name });
 };
 
 // UPDATE - อัปเดต BusinessUnit description
-export const updateBusinessUnitDescription = (id: string, description: string): BusinessUnit | null => {
+export const updateBusinessUnitDescription = (
+  id: string,
+  description: string
+): BusinessUnit | null => {
   return updateBusinessUnit(id, { description });
 };
 
 // UPDATE - อัปเดต BusinessUnit alias name
-export const updateBusinessUnitAliasName = (id: string, aliasName: string): BusinessUnit | null => {
+export const updateBusinessUnitAliasName = (
+  id: string,
+  aliasName: string
+): BusinessUnit | null => {
   return updateBusinessUnit(id, { alias_name: aliasName });
 };
 
 // UPDATE - อัปเดต BusinessUnit database connection
-export const updateBusinessUnitDbConnection = (id: string, dbConnection: DbConnection): BusinessUnit | null => {
+export const updateBusinessUnitDbConnection = (
+  id: string,
+  dbConnection: DbConnection
+): BusinessUnit | null => {
   return updateBusinessUnit(id, { db_connection: dbConnection });
 };
 
 // UPDATE - อัปเดต BusinessUnit config
-export const updateBusinessUnitConfig = (id: string, config: any): BusinessUnit | null => {
+export const updateBusinessUnitConfig = (
+  id: string,
+  config: any
+): BusinessUnit | null => {
   return updateBusinessUnit(id, { config });
 };
 
 // DELETE - ลบ BusinessUnit
 export const deleteBusinessUnit = (id: string): boolean => {
-  const index = businessUnits.findIndex(businessUnit => businessUnit.id === id);
-  
+  const index = businessUnits.findIndex(
+    (businessUnit) => businessUnit.id === id
+  );
+
   if (index === -1) {
     return false;
   }
-  
+
   businessUnits.splice(index, 1);
   return true;
 };
@@ -249,19 +292,21 @@ export const deleteBusinessUnit = (id: string): boolean => {
 export const deleteBusinessUnitByCode = (code: string): boolean => {
   const businessUnit = getBusinessUnitByCode(code);
   if (!businessUnit) return false;
-  
+
   return deleteBusinessUnit(businessUnit.id);
 };
 
 // DELETE - ลบ BusinessUnit ตาม cluster_id
 export const deleteBusinessUnitsByCluster = (clusterId: string): number => {
   const initialLength = businessUnits.length;
-  const filteredBusinessUnits = businessUnits.filter(businessUnit => businessUnit.cluster_id !== clusterId);
+  const filteredBusinessUnits = businessUnits.filter(
+    (businessUnit) => businessUnit.cluster_id !== clusterId
+  );
   const deletedCount = initialLength - filteredBusinessUnits.length;
-  
+
   businessUnits.length = 0;
   businessUnits.push(...filteredBusinessUnits);
-  
+
   return deletedCount;
 };
 
@@ -277,12 +322,12 @@ export const getBusinessUnitCount = (): number => {
 
 // Utility function สำหรับนับจำนวน BusinessUnit ที่ active
 export const getActiveBusinessUnitCount = (): number => {
-  return businessUnits.filter(businessUnit => businessUnit.is_active).length;
+  return businessUnits.filter((businessUnit) => businessUnit.is_active).length;
 };
 
 // Utility function สำหรับนับจำนวน BusinessUnit ที่เป็น HQ
 export const getHQBusinessUnitCount = (): number => {
-  return businessUnits.filter(businessUnit => businessUnit.is_hq).length;
+  return businessUnits.filter((businessUnit) => businessUnit.is_hq).length;
 };
 
 // Utility function สำหรับค้นหา BusinessUnit แบบ advanced search
@@ -295,61 +340,80 @@ export const searchBusinessUnits = (searchCriteria: {
   has_alias?: boolean;
   has_config?: boolean;
 }): BusinessUnit[] => {
-  return businessUnits.filter(businessUnit => {
-    if (searchCriteria.code && !businessUnit.code.toLowerCase().includes(searchCriteria.code.toLowerCase())) {
+  return businessUnits.filter((businessUnit) => {
+    if (
+      searchCriteria.code &&
+      !businessUnit.code
+        .toLowerCase()
+        .includes(searchCriteria.code.toLowerCase())
+    ) {
       return false;
     }
-    
-    if (searchCriteria.name && !businessUnit.name.toLowerCase().includes(searchCriteria.name.toLowerCase())) {
+
+    if (
+      searchCriteria.name &&
+      !businessUnit.name
+        .toLowerCase()
+        .includes(searchCriteria.name.toLowerCase())
+    ) {
       return false;
     }
-    
-    if (searchCriteria.cluster_id && businessUnit.cluster_id !== searchCriteria.cluster_id) {
+
+    if (
+      searchCriteria.cluster_id &&
+      businessUnit.cluster_id !== searchCriteria.cluster_id
+    ) {
       return false;
     }
-    
-    if (searchCriteria.is_active !== undefined && businessUnit.is_active !== searchCriteria.is_active) {
+
+    if (
+      searchCriteria.is_active !== undefined &&
+      businessUnit.is_active !== searchCriteria.is_active
+    ) {
       return false;
     }
-    
-    if (searchCriteria.is_hq !== undefined && businessUnit.is_hq !== searchCriteria.is_hq) {
+
+    if (
+      searchCriteria.is_hq !== undefined &&
+      businessUnit.is_hq !== searchCriteria.is_hq
+    ) {
       return false;
     }
-    
+
     if (searchCriteria.has_alias !== undefined) {
       const hasAlias = businessUnit.alias_name !== null;
       if (hasAlias !== searchCriteria.has_alias) {
         return false;
       }
     }
-    
+
     if (searchCriteria.has_config !== undefined) {
       const hasConfig = businessUnit.config !== null;
       if (hasConfig !== searchCriteria.has_config) {
         return false;
       }
     }
-    
+
     return true;
   });
 };
 
 // Utility function สำหรับตรวจสอบ code ซ้ำ
 export const isBusinessUnitCodeExists = (code: string): boolean => {
-  return businessUnits.some(businessUnit => businessUnit.code === code);
+  return businessUnits.some((businessUnit) => businessUnit.code === code);
 };
 
 // Utility function สำหรับตรวจสอบ BusinessUnit ที่ active
 export const hasActiveBusinessUnits = (): boolean => {
-  return businessUnits.some(businessUnit => businessUnit.is_active);
+  return businessUnits.some((businessUnit) => businessUnit.is_active);
 };
 
 // Utility function สำหรับตรวจสอบ BusinessUnit ที่เป็น HQ
 export const hasHQBusinessUnits = (): boolean => {
-  return businessUnits.some(businessUnit => businessUnit.is_hq);
+  return businessUnits.some((businessUnit) => businessUnit.is_hq);
 };
 
 // Utility function สำหรับตรวจสอบ BusinessUnit ที่มี alias
 export const hasBusinessUnitsWithAlias = (): boolean => {
-  return businessUnits.some(businessUnit => businessUnit.alias_name !== null);
+  return businessUnits.some((businessUnit) => businessUnit.alias_name !== null);
 };

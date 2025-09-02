@@ -36,30 +36,40 @@ export default (app: Elysia) =>
     .get(
       "/mockdata/users",
       (ctx) => {
-        return tbUser.users;
+
+        const allUsers = tbUser.getAllUsers();
+        console.log(allUsers);
+
+        const users = allUsers.map((users) => {
+          let res = {};
+          res = {
+            id: users.id,
+            username: users.username,
+            email: users.email,
+            is_active: users.is_active,
+          };
+          return res;
+        })
+
+        return users;
       },
       {
         detail: {
           tags: ["Mock"],
           summary: "Mock data users",
-          description: "Mock data users",
+          description: "แสดงรายการผู้ใช้งานทั้งหมด ที่อยู่ในฐานข้อมูล (Mock data)",
         },
       }
     )
 
     .get(
       "/api/auth",
-      async ({ headers, status, set, jwt }) => {
+      async (ctx) => {
         // check token
-        const token = headers.authorization?.split(" ")[1];
-        if (!token) {
-          set.status = 401;
-          return resUnauthorized;
-        }
-        const currentUser = await jwt.verify(token);
-        if (!currentUser) {
-          set.status = 401;
-          return resUnauthorized;
+        const { error, currentUser } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+        if (error) {
+          ctx.set.status = 401;
+          return error;
         }
 
         // get user permissions
@@ -72,7 +82,7 @@ export default (app: Elysia) =>
           tags: ["user"],
           summary: "all permissions of current user",
           description:
-            "all permissions of current user. if add x-tenant-id header it will return all permissions of user in that tenant",
+            `all permissions of current user. if add '${PARAM_X_TENANT_ID_OPTIONAL.name}' header it will return all permissions of user in that tenant`,
           parameters: [PARAM_X_APP_ID, PARAM_X_TENANT_ID_OPTIONAL],
         },
       }

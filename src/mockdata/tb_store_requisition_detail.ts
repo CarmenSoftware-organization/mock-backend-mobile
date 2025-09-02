@@ -15,7 +15,7 @@ export interface StoreRequisitionDetail {
   approved_qty: string;
   issued_qty: string;
   history: any;
-  last_action: 'submit' | 'approve' | 'reject' | 'complete';
+  last_action: "submit" | "approve" | "reject" | "complete";
   approved_message: string | null;
   approved_by_id: string | null;
   approved_by_name: string | null;
@@ -42,184 +42,265 @@ export interface StoreRequisitionDetail {
 // Sample data
 export const storeRequisitionDetails: StoreRequisitionDetail[] = [
   {
-    id: 'srd-001',
-    inventory_transaction_id: 'inv-007',
-    store_requisition_id: 'sr-001',
+    id: "srd-001",
+    inventory_transaction_id: "inv-007",
+    store_requisition_id: "sr-001",
     sequence_no: 1,
-    description: 'Cleaning supplies for kitchen',
-    to_location_id: 'loc-kitchen-001',
-    to_location_name: 'Kitchen Storage',
-    product_id: 'prod-cleaner-001',
-    product_name: 'Kitchen Cleaner',
-    product_local_name: 'น้ำยาทำความสะอาดครัว',
-    requested_qty: '10.00',
-    approved_qty: '8.00',
-    issued_qty: '8.00',
+    description: "Cleaning supplies for kitchen",
+    to_location_id: "loc-kitchen-001",
+    to_location_name: "Kitchen Storage",
+    product_id: "prod-cleaner-001",
+    product_name: "Kitchen Cleaner",
+    product_local_name: "น้ำยาทำความสะอาดครัว",
+    requested_qty: "10.00",
+    approved_qty: "8.00",
+    issued_qty: "8.00",
     history: [
-      { action: 'submit', date: '2024-01-15T10:00:00Z', user: 'user-001', message: 'Request submitted' },
-      { action: 'approve', date: '2024-01-15T15:00:00Z', user: 'user-002', message: 'Approved with quantity adjustment' },
-      { action: 'complete', date: '2024-01-16T09:00:00Z', user: 'user-004', message: 'Items issued' }
+      {
+        action: "submit",
+        date: "2024-01-15T10:00:00Z",
+        user: "user-001",
+        message: "Request submitted",
+      },
+      {
+        action: "approve",
+        date: "2024-01-15T15:00:00Z",
+        user: "user-002",
+        message: "Approved with quantity adjustment",
+      },
+      {
+        action: "complete",
+        date: "2024-01-16T09:00:00Z",
+        user: "user-004",
+        message: "Items issued",
+      },
     ],
-    last_action: 'complete',
-    approved_message: 'Approved with quantity adjustment from 10 to 8 units',
-    approved_by_id: 'user-002',
-    approved_by_name: 'Kitchen Manager',
-    approved_date_at: '2024-01-15T15:00:00Z',
-    review_message: 'Quantity reduced due to current stock availability',
-    review_by_id: 'user-002',
-    review_by_name: 'Kitchen Manager',
-    review_date_at: '2024-01-15T14:30:00Z',
+    last_action: "complete",
+    approved_message: "Approved with quantity adjustment from 10 to 8 units",
+    approved_by_id: "user-002",
+    approved_by_name: "Kitchen Manager",
+    approved_date_at: "2024-01-15T15:00:00Z",
+    review_message: "Quantity reduced due to current stock availability",
+    review_by_id: "user-002",
+    review_by_name: "Kitchen Manager",
+    review_date_at: "2024-01-15T14:30:00Z",
     reject_message: null,
     reject_by_id: null,
     reject_by_name: null,
     reject_date_at: null,
-    info: { category: 'Cleaning Supplies', priority: 'high', supplier: 'ABC Supplies' },
-    dimension: { cost_center: 'KITCHEN-001', project: 'Daily Operations' },
-    doc_version: '1',
-    created_at: '2024-01-15T10:00:00Z',
-    created_by_id: 'user-001',
-    updated_at: '2024-01-16T09:00:00Z',
-    updated_by_id: 'user-004',
+    info: {
+      category: "Cleaning Supplies",
+      priority: "high",
+      supplier: "ABC Supplies",
+    },
+    dimension: { cost_center: "KITCHEN-001", project: "Daily Operations" },
+    doc_version: "1",
+    created_at: "2024-01-15T10:00:00Z",
+    created_by_id: "user-001",
+    updated_at: "2024-01-16T09:00:00Z",
+    updated_by_id: "user-004",
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
-    id: 'srd-002',
-    inventory_transaction_id: 'inv-007',
-    store_requisition_id: 'sr-001',
+    id: "srd-002",
+    inventory_transaction_id: "inv-007",
+    store_requisition_id: "sr-001",
     sequence_no: 2,
-    description: 'Cooking ingredients for kitchen',
-    to_location_id: 'loc-kitchen-001',
-    to_location_name: 'Kitchen Storage',
-    product_id: 'prod-ingredient-001',
-    product_name: 'Cooking Oil',
-    product_local_name: 'น้ำมันปรุงอาหาร',
-    requested_qty: '20.00',
-    approved_qty: '20.00',
-    issued_qty: '20.00',
+    description: "Cooking ingredients for kitchen",
+    to_location_id: "loc-kitchen-001",
+    to_location_name: "Kitchen Storage",
+    product_id: "prod-ingredient-001",
+    product_name: "Cooking Oil",
+    product_local_name: "น้ำมันปรุงอาหาร",
+    requested_qty: "20.00",
+    approved_qty: "20.00",
+    issued_qty: "20.00",
     history: [
-      { action: 'submit', date: '2024-01-15T10:00:00Z', user: 'user-001', message: 'Request submitted' },
-      { action: 'approve', date: '2024-01-15T15:00:00Z', user: 'user-002', message: 'Approved as requested' },
-      { action: 'complete', date: '2024-01-16T09:00:00Z', user: 'user-004', message: 'Items issued' }
+      {
+        action: "submit",
+        date: "2024-01-15T10:00:00Z",
+        user: "user-001",
+        message: "Request submitted",
+      },
+      {
+        action: "approve",
+        date: "2024-01-15T15:00:00Z",
+        user: "user-002",
+        message: "Approved as requested",
+      },
+      {
+        action: "complete",
+        date: "2024-01-16T09:00:00Z",
+        user: "user-004",
+        message: "Items issued",
+      },
     ],
-    last_action: 'complete',
-    approved_message: 'Approved as requested',
-    approved_by_id: 'user-002',
-    approved_by_name: 'Kitchen Manager',
-    approved_date_at: '2024-01-15T15:00:00Z',
-    review_message: 'Standard cooking oil for daily use',
-    review_by_id: 'user-002',
-    review_by_name: 'Kitchen Manager',
-    review_date_at: '2024-01-15T14:30:00Z',
+    last_action: "complete",
+    approved_message: "Approved as requested",
+    approved_by_id: "user-002",
+    approved_by_name: "Kitchen Manager",
+    approved_date_at: "2024-01-15T15:00:00Z",
+    review_message: "Standard cooking oil for daily use",
+    review_by_id: "user-002",
+    review_by_name: "Kitchen Manager",
+    review_date_at: "2024-01-15T14:30:00Z",
     reject_message: null,
     reject_by_id: null,
     reject_by_name: null,
     reject_date_at: null,
-    info: { category: 'Cooking Ingredients', priority: 'high', supplier: 'Food Plus' },
-    dimension: { cost_center: 'KITCHEN-001', project: 'Daily Operations' },
-    doc_version: '1',
-    created_at: '2024-01-15T10:00:00Z',
-    created_by_id: 'user-001',
-    updated_at: '2024-01-16T09:00:00Z',
-    updated_by_id: 'user-004',
+    info: {
+      category: "Cooking Ingredients",
+      priority: "high",
+      supplier: "Food Plus",
+    },
+    dimension: { cost_center: "KITCHEN-001", project: "Daily Operations" },
+    doc_version: "1",
+    created_at: "2024-01-15T10:00:00Z",
+    created_by_id: "user-001",
+    updated_at: "2024-01-16T09:00:00Z",
+    updated_by_id: "user-004",
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
-    id: 'srd-003',
-    inventory_transaction_id: 'inv-008',
-    store_requisition_id: 'sr-002',
+    id: "srd-003",
+    inventory_transaction_id: "inv-008",
+    store_requisition_id: "sr-002",
     sequence_no: 1,
-    description: 'Stationery supplies for office',
-    to_location_id: 'loc-office-001',
-    to_location_name: 'Office Storage',
-    product_id: 'prod-pen-001',
-    product_name: 'Ballpoint Pen',
-    product_local_name: 'ปากกาลูกลื่น',
-    requested_qty: '50.00',
-    approved_qty: '50.00',
-    issued_qty: '50.00',
+    description: "Stationery supplies for office",
+    to_location_id: "loc-office-001",
+    to_location_name: "Office Storage",
+    product_id: "prod-pen-001",
+    product_name: "Ballpoint Pen",
+    product_local_name: "ปากกาลูกลื่น",
+    requested_qty: "50.00",
+    approved_qty: "50.00",
+    issued_qty: "50.00",
     history: [
-      { action: 'submit', date: '2024-01-16T09:00:00Z', user: 'user-003', message: 'Request submitted' },
-      { action: 'approve', date: '2024-01-16T14:00:00Z', user: 'user-002', message: 'Approved as requested' },
-      { action: 'complete', date: '2024-01-17T09:00:00Z', user: 'user-004', message: 'Items issued' }
+      {
+        action: "submit",
+        date: "2024-01-16T09:00:00Z",
+        user: "user-003",
+        message: "Request submitted",
+      },
+      {
+        action: "approve",
+        date: "2024-01-16T14:00:00Z",
+        user: "user-002",
+        message: "Approved as requested",
+      },
+      {
+        action: "complete",
+        date: "2024-01-17T09:00:00Z",
+        user: "user-004",
+        message: "Items issued",
+      },
     ],
-    last_action: 'complete',
-    approved_message: 'Approved as requested',
-    approved_by_id: 'user-002',
-    approved_by_name: 'Department Head',
-    approved_date_at: '2024-01-16T14:00:00Z',
-    review_message: 'Standard office supplies for daily use',
-    review_by_id: 'user-002',
-    review_by_name: 'Department Head',
-    review_date_at: '2024-01-16T13:30:00Z',
+    last_action: "complete",
+    approved_message: "Approved as requested",
+    approved_by_id: "user-002",
+    approved_by_name: "Department Head",
+    approved_date_at: "2024-01-16T14:00:00Z",
+    review_message: "Standard office supplies for daily use",
+    review_by_id: "user-002",
+    review_by_name: "Department Head",
+    review_date_at: "2024-01-16T13:30:00Z",
     reject_message: null,
     reject_by_id: null,
     reject_by_name: null,
     reject_date_at: null,
-    info: { category: 'Office Supplies', priority: 'medium', supplier: 'Office Plus' },
-    dimension: { cost_center: 'OFFICE-001', project: 'Monthly Supplies' },
-    doc_version: '1',
-    created_at: '2024-01-16T09:00:00Z',
-    created_by_id: 'user-003',
-    updated_at: '2024-01-17T09:00:00Z',
-    updated_by_id: 'user-004',
+    info: {
+      category: "Office Supplies",
+      priority: "medium",
+      supplier: "Office Plus",
+    },
+    dimension: { cost_center: "OFFICE-001", project: "Monthly Supplies" },
+    doc_version: "1",
+    created_at: "2024-01-16T09:00:00Z",
+    created_by_id: "user-003",
+    updated_at: "2024-01-17T09:00:00Z",
+    updated_by_id: "user-004",
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
-    id: 'srd-004',
-    inventory_transaction_id: 'inv-008',
-    store_requisition_id: 'sr-002',
+    id: "srd-004",
+    inventory_transaction_id: "inv-008",
+    store_requisition_id: "sr-002",
     sequence_no: 2,
-    description: 'Paper supplies for office',
-    to_location_id: 'loc-office-001',
-    to_location_name: 'Office Storage',
-    product_id: 'prod-paper-001',
-    product_name: 'A4 Paper',
-    product_local_name: 'กระดาษ A4',
-    requested_qty: '10.00',
-    approved_qty: '8.00',
-    issued_qty: '8.00',
+    description: "Paper supplies for office",
+    to_location_id: "loc-office-001",
+    to_location_name: "Office Storage",
+    product_id: "prod-paper-001",
+    product_name: "A4 Paper",
+    product_local_name: "กระดาษ A4",
+    requested_qty: "10.00",
+    approved_qty: "8.00",
+    issued_qty: "8.00",
     history: [
-      { action: 'submit', date: '2024-01-16T09:00:00Z', user: 'user-003', message: 'Request submitted' },
-      { action: 'approve', date: '2024-01-16T14:00:00Z', user: 'user-002', message: 'Approved with quantity adjustment' },
-      { action: 'complete', date: '2024-01-17T09:00:00Z', user: 'user-004', message: 'Items issued' }
+      {
+        action: "submit",
+        date: "2024-01-16T09:00:00Z",
+        user: "user-003",
+        message: "Request submitted",
+      },
+      {
+        action: "approve",
+        date: "2024-01-16T14:00:00Z",
+        user: "user-002",
+        message: "Approved with quantity adjustment",
+      },
+      {
+        action: "complete",
+        date: "2024-01-17T09:00:00Z",
+        user: "user-004",
+        message: "Items issued",
+      },
     ],
-    last_action: 'complete',
-    approved_message: 'Approved with quantity adjustment from 10 to 8 reams',
-    approved_by_id: 'user-002',
-    approved_by_name: 'Department Head',
-    approved_date_at: '2024-01-16T14:00:00Z',
-    review_message: 'Quantity reduced due to current stock availability',
-    review_by_id: 'user-002',
-    review_by_name: 'Department Head',
-    review_date_at: '2024-01-16T13:30:00Z',
+    last_action: "complete",
+    approved_message: "Approved with quantity adjustment from 10 to 8 reams",
+    approved_by_id: "user-002",
+    approved_by_name: "Department Head",
+    approved_date_at: "2024-01-16T14:00:00Z",
+    review_message: "Quantity reduced due to current stock availability",
+    review_by_id: "user-002",
+    review_by_name: "Department Head",
+    review_date_at: "2024-01-16T13:30:00Z",
     reject_message: null,
     reject_by_id: null,
     reject_by_name: null,
     reject_date_at: null,
-    info: { category: 'Office Supplies', priority: 'medium', supplier: 'Paper Pro' },
-    dimension: { cost_center: 'OFFICE-001', project: 'Monthly Supplies' },
-    doc_version: '1',
-    created_at: '2024-01-16T09:00:00Z',
-    created_by_id: 'user-003',
-    updated_at: '2024-01-17T09:00:00Z',
-    updated_by_id: 'user-004',
+    info: {
+      category: "Office Supplies",
+      priority: "medium",
+      supplier: "Paper Pro",
+    },
+    dimension: { cost_center: "OFFICE-001", project: "Monthly Supplies" },
+    doc_version: "1",
+    created_at: "2024-01-16T09:00:00Z",
+    created_by_id: "user-003",
+    updated_at: "2024-01-17T09:00:00Z",
+    updated_by_id: "user-004",
     deleted_at: null,
-    deleted_by_id: null
-  }
+    deleted_by_id: null,
+  },
 ];
 
 // CREATE - สร้าง StoreRequisitionDetail ใหม่
-export const createStoreRequisitionDetail = (data: Omit<StoreRequisitionDetail, 'id' | 'created_at' | 'created_by_id' | 'updated_at' | 'updated_by_id'>): StoreRequisitionDetail => {
+export const createStoreRequisitionDetail = (
+  data: Omit<
+    StoreRequisitionDetail,
+    "id" | "created_at" | "created_by_id" | "updated_at" | "updated_by_id"
+  >
+): StoreRequisitionDetail => {
   const newDetail: StoreRequisitionDetail = {
     ...data,
     id: generateId(),
     created_at: getCurrentTimestamp(),
-    created_by_id: 'system',
+    created_by_id: "system",
     updated_at: getCurrentTimestamp(),
-    updated_by_id: 'system'
+    updated_by_id: "system",
   };
   storeRequisitionDetails.push(newDetail);
   return newDetail;
@@ -227,141 +308,222 @@ export const createStoreRequisitionDetail = (data: Omit<StoreRequisitionDetail, 
 
 // READ - อ่านข้อมูล StoreRequisitionDetail
 export const getAllStoreRequisitionDetails = (): StoreRequisitionDetail[] => {
-  return storeRequisitionDetails.filter(detail => !detail.deleted_at);
+  return storeRequisitionDetails.filter((detail) => !detail.deleted_at);
 };
 
-export const getStoreRequisitionDetailById = (id: string): StoreRequisitionDetail | null => {
-  const detail = storeRequisitionDetails.find(d => d.id === id && !d.deleted_at);
-  return detail || null;
-};
-
-export const getStoreRequisitionDetailsByStoreRequisitionId = (storeRequisitionId: string): StoreRequisitionDetail[] => {
-  return storeRequisitionDetails.filter(d => d.store_requisition_id === storeRequisitionId && !d.deleted_at);
-};
-
-export const getStoreRequisitionDetailsByInventoryTransactionId = (inventoryTransactionId: string): StoreRequisitionDetail[] => {
-  return storeRequisitionDetails.filter(d => d.inventory_transaction_id === inventoryTransactionId && !d.deleted_at);
-};
-
-export const getStoreRequisitionDetailsByProductId = (productId: string): StoreRequisitionDetail[] => {
-  return storeRequisitionDetails.filter(d => d.product_id === productId && !d.deleted_at);
-};
-
-export const getStoreRequisitionDetailsByLocationId = (locationId: string): StoreRequisitionDetail[] => {
-  return storeRequisitionDetails.filter(d => d.to_location_id === locationId && !d.deleted_at);
-};
-
-export const getStoreRequisitionDetailsBySequenceNo = (storeRequisitionId: string, sequenceNo: number): StoreRequisitionDetail | null => {
-  const detail = storeRequisitionDetails.find(d => 
-    d.store_requisition_id === storeRequisitionId && 
-    d.sequence_no === sequenceNo && 
-    !d.deleted_at
+export const getStoreRequisitionDetailById = (
+  id: string
+): StoreRequisitionDetail | null => {
+  const detail = storeRequisitionDetails.find(
+    (d) => d.id === id && !d.deleted_at
   );
   return detail || null;
 };
 
-export const getStoreRequisitionDetailsByLastAction = (lastAction: StoreRequisitionDetail['last_action']): StoreRequisitionDetail[] => {
-  return storeRequisitionDetails.filter(d => d.last_action === lastAction && !d.deleted_at);
+export const getStoreRequisitionDetailsByStoreRequisitionId = (
+  storeRequisitionId: string
+): StoreRequisitionDetail[] => {
+  return storeRequisitionDetails.filter(
+    (d) => d.store_requisition_id === storeRequisitionId && !d.deleted_at
+  );
+};
+
+export const getStoreRequisitionDetailsByInventoryTransactionId = (
+  inventoryTransactionId: string
+): StoreRequisitionDetail[] => {
+  return storeRequisitionDetails.filter(
+    (d) =>
+      d.inventory_transaction_id === inventoryTransactionId && !d.deleted_at
+  );
+};
+
+export const getStoreRequisitionDetailsByProductId = (
+  productId: string
+): StoreRequisitionDetail[] => {
+  return storeRequisitionDetails.filter(
+    (d) => d.product_id === productId && !d.deleted_at
+  );
+};
+
+export const getStoreRequisitionDetailsByLocationId = (
+  locationId: string
+): StoreRequisitionDetail[] => {
+  return storeRequisitionDetails.filter(
+    (d) => d.to_location_id === locationId && !d.deleted_at
+  );
+};
+
+export const getStoreRequisitionDetailsBySequenceNo = (
+  storeRequisitionId: string,
+  sequenceNo: number
+): StoreRequisitionDetail | null => {
+  const detail = storeRequisitionDetails.find(
+    (d) =>
+      d.store_requisition_id === storeRequisitionId &&
+      d.sequence_no === sequenceNo &&
+      !d.deleted_at
+  );
+  return detail || null;
+};
+
+export const getStoreRequisitionDetailsByLastAction = (
+  lastAction: StoreRequisitionDetail["last_action"]
+): StoreRequisitionDetail[] => {
+  return storeRequisitionDetails.filter(
+    (d) => d.last_action === lastAction && !d.deleted_at
+  );
 };
 
 // UPDATE - อัปเดต StoreRequisitionDetail
-export const updateStoreRequisitionDetail = (id: string, data: Partial<Omit<StoreRequisitionDetail, 'id' | 'created_at' | 'created_by_id'>>): StoreRequisitionDetail | null => {
-  const index = storeRequisitionDetails.findIndex(d => d.id === id && !d.deleted_at);
+export const updateStoreRequisitionDetail = (
+  id: string,
+  data: Partial<
+    Omit<StoreRequisitionDetail, "id" | "created_at" | "created_by_id">
+  >
+): StoreRequisitionDetail | null => {
+  const index = storeRequisitionDetails.findIndex(
+    (d) => d.id === id && !d.deleted_at
+  );
   if (index === -1) return null;
 
   storeRequisitionDetails[index] = {
     ...storeRequisitionDetails[index],
     ...data,
     updated_at: getCurrentTimestamp(),
-    updated_by_id: 'system'
+    updated_by_id: "system",
   };
   return storeRequisitionDetails[index];
 };
 
 // UPDATE - อัปเดต StoreRequisitionDetail description
-export const updateStoreRequisitionDetailDescription = (id: string, description: string): StoreRequisitionDetail | null => {
+export const updateStoreRequisitionDetailDescription = (
+  id: string,
+  description: string
+): StoreRequisitionDetail | null => {
   return updateStoreRequisitionDetail(id, { description });
 };
 
 // UPDATE - อัปเดต StoreRequisitionDetail quantities
-export const updateStoreRequisitionDetailQuantities = (id: string, requestedQty: string, approvedQty: string, issuedQty: string): StoreRequisitionDetail | null => {
-  return updateStoreRequisitionDetail(id, { 
+export const updateStoreRequisitionDetailQuantities = (
+  id: string,
+  requestedQty: string,
+  approvedQty: string,
+  issuedQty: string
+): StoreRequisitionDetail | null => {
+  return updateStoreRequisitionDetail(id, {
     requested_qty: requestedQty,
     approved_qty: approvedQty,
-    issued_qty: issuedQty
+    issued_qty: issuedQty,
   });
 };
 
 // UPDATE - อัปเดต StoreRequisitionDetail approval
-export const updateStoreRequisitionDetailApproval = (id: string, approvedQty: string, approvedMessage: string, approvedById: string, approvedByName: string): StoreRequisitionDetail | null => {
-  return updateStoreRequisitionDetail(id, { 
+export const updateStoreRequisitionDetailApproval = (
+  id: string,
+  approvedQty: string,
+  approvedMessage: string,
+  approvedById: string,
+  approvedByName: string
+): StoreRequisitionDetail | null => {
+  return updateStoreRequisitionDetail(id, {
     approved_qty: approvedQty,
     approved_message: approvedMessage,
     approved_by_id: approvedById,
     approved_by_name: approvedByName,
     approved_date_at: getCurrentTimestamp(),
-    last_action: 'approve'
+    last_action: "approve",
   });
 };
 
 // UPDATE - อัปเดต StoreRequisitionDetail review
-export const updateStoreRequisitionDetailReview = (id: string, reviewMessage: string, reviewById: string, reviewByName: string): StoreRequisitionDetail | null => {
-  return updateStoreRequisitionDetail(id, { 
+export const updateStoreRequisitionDetailReview = (
+  id: string,
+  reviewMessage: string,
+  reviewById: string,
+  reviewByName: string
+): StoreRequisitionDetail | null => {
+  return updateStoreRequisitionDetail(id, {
     review_message: reviewMessage,
     review_by_id: reviewById,
     review_by_name: reviewByName,
-    review_date_at: getCurrentTimestamp()
+    review_date_at: getCurrentTimestamp(),
   });
 };
 
 // UPDATE - อัปเดต StoreRequisitionDetail rejection
-export const updateStoreRequisitionDetailRejection = (id: string, rejectMessage: string, rejectById: string, rejectByName: string): StoreRequisitionDetail | null => {
-  return updateStoreRequisitionDetail(id, { 
+export const updateStoreRequisitionDetailRejection = (
+  id: string,
+  rejectMessage: string,
+  rejectById: string,
+  rejectByName: string
+): StoreRequisitionDetail | null => {
+  return updateStoreRequisitionDetail(id, {
     reject_message: rejectMessage,
     reject_by_id: rejectById,
     reject_by_name: rejectByName,
     reject_date_at: getCurrentTimestamp(),
-    last_action: 'reject'
+    last_action: "reject",
   });
 };
 
 // UPDATE - อัปเดต StoreRequisitionDetail completion
-export const updateStoreRequisitionDetailCompletion = (id: string, issuedQty: string): StoreRequisitionDetail | null => {
-  return updateStoreRequisitionDetail(id, { 
+export const updateStoreRequisitionDetailCompletion = (
+  id: string,
+  issuedQty: string
+): StoreRequisitionDetail | null => {
+  return updateStoreRequisitionDetail(id, {
     issued_qty: issuedQty,
-    last_action: 'complete'
+    last_action: "complete",
   });
 };
 
 // UPDATE - อัปเดต StoreRequisitionDetail location
-export const updateStoreRequisitionDetailLocation = (id: string, locationId: string, locationName: string): StoreRequisitionDetail | null => {
-  return updateStoreRequisitionDetail(id, { 
+export const updateStoreRequisitionDetailLocation = (
+  id: string,
+  locationId: string,
+  locationName: string
+): StoreRequisitionDetail | null => {
+  return updateStoreRequisitionDetail(id, {
     to_location_id: locationId,
-    to_location_name: locationName
+    to_location_name: locationName,
   });
 };
 
 // UPDATE - อัปเดต StoreRequisitionDetail product
-export const updateStoreRequisitionDetailProduct = (id: string, productId: string, productName: string, productLocalName: string): StoreRequisitionDetail | null => {
-  return updateStoreRequisitionDetail(id, { 
+export const updateStoreRequisitionDetailProduct = (
+  id: string,
+  productId: string,
+  productName: string,
+  productLocalName: string
+): StoreRequisitionDetail | null => {
+  return updateStoreRequisitionDetail(id, {
     product_id: productId,
     product_name: productName,
-    product_local_name: productLocalName
+    product_local_name: productLocalName,
   });
 };
 
 // UPDATE - อัปเดต StoreRequisitionDetail info
-export const updateStoreRequisitionDetailInfo = (id: string, info: any): StoreRequisitionDetail | null => {
+export const updateStoreRequisitionDetailInfo = (
+  id: string,
+  info: any
+): StoreRequisitionDetail | null => {
   return updateStoreRequisitionDetail(id, { info });
 };
 
 // UPDATE - อัปเดต StoreRequisitionDetail dimension
-export const updateStoreRequisitionDetailDimension = (id: string, dimension: any): StoreRequisitionDetail | null => {
+export const updateStoreRequisitionDetailDimension = (
+  id: string,
+  dimension: any
+): StoreRequisitionDetail | null => {
   return updateStoreRequisitionDetail(id, { dimension });
 };
 
 // DELETE - Soft delete StoreRequisitionDetail
-export const softDeleteStoreRequisitionDetail = (id: string, deletedById: string): StoreRequisitionDetail | null => {
+export const softDeleteStoreRequisitionDetail = (
+  id: string,
+  deletedById: string
+): StoreRequisitionDetail | null => {
   const detail = getStoreRequisitionDetailById(id);
   if (!detail) return null;
 
@@ -375,7 +537,7 @@ export const softDeleteStoreRequisitionDetail = (id: string, deletedById: string
 
 // DELETE - Hard delete StoreRequisitionDetail
 export const hardDeleteStoreRequisitionDetail = (id: string): boolean => {
-  const index = storeRequisitionDetails.findIndex(d => d.id === id);
+  const index = storeRequisitionDetails.findIndex((d) => d.id === id);
   if (index === -1) return false;
 
   storeRequisitionDetails.splice(index, 1);
@@ -383,10 +545,16 @@ export const hardDeleteStoreRequisitionDetail = (id: string): boolean => {
 };
 
 // DELETE - ลบ StoreRequisitionDetails ตาม StoreRequisition ID
-export const deleteStoreRequisitionDetailsByStoreRequisitionId = (storeRequisitionId: string, deletedById: string): number => {
+export const deleteStoreRequisitionDetailsByStoreRequisitionId = (
+  storeRequisitionId: string,
+  deletedById: string
+): number => {
   let deletedCount = 0;
-  storeRequisitionDetails.forEach(detail => {
-    if (detail.store_requisition_id === storeRequisitionId && !detail.deleted_at) {
+  storeRequisitionDetails.forEach((detail) => {
+    if (
+      detail.store_requisition_id === storeRequisitionId &&
+      !detail.deleted_at
+    ) {
       detail.deleted_at = getCurrentTimestamp();
       detail.deleted_by_id = deletedById;
       detail.updated_at = getCurrentTimestamp();
@@ -398,14 +566,16 @@ export const deleteStoreRequisitionDetailsByStoreRequisitionId = (storeRequisiti
 };
 
 // RESTORE - กู้คืน StoreRequisitionDetail ที่ถูก soft delete
-export const restoreStoreRequisitionDetail = (id: string): StoreRequisitionDetail | null => {
-  const detail = storeRequisitionDetails.find(d => d.id === id);
+export const restoreStoreRequisitionDetail = (
+  id: string
+): StoreRequisitionDetail | null => {
+  const detail = storeRequisitionDetails.find((d) => d.id === id);
   if (!detail || !detail.deleted_at) return null;
 
   detail.deleted_at = null;
   detail.deleted_by_id = null;
   detail.updated_at = getCurrentTimestamp();
-  detail.updated_by_id = 'system';
+  detail.updated_by_id = "system";
 
   return detail;
 };
@@ -417,61 +587,96 @@ export const searchStoreRequisitionDetails = (criteria: {
   productId?: string;
   locationId?: string;
   description?: string;
-  lastAction?: StoreRequisitionDetail['last_action'];
+  lastAction?: StoreRequisitionDetail["last_action"];
   startDate?: string;
   endDate?: string;
 }): StoreRequisitionDetail[] => {
-  return storeRequisitionDetails.filter(detail => {
+  return storeRequisitionDetails.filter((detail) => {
     if (detail.deleted_at) return false;
-    
-    if (criteria.storeRequisitionId && detail.store_requisition_id !== criteria.storeRequisitionId) return false;
-    if (criteria.inventoryTransactionId && detail.inventory_transaction_id !== criteria.inventoryTransactionId) return false;
-    if (criteria.productId && detail.product_id !== criteria.productId) return false;
-    if (criteria.locationId && detail.to_location_id !== criteria.locationId) return false;
-    if (criteria.lastAction && detail.last_action !== criteria.lastAction) return false;
-    
+
+    if (
+      criteria.storeRequisitionId &&
+      detail.store_requisition_id !== criteria.storeRequisitionId
+    )
+      return false;
+    if (
+      criteria.inventoryTransactionId &&
+      detail.inventory_transaction_id !== criteria.inventoryTransactionId
+    )
+      return false;
+    if (criteria.productId && detail.product_id !== criteria.productId)
+      return false;
+    if (criteria.locationId && detail.to_location_id !== criteria.locationId)
+      return false;
+    if (criteria.lastAction && detail.last_action !== criteria.lastAction)
+      return false;
+
     if (criteria.startDate || criteria.endDate) {
       const createdDate = new Date(detail.created_at);
-      if (criteria.startDate && createdDate < new Date(criteria.startDate)) return false;
-      if (criteria.endDate && createdDate > new Date(criteria.endDate)) return false;
+      if (criteria.startDate && createdDate < new Date(criteria.startDate))
+        return false;
+      if (criteria.endDate && createdDate > new Date(criteria.endDate))
+        return false;
     }
-    
-    if (criteria.description && !detail.description.toLowerCase().includes(criteria.description.toLowerCase())) return false;
-    
+
+    if (
+      criteria.description &&
+      !detail.description
+        .toLowerCase()
+        .includes(criteria.description.toLowerCase())
+    )
+      return false;
+
     return true;
   });
 };
 
 // UTILITY FUNCTIONS - ฟังก์ชันเสริม
 export const getStoreRequisitionDetailCount = (): number => {
-  return storeRequisitionDetails.filter(detail => !detail.deleted_at).length;
+  return storeRequisitionDetails.filter((detail) => !detail.deleted_at).length;
 };
 
-export const getStoreRequisitionDetailCountByStoreRequisitionId = (storeRequisitionId: string): number => {
-  return storeRequisitionDetails.filter(detail => detail.store_requisition_id === storeRequisitionId && !detail.deleted_at).length;
+export const getStoreRequisitionDetailCountByStoreRequisitionId = (
+  storeRequisitionId: string
+): number => {
+  return storeRequisitionDetails.filter(
+    (detail) =>
+      detail.store_requisition_id === storeRequisitionId && !detail.deleted_at
+  ).length;
 };
 
-export const getStoreRequisitionDetailCountByLastAction = (lastAction: StoreRequisitionDetail['last_action']): number => {
-  return storeRequisitionDetails.filter(detail => detail.last_action === lastAction && !detail.deleted_at).length;
+export const getStoreRequisitionDetailCountByLastAction = (
+  lastAction: StoreRequisitionDetail["last_action"]
+): number => {
+  return storeRequisitionDetails.filter(
+    (detail) => detail.last_action === lastAction && !detail.deleted_at
+  ).length;
 };
 
 export const isStoreRequisitionDetailExists = (id: string): boolean => {
-  return storeRequisitionDetails.some(detail => detail.id === id && !detail.deleted_at);
+  return storeRequisitionDetails.some(
+    (detail) => detail.id === id && !detail.deleted_at
+  );
 };
 
-export const isSequenceNoExists = (storeRequisitionId: string, sequenceNo: number): boolean => {
-  return storeRequisitionDetails.some(detail => 
-    detail.store_requisition_id === storeRequisitionId && 
-    detail.sequence_no === sequenceNo && 
-    !detail.deleted_at
+export const isSequenceNoExists = (
+  storeRequisitionId: string,
+  sequenceNo: number
+): boolean => {
+  return storeRequisitionDetails.some(
+    (detail) =>
+      detail.store_requisition_id === storeRequisitionId &&
+      detail.sequence_no === sequenceNo &&
+      !detail.deleted_at
   );
 };
 
 export const getNextSequenceNo = (storeRequisitionId: string): number => {
-  const details = getStoreRequisitionDetailsByStoreRequisitionId(storeRequisitionId);
+  const details =
+    getStoreRequisitionDetailsByStoreRequisitionId(storeRequisitionId);
   if (details.length === 0) return 1;
-  
-  const maxSequenceNo = Math.max(...details.map(d => d.sequence_no));
+
+  const maxSequenceNo = Math.max(...details.map((d) => d.sequence_no));
   return maxSequenceNo + 1;
 };
 
@@ -479,16 +684,18 @@ export const clearAllStoreRequisitionDetails = (): void => {
   storeRequisitionDetails.length = 0;
 };
 
-export const clearStoreRequisitionDetailsByStoreRequisitionId = (storeRequisitionId: string): void => {
+export const clearStoreRequisitionDetailsByStoreRequisitionId = (
+  storeRequisitionId: string
+): void => {
   const indicesToRemove: number[] = [];
   storeRequisitionDetails.forEach((detail, index) => {
     if (detail.store_requisition_id === storeRequisitionId) {
       indicesToRemove.push(index);
     }
   });
-  
+
   // Remove from highest index to lowest to avoid shifting issues
-  indicesToRemove.reverse().forEach(index => {
+  indicesToRemove.reverse().forEach((index) => {
     storeRequisitionDetails.splice(index, 1);
   });
 };

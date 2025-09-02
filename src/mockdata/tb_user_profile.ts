@@ -25,7 +25,7 @@ export const userProfiles: UserProfile[] = [
     created_at: "2025-07-29T01:37:27.159Z",
     created_by_id: null,
     updated_at: "2025-07-29T01:37:27.159Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "df030cd8-962d-49ed-9ad6-b75109c12fc0",
@@ -37,7 +37,7 @@ export const userProfiles: UserProfile[] = [
     created_at: "2025-07-29T01:37:27.541Z",
     created_by_id: null,
     updated_at: "2025-07-29T01:37:27.541Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "9cd129f4-ab43-4f5c-a752-1cb78e8cd9b3",
@@ -49,7 +49,7 @@ export const userProfiles: UserProfile[] = [
     created_at: "2025-07-29T01:37:27.819Z",
     created_by_id: null,
     updated_at: "2025-07-29T01:37:27.819Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "0494a73a-ba78-41a7-a45f-b9efb49d6f2d",
@@ -61,7 +61,7 @@ export const userProfiles: UserProfile[] = [
     created_at: "2025-07-29T01:37:28.038Z",
     created_by_id: null,
     updated_at: "2025-07-29T01:37:28.038Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "f0db2292-5ae4-4e73-a379-ed5ef3d3f95c",
@@ -73,7 +73,7 @@ export const userProfiles: UserProfile[] = [
     created_at: "2025-07-29T01:37:28.269Z",
     created_by_id: null,
     updated_at: "2025-07-29T01:37:28.269Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "fd177757-0e4d-44f7-bb4d-57118829be2d",
@@ -85,7 +85,7 @@ export const userProfiles: UserProfile[] = [
     created_at: "2025-07-29T01:37:28.504Z",
     created_by_id: null,
     updated_at: "2025-07-29T01:37:28.504Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "f685cca4-899f-49e6-9753-cfe2180f2f11",
@@ -97,7 +97,7 @@ export const userProfiles: UserProfile[] = [
     created_at: "2025-07-29T01:37:28.757Z",
     created_by_id: null,
     updated_at: "2025-07-29T01:37:28.757Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "683df8ab-59f2-49d9-af58-637630d9955f",
@@ -109,33 +109,38 @@ export const userProfiles: UserProfile[] = [
     created_at: "2025-07-29T01:37:28.991Z",
     created_by_id: null,
     updated_at: "2025-07-29T01:37:28.991Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "d3ba9c08-162f-4e81-8337-75d3d56f6aff",
     user_id: "d3ba9c08-162f-4e81-8337-75d3d56f6aff",
-    firstname: "tt",
+    firstname: "user6",
     middlename: "",
     lastname: "",
     bio: {},
     created_at: "2025-07-30T20:00:19.073Z",
     created_by_id: null,
     updated_at: "2025-07-30T20:00:19.073Z",
-    updated_by_id: null
-  }
+    updated_by_id: null,
+  },
 ];
 
 // CREATE - สร้าง UserProfile ใหม่
-export const createUserProfile = (data: Omit<UserProfile, 'id' | 'created_at' | 'created_by_id' | 'updated_at' | 'updated_by_id'>): UserProfile => {
+export const createUserProfile = (
+  data: Omit<
+    UserProfile,
+    "id" | "created_at" | "created_by_id" | "updated_at" | "updated_by_id"
+  >
+): UserProfile => {
   const newUserProfile: UserProfile = {
     ...data,
     id: generateId(),
     created_at: getCurrentTimestamp(),
-    created_by_id: 'system',
+    created_by_id: "system",
     updated_at: getCurrentTimestamp(),
-    updated_by_id: 'system'
+    updated_by_id: "system",
   };
-  
+
   userProfiles.push(newUserProfile);
   return newUserProfile;
 };
@@ -146,33 +151,42 @@ export const getAllUserProfiles = (): UserProfile[] => {
 };
 
 export const getUserProfileById = (id: string): UserProfile | null => {
-  const profile = userProfiles.find(p => p.id === id);
+  const profile = userProfiles.find((p) => p.id === id);
   return profile || null;
 };
 
 export const getUserProfileByUserId = (userId: string): UserProfile | null => {
-  const profile = userProfiles.find(p => p.user_id === userId);
+  const profile = userProfiles.find((p) => p.user_id === userId);
   return profile || null;
 };
 
-export const getUserProfilesByFirstName = (firstName: string): UserProfile[] => {
-  return userProfiles.filter(profile => 
+export const getUserProfilesByFirstName = (
+  firstName: string
+): UserProfile[] => {
+  return userProfiles.filter((profile) =>
     profile.firstname.toLowerCase().includes(firstName.toLowerCase())
   );
 };
 
 export const getUserProfilesByLastName = (lastName: string): UserProfile[] => {
-  return userProfiles.filter(profile => 
+  return userProfiles.filter((profile) =>
     profile.lastname.toLowerCase().includes(lastName.toLowerCase())
   );
 };
 
-export const getUserProfilesByCreator = (createdById: string): UserProfile[] => {
-  return userProfiles.filter(profile => profile.created_by_id === createdById);
+export const getUserProfilesByCreator = (
+  createdById: string
+): UserProfile[] => {
+  return userProfiles.filter(
+    (profile) => profile.created_by_id === createdById
+  );
 };
 
-export const getUserProfilesByDateRange = (startDate: string, endDate: string): UserProfile[] => {
-  return userProfiles.filter(profile => {
+export const getUserProfilesByDateRange = (
+  startDate: string,
+  endDate: string
+): UserProfile[] => {
+  return userProfiles.filter((profile) => {
     const createdDate = new Date(profile.created_at);
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -181,59 +195,78 @@ export const getUserProfilesByDateRange = (startDate: string, endDate: string): 
 };
 
 export const getUserProfilesWithBio = (): UserProfile[] => {
-  return userProfiles.filter(profile => profile.bio && Object.keys(profile.bio).length > 0);
+  return userProfiles.filter(
+    (profile) => profile.bio && Object.keys(profile.bio).length > 0
+  );
 };
 
 export const getUserProfilesWithoutBio = (): UserProfile[] => {
-  return userProfiles.filter(profile => !profile.bio || Object.keys(profile.bio).length === 0);
+  return userProfiles.filter(
+    (profile) => !profile.bio || Object.keys(profile.bio).length === 0
+  );
 };
 
 // UPDATE - อัปเดต UserProfile
-export const updateUserProfile = (id: string, data: Partial<Omit<UserProfile, 'id' | 'created_at' | 'created_by_id'>>): UserProfile | null => {
-  const index = userProfiles.findIndex(profile => profile.id === id);
-  
+export const updateUserProfile = (
+  id: string,
+  data: Partial<Omit<UserProfile, "id" | "created_at" | "created_by_id">>
+): UserProfile | null => {
+  const index = userProfiles.findIndex((profile) => profile.id === id);
+
   if (index === -1) {
     return null;
   }
-  
+
   userProfiles[index] = {
     ...userProfiles[index],
     ...data,
     updated_at: getCurrentTimestamp(),
-    updated_by_id: 'system'
+    updated_by_id: "system",
   };
-  
+
   return userProfiles[index];
 };
 
 // UPDATE - อัปเดต UserProfile firstname
-export const updateUserProfileFirstname = (id: string, firstname: string): UserProfile | null => {
+export const updateUserProfileFirstname = (
+  id: string,
+  firstname: string
+): UserProfile | null => {
   return updateUserProfile(id, { firstname });
 };
 
 // UPDATE - อัปเดต UserProfile middlename
-export const updateUserProfileMiddlename = (id: string, middlename: string): UserProfile | null => {
+export const updateUserProfileMiddlename = (
+  id: string,
+  middlename: string
+): UserProfile | null => {
   return updateUserProfile(id, { middlename });
 };
 
 // UPDATE - อัปเดต UserProfile lastname
-export const updateUserProfileLastname = (id: string, lastname: string): UserProfile | null => {
+export const updateUserProfileLastname = (
+  id: string,
+  lastname: string
+): UserProfile | null => {
   return updateUserProfile(id, { lastname });
 };
 
 // UPDATE - อัปเดต UserProfile bio
-export const updateUserProfileBio = (id: string, bio: any): UserProfile | null => {
+export const updateUserProfileBio = (
+  id: string,
+  bio: any
+): UserProfile | null => {
   return updateUserProfile(id, { bio });
 };
 
 // DELETE - Hard delete UserProfile
 export const hardDeleteUserProfile = (id: string): boolean => {
-  const index = userProfiles.findIndex(profile => profile.id === id);
-  
+  const index = userProfiles.findIndex((profile) => profile.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   userProfiles.splice(index, 1);
   return true;
 };
@@ -257,36 +290,49 @@ export const searchUserProfiles = (criteria: {
   start_date?: string;
   end_date?: string;
 }): UserProfile[] => {
-  return userProfiles.filter(profile => {
-    if (criteria.firstname && !profile.firstname.toLowerCase().includes(criteria.firstname.toLowerCase())) {
+  return userProfiles.filter((profile) => {
+    if (
+      criteria.firstname &&
+      !profile.firstname
+        .toLowerCase()
+        .includes(criteria.firstname.toLowerCase())
+    ) {
       return false;
     }
-    
-    if (criteria.lastname && !profile.lastname.toLowerCase().includes(criteria.lastname.toLowerCase())) {
+
+    if (
+      criteria.lastname &&
+      !profile.lastname.toLowerCase().includes(criteria.lastname.toLowerCase())
+    ) {
       return false;
     }
-    
+
     if (criteria.user_id && profile.user_id !== criteria.user_id) {
       return false;
     }
-    
-    if (criteria.created_by_id && profile.created_by_id !== criteria.created_by_id) {
+
+    if (
+      criteria.created_by_id &&
+      profile.created_by_id !== criteria.created_by_id
+    ) {
       return false;
     }
-    
+
     if (criteria.has_bio !== undefined) {
       const hasBio = profile.bio && Object.keys(profile.bio).length > 0;
       if (hasBio !== criteria.has_bio) {
         return false;
       }
     }
-    
+
     if (criteria.start_date || criteria.end_date) {
       const createdDate = new Date(profile.created_at);
-      if (criteria.start_date && createdDate < new Date(criteria.start_date)) return false;
-      if (criteria.end_date && createdDate > new Date(criteria.end_date)) return false;
+      if (criteria.start_date && createdDate < new Date(criteria.start_date))
+        return false;
+      if (criteria.end_date && createdDate > new Date(criteria.end_date))
+        return false;
     }
-    
+
     return true;
   });
 };
@@ -297,19 +343,22 @@ export const getUserProfileCount = (): number => {
 };
 
 export const getUserProfileCountByCreator = (createdById: string): number => {
-  return userProfiles.filter(profile => profile.created_by_id === createdById).length;
+  return userProfiles.filter((profile) => profile.created_by_id === createdById)
+    .length;
 };
 
 export const isUserProfileExists = (id: string): boolean => {
-  return userProfiles.some(profile => profile.id === id);
+  return userProfiles.some((profile) => profile.id === id);
 };
 
 export const isUserProfileExistsByUserId = (userId: string): boolean => {
-  return userProfiles.some(profile => profile.user_id === userId);
+  return userProfiles.some((profile) => profile.user_id === userId);
 };
 
 export const hasUserProfilesWithBio = (): boolean => {
-  return userProfiles.some(profile => profile.bio && Object.keys(profile.bio).length > 0);
+  return userProfiles.some(
+    (profile) => profile.bio && Object.keys(profile.bio).length > 0
+  );
 };
 
 export const clearAllUserProfiles = (): void => {

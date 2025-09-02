@@ -4,8 +4,8 @@ export interface CreditNote {
   id: string;
   cn_no: string;
   cn_date: string;
-  doc_status: 'draft' | 'submitted' | 'approved' | 'rejected' | 'completed';
-  credit_note_type: 'vendor' | 'customer' | 'adjustment';
+  doc_status: "draft" | "submitted" | "approved" | "rejected" | "completed";
+  credit_note_type: "vendor" | "customer" | "adjustment";
   vendor_id: string;
   vendor_name: string;
   pricelist_detail_id: string;
@@ -35,7 +35,7 @@ export interface CreditNote {
   workflow_previous_stage: string;
   workflow_next_stage: string;
   user_action: any;
-  last_action: 'submit' | 'approve' | 'reject' | 'complete';
+  last_action: "submit" | "approve" | "reject" | "complete";
   last_action_at_date: string;
   last_action_by_id: string;
   last_action_by_name: string;
@@ -62,10 +62,10 @@ export const creditNotes: CreditNote[] = [
     pricelist_detail_id: "pl_001",
     pricelist_no: "PL-2025-001",
     pricelist_unit: "piece",
-    pricelist_price: 100.00,
+    pricelist_price: 100.0,
     currency_id: "curr_001",
     currency_name: "THB",
-    exchange_rate: 1.00,
+    exchange_rate: 1.0,
     exchange_rate_date: "2025-07-31T00:00:00.000Z",
     grn_id: "grn_001",
     grn_no: "GRN-2025-001",
@@ -98,7 +98,7 @@ export const creditNotes: CreditNote[] = [
     updated_at: "2025-07-31T09:00:00.000Z",
     updated_by_id: "user_001",
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "i8j9k0l1-m2n3-4567-hijk-901234567890",
@@ -111,10 +111,10 @@ export const creditNotes: CreditNote[] = [
     pricelist_detail_id: "pl_002",
     pricelist_no: "PL-2025-002",
     pricelist_unit: "piece",
-    pricelist_price: 200.00,
+    pricelist_price: 200.0,
     currency_id: "curr_001",
     currency_name: "THB",
-    exchange_rate: 1.00,
+    exchange_rate: 1.0,
     exchange_rate_date: "2025-07-31T00:00:00.000Z",
     grn_id: "grn_002",
     grn_no: "GRN-2025-002",
@@ -130,7 +130,10 @@ export const creditNotes: CreditNote[] = [
     description: "Credit note issued for pricing error correction",
     workflow_id: "wf_001",
     workflow_name: "Credit Note Approval",
-    workflow_history: [{ stage: "draft", date: "2025-07-31T10:00:00.000Z" }, { stage: "submitted", date: "2025-07-31T10:30:00.000Z" }],
+    workflow_history: [
+      { stage: "draft", date: "2025-07-31T10:00:00.000Z" },
+      { stage: "submitted", date: "2025-07-31T10:30:00.000Z" },
+    ],
     workflow_current_stage: "submitted",
     workflow_previous_stage: "draft",
     workflow_next_stage: "approved",
@@ -147,7 +150,7 @@ export const creditNotes: CreditNote[] = [
     updated_at: "2025-07-31T10:30:00.000Z",
     updated_by_id: "user_002",
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "j9k0l1m2-n3o4-5678-ijkl-012345678901",
@@ -160,10 +163,10 @@ export const creditNotes: CreditNote[] = [
     pricelist_detail_id: "pl_003",
     pricelist_no: "PL-2025-003",
     pricelist_unit: "piece",
-    pricelist_price: 150.00,
+    pricelist_price: 150.0,
     currency_id: "curr_001",
     currency_name: "THB",
-    exchange_rate: 1.00,
+    exchange_rate: 1.0,
     exchange_rate_date: "2025-07-31T00:00:00.000Z",
     grn_id: "grn_003",
     grn_no: "GRN-2025-003",
@@ -179,7 +182,11 @@ export const creditNotes: CreditNote[] = [
     description: "Credit note issued for cancelled service",
     workflow_id: "wf_001",
     workflow_name: "Credit Note Approval",
-    workflow_history: [{ stage: "draft", date: "2025-07-31T11:00:00.000Z" }, { stage: "submitted", date: "2025-07-31T11:30:00.000Z" }, { stage: "approved", date: "2025-07-31T12:00:00.000Z" }],
+    workflow_history: [
+      { stage: "draft", date: "2025-07-31T11:00:00.000Z" },
+      { stage: "submitted", date: "2025-07-31T11:30:00.000Z" },
+      { stage: "approved", date: "2025-07-31T12:00:00.000Z" },
+    ],
     workflow_current_stage: "approved",
     workflow_previous_stage: "submitted",
     workflow_next_stage: "completed",
@@ -196,19 +203,21 @@ export const creditNotes: CreditNote[] = [
     updated_at: "2025-07-31T12:00:00.000Z",
     updated_by_id: "manager_001",
     deleted_at: null,
-    deleted_by_id: null
-  }
+    deleted_by_id: null,
+  },
 ];
 
 // CREATE - สร้าง CreditNote ใหม่
-export const createCreditNote = (creditNoteData: Omit<CreditNote, 'id' | 'created_at' | 'updated_at'>): CreditNote => {
+export const createCreditNote = (
+  creditNoteData: Omit<CreditNote, "id" | "created_at" | "updated_at">
+): CreditNote => {
   const newCreditNote: CreditNote = {
     ...creditNoteData,
     id: generateId(),
     created_at: getCurrentTimestamp(),
-    updated_at: getCurrentTimestamp()
+    updated_at: getCurrentTimestamp(),
   };
-  
+
   creditNotes.push(newCreditNote);
   return newCreditNote;
 };
@@ -220,45 +229,64 @@ export const getAllCreditNotes = (): CreditNote[] => {
 
 // READ - อ่าน CreditNote ตาม ID
 export const getCreditNoteById = (id: string): CreditNote | undefined => {
-  return creditNotes.find(creditNote => creditNote.id === id);
+  return creditNotes.find((creditNote) => creditNote.id === id);
 };
 
 // READ - อ่าน CreditNote ตาม cn_no
 export const getCreditNoteByNo = (cnNo: string): CreditNote | undefined => {
-  return creditNotes.find(creditNote => creditNote.cn_no === cnNo);
+  return creditNotes.find((creditNote) => creditNote.cn_no === cnNo);
 };
 
 // READ - อ่าน CreditNote ตาม vendor_id
 export const getCreditNotesByVendorId = (vendorId: string): CreditNote[] => {
-  return creditNotes.filter(creditNote => creditNote.vendor_id === vendorId);
+  return creditNotes.filter((creditNote) => creditNote.vendor_id === vendorId);
 };
 
 // READ - อ่าน CreditNote ตาม doc_status
-export const getCreditNotesByStatus = (docStatus: CreditNote['doc_status']): CreditNote[] => {
-  return creditNotes.filter(creditNote => creditNote.doc_status === docStatus);
+export const getCreditNotesByStatus = (
+  docStatus: CreditNote["doc_status"]
+): CreditNote[] => {
+  return creditNotes.filter(
+    (creditNote) => creditNote.doc_status === docStatus
+  );
 };
 
 // READ - อ่าน CreditNote ตาม credit_note_type
-export const getCreditNotesByType = (creditNoteType: CreditNote['credit_note_type']): CreditNote[] => {
-  return creditNotes.filter(creditNote => creditNote.credit_note_type === creditNoteType);
+export const getCreditNotesByType = (
+  creditNoteType: CreditNote["credit_note_type"]
+): CreditNote[] => {
+  return creditNotes.filter(
+    (creditNote) => creditNote.credit_note_type === creditNoteType
+  );
 };
 
 // READ - อ่าน CreditNote ตาม created_by_id
-export const getCreditNotesByCreatedBy = (createdById: string): CreditNote[] => {
-  return creditNotes.filter(creditNote => creditNote.created_by_id === createdById);
+export const getCreditNotesByCreatedBy = (
+  createdById: string
+): CreditNote[] => {
+  return creditNotes.filter(
+    (creditNote) => creditNote.created_by_id === createdById
+  );
 };
 
 // READ - อ่าน CreditNote ตาม last_action_by_id
-export const getCreditNotesByLastActionBy = (lastActionById: string): CreditNote[] => {
-  return creditNotes.filter(creditNote => creditNote.last_action_by_id === lastActionById);
+export const getCreditNotesByLastActionBy = (
+  lastActionById: string
+): CreditNote[] => {
+  return creditNotes.filter(
+    (creditNote) => creditNote.last_action_by_id === lastActionById
+  );
 };
 
 // READ - อ่าน CreditNote ตามช่วงเวลา
-export const getCreditNotesByDateRange = (startDate: string, endDate: string): CreditNote[] => {
+export const getCreditNotesByDateRange = (
+  startDate: string,
+  endDate: string
+): CreditNote[] => {
   const start = new Date(startDate);
   const end = new Date(endDate);
-  
-  return creditNotes.filter(creditNote => {
+
+  return creditNotes.filter((creditNote) => {
     const cnDate = new Date(creditNote.cn_date);
     return cnDate >= start && cnDate <= end;
   });
@@ -266,182 +294,229 @@ export const getCreditNotesByDateRange = (startDate: string, endDate: string): C
 
 // READ - อ่าน CreditNote ที่ไม่ถูกลบ
 export const getActiveCreditNotes = (): CreditNote[] => {
-  return creditNotes.filter(creditNote => !creditNote.deleted_at);
+  return creditNotes.filter((creditNote) => !creditNote.deleted_at);
 };
 
 // READ - อ่าน CreditNote ที่ถูกลบ
 export const getDeletedCreditNotes = (): CreditNote[] => {
-  return creditNotes.filter(creditNote => creditNote.deleted_at);
+  return creditNotes.filter((creditNote) => creditNote.deleted_at);
 };
 
 // READ - อ่าน CreditNote ตาม workflow_current_stage
-export const getCreditNotesByWorkflowStage = (workflowStage: string): CreditNote[] => {
-  return creditNotes.filter(creditNote => creditNote.workflow_current_stage === workflowStage);
+export const getCreditNotesByWorkflowStage = (
+  workflowStage: string
+): CreditNote[] => {
+  return creditNotes.filter(
+    (creditNote) => creditNote.workflow_current_stage === workflowStage
+  );
 };
 
 // READ - อ่าน CreditNote ตาม last_action
-export const getCreditNotesByLastAction = (lastAction: CreditNote['last_action']): CreditNote[] => {
-  return creditNotes.filter(creditNote => creditNote.last_action === lastAction);
+export const getCreditNotesByLastAction = (
+  lastAction: CreditNote["last_action"]
+): CreditNote[] => {
+  return creditNotes.filter(
+    (creditNote) => creditNote.last_action === lastAction
+  );
 };
 
 // UPDATE - อัปเดต CreditNote
 export const updateCreditNote = (
-  id: string, 
-  updateData: Partial<Omit<CreditNote, 'id' | 'created_at' | 'created_by_id'>>,
+  id: string,
+  updateData: Partial<Omit<CreditNote, "id" | "created_at" | "created_by_id">>,
   updatedById: string
 ): CreditNote | null => {
-  const index = creditNotes.findIndex(creditNote => creditNote.id === id);
-  
+  const index = creditNotes.findIndex((creditNote) => creditNote.id === id);
+
   if (index === -1) {
     return null;
   }
-  
+
   creditNotes[index] = {
     ...creditNotes[index],
     ...updateData,
     updated_at: getCurrentTimestamp(),
-    updated_by_id: updatedById
+    updated_by_id: updatedById,
   };
-  
+
   return creditNotes[index];
 };
 
 // UPDATE - อัปเดต CreditNote status
-export const updateCreditNoteStatus = (id: string, docStatus: CreditNote['doc_status'], updatedById: string): CreditNote | null => {
+export const updateCreditNoteStatus = (
+  id: string,
+  docStatus: CreditNote["doc_status"],
+  updatedById: string
+): CreditNote | null => {
   return updateCreditNote(id, { doc_status: docStatus }, updatedById);
 };
 
 // UPDATE - อัปเดต CreditNote workflow stage
 export const updateCreditNoteWorkflowStage = (
-  id: string, 
-  currentStage: string, 
-  previousStage: string, 
-  nextStage: string, 
+  id: string,
+  currentStage: string,
+  previousStage: string,
+  nextStage: string,
   updatedById: string
 ): CreditNote | null => {
-  return updateCreditNote(id, { 
-    workflow_current_stage: currentStage,
-    workflow_previous_stage: previousStage,
-    workflow_next_stage: nextStage
-  }, updatedById);
+  return updateCreditNote(
+    id,
+    {
+      workflow_current_stage: currentStage,
+      workflow_previous_stage: previousStage,
+      workflow_next_stage: nextStage,
+    },
+    updatedById
+  );
 };
 
 // UPDATE - อัปเดต CreditNote last action
 export const updateCreditNoteLastAction = (
-  id: string, 
-  lastAction: CreditNote['last_action'], 
-  lastActionById: string, 
-  lastActionByName: string, 
+  id: string,
+  lastAction: CreditNote["last_action"],
+  lastActionById: string,
+  lastActionByName: string,
   updatedById: string
 ): CreditNote | null => {
-  return updateCreditNote(id, { 
-    last_action: lastAction,
-    last_action_by_id: lastActionById,
-    last_action_by_name: lastActionByName,
-    last_action_at_date: getCurrentTimestamp()
-  }, updatedById);
+  return updateCreditNote(
+    id,
+    {
+      last_action: lastAction,
+      last_action_by_id: lastActionById,
+      last_action_by_name: lastActionByName,
+      last_action_at_date: getCurrentTimestamp(),
+    },
+    updatedById
+  );
 };
 
 // UPDATE - อัปเดต CreditNote description
-export const updateCreditNoteDescription = (id: string, description: string, updatedById: string): CreditNote | null => {
+export const updateCreditNoteDescription = (
+  id: string,
+  description: string,
+  updatedById: string
+): CreditNote | null => {
   return updateCreditNote(id, { description }, updatedById);
 };
 
 // UPDATE - อัปเดต CreditNote note
-export const updateCreditNoteNote = (id: string, note: string, updatedById: string): CreditNote | null => {
+export const updateCreditNoteNote = (
+  id: string,
+  note: string,
+  updatedById: string
+): CreditNote | null => {
   return updateCreditNote(id, { note }, updatedById);
 };
 
 // UPDATE - อัปเดต CreditNote info
-export const updateCreditNoteInfo = (id: string, info: any, updatedById: string): CreditNote | null => {
+export const updateCreditNoteInfo = (
+  id: string,
+  info: any,
+  updatedById: string
+): CreditNote | null => {
   return updateCreditNote(id, { info }, updatedById);
 };
 
 // UPDATE - อัปเดต CreditNote dimension
-export const updateCreditNoteDimension = (id: string, dimension: any, updatedById: string): CreditNote | null => {
+export const updateCreditNoteDimension = (
+  id: string,
+  dimension: any,
+  updatedById: string
+): CreditNote | null => {
   return updateCreditNote(id, { dimension }, updatedById);
 };
 
 // UPDATE - อัปเดต CreditNote โดย cn_no
 export const updateCreditNoteByNo = (
-  cnNo: string, 
-  updateData: Partial<Omit<CreditNote, 'id' | 'cn_no' | 'created_at' | 'created_by_id'>>,
+  cnNo: string,
+  updateData: Partial<
+    Omit<CreditNote, "id" | "cn_no" | "created_at" | "created_by_id">
+  >,
   updatedById: string
 ): CreditNote | null => {
   const creditNote = getCreditNoteByNo(cnNo);
   if (!creditNote) return null;
-  
+
   return updateCreditNote(creditNote.id, updateData, updatedById);
 };
 
 // DELETE - ลบ CreditNote (soft delete)
 export const deleteCreditNote = (id: string, deletedById: string): boolean => {
-  const index = creditNotes.findIndex(creditNote => creditNote.id === id);
-  
+  const index = creditNotes.findIndex((creditNote) => creditNote.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   creditNotes[index] = {
     ...creditNotes[index],
     deleted_at: getCurrentTimestamp(),
-    deleted_by_id: deletedById
+    deleted_by_id: deletedById,
   };
-  
+
   return true;
 };
 
 // DELETE - ลบ CreditNote แบบถาวร
 export const hardDeleteCreditNote = (id: string): boolean => {
-  const index = creditNotes.findIndex(creditNote => creditNote.id === id);
-  
+  const index = creditNotes.findIndex((creditNote) => creditNote.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   creditNotes.splice(index, 1);
   return true;
 };
 
 // DELETE - ลบ CreditNote ตาม cn_no
-export const deleteCreditNoteByNo = (cnNo: string, deletedById: string): boolean => {
-  const creditNote = creditNotes.find(cn => cn.cn_no === cnNo);
+export const deleteCreditNoteByNo = (
+  cnNo: string,
+  deletedById: string
+): boolean => {
+  const creditNote = creditNotes.find((cn) => cn.cn_no === cnNo);
   if (!creditNote) return false;
-  
+
   return deleteCreditNote(creditNote.id, deletedById);
 };
 
 // DELETE - ลบ CreditNote ตาม vendor_id
-export const deleteCreditNotesByVendorId = (vendorId: string, deletedById: string): number => {
+export const deleteCreditNotesByVendorId = (
+  vendorId: string,
+  deletedById: string
+): number => {
   let deletedCount = 0;
-  
-  creditNotes.forEach(creditNote => {
+
+  creditNotes.forEach((creditNote) => {
     if (creditNote.vendor_id === vendorId && !creditNote.deleted_at) {
       creditNote.deleted_at = getCurrentTimestamp();
       creditNote.deleted_by_id = deletedById;
       deletedCount++;
     }
   });
-  
+
   return deletedCount;
 };
 
 // RESTORE - กู้คืน CreditNote ที่ถูกลบ
-export const restoreCreditNote = (id: string, restoredById: string): CreditNote | null => {
-  const index = creditNotes.findIndex(creditNote => creditNote.id === id);
-  
+export const restoreCreditNote = (
+  id: string,
+  restoredById: string
+): CreditNote | null => {
+  const index = creditNotes.findIndex((creditNote) => creditNote.id === id);
+
   if (index === -1) {
     return null;
   }
-  
+
   creditNotes[index] = {
     ...creditNotes[index],
     deleted_at: null,
     deleted_by_id: null,
     updated_at: getCurrentTimestamp(),
-    updated_by_id: restoredById
+    updated_by_id: restoredById,
   };
-  
+
   return creditNotes[index];
 };
 
@@ -457,22 +532,34 @@ export const getCreditNoteCount = (): number => {
 
 // Utility function สำหรับนับจำนวน CreditNote ที่ไม่ถูกลบ
 export const getActiveCreditNoteCount = (): number => {
-  return creditNotes.filter(creditNote => !creditNote.deleted_at).length;
+  return creditNotes.filter((creditNote) => !creditNote.deleted_at).length;
 };
 
 // Utility function สำหรับนับจำนวน CreditNote ตาม status
-export const getCreditNoteCountByStatus = (docStatus: CreditNote['doc_status']): number => {
-  return creditNotes.filter(creditNote => creditNote.doc_status === docStatus && !creditNote.deleted_at).length;
+export const getCreditNoteCountByStatus = (
+  docStatus: CreditNote["doc_status"]
+): number => {
+  return creditNotes.filter(
+    (creditNote) =>
+      creditNote.doc_status === docStatus && !creditNote.deleted_at
+  ).length;
 };
 
 // Utility function สำหรับนับจำนวน CreditNote ตาม type
-export const getCreditNoteCountByType = (creditNoteType: CreditNote['credit_note_type']): number => {
-  return creditNotes.filter(creditNote => creditNote.credit_note_type === creditNoteType && !creditNote.deleted_at).length;
+export const getCreditNoteCountByType = (
+  creditNoteType: CreditNote["credit_note_type"]
+): number => {
+  return creditNotes.filter(
+    (creditNote) =>
+      creditNote.credit_note_type === creditNoteType && !creditNote.deleted_at
+  ).length;
 };
 
 // Utility function สำหรับนับจำนวน CreditNote ตาม vendor
 export const getCreditNoteCountByVendor = (vendorId: string): number => {
-  return creditNotes.filter(creditNote => creditNote.vendor_id === vendorId && !creditNote.deleted_at).length;
+  return creditNotes.filter(
+    (creditNote) => creditNote.vendor_id === vendorId && !creditNote.deleted_at
+  ).length;
 };
 
 // Utility function สำหรับค้นหา CreditNote แบบ advanced search
@@ -480,74 +567,114 @@ export const searchCreditNotes = (searchCriteria: {
   cn_no?: string;
   vendor_id?: string;
   vendor_name?: string;
-  doc_status?: CreditNote['doc_status'];
-  credit_note_type?: CreditNote['credit_note_type'];
+  doc_status?: CreditNote["doc_status"];
+  credit_note_type?: CreditNote["credit_note_type"];
   description?: string;
   note?: string;
   created_by_id?: string;
   last_action_by_id?: string;
   workflow_current_stage?: string;
-  last_action?: CreditNote['last_action'];
+  last_action?: CreditNote["last_action"];
   is_deleted?: boolean;
   start_date?: string;
   end_date?: string;
 }): CreditNote[] => {
-  return creditNotes.filter(creditNote => {
+  return creditNotes.filter((creditNote) => {
     // ตรวจสอบ cn_no
-    if (searchCriteria.cn_no && !creditNote.cn_no.toLowerCase().includes(searchCriteria.cn_no.toLowerCase())) {
+    if (
+      searchCriteria.cn_no &&
+      !creditNote.cn_no
+        .toLowerCase()
+        .includes(searchCriteria.cn_no.toLowerCase())
+    ) {
       return false;
     }
-    
+
     // ตรวจสอบ vendor_id
-    if (searchCriteria.vendor_id && creditNote.vendor_id !== searchCriteria.vendor_id) {
+    if (
+      searchCriteria.vendor_id &&
+      creditNote.vendor_id !== searchCriteria.vendor_id
+    ) {
       return false;
     }
-    
+
     // ตรวจสอบ vendor_name
-    if (searchCriteria.vendor_name && !creditNote.vendor_name.toLowerCase().includes(searchCriteria.vendor_name.toLowerCase())) {
+    if (
+      searchCriteria.vendor_name &&
+      !creditNote.vendor_name
+        .toLowerCase()
+        .includes(searchCriteria.vendor_name.toLowerCase())
+    ) {
       return false;
     }
-    
+
     // ตรวจสอบ doc_status
-    if (searchCriteria.doc_status && creditNote.doc_status !== searchCriteria.doc_status) {
+    if (
+      searchCriteria.doc_status &&
+      creditNote.doc_status !== searchCriteria.doc_status
+    ) {
       return false;
     }
-    
+
     // ตรวจสอบ credit_note_type
-    if (searchCriteria.credit_note_type && creditNote.credit_note_type !== searchCriteria.credit_note_type) {
+    if (
+      searchCriteria.credit_note_type &&
+      creditNote.credit_note_type !== searchCriteria.credit_note_type
+    ) {
       return false;
     }
-    
+
     // ตรวจสอบ description
-    if (searchCriteria.description && !creditNote.description.toLowerCase().includes(searchCriteria.description.toLowerCase())) {
+    if (
+      searchCriteria.description &&
+      !creditNote.description
+        .toLowerCase()
+        .includes(searchCriteria.description.toLowerCase())
+    ) {
       return false;
     }
-    
+
     // ตรวจสอบ note
-    if (searchCriteria.note && !creditNote.note.toLowerCase().includes(searchCriteria.note.toLowerCase())) {
+    if (
+      searchCriteria.note &&
+      !creditNote.note.toLowerCase().includes(searchCriteria.note.toLowerCase())
+    ) {
       return false;
     }
-    
+
     // ตรวจสอบ created_by_id
-    if (searchCriteria.created_by_id && creditNote.created_by_id !== searchCriteria.created_by_id) {
+    if (
+      searchCriteria.created_by_id &&
+      creditNote.created_by_id !== searchCriteria.created_by_id
+    ) {
       return false;
     }
-    
+
     // ตรวจสอบ last_action_by_id
-    if (searchCriteria.last_action_by_id && creditNote.last_action_by_id !== searchCriteria.last_action_by_id) {
+    if (
+      searchCriteria.last_action_by_id &&
+      creditNote.last_action_by_id !== searchCriteria.last_action_by_id
+    ) {
       return false;
     }
-    
+
     // ตรวจสอบ workflow_current_stage
-    if (searchCriteria.workflow_current_stage && creditNote.workflow_current_stage !== searchCriteria.workflow_current_stage) {
+    if (
+      searchCriteria.workflow_current_stage &&
+      creditNote.workflow_current_stage !==
+        searchCriteria.workflow_current_stage
+    ) {
       return false;
     }
-    
+
     // ตรวจสอบ last_action
-    if (searchCriteria.last_action && creditNote.last_action !== searchCriteria.last_action) {
+    if (
+      searchCriteria.last_action &&
+      creditNote.last_action !== searchCriteria.last_action
+    ) {
       return false;
     }
-    
+
     // ตรวจสอบสถานะการลบ
     if (searchCriteria.is_deleted !== undefined) {
       const isDeleted = !!creditNote.deleted_at;
@@ -555,18 +682,18 @@ export const searchCreditNotes = (searchCriteria: {
         return false;
       }
     }
-    
+
     // ตรวจสอบช่วงเวลา
     if (searchCriteria.start_date || searchCriteria.end_date) {
       const cnDate = new Date(creditNote.cn_date);
-      
+
       if (searchCriteria.start_date) {
         const startDate = new Date(searchCriteria.start_date);
         if (cnDate < startDate) {
           return false;
         }
       }
-      
+
       if (searchCriteria.end_date) {
         const endDate = new Date(searchCriteria.end_date);
         if (cnDate > endDate) {
@@ -574,38 +701,47 @@ export const searchCreditNotes = (searchCriteria: {
         }
       }
     }
-    
+
     return true;
   });
 };
 
 // Utility function สำหรับตรวจสอบ cn_no ซ้ำ
 export const isCreditNoteNoExists = (cnNo: string): boolean => {
-  return creditNotes.some(creditNote => creditNote.cn_no === cnNo && !creditNote.deleted_at);
+  return creditNotes.some(
+    (creditNote) => creditNote.cn_no === cnNo && !creditNote.deleted_at
+  );
 };
 
 // Utility function สำหรับตรวจสอบ cn_no ซ้ำทั้งหมด
 export const isCreditNoteNoExistsAll = (cnNo: string): boolean => {
-  return creditNotes.some(creditNote => creditNote.cn_no === cnNo);
+  return creditNotes.some((creditNote) => creditNote.cn_no === cnNo);
 };
 
 // Utility function สำหรับสร้าง cn_no ใหม่
 export const generateCreditNoteNo = (prefix: string = "CN"): string => {
   const now = new Date();
   const year = now.getFullYear();
-  const month = (now.getMonth() + 1).toString().padStart(2, '0');
-  
+  const month = (now.getMonth() + 1).toString().padStart(2, "0");
+
   // หา sequence number สูงสุดของเดือนนี้
-  const currentMonthCreditNotes = creditNotes.filter(cn => {
+  const currentMonthCreditNotes = creditNotes.filter((cn) => {
     const cnDate = new Date(cn.cn_date);
-    return cnDate.getFullYear() === year && (cnDate.getMonth() + 1) === parseInt(month);
+    return (
+      cnDate.getFullYear() === year && cnDate.getMonth() + 1 === parseInt(month)
+    );
   });
-  
-  const maxSequence = Math.max(0, ...currentMonthCreditNotes.map(cn => {
-    const match = cn.cn_no.match(/\d+$/);
-    return match ? parseInt(match[0]) : 0;
-  }));
-  
+
+  const maxSequence = Math.max(
+    0,
+    ...currentMonthCreditNotes.map((cn) => {
+      const match = cn.cn_no.match(/\d+$/);
+      return match ? parseInt(match[0]) : 0;
+    })
+  );
+
   const nextSequence = maxSequence + 1;
-  return `${prefix}-${year}-${month}-${nextSequence.toString().padStart(3, '0')}`;
+  return `${prefix}-${year}-${month}-${nextSequence
+    .toString()
+    .padStart(3, "0")}`;
 };

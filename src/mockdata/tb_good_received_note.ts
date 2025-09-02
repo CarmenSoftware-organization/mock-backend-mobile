@@ -7,8 +7,8 @@ export interface GoodReceivedNote {
   invoice_no: string;
   invoice_date: string;
   description: string;
-  doc_status: 'draft' | 'submitted' | 'approved' | 'rejected' | 'completed';
-  doc_type: 'purchase' | 'return' | 'adjustment' | 'other';
+  doc_status: "draft" | "submitted" | "approved" | "rejected" | "completed";
+  doc_type: "purchase" | "return" | "adjustment" | "other";
   vendor_id: string;
   vendor_name: string;
   currency_id: string;
@@ -21,7 +21,7 @@ export interface GoodReceivedNote {
   workflow_previous_stage: string | null;
   workflow_next_stage: string | null;
   user_action: any;
-  last_action: 'submit' | 'approve' | 'reject' | 'complete';
+  last_action: "submit" | "approve" | "reject" | "complete";
   last_action_at_date: string;
   last_action_by_id: string;
   last_action_by_name: string;
@@ -65,7 +65,9 @@ export const goodReceivedNotes: GoodReceivedNote[] = [
     currency_rate: "1.00",
     workflow_id: "550e8400-e29b-41d4-a716-446655440001",
     workflow_name: "Standard GRN Workflow",
-    workflow_history: { stages: ["draft", "submitted", "approved", "completed"] },
+    workflow_history: {
+      stages: ["draft", "submitted", "approved", "completed"],
+    },
     workflow_current_stage: "completed",
     workflow_previous_stage: "approved",
     workflow_next_stage: null,
@@ -86,7 +88,10 @@ export const goodReceivedNotes: GoodReceivedNote[] = [
     payment_due_date: "2024-02-14",
     is_active: true,
     note: "Standard delivery received",
-    info: { total_amount: 15000.00, location_id: "550e8400-e29b-41d4-a716-446655440001" },
+    info: {
+      total_amount: 15000.0,
+      location_id: "550e8400-e29b-41d4-a716-446655440001",
+    },
     dimension: null,
     doc_version: "1.0",
     created_at: "2024-01-15T10:30:00Z",
@@ -94,7 +99,7 @@ export const goodReceivedNotes: GoodReceivedNote[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440002",
@@ -133,7 +138,10 @@ export const goodReceivedNotes: GoodReceivedNote[] = [
     payment_due_date: "2024-02-29",
     is_active: true,
     note: "Awaiting quality inspection",
-    info: { total_amount: 8500.00, location_id: "550e8400-e29b-41d4-a716-446655440002" },
+    info: {
+      total_amount: 8500.0,
+      location_id: "550e8400-e29b-41d4-a716-446655440002",
+    },
     dimension: null,
     doc_version: "1.0",
     created_at: "2024-01-15T10:30:00Z",
@@ -141,7 +149,7 @@ export const goodReceivedNotes: GoodReceivedNote[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440003",
@@ -180,7 +188,10 @@ export const goodReceivedNotes: GoodReceivedNote[] = [
     payment_due_date: "2024-02-16",
     is_active: false,
     note: "Quality issues found, returned to vendor",
-    info: { total_amount: 12000.00, location_id: "550e8400-e29b-41d4-a716-446655440003" },
+    info: {
+      total_amount: 12000.0,
+      location_id: "550e8400-e29b-41d4-a716-446655440003",
+    },
     dimension: null,
     doc_version: "1.0",
     created_at: "2024-01-15T10:30:00Z",
@@ -188,19 +199,24 @@ export const goodReceivedNotes: GoodReceivedNote[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
-  }
+    deleted_by_id: null,
+  },
 ];
 
 // CREATE - สร้าง GoodReceivedNote ใหม่
-export const createGoodReceivedNote = (goodReceivedNoteData: Omit<GoodReceivedNote, 'id' | 'created_at' | 'updated_at'>): GoodReceivedNote => {
+export const createGoodReceivedNote = (
+  goodReceivedNoteData: Omit<
+    GoodReceivedNote,
+    "id" | "created_at" | "updated_at"
+  >
+): GoodReceivedNote => {
   const newGoodReceivedNote: GoodReceivedNote = {
     ...goodReceivedNoteData,
     id: generateId(),
     created_at: getCurrentTimestamp(),
-    updated_at: getCurrentTimestamp()
+    updated_at: getCurrentTimestamp(),
   };
-  
+
   goodReceivedNotes.push(newGoodReceivedNote);
   return newGoodReceivedNote;
 };
@@ -211,151 +227,226 @@ export const getAllGoodReceivedNotes = (): GoodReceivedNote[] => {
 };
 
 // READ - อ่าน GoodReceivedNote ตาม ID
-export const getGoodReceivedNoteById = (id: string): GoodReceivedNote | undefined => {
-  return goodReceivedNotes.find(grn => grn.id === id);
+export const getGoodReceivedNoteById = (
+  id: string
+): GoodReceivedNote | undefined => {
+  return goodReceivedNotes.find((grn) => grn.id === id);
 };
 
 // READ - อ่าน GoodReceivedNote ตาม GRN number
-export const getGoodReceivedNoteByNumber = (grnNumber: string): GoodReceivedNote | undefined => {
-  return goodReceivedNotes.find(grn => grn.grn_no === grnNumber);
+export const getGoodReceivedNoteByNumber = (
+  grnNumber: string
+): GoodReceivedNote | undefined => {
+  return goodReceivedNotes.find((grn) => grn.grn_no === grnNumber);
 };
 
 // READ - อ่าน GoodReceivedNote ตาม vendor_id
-export const getGoodReceivedNotesByVendor = (vendorId: string): GoodReceivedNote[] => {
-  return goodReceivedNotes.filter(grn => grn.vendor_id === vendorId);
+export const getGoodReceivedNotesByVendor = (
+  vendorId: string
+): GoodReceivedNote[] => {
+  return goodReceivedNotes.filter((grn) => grn.vendor_id === vendorId);
 };
 
 // READ - อ่าน GoodReceivedNote ตาม location_id
-export const getGoodReceivedNotesByLocation = (locationId: string): GoodReceivedNote[] => {
-  return goodReceivedNotes.filter(grn => grn.info?.location_id === locationId);
+export const getGoodReceivedNotesByLocation = (
+  locationId: string
+): GoodReceivedNote[] => {
+  return goodReceivedNotes.filter(
+    (grn) => grn.info?.location_id === locationId
+  );
 };
 
 // READ - อ่าน GoodReceivedNote ตาม status
-export const getGoodReceivedNotesByStatus = (status: string): GoodReceivedNote[] => {
-  return goodReceivedNotes.filter(grn => grn.doc_status === status);
+export const getGoodReceivedNotesByStatus = (
+  status: string
+): GoodReceivedNote[] => {
+  return goodReceivedNotes.filter((grn) => grn.doc_status === status);
 };
 
 // READ - อ่าน GoodReceivedNote ตาม received_date
-export const getGoodReceivedNotesByDate = (receivedDate: string): GoodReceivedNote[] => {
-  return goodReceivedNotes.filter(grn => grn.received_at === receivedDate);
+export const getGoodReceivedNotesByDate = (
+  receivedDate: string
+): GoodReceivedNote[] => {
+  return goodReceivedNotes.filter((grn) => grn.received_at === receivedDate);
 };
 
 // READ - อ่าน GoodReceivedNote ตาม date range
-export const getGoodReceivedNotesByDateRange = (startDate: string, endDate: string): GoodReceivedNote[] => {
-  return goodReceivedNotes.filter(grn => 
-    grn.received_at >= startDate && grn.received_at <= endDate
+export const getGoodReceivedNotesByDateRange = (
+  startDate: string,
+  endDate: string
+): GoodReceivedNote[] => {
+  return goodReceivedNotes.filter(
+    (grn) => grn.received_at >= startDate && grn.received_at <= endDate
   );
 };
 
 // READ - อ่าน GoodReceivedNote ตาม currency_id
-export const getGoodReceivedNotesByCurrency = (currencyId: string): GoodReceivedNote[] => {
-  return goodReceivedNotes.filter(grn => grn.currency_id === currencyId);
+export const getGoodReceivedNotesByCurrency = (
+  currencyId: string
+): GoodReceivedNote[] => {
+  return goodReceivedNotes.filter((grn) => grn.currency_id === currencyId);
 };
 
 // READ - อ่าน GoodReceivedNote ตาม amount range
-export const getGoodReceivedNotesByAmountRange = (minAmount: number, maxAmount: number): GoodReceivedNote[] => {
-  return goodReceivedNotes.filter(grn => 
-    grn.info?.total_amount >= minAmount && grn.info?.total_amount <= maxAmount
+export const getGoodReceivedNotesByAmountRange = (
+  minAmount: number,
+  maxAmount: number
+): GoodReceivedNote[] => {
+  return goodReceivedNotes.filter(
+    (grn) =>
+      grn.info?.total_amount >= minAmount && grn.info?.total_amount <= maxAmount
   );
 };
 
 // READ - อ่าน GoodReceivedNote ที่มี notes
 export const getGoodReceivedNotesWithNotes = (): GoodReceivedNote[] => {
-  return goodReceivedNotes.filter(grn => grn.note && grn.note.trim() !== '');
+  return goodReceivedNotes.filter((grn) => grn.note && grn.note.trim() !== "");
 };
 
 // READ - ค้นหา GoodReceivedNote แบบ fuzzy search
-export const searchGoodReceivedNotes = (searchTerm: string): GoodReceivedNote[] => {
+export const searchGoodReceivedNotes = (
+  searchTerm: string
+): GoodReceivedNote[] => {
   const lowerSearchTerm = searchTerm.toLowerCase();
-  return goodReceivedNotes.filter(grn => 
-    grn.grn_no.toLowerCase().includes(lowerSearchTerm) ||
-    (grn.note && grn.note.toLowerCase().includes(lowerSearchTerm))
+  return goodReceivedNotes.filter(
+    (grn) =>
+      grn.grn_no.toLowerCase().includes(lowerSearchTerm) ||
+      (grn.note && grn.note.toLowerCase().includes(lowerSearchTerm))
   );
 };
 
 // UPDATE - อัปเดต GoodReceivedNote
-export const updateGoodReceivedNote = (id: string, updateData: Partial<Omit<GoodReceivedNote, 'id' | 'created_at' | 'created_by_id'>>): GoodReceivedNote | null => {
-  const index = goodReceivedNotes.findIndex(grn => grn.id === id);
-  
+export const updateGoodReceivedNote = (
+  id: string,
+  updateData: Partial<
+    Omit<GoodReceivedNote, "id" | "created_at" | "created_by_id">
+  >
+): GoodReceivedNote | null => {
+  const index = goodReceivedNotes.findIndex((grn) => grn.id === id);
+
   if (index === -1) {
     return null;
   }
-  
+
   goodReceivedNotes[index] = {
     ...goodReceivedNotes[index],
     ...updateData,
-    updated_at: getCurrentTimestamp()
+    updated_at: getCurrentTimestamp(),
   };
-  
+
   return goodReceivedNotes[index];
 };
 
 // UPDATE - อัปเดต GoodReceivedNote status
-export const updateGoodReceivedNoteStatus = (id: string, status: string): GoodReceivedNote | null => {
-  return updateGoodReceivedNote(id, { doc_status: status as 'draft' | 'submitted' | 'approved' | 'rejected' | 'completed' });
+export const updateGoodReceivedNoteStatus = (
+  id: string,
+  status: string
+): GoodReceivedNote | null => {
+  return updateGoodReceivedNote(id, {
+    doc_status: status as
+      | "draft"
+      | "submitted"
+      | "approved"
+      | "rejected"
+      | "completed",
+  });
 };
 
 // UPDATE - อัปเดต GoodReceivedNote received_date
-export const updateGoodReceivedNoteDate = (id: string, receivedDate: string): GoodReceivedNote | null => {
+export const updateGoodReceivedNoteDate = (
+  id: string,
+  receivedDate: string
+): GoodReceivedNote | null => {
   return updateGoodReceivedNote(id, { received_at: receivedDate });
 };
 
 // UPDATE - อัปเดต GoodReceivedNote total_amount
-export const updateGoodReceivedNoteAmount = (id: string, totalAmount: number): GoodReceivedNote | null => {
-  return updateGoodReceivedNote(id, { info: { ...goodReceivedNotes.find(grn => grn.id === id)?.info, total_amount: totalAmount } });
+export const updateGoodReceivedNoteAmount = (
+  id: string,
+  totalAmount: number
+): GoodReceivedNote | null => {
+  return updateGoodReceivedNote(id, {
+    info: {
+      ...goodReceivedNotes.find((grn) => grn.id === id)?.info,
+      total_amount: totalAmount,
+    },
+  });
 };
 
 // UPDATE - อัปเดต GoodReceivedNote notes
-export const updateGoodReceivedNoteNotes = (id: string, notes: string): GoodReceivedNote | null => {
+export const updateGoodReceivedNoteNotes = (
+  id: string,
+  notes: string
+): GoodReceivedNote | null => {
   return updateGoodReceivedNote(id, { note: notes });
 };
 
 // UPDATE - อัปเดต GoodReceivedNote vendor
-export const updateGoodReceivedNoteVendor = (id: string, vendorId: string): GoodReceivedNote | null => {
+export const updateGoodReceivedNoteVendor = (
+  id: string,
+  vendorId: string
+): GoodReceivedNote | null => {
   return updateGoodReceivedNote(id, { vendor_id: vendorId });
 };
 
 // UPDATE - อัปเดต GoodReceivedNote location
-export const updateGoodReceivedNoteLocation = (id: string, locationId: string): GoodReceivedNote | null => {
-  return updateGoodReceivedNote(id, { info: { ...goodReceivedNotes.find(grn => grn.id === id)?.info, location_id: locationId } });
+export const updateGoodReceivedNoteLocation = (
+  id: string,
+  locationId: string
+): GoodReceivedNote | null => {
+  return updateGoodReceivedNote(id, {
+    info: {
+      ...goodReceivedNotes.find((grn) => grn.id === id)?.info,
+      location_id: locationId,
+    },
+  });
 };
 
 // UPDATE - อัปเดต GoodReceivedNote currency
-export const updateGoodReceivedNoteCurrency = (id: string, currencyId: string): GoodReceivedNote | null => {
+export const updateGoodReceivedNoteCurrency = (
+  id: string,
+  currencyId: string
+): GoodReceivedNote | null => {
   return updateGoodReceivedNote(id, { currency_id: currencyId });
 };
 
 // DELETE - ลบ GoodReceivedNote (soft delete)
-export const deleteGoodReceivedNote = (id: string, deletedById: string): boolean => {
-  const index = goodReceivedNotes.findIndex(grn => grn.id === id);
-  
+export const deleteGoodReceivedNote = (
+  id: string,
+  deletedById: string
+): boolean => {
+  const index = goodReceivedNotes.findIndex((grn) => grn.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   goodReceivedNotes[index] = {
     ...goodReceivedNotes[index],
     deleted_at: getCurrentTimestamp(),
-    deleted_by_id: deletedById
+    deleted_by_id: deletedById,
   };
-  
+
   return true;
 };
 
 // DELETE - ลบ GoodReceivedNote แบบถาวร
 export const hardDeleteGoodReceivedNote = (id: string): boolean => {
-  const index = goodReceivedNotes.findIndex(grn => grn.id === id);
-  
+  const index = goodReceivedNotes.findIndex((grn) => grn.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   goodReceivedNotes.splice(index, 1);
   return true;
 };
 
 // DELETE - ลบ GoodReceivedNote ตาม GRN number
-export const deleteGoodReceivedNoteByNumber = (grnNumber: string, deletedById: string): boolean => {
+export const deleteGoodReceivedNoteByNumber = (
+  grnNumber: string,
+  deletedById: string
+): boolean => {
   const grn = getGoodReceivedNoteByNumber(grnNumber);
   if (grn) {
     return deleteGoodReceivedNote(grn.id, deletedById);
@@ -364,47 +455,56 @@ export const deleteGoodReceivedNoteByNumber = (grnNumber: string, deletedById: s
 };
 
 // DELETE - ลบ GoodReceivedNote ตาม vendor_id
-export const deleteGoodReceivedNotesByVendor = (vendorId: string, deletedById: string): number => {
+export const deleteGoodReceivedNotesByVendor = (
+  vendorId: string,
+  deletedById: string
+): number => {
   let deletedCount = 0;
-  
-  goodReceivedNotes.forEach(grn => {
+
+  goodReceivedNotes.forEach((grn) => {
     if (grn.vendor_id === vendorId && !grn.deleted_at) {
       grn.deleted_at = getCurrentTimestamp();
       grn.deleted_by_id = deletedById;
       deletedCount++;
     }
   });
-  
+
   return deletedCount;
 };
 
 // DELETE - ลบ GoodReceivedNote ตาม location_id
-export const deleteGoodReceivedNotesByLocation = (locationId: string, deletedById: string): number => {
+export const deleteGoodReceivedNotesByLocation = (
+  locationId: string,
+  deletedById: string
+): number => {
   let deletedCount = 0;
-  
-  goodReceivedNotes.forEach(grn => {
+
+  goodReceivedNotes.forEach((grn) => {
     if (grn.info?.location_id === locationId && !grn.deleted_at) {
       grn.deleted_at = getCurrentTimestamp();
       grn.deleted_by_id = deletedById;
       deletedCount++;
     }
   });
-  
+
   return deletedCount;
 };
 
 // DELETE - ลบ GoodReceivedNote ตาม status
-export const deleteGoodReceivedNotesByStatus = (status: string, deletedById: string): number => {
+export const deleteGoodReceivedNotesByStatus = (
+  status: string,
+  deletedById: string
+): number => {
   let deletedCount = 0;
-  
-  goodReceivedNotes.forEach(grn => {
+
+  goodReceivedNotes.forEach((grn) => {
     if (grn.doc_status === status && !grn.deleted_at) {
       grn.deleted_at = getCurrentTimestamp();
       grn.deleted_by_id = deletedById;
       deletedCount++;
     }
   });
-  
+
   return deletedCount;
 };
 
@@ -420,51 +520,57 @@ export const getGoodReceivedNoteCount = (): number => {
 
 // Utility function สำหรับนับจำนวน GoodReceivedNote ตาม status
 export const getGoodReceivedNoteCountByStatus = (status: string): number => {
-  return goodReceivedNotes.filter(grn => grn.doc_status === status).length;
+  return goodReceivedNotes.filter((grn) => grn.doc_status === status).length;
 };
 
 // Utility function สำหรับนับจำนวน GoodReceivedNote ตาม vendor_id
 export const getGoodReceivedNoteCountByVendor = (vendorId: string): number => {
-  return goodReceivedNotes.filter(grn => grn.vendor_id === vendorId).length;
+  return goodReceivedNotes.filter((grn) => grn.vendor_id === vendorId).length;
 };
 
 // Utility function สำหรับนับจำนวน GoodReceivedNote ตาม location_id
-export const getGoodReceivedNoteCountByLocation = (locationId: string): number => {
-  return goodReceivedNotes.filter(grn => grn.info?.location_id === locationId).length;
+export const getGoodReceivedNoteCountByLocation = (
+  locationId: string
+): number => {
+  return goodReceivedNotes.filter((grn) => grn.info?.location_id === locationId)
+    .length;
 };
 
 // Utility function สำหรับนับจำนวน GoodReceivedNote ตาม currency_id
-export const getGoodReceivedNoteCountByCurrency = (currencyId: string): number => {
-  return goodReceivedNotes.filter(grn => grn.currency_id === currencyId).length;
+export const getGoodReceivedNoteCountByCurrency = (
+  currencyId: string
+): number => {
+  return goodReceivedNotes.filter((grn) => grn.currency_id === currencyId)
+    .length;
 };
 
 // Utility function สำหรับตรวจสอบ GoodReceivedNote GRN number ซ้ำ
 export const isGoodReceivedNoteNumberExists = (grnNumber: string): boolean => {
-  return goodReceivedNotes.some(grn => grn.grn_no === grnNumber);
+  return goodReceivedNotes.some((grn) => grn.grn_no === grnNumber);
 };
 
 // Utility function สำหรับตรวจสอบ GoodReceivedNote ที่ถูกลบแล้ว
 export const getDeletedGoodReceivedNotes = (): GoodReceivedNote[] => {
-  return goodReceivedNotes.filter(grn => grn.deleted_at !== null);
+  return goodReceivedNotes.filter((grn) => grn.deleted_at !== null);
 };
 
 // Utility function สำหรับกู้คืน GoodReceivedNote ที่ถูกลบแล้ว
 export const restoreGoodReceivedNote = (id: string): boolean => {
-  const index = goodReceivedNotes.findIndex(grn => grn.id === id);
-  
+  const index = goodReceivedNotes.findIndex((grn) => grn.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   if (goodReceivedNotes[index].deleted_at) {
     goodReceivedNotes[index] = {
       ...goodReceivedNotes[index],
       deleted_at: null,
-      deleted_by_id: null
+      deleted_by_id: null,
     };
     return true;
   }
-  
+
   return false;
 };
 
@@ -480,46 +586,69 @@ export const searchGoodReceivedNotesAdvanced = (searchCriteria: {
   max_amount?: number;
   has_notes?: boolean;
 }): GoodReceivedNote[] => {
-  return goodReceivedNotes.filter(grn => {
-    if (searchCriteria.grn_number && !grn.grn_no.toLowerCase().includes(searchCriteria.grn_number.toLowerCase())) {
+  return goodReceivedNotes.filter((grn) => {
+    if (
+      searchCriteria.grn_number &&
+      !grn.grn_no
+        .toLowerCase()
+        .includes(searchCriteria.grn_number.toLowerCase())
+    ) {
       return false;
     }
-    
-    if (searchCriteria.vendor_id && grn.vendor_id !== searchCriteria.vendor_id) {
+
+    if (
+      searchCriteria.vendor_id &&
+      grn.vendor_id !== searchCriteria.vendor_id
+    ) {
       return false;
     }
-    
-    if (searchCriteria.location_id && grn.info?.location_id !== searchCriteria.location_id) {
+
+    if (
+      searchCriteria.location_id &&
+      grn.info?.location_id !== searchCriteria.location_id
+    ) {
       return false;
     }
-    
+
     if (searchCriteria.status && grn.doc_status !== searchCriteria.status) {
       return false;
     }
-    
-    if (searchCriteria.received_date && grn.received_at !== searchCriteria.received_date) {
+
+    if (
+      searchCriteria.received_date &&
+      grn.received_at !== searchCriteria.received_date
+    ) {
       return false;
     }
-    
-    if (searchCriteria.currency_id && grn.currency_id !== searchCriteria.currency_id) {
+
+    if (
+      searchCriteria.currency_id &&
+      grn.currency_id !== searchCriteria.currency_id
+    ) {
       return false;
     }
-    
-    if (searchCriteria.min_amount && grn.info?.total_amount < searchCriteria.min_amount) {
+
+    if (
+      searchCriteria.min_amount &&
+      grn.info?.total_amount < searchCriteria.min_amount
+    ) {
       return false;
     }
-    
-    if (searchCriteria.max_amount && grn.info?.total_amount > searchCriteria.max_amount) {
+
+    if (
+      searchCriteria.max_amount &&
+      grn.info?.total_amount > searchCriteria.max_amount
+    ) {
       return false;
     }
-    
+
     if (searchCriteria.has_notes !== undefined) {
-        const hasNotes = grn.note && grn.note.trim() !== '';
+      const hasNotes = grn.note && grn.note.trim() !== "";
       if (hasNotes !== searchCriteria.has_notes) {
         return false;
       }
     }
-    
+
     return true;
   });
 };

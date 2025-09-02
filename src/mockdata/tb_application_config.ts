@@ -28,27 +28,27 @@ export const applicationConfigs: ApplicationConfig[] = [
         id: "5840ede0-cb85-4c0e-b306-be118f5df614",
         name: "VAT 7%",
         tax_rate: 7,
-        is_active: true
+        is_active: true,
       },
       {
         id: "93542964-4dea-48f7-a6a6-3ab83c715d91",
         name: "VAT 10%",
         tax_rate: 10,
-        is_active: true
+        is_active: true,
       },
       {
         id: "d56754df-ea69-4aae-b85a-3ccec6a6da91",
         name: "None",
         tax_rate: 0,
-        is_active: true
-      }
+        is_active: true,
+      },
     ],
     created_at: "2025-07-29T01:05:32.815Z",
     created_by_id: null,
     updated_at: "2025-07-29T01:05:32.815Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "62d7035a-f7a0-5fge-bc92-b117953c69ed",
@@ -58,27 +58,29 @@ export const applicationConfigs: ApplicationConfig[] = [
         id: "6951fef1-dc96-5d1f-cd03-c228064d7afe",
         name: "Default Currency",
         tax_rate: 0,
-        is_active: true
-      }
+        is_active: true,
+      },
     ],
     created_at: "2025-07-29T02:15:45.123Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
     updated_at: "2025-07-29T02:15:45.123Z",
     updated_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
     deleted_at: null,
-    deleted_by_id: null
-  }
+    deleted_by_id: null,
+  },
 ];
 
 // CREATE - สร้าง ApplicationConfig ใหม่
-export const createApplicationConfig = (configData: Omit<ApplicationConfig, 'id' | 'created_at' | 'updated_at'>): ApplicationConfig => {
+export const createApplicationConfig = (
+  configData: Omit<ApplicationConfig, "id" | "created_at" | "updated_at">
+): ApplicationConfig => {
   const newConfig: ApplicationConfig = {
     ...configData,
     id: generateId(),
     created_at: getCurrentTimestamp(),
-    updated_at: getCurrentTimestamp()
+    updated_at: getCurrentTimestamp(),
   };
-  
+
   applicationConfigs.push(newConfig);
   return newConfig;
 };
@@ -89,168 +91,211 @@ export const getAllApplicationConfigs = (): ApplicationConfig[] => {
 };
 
 // READ - อ่าน ApplicationConfig ตาม ID
-export const getApplicationConfigById = (id: string): ApplicationConfig | undefined => {
-  return applicationConfigs.find(config => config.id === id);
+export const getApplicationConfigById = (
+  id: string
+): ApplicationConfig | undefined => {
+  return applicationConfigs.find((config) => config.id === id);
 };
 
 // READ - อ่าน ApplicationConfig ตาม key
-export const getApplicationConfigByKey = (key: string): ApplicationConfig | undefined => {
-  return applicationConfigs.find(config => config.key === key);
+export const getApplicationConfigByKey = (
+  key: string
+): ApplicationConfig | undefined => {
+  return applicationConfigs.find((config) => config.key === key);
 };
 
 // READ - อ่าน ApplicationConfig ที่ไม่ถูกลบ
 export const getActiveApplicationConfigs = (): ApplicationConfig[] => {
-  return applicationConfigs.filter(config => !config.deleted_at);
+  return applicationConfigs.filter((config) => !config.deleted_at);
 };
 
 // READ - อ่าน ApplicationConfig ที่ถูกลบ
 export const getDeletedApplicationConfigs = (): ApplicationConfig[] => {
-  return applicationConfigs.filter(config => config.deleted_at);
+  return applicationConfigs.filter((config) => config.deleted_at);
 };
 
 // READ - อ่าน ApplicationConfig ตาม created_by_id
-export const getApplicationConfigsByCreatedBy = (createdById: string): ApplicationConfig[] => {
-  return applicationConfigs.filter(config => config.created_by_id === createdById);
+export const getApplicationConfigsByCreatedBy = (
+  createdById: string
+): ApplicationConfig[] => {
+  return applicationConfigs.filter(
+    (config) => config.created_by_id === createdById
+  );
 };
 
 // READ - อ่าน ApplicationConfig ตาม updated_by_id
-export const getApplicationConfigsByUpdatedBy = (updatedById: string): ApplicationConfig[] => {
-  return applicationConfigs.filter(config => config.updated_by_id === updatedById);
+export const getApplicationConfigsByUpdatedBy = (
+  updatedById: string
+): ApplicationConfig[] => {
+  return applicationConfigs.filter(
+    (config) => config.updated_by_id === updatedById
+  );
 };
 
 // UPDATE - อัปเดต ApplicationConfig
 export const updateApplicationConfig = (
-  id: string, 
-  updateData: Partial<Omit<ApplicationConfig, 'id' | 'created_at' | 'created_by_id'>>,
+  id: string,
+  updateData: Partial<
+    Omit<ApplicationConfig, "id" | "created_at" | "created_by_id">
+  >,
   updatedById: string
 ): ApplicationConfig | null => {
-  const index = applicationConfigs.findIndex(config => config.id === id);
-  
+  const index = applicationConfigs.findIndex((config) => config.id === id);
+
   if (index === -1) {
     return null;
   }
-  
+
   applicationConfigs[index] = {
     ...applicationConfigs[index],
     ...updateData,
     updated_at: getCurrentTimestamp(),
-    updated_by_id: updatedById
+    updated_by_id: updatedById,
   };
-  
+
   return applicationConfigs[index];
 };
 
 // UPDATE - อัปเดต ApplicationConfig key
-export const updateApplicationConfigKey = (id: string, key: string, updatedById: string): ApplicationConfig | null => {
+export const updateApplicationConfigKey = (
+  id: string,
+  key: string,
+  updatedById: string
+): ApplicationConfig | null => {
   return updateApplicationConfig(id, { key }, updatedById);
 };
 
 // UPDATE - อัปเดต ApplicationConfig value
-export const updateApplicationConfigValue = (id: string, value: TaxProfile[], updatedById: string): ApplicationConfig | null => {
+export const updateApplicationConfigValue = (
+  id: string,
+  value: TaxProfile[],
+  updatedById: string
+): ApplicationConfig | null => {
   return updateApplicationConfig(id, { value }, updatedById);
 };
 
 // UPDATE - อัปเดต TaxProfile ใน ApplicationConfig
 export const updateTaxProfileInConfig = (
-  configId: string, 
-  taxProfileId: string, 
+  configId: string,
+  taxProfileId: string,
   taxProfileData: Partial<TaxProfile>,
   updatedById: string
 ): ApplicationConfig | null => {
   const config = getApplicationConfigById(configId);
   if (!config) return null;
-  
-  const updatedValue = config.value.map(tp => 
+
+  const updatedValue = config.value.map((tp) =>
     tp.id === taxProfileId ? { ...tp, ...taxProfileData } : tp
   );
-  
-  return updateApplicationConfig(configId, { value: updatedValue }, updatedById);
+
+  return updateApplicationConfig(
+    configId,
+    { value: updatedValue },
+    updatedById
+  );
 };
 
 // UPDATE - เพิ่ม TaxProfile ใหม่ใน ApplicationConfig
 export const addTaxProfileToConfig = (
-  configId: string, 
-  taxProfile: Omit<TaxProfile, 'id'>, 
+  configId: string,
+  taxProfile: Omit<TaxProfile, "id">,
   updatedById: string
 ): ApplicationConfig | null => {
   const config = getApplicationConfigById(configId);
   if (!config) return null;
-  
+
   const newTaxProfile: TaxProfile = {
     ...taxProfile,
-    id: generateId()
+    id: generateId(),
   };
-  
+
   const updatedValue = [...config.value, newTaxProfile];
-  return updateApplicationConfig(configId, { value: updatedValue }, updatedById);
+  return updateApplicationConfig(
+    configId,
+    { value: updatedValue },
+    updatedById
+  );
 };
 
 // UPDATE - ลบ TaxProfile ออกจาก ApplicationConfig
 export const removeTaxProfileFromConfig = (
-  configId: string, 
-  taxProfileId: string, 
+  configId: string,
+  taxProfileId: string,
   updatedById: string
 ): ApplicationConfig | null => {
   const config = getApplicationConfigById(configId);
   if (!config) return null;
-  
-  const updatedValue = config.value.filter(tp => tp.id !== taxProfileId);
-  return updateApplicationConfig(configId, { value: updatedValue }, updatedById);
+
+  const updatedValue = config.value.filter((tp) => tp.id !== taxProfileId);
+  return updateApplicationConfig(
+    configId,
+    { value: updatedValue },
+    updatedById
+  );
 };
 
 // DELETE - ลบ ApplicationConfig (soft delete)
-export const deleteApplicationConfig = (id: string, deletedById: string): boolean => {
-  const index = applicationConfigs.findIndex(config => config.id === id);
-  
+export const deleteApplicationConfig = (
+  id: string,
+  deletedById: string
+): boolean => {
+  const index = applicationConfigs.findIndex((config) => config.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   applicationConfigs[index] = {
     ...applicationConfigs[index],
     deleted_at: getCurrentTimestamp(),
-    deleted_by_id: deletedById
+    deleted_by_id: deletedById,
   };
-  
+
   return true;
 };
 
 // DELETE - ลบ ApplicationConfig แบบถาวร
 export const hardDeleteApplicationConfig = (id: string): boolean => {
-  const index = applicationConfigs.findIndex(config => config.id === id);
-  
+  const index = applicationConfigs.findIndex((config) => config.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   applicationConfigs.splice(index, 1);
   return true;
 };
 
 // DELETE - ลบ ApplicationConfig ตาม key
-export const deleteApplicationConfigByKey = (key: string, deletedById: string): boolean => {
-  const config = applicationConfigs.find(cfg => cfg.key === key);
+export const deleteApplicationConfigByKey = (
+  key: string,
+  deletedById: string
+): boolean => {
+  const config = applicationConfigs.find((cfg) => cfg.key === key);
   if (!config) return false;
-  
+
   return deleteApplicationConfig(config.id, deletedById);
 };
 
 // RESTORE - กู้คืน ApplicationConfig ที่ถูกลบ
-export const restoreApplicationConfig = (id: string, restoredById: string): ApplicationConfig | null => {
-  const index = applicationConfigs.findIndex(config => config.id === id);
-  
+export const restoreApplicationConfig = (
+  id: string,
+  restoredById: string
+): ApplicationConfig | null => {
+  const index = applicationConfigs.findIndex((config) => config.id === id);
+
   if (index === -1) {
     return null;
   }
-  
+
   applicationConfigs[index] = {
     ...applicationConfigs[index],
     deleted_at: null,
     deleted_by_id: null,
     updated_at: getCurrentTimestamp(),
-    updated_by_id: restoredById
+    updated_by_id: restoredById,
   };
-  
+
   return applicationConfigs[index];
 };
 
@@ -266,7 +311,7 @@ export const getApplicationConfigCount = (): number => {
 
 // Utility function สำหรับนับจำนวน ApplicationConfig ที่ไม่ถูกลบ
 export const getActiveApplicationConfigCount = (): number => {
-  return applicationConfigs.filter(config => !config.deleted_at).length;
+  return applicationConfigs.filter((config) => !config.deleted_at).length;
 };
 
 // Utility function สำหรับนับจำนวน TaxProfile ใน ApplicationConfig
@@ -284,22 +329,31 @@ export const searchApplicationConfigs = (searchCriteria: {
   start_date?: string;
   end_date?: string;
 }): ApplicationConfig[] => {
-  return applicationConfigs.filter(config => {
+  return applicationConfigs.filter((config) => {
     // ตรวจสอบ key
-    if (searchCriteria.key && !config.key.toLowerCase().includes(searchCriteria.key.toLowerCase())) {
+    if (
+      searchCriteria.key &&
+      !config.key.toLowerCase().includes(searchCriteria.key.toLowerCase())
+    ) {
       return false;
     }
-    
+
     // ตรวจสอบ created_by_id
-    if (searchCriteria.created_by_id && config.created_by_id !== searchCriteria.created_by_id) {
+    if (
+      searchCriteria.created_by_id &&
+      config.created_by_id !== searchCriteria.created_by_id
+    ) {
       return false;
     }
-    
+
     // ตรวจสอบ updated_by_id
-    if (searchCriteria.updated_by_id && config.updated_by_id !== searchCriteria.updated_by_id) {
+    if (
+      searchCriteria.updated_by_id &&
+      config.updated_by_id !== searchCriteria.updated_by_id
+    ) {
       return false;
     }
-    
+
     // ตรวจสอบสถานะการลบ
     if (searchCriteria.is_deleted !== undefined) {
       const isDeleted = !!config.deleted_at;
@@ -307,18 +361,18 @@ export const searchApplicationConfigs = (searchCriteria: {
         return false;
       }
     }
-    
+
     // ตรวจสอบช่วงเวลา
     if (searchCriteria.start_date || searchCriteria.end_date) {
       const configDate = new Date(config.created_at);
-      
+
       if (searchCriteria.start_date) {
         const startDate = new Date(searchCriteria.start_date);
         if (configDate < startDate) {
           return false;
         }
       }
-      
+
       if (searchCriteria.end_date) {
         const endDate = new Date(searchCriteria.end_date);
         if (configDate > endDate) {
@@ -326,14 +380,14 @@ export const searchApplicationConfigs = (searchCriteria: {
         }
       }
     }
-    
+
     return true;
   });
 };
 
 // Utility function สำหรับค้นหา TaxProfile ใน ApplicationConfig
 export const searchTaxProfilesInConfig = (
-  configId: string, 
+  configId: string,
   searchCriteria: {
     name?: string;
     is_active?: boolean;
@@ -343,38 +397,52 @@ export const searchTaxProfilesInConfig = (
 ): TaxProfile[] => {
   const config = getApplicationConfigById(configId);
   if (!config) return [];
-  
-  return config.value.filter(tp => {
+
+  return config.value.filter((tp) => {
     // ตรวจสอบ name
-    if (searchCriteria.name && !tp.name.toLowerCase().includes(searchCriteria.name.toLowerCase())) {
+    if (
+      searchCriteria.name &&
+      !tp.name.toLowerCase().includes(searchCriteria.name.toLowerCase())
+    ) {
       return false;
     }
-    
+
     // ตรวจสอบ is_active
-    if (searchCriteria.is_active !== undefined && tp.is_active !== searchCriteria.is_active) {
+    if (
+      searchCriteria.is_active !== undefined &&
+      tp.is_active !== searchCriteria.is_active
+    ) {
       return false;
     }
-    
+
     // ตรวจสอบ min_tax_rate
-    if (searchCriteria.min_tax_rate !== undefined && tp.tax_rate < searchCriteria.min_tax_rate) {
+    if (
+      searchCriteria.min_tax_rate !== undefined &&
+      tp.tax_rate < searchCriteria.min_tax_rate
+    ) {
       return false;
     }
-    
+
     // ตรวจสอบ max_tax_rate
-    if (searchCriteria.max_tax_rate !== undefined && tp.tax_rate > searchCriteria.max_tax_rate) {
+    if (
+      searchCriteria.max_tax_rate !== undefined &&
+      tp.tax_rate > searchCriteria.max_tax_rate
+    ) {
       return false;
     }
-    
+
     return true;
   });
 };
 
 // Utility function สำหรับตรวจสอบ key ซ้ำ
 export const isApplicationConfigKeyExists = (key: string): boolean => {
-  return applicationConfigs.some(config => config.key === key);
+  return applicationConfigs.some((config) => config.key === key);
 };
 
 // Utility function สำหรับตรวจสอบ key ซ้ำ (ไม่รวมที่ถูกลบ)
 export const isActiveApplicationConfigKeyExists = (key: string): boolean => {
-  return applicationConfigs.some(config => config.key === key && !config.deleted_at);
+  return applicationConfigs.some(
+    (config) => config.key === key && !config.deleted_at
+  );
 };

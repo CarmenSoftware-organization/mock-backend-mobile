@@ -26,7 +26,7 @@ export const dimensions: Dimension[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440002",
@@ -39,7 +39,7 @@ export const dimensions: Dimension[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440003",
@@ -52,7 +52,7 @@ export const dimensions: Dimension[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440004",
@@ -65,7 +65,7 @@ export const dimensions: Dimension[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440005",
@@ -78,19 +78,21 @@ export const dimensions: Dimension[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
-  }
+    deleted_by_id: null,
+  },
 ];
 
 // CREATE - สร้าง Dimension ใหม่
-export const createDimension = (dimensionData: Omit<Dimension, 'id' | 'created_at' | 'updated_at'>): Dimension => {
+export const createDimension = (
+  dimensionData: Omit<Dimension, "id" | "created_at" | "updated_at">
+): Dimension => {
   const newDimension: Dimension = {
     ...dimensionData,
     id: generateId(),
     created_at: getCurrentTimestamp(),
-    updated_at: getCurrentTimestamp()
+    updated_at: getCurrentTimestamp(),
   };
-  
+
   dimensions.push(newDimension);
   return newDimension;
 };
@@ -102,32 +104,34 @@ export const getAllDimensions = (): Dimension[] => {
 
 // READ - อ่าน Dimension ตาม ID
 export const getDimensionById = (id: string): Dimension | undefined => {
-  return dimensions.find(dimension => dimension.id === id);
+  return dimensions.find((dimension) => dimension.id === id);
 };
 
 // READ - อ่าน Dimension ตาม name
 export const getDimensionByName = (name: string): Dimension | undefined => {
-  return dimensions.find(dimension => dimension.name === name);
+  return dimensions.find((dimension) => dimension.name === name);
 };
 
 // READ - อ่าน Dimension ตาม unit
 export const getDimensionsByUnit = (unit: string): Dimension[] => {
-  return dimensions.filter(dimension => dimension.unit === unit);
+  return dimensions.filter((dimension) => dimension.unit === unit);
 };
 
 // READ - อ่าน Dimension ที่ active
 export const getActiveDimensions = (): Dimension[] => {
-  return dimensions.filter(dimension => dimension.is_active);
+  return dimensions.filter((dimension) => dimension.is_active);
 };
 
 // READ - อ่าน Dimension ที่ inactive
 export const getInactiveDimensions = (): Dimension[] => {
-  return dimensions.filter(dimension => !dimension.is_active);
+  return dimensions.filter((dimension) => !dimension.is_active);
 };
 
 // READ - อ่าน Dimension ตาม description
-export const getDimensionsByDescription = (description: string): Dimension[] => {
-  return dimensions.filter(dimension => 
+export const getDimensionsByDescription = (
+  description: string
+): Dimension[] => {
+  return dimensions.filter((dimension) =>
     dimension.description.toLowerCase().includes(description.toLowerCase())
   );
 };
@@ -135,81 +139,100 @@ export const getDimensionsByDescription = (description: string): Dimension[] => 
 // READ - ค้นหา Dimension แบบ fuzzy search
 export const searchDimensions = (searchTerm: string): Dimension[] => {
   const lowerSearchTerm = searchTerm.toLowerCase();
-  return dimensions.filter(dimension => 
-    dimension.name.toLowerCase().includes(lowerSearchTerm) ||
-    dimension.unit.toLowerCase().includes(lowerSearchTerm) ||
-    dimension.description.toLowerCase().includes(lowerSearchTerm)
+  return dimensions.filter(
+    (dimension) =>
+      dimension.name.toLowerCase().includes(lowerSearchTerm) ||
+      dimension.unit.toLowerCase().includes(lowerSearchTerm) ||
+      dimension.description.toLowerCase().includes(lowerSearchTerm)
   );
 };
 
 // UPDATE - อัปเดต Dimension
-export const updateDimension = (id: string, updateData: Partial<Omit<Dimension, 'id' | 'created_at' | 'created_by_id'>>): Dimension | null => {
-  const index = dimensions.findIndex(dimension => dimension.id === id);
-  
+export const updateDimension = (
+  id: string,
+  updateData: Partial<Omit<Dimension, "id" | "created_at" | "created_by_id">>
+): Dimension | null => {
+  const index = dimensions.findIndex((dimension) => dimension.id === id);
+
   if (index === -1) {
     return null;
   }
-  
+
   dimensions[index] = {
     ...dimensions[index],
     ...updateData,
-    updated_at: getCurrentTimestamp()
+    updated_at: getCurrentTimestamp(),
   };
-  
+
   return dimensions[index];
 };
 
 // UPDATE - อัปเดต Dimension name
-export const updateDimensionName = (id: string, name: string): Dimension | null => {
+export const updateDimensionName = (
+  id: string,
+  name: string
+): Dimension | null => {
   return updateDimension(id, { name });
 };
 
 // UPDATE - อัปเดต Dimension unit
-export const updateDimensionUnit = (id: string, unit: string): Dimension | null => {
+export const updateDimensionUnit = (
+  id: string,
+  unit: string
+): Dimension | null => {
   return updateDimension(id, { unit });
 };
 
 // UPDATE - อัปเดต Dimension description
-export const updateDimensionDescription = (id: string, description: string): Dimension | null => {
+export const updateDimensionDescription = (
+  id: string,
+  description: string
+): Dimension | null => {
   return updateDimension(id, { description });
 };
 
 // UPDATE - อัปเดต Dimension active status
-export const updateDimensionActiveStatus = (id: string, isActive: boolean): Dimension | null => {
+export const updateDimensionActiveStatus = (
+  id: string,
+  isActive: boolean
+): Dimension | null => {
   return updateDimension(id, { is_active: isActive });
 };
 
 // DELETE - ลบ Dimension (soft delete)
 export const deleteDimension = (id: string, deletedById: string): boolean => {
-  const index = dimensions.findIndex(dimension => dimension.id === id);
-  
+  const index = dimensions.findIndex((dimension) => dimension.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   dimensions[index] = {
     ...dimensions[index],
     deleted_at: getCurrentTimestamp(),
-    deleted_by_id: deletedById
+    deleted_by_id: deletedById,
   };
-  
+
   return true;
 };
 
 // DELETE - ลบ Dimension แบบถาวร
 export const hardDeleteDimension = (id: string): boolean => {
-  const index = dimensions.findIndex(dimension => dimension.id === id);
-  
+  const index = dimensions.findIndex((dimension) => dimension.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   dimensions.splice(index, 1);
   return true;
 };
 
 // DELETE - ลบ Dimension ตาม name
-export const deleteDimensionByName = (name: string, deletedById: string): boolean => {
+export const deleteDimensionByName = (
+  name: string,
+  deletedById: string
+): boolean => {
   const dimension = getDimensionByName(name);
   if (dimension) {
     return deleteDimension(dimension.id, deletedById);
@@ -218,32 +241,35 @@ export const deleteDimensionByName = (name: string, deletedById: string): boolea
 };
 
 // DELETE - ลบ Dimension ตาม unit
-export const deleteDimensionsByUnit = (unit: string, deletedById: string): number => {
+export const deleteDimensionsByUnit = (
+  unit: string,
+  deletedById: string
+): number => {
   let deletedCount = 0;
-  
-  dimensions.forEach(dimension => {
+
+  dimensions.forEach((dimension) => {
     if (dimension.unit === unit && !dimension.deleted_at) {
       dimension.deleted_at = getCurrentTimestamp();
       dimension.deleted_by_id = deletedById;
       deletedCount++;
     }
   });
-  
+
   return deletedCount;
 };
 
 // DELETE - ลบ Dimension ที่ inactive
 export const deleteInactiveDimensions = (deletedById: string): number => {
   let deletedCount = 0;
-  
-  dimensions.forEach(dimension => {
+
+  dimensions.forEach((dimension) => {
     if (!dimension.is_active && !dimension.deleted_at) {
       dimension.deleted_at = getCurrentTimestamp();
       dimension.deleted_by_id = deletedById;
       deletedCount++;
     }
   });
-  
+
   return deletedCount;
 };
 
@@ -259,51 +285,51 @@ export const getDimensionCount = (): number => {
 
 // Utility function สำหรับนับจำนวน Dimension ที่ active
 export const getActiveDimensionCount = (): number => {
-  return dimensions.filter(dimension => dimension.is_active).length;
+  return dimensions.filter((dimension) => dimension.is_active).length;
 };
 
 // Utility function สำหรับนับจำนวน Dimension ที่ inactive
 export const getInactiveDimensionCount = (): number => {
-  return dimensions.filter(dimension => !dimension.is_active).length;
+  return dimensions.filter((dimension) => !dimension.is_active).length;
 };
 
 // Utility function สำหรับนับจำนวน Dimension ตาม unit
 export const getDimensionCountByUnit = (unit: string): number => {
-  return dimensions.filter(dimension => dimension.unit === unit).length;
+  return dimensions.filter((dimension) => dimension.unit === unit).length;
 };
 
 // Utility function สำหรับตรวจสอบ Dimension name ซ้ำ
 export const isDimensionNameExists = (name: string): boolean => {
-  return dimensions.some(dimension => dimension.name === name);
+  return dimensions.some((dimension) => dimension.name === name);
 };
 
 // Utility function สำหรับตรวจสอบ Dimension unit ซ้ำ
 export const isDimensionUnitExists = (unit: string): boolean => {
-  return dimensions.some(dimension => dimension.unit === unit);
+  return dimensions.some((dimension) => dimension.unit === unit);
 };
 
 // Utility function สำหรับตรวจสอบ Dimension ที่ถูกลบแล้ว
 export const getDeletedDimensions = (): Dimension[] => {
-  return dimensions.filter(dimension => dimension.deleted_at !== null);
+  return dimensions.filter((dimension) => dimension.deleted_at !== null);
 };
 
 // Utility function สำหรับกู้คืน Dimension ที่ถูกลบแล้ว
 export const restoreDimension = (id: string): boolean => {
-  const index = dimensions.findIndex(dimension => dimension.id === id);
-  
+  const index = dimensions.findIndex((dimension) => dimension.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   if (dimensions[index].deleted_at) {
     dimensions[index] = {
       ...dimensions[index],
       deleted_at: null,
-      deleted_by_id: null
+      deleted_by_id: null,
     };
     return true;
   }
-  
+
   return false;
 };
 
@@ -314,23 +340,34 @@ export const searchDimensionsAdvanced = (searchCriteria: {
   description?: string;
   is_active?: boolean;
 }): Dimension[] => {
-  return dimensions.filter(dimension => {
-    if (searchCriteria.name && !dimension.name.toLowerCase().includes(searchCriteria.name.toLowerCase())) {
+  return dimensions.filter((dimension) => {
+    if (
+      searchCriteria.name &&
+      !dimension.name.toLowerCase().includes(searchCriteria.name.toLowerCase())
+    ) {
       return false;
     }
-    
+
     if (searchCriteria.unit && dimension.unit !== searchCriteria.unit) {
       return false;
     }
-    
-    if (searchCriteria.description && !dimension.description.toLowerCase().includes(searchCriteria.description.toLowerCase())) {
+
+    if (
+      searchCriteria.description &&
+      !dimension.description
+        .toLowerCase()
+        .includes(searchCriteria.description.toLowerCase())
+    ) {
       return false;
     }
-    
-    if (searchCriteria.is_active !== undefined && dimension.is_active !== searchCriteria.is_active) {
+
+    if (
+      searchCriteria.is_active !== undefined &&
+      dimension.is_active !== searchCriteria.is_active
+    ) {
       return false;
     }
-    
+
     return true;
   });
 };

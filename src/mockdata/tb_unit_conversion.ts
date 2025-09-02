@@ -3,7 +3,7 @@ import { generateId, getCurrentTimestamp } from "@/libs/utils";
 export interface UnitConversion {
   id: string;
   product_id: string;
-  unit_type: 'ingredient_unit' | 'order_unit' | 'inventory_unit' | 'other';
+  unit_type: "ingredient_unit" | "order_unit" | "inventory_unit" | "other";
   from_unit_id: string;
   from_unit_name: string;
   from_unit_qty: string;
@@ -47,7 +47,7 @@ export const unitConversions: UnitConversion[] = [
     updated_at: "2025-07-30T03:48:07.124Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "aa508ec4-5031-40bd-967b-af2547b97e01",
@@ -70,7 +70,7 @@ export const unitConversions: UnitConversion[] = [
     updated_at: "2025-07-30T02:48:32.460Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "a2cb4bc1-baab-462c-928b-761f4a6ad1c7",
@@ -93,61 +93,91 @@ export const unitConversions: UnitConversion[] = [
     updated_at: "2025-07-30T03:49:44.642Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
-  }
+    deleted_by_id: null,
+  },
 ];
 
 // CREATE - สร้าง UnitConversion ใหม่
-export const createUnitConversion = (data: Omit<UnitConversion, 'id' | 'created_at' | 'created_by_id' | 'updated_at' | 'updated_by_id'>): UnitConversion => {
+export const createUnitConversion = (
+  data: Omit<
+    UnitConversion,
+    "id" | "created_at" | "created_by_id" | "updated_at" | "updated_by_id"
+  >
+): UnitConversion => {
   const newConversion: UnitConversion = {
     ...data,
     id: generateId(),
     created_at: getCurrentTimestamp(),
-    created_by_id: 'system',
+    created_by_id: "system",
     updated_at: getCurrentTimestamp(),
-    updated_by_id: 'system'
+    updated_by_id: "system",
   };
-  
+
   unitConversions.push(newConversion);
   return newConversion;
 };
 
 // READ - อ่านข้อมูล UnitConversion
 export const getAllUnitConversions = (): UnitConversion[] => {
-  return unitConversions.filter(conversion => !conversion.deleted_at);
+  return unitConversions.filter((conversion) => !conversion.deleted_at);
 };
 
 export const getUnitConversionById = (id: string): UnitConversion | null => {
-  const conversion = unitConversions.find(c => c.id === id && !c.deleted_at);
+  const conversion = unitConversions.find((c) => c.id === id && !c.deleted_at);
   return conversion || null;
 };
 
-export const getUnitConversionsByProduct = (productId: string): UnitConversion[] => {
-  return unitConversions.filter(conversion => conversion.product_id === productId && !conversion.deleted_at);
+export const getUnitConversionsByProduct = (
+  productId: string
+): UnitConversion[] => {
+  return unitConversions.filter(
+    (conversion) =>
+      conversion.product_id === productId && !conversion.deleted_at
+  );
 };
 
-export const getUnitConversionsByType = (unitType: 'ingredient_unit' | 'order_unit' | 'inventory_unit' | 'other'): UnitConversion[] => {
-  return unitConversions.filter(conversion => conversion.unit_type === unitType && !conversion.deleted_at);
+export const getUnitConversionsByType = (
+  unitType: "ingredient_unit" | "order_unit" | "inventory_unit" | "other"
+): UnitConversion[] => {
+  return unitConversions.filter(
+    (conversion) => conversion.unit_type === unitType && !conversion.deleted_at
+  );
 };
 
-export const getUnitConversionsByFromUnit = (fromUnitId: string): UnitConversion[] => {
-  return unitConversions.filter(conversion => conversion.from_unit_id === fromUnitId && !conversion.deleted_at);
+export const getUnitConversionsByFromUnit = (
+  fromUnitId: string
+): UnitConversion[] => {
+  return unitConversions.filter(
+    (conversion) =>
+      conversion.from_unit_id === fromUnitId && !conversion.deleted_at
+  );
 };
 
-export const getUnitConversionsByToUnit = (toUnitId: string): UnitConversion[] => {
-  return unitConversions.filter(conversion => conversion.to_unit_id === toUnitId && !conversion.deleted_at);
+export const getUnitConversionsByToUnit = (
+  toUnitId: string
+): UnitConversion[] => {
+  return unitConversions.filter(
+    (conversion) => conversion.to_unit_id === toUnitId && !conversion.deleted_at
+  );
 };
 
 export const getDefaultUnitConversions = (): UnitConversion[] => {
-  return unitConversions.filter(conversion => conversion.is_default && !conversion.deleted_at);
+  return unitConversions.filter(
+    (conversion) => conversion.is_default && !conversion.deleted_at
+  );
 };
 
 export const getActiveUnitConversions = (): UnitConversion[] => {
-  return unitConversions.filter(conversion => conversion.is_active && !conversion.deleted_at);
+  return unitConversions.filter(
+    (conversion) => conversion.is_active && !conversion.deleted_at
+  );
 };
 
-export const getUnitConversionsByDateRange = (startDate: string, endDate: string): UnitConversion[] => {
-  return unitConversions.filter(conversion => {
+export const getUnitConversionsByDateRange = (
+  startDate: string,
+  endDate: string
+): UnitConversion[] => {
+  return unitConversions.filter((conversion) => {
     const createdDate = new Date(conversion.created_at);
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -156,58 +186,85 @@ export const getUnitConversionsByDateRange = (startDate: string, endDate: string
 };
 
 // UPDATE - อัปเดต UnitConversion
-export const updateUnitConversion = (id: string, data: Partial<Omit<UnitConversion, 'id' | 'created_at' | 'created_by_id'>>): UnitConversion | null => {
-  const index = unitConversions.findIndex(conversion => conversion.id === id && !conversion.deleted_at);
-  
+export const updateUnitConversion = (
+  id: string,
+  data: Partial<Omit<UnitConversion, "id" | "created_at" | "created_by_id">>
+): UnitConversion | null => {
+  const index = unitConversions.findIndex(
+    (conversion) => conversion.id === id && !conversion.deleted_at
+  );
+
   if (index === -1) {
     return null;
   }
-  
+
   unitConversions[index] = {
     ...unitConversions[index],
     ...data,
     updated_at: getCurrentTimestamp(),
-    updated_by_id: 'system'
+    updated_by_id: "system",
   };
-  
+
   return unitConversions[index];
 };
 
 // UPDATE - อัปเดต UnitConversion status
-export const updateUnitConversionStatus = (id: string, isActive: boolean): UnitConversion | null => {
+export const updateUnitConversionStatus = (
+  id: string,
+  isActive: boolean
+): UnitConversion | null => {
   return updateUnitConversion(id, { is_active: isActive });
 };
 
 // UPDATE - อัปเดต UnitConversion default status
-export const updateUnitConversionDefault = (id: string, isDefault: boolean): UnitConversion | null => {
+export const updateUnitConversionDefault = (
+  id: string,
+  isDefault: boolean
+): UnitConversion | null => {
   return updateUnitConversion(id, { is_default: isDefault });
 };
 
 // UPDATE - อัปเดต UnitConversion quantities
-export const updateUnitConversionQuantities = (id: string, fromQty: string, toQty: string): UnitConversion | null => {
-  return updateUnitConversion(id, { 
-    from_unit_qty: fromQty, 
-    to_unit_qty: toQty 
+export const updateUnitConversionQuantities = (
+  id: string,
+  fromQty: string,
+  toQty: string
+): UnitConversion | null => {
+  return updateUnitConversion(id, {
+    from_unit_qty: fromQty,
+    to_unit_qty: toQty,
   });
 };
 
 // UPDATE - อัปเดต UnitConversion note
-export const updateUnitConversionNote = (id: string, note: string): UnitConversion | null => {
+export const updateUnitConversionNote = (
+  id: string,
+  note: string
+): UnitConversion | null => {
   return updateUnitConversion(id, { note });
 };
 
 // UPDATE - อัปเดต UnitConversion info
-export const updateUnitConversionInfo = (id: string, info: any): UnitConversion | null => {
+export const updateUnitConversionInfo = (
+  id: string,
+  info: any
+): UnitConversion | null => {
   return updateUnitConversion(id, { info });
 };
 
 // UPDATE - อัปเดต UnitConversion dimension
-export const updateUnitConversionDimension = (id: string, dimension: any): UnitConversion | null => {
+export const updateUnitConversionDimension = (
+  id: string,
+  dimension: any
+): UnitConversion | null => {
   return updateUnitConversion(id, { dimension });
 };
 
 // DELETE - Soft delete UnitConversion
-export const softDeleteUnitConversion = (id: string, deletedById: string): UnitConversion | null => {
+export const softDeleteUnitConversion = (
+  id: string,
+  deletedById: string
+): UnitConversion | null => {
   const conversion = getUnitConversionById(id);
   if (!conversion) return null;
 
@@ -221,39 +278,42 @@ export const softDeleteUnitConversion = (id: string, deletedById: string): UnitC
 
 // DELETE - Hard delete UnitConversion
 export const hardDeleteUnitConversion = (id: string): boolean => {
-  const index = unitConversions.findIndex(conversion => conversion.id === id);
-  
+  const index = unitConversions.findIndex((conversion) => conversion.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   unitConversions.splice(index, 1);
   return true;
 };
 
 // DELETE - ลบ UnitConversion ตาม product
-export const deleteUnitConversionsByProduct = (productId: string, deletedById: string): boolean => {
+export const deleteUnitConversionsByProduct = (
+  productId: string,
+  deletedById: string
+): boolean => {
   const conversions = getUnitConversionsByProduct(productId);
   let deletedCount = 0;
-  
-  conversions.forEach(conversion => {
+
+  conversions.forEach((conversion) => {
     if (softDeleteUnitConversion(conversion.id, deletedById)) {
       deletedCount++;
     }
   });
-  
+
   return deletedCount > 0;
 };
 
 // RESTORE - กู้คืน UnitConversion ที่ถูก soft delete
 export const restoreUnitConversion = (id: string): UnitConversion | null => {
-  const conversion = unitConversions.find(c => c.id === id);
+  const conversion = unitConversions.find((c) => c.id === id);
   if (!conversion || !conversion.deleted_at) return null;
 
   conversion.deleted_at = null;
   conversion.deleted_by_id = null;
   conversion.updated_at = getCurrentTimestamp();
-  conversion.updated_by_id = 'system';
+  conversion.updated_by_id = "system";
 
   return conversion;
 };
@@ -261,7 +321,7 @@ export const restoreUnitConversion = (id: string): UnitConversion | null => {
 // ADVANCED SEARCH - ค้นหา UnitConversion แบบขั้นสูง
 export const searchUnitConversions = (criteria: {
   product_id?: string;
-  unit_type?: 'ingredient_unit' | 'order_unit' | 'inventory_unit' | 'other';
+  unit_type?: "ingredient_unit" | "order_unit" | "inventory_unit" | "other";
   from_unit_id?: string;
   to_unit_id?: string;
   is_default?: boolean;
@@ -269,74 +329,103 @@ export const searchUnitConversions = (criteria: {
   start_date?: string;
   end_date?: string;
 }): UnitConversion[] => {
-  return unitConversions.filter(conversion => {
+  return unitConversions.filter((conversion) => {
     if (conversion.deleted_at) return false;
-    
+
     if (criteria.product_id && conversion.product_id !== criteria.product_id) {
       return false;
     }
-    
+
     if (criteria.unit_type && conversion.unit_type !== criteria.unit_type) {
       return false;
     }
-    
-    if (criteria.from_unit_id && conversion.from_unit_id !== criteria.from_unit_id) {
+
+    if (
+      criteria.from_unit_id &&
+      conversion.from_unit_id !== criteria.from_unit_id
+    ) {
       return false;
     }
-    
+
     if (criteria.to_unit_id && conversion.to_unit_id !== criteria.to_unit_id) {
       return false;
     }
-    
-    if (criteria.is_default !== undefined && conversion.is_default !== criteria.is_default) {
+
+    if (
+      criteria.is_default !== undefined &&
+      conversion.is_default !== criteria.is_default
+    ) {
       return false;
     }
-    
-    if (criteria.is_active !== undefined && conversion.is_active !== criteria.is_active) {
+
+    if (
+      criteria.is_active !== undefined &&
+      conversion.is_active !== criteria.is_active
+    ) {
       return false;
     }
-    
+
     if (criteria.start_date || criteria.end_date) {
       const createdDate = new Date(conversion.created_at);
-      if (criteria.start_date && createdDate < new Date(criteria.start_date)) return false;
-      if (criteria.end_date && createdDate > new Date(criteria.end_date)) return false;
+      if (criteria.start_date && createdDate < new Date(criteria.start_date))
+        return false;
+      if (criteria.end_date && createdDate > new Date(criteria.end_date))
+        return false;
     }
-    
+
     return true;
   });
 };
 
 // UTILITY FUNCTIONS - ฟังก์ชันเสริม
 export const getUnitConversionCount = (): number => {
-  return unitConversions.filter(conversion => !conversion.deleted_at).length;
+  return unitConversions.filter((conversion) => !conversion.deleted_at).length;
 };
 
 export const getUnitConversionCountByProduct = (productId: string): number => {
-  return unitConversions.filter(conversion => conversion.product_id === productId && !conversion.deleted_at).length;
+  return unitConversions.filter(
+    (conversion) =>
+      conversion.product_id === productId && !conversion.deleted_at
+  ).length;
 };
 
-export const getUnitConversionCountByType = (unitType: 'ingredient_unit' | 'order_unit' | 'inventory_unit' | 'other'): number => {
-  return unitConversions.filter(conversion => conversion.unit_type === unitType && !conversion.deleted_at).length;
+export const getUnitConversionCountByType = (
+  unitType: "ingredient_unit" | "order_unit" | "inventory_unit" | "other"
+): number => {
+  return unitConversions.filter(
+    (conversion) => conversion.unit_type === unitType && !conversion.deleted_at
+  ).length;
 };
 
 export const getDefaultUnitConversionCount = (): number => {
-  return unitConversions.filter(conversion => conversion.is_default && !conversion.deleted_at).length;
+  return unitConversions.filter(
+    (conversion) => conversion.is_default && !conversion.deleted_at
+  ).length;
 };
 
 export const isUnitConversionExists = (id: string): boolean => {
-  return unitConversions.some(conversion => conversion.id === id && !conversion.deleted_at);
+  return unitConversions.some(
+    (conversion) => conversion.id === id && !conversion.deleted_at
+  );
 };
 
 export const hasUnitConversionsByProduct = (productId: string): boolean => {
-  return unitConversions.some(conversion => conversion.product_id === productId && !conversion.deleted_at);
+  return unitConversions.some(
+    (conversion) =>
+      conversion.product_id === productId && !conversion.deleted_at
+  );
 };
 
-export const hasDefaultUnitConversion = (productId: string, unitType: 'ingredient_unit' | 'order_unit' | 'inventory_unit' | 'other'): boolean => {
-  return unitConversions.some(conversion => 
-    conversion.product_id === productId && 
-    conversion.unit_type === unitType && 
-    conversion.is_default && 
-    !conversion.deleted_at
+export const hasDefaultUnitConversion = (
+  productId: string,
+  unitType: "ingredient_unit" | "order_unit" | "inventory_unit" | "other"
+): boolean => {
+  return unitConversions.some(
+    (conversion) =>
+      conversion.product_id === productId &&
+      conversion.unit_type === unitType &&
+      conversion.is_default &&
+      !conversion.deleted_at
   );
 };
 

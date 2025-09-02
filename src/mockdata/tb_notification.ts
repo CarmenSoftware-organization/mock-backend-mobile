@@ -24,7 +24,7 @@ export const notifications: Notification[] = [
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
     updated_at: "2024-01-15T10:30:00Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440002",
@@ -36,7 +36,7 @@ export const notifications: Notification[] = [
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
     updated_at: "2024-01-15T10:30:00Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440003",
@@ -48,19 +48,21 @@ export const notifications: Notification[] = [
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "1bfdb891-58ee-499c-8115-34a964de8122",
     updated_at: "2024-01-15T10:30:00Z",
-    updated_by_id: null
-  }
+    updated_by_id: null,
+  },
 ];
 
 // CREATE - สร้าง Notification ใหม่
-export const createNotification = (notificationData: Omit<Notification, 'id' | 'created_at' | 'updated_at'>): Notification => {
+export const createNotification = (
+  notificationData: Omit<Notification, "id" | "created_at" | "updated_at">
+): Notification => {
   const newNotification: Notification = {
     ...notificationData,
     id: generateId(),
     created_at: getCurrentTimestamp(),
-    updated_at: getCurrentTimestamp()
+    updated_at: getCurrentTimestamp(),
   };
-  
+
   notifications.push(newNotification);
   return newNotification;
 };
@@ -72,124 +74,157 @@ export const getAllNotifications = (): Notification[] => {
 
 // READ - อ่าน Notification ตาม ID
 export const getNotificationById = (id: string): Notification | undefined => {
-  return notifications.find(notification => notification.id === id);
+  return notifications.find((notification) => notification.id === id);
 };
 
 // READ - อ่าน Notification ตาม from_user_id
-export const getNotificationsByFromUser = (fromUserId: string): Notification[] => {
-  return notifications.filter(notification => notification.from_user_id === fromUserId);
+export const getNotificationsByFromUser = (
+  fromUserId: string
+): Notification[] => {
+  return notifications.filter(
+    (notification) => notification.from_user_id === fromUserId
+  );
 };
 
 // READ - อ่าน Notification ตาม to_user_id
 export const getNotificationsByToUser = (toUserId: string): Notification[] => {
-  return notifications.filter(notification => notification.to_user_id === toUserId);
+  return notifications.filter(
+    (notification) => notification.to_user_id === toUserId
+  );
 };
 
 // READ - อ่าน Notification ที่อ่านแล้ว
 export const getReadNotifications = (): Notification[] => {
-  return notifications.filter(notification => notification.is_read);
+  return notifications.filter((notification) => notification.is_read);
 };
 
 // READ - อ่าน Notification ที่ยังไม่ได้อ่าน
 export const getUnreadNotifications = (): Notification[] => {
-  return notifications.filter(notification => !notification.is_read);
+  return notifications.filter((notification) => !notification.is_read);
 };
 
 // READ - อ่าน Notification ที่ส่งแล้ว
 export const getSentNotifications = (): Notification[] => {
-  return notifications.filter(notification => notification.is_sent);
+  return notifications.filter((notification) => notification.is_sent);
 };
 
 // READ - อ่าน Notification ที่ยังไม่ได้ส่ง
 export const getUnsentNotifications = (): Notification[] => {
-  return notifications.filter(notification => !notification.is_sent);
+  return notifications.filter((notification) => !notification.is_sent);
 };
 
 // READ - อ่าน Notification ที่ยังไม่ได้อ่านสำหรับ user
-export const getUnreadNotificationsForUser = (userId: string): Notification[] => {
-  return notifications.filter(notification => 
-    notification.to_user_id === userId && !notification.is_read
+export const getUnreadNotificationsForUser = (
+  userId: string
+): Notification[] => {
+  return notifications.filter(
+    (notification) =>
+      notification.to_user_id === userId && !notification.is_read
   );
 };
 
 // READ - อ่าน Notification ที่ส่งแล้วสำหรับ user
 export const getSentNotificationsForUser = (userId: string): Notification[] => {
-  return notifications.filter(notification => 
-    notification.from_user_id === userId && notification.is_sent
+  return notifications.filter(
+    (notification) =>
+      notification.from_user_id === userId && notification.is_sent
   );
 };
 
 // UPDATE - อัปเดต Notification
-export const updateNotification = (id: string, updateData: Partial<Omit<Notification, 'id' | 'created_at' | 'created_by_id'>>): Notification | null => {
-  const index = notifications.findIndex(notification => notification.id === id);
-  
+export const updateNotification = (
+  id: string,
+  updateData: Partial<Omit<Notification, "id" | "created_at" | "created_by_id">>
+): Notification | null => {
+  const index = notifications.findIndex(
+    (notification) => notification.id === id
+  );
+
   if (index === -1) {
     return null;
   }
-  
+
   notifications[index] = {
     ...notifications[index],
     ...updateData,
-    updated_at: getCurrentTimestamp()
+    updated_at: getCurrentTimestamp(),
   };
-  
+
   return notifications[index];
 };
 
 // UPDATE - อัปเดต Notification read status
-export const updateNotificationReadStatus = (id: string, isRead: boolean): Notification | null => {
+export const updateNotificationReadStatus = (
+  id: string,
+  isRead: boolean
+): Notification | null => {
   return updateNotification(id, { is_read: isRead });
 };
 
 // UPDATE - อัปเดต Notification sent status
-export const updateNotificationSentStatus = (id: string, isSent: boolean): Notification | null => {
+export const updateNotificationSentStatus = (
+  id: string,
+  isSent: boolean
+): Notification | null => {
   return updateNotification(id, { is_sent: isSent });
 };
 
 // UPDATE - อัปเดต Notification message
-export const updateNotificationMessage = (id: string, message: string): Notification | null => {
+export const updateNotificationMessage = (
+  id: string,
+  message: string
+): Notification | null => {
   return updateNotification(id, { message });
 };
 
 // UPDATE - อัปเดต Notification recipients
-export const updateNotificationRecipients = (id: string, fromUserId: string, toUserId: string): Notification | null => {
-  return updateNotification(id, { 
+export const updateNotificationRecipients = (
+  id: string,
+  fromUserId: string,
+  toUserId: string
+): Notification | null => {
+  return updateNotification(id, {
     from_user_id: fromUserId,
-    to_user_id: toUserId
+    to_user_id: toUserId,
   });
 };
 
 // UPDATE - อัปเดต Notification เป็น read สำหรับ user
-export const markNotificationAsReadForUser = (notificationId: string, userId: string): Notification | null => {
+export const markNotificationAsReadForUser = (
+  notificationId: string,
+  userId: string
+): Notification | null => {
   const notification = getNotificationById(notificationId);
   if (!notification || notification.to_user_id !== userId) return null;
-  
+
   return updateNotificationReadStatus(notificationId, true);
 };
 
 // UPDATE - อัปเดต Notification ทั้งหมดเป็น read สำหรับ user
 export const markAllNotificationsAsReadForUser = (userId: string): number => {
   let updatedCount = 0;
-  
-  notifications.forEach(notification => {
+
+  notifications.forEach((notification) => {
     if (notification.to_user_id === userId && !notification.is_read) {
       notification.is_read = true;
       notification.updated_at = getCurrentTimestamp();
       updatedCount++;
     }
   });
-  
+
   return updatedCount;
 };
 
 // DELETE - ลบ Notification
 export const deleteNotification = (id: string): boolean => {
-  const index = notifications.findIndex(notification => notification.id === id);
-  
+  const index = notifications.findIndex(
+    (notification) => notification.id === id
+  );
+
   if (index === -1) {
     return false;
   }
-  
+
   notifications.splice(index, 1);
   return true;
 };
@@ -197,36 +232,42 @@ export const deleteNotification = (id: string): boolean => {
 // DELETE - ลบ Notification ตาม from_user_id
 export const deleteNotificationsByFromUser = (fromUserId: string): number => {
   const initialLength = notifications.length;
-  const filteredNotifications = notifications.filter(notification => notification.from_user_id !== fromUserId);
+  const filteredNotifications = notifications.filter(
+    (notification) => notification.from_user_id !== fromUserId
+  );
   const deletedCount = initialLength - filteredNotifications.length;
-  
+
   notifications.length = 0;
   notifications.push(...filteredNotifications);
-  
+
   return deletedCount;
 };
 
 // DELETE - ลบ Notification ตาม to_user_id
 export const deleteNotificationsByToUser = (toUserId: string): number => {
   const initialLength = notifications.length;
-  const filteredNotifications = notifications.filter(notification => notification.to_user_id !== toUserId);
+  const filteredNotifications = notifications.filter(
+    (notification) => notification.to_user_id !== toUserId
+  );
   const deletedCount = initialLength - filteredNotifications.length;
-  
+
   notifications.length = 0;
   notifications.push(...filteredNotifications);
-  
+
   return deletedCount;
 };
 
 // DELETE - ลบ Notification ที่อ่านแล้ว
 export const deleteReadNotifications = (): number => {
   const initialLength = notifications.length;
-  const filteredNotifications = notifications.filter(notification => !notification.is_read);
+  const filteredNotifications = notifications.filter(
+    (notification) => !notification.is_read
+  );
   const deletedCount = initialLength - filteredNotifications.length;
-  
+
   notifications.length = 0;
   notifications.push(...filteredNotifications);
-  
+
   return deletedCount;
 };
 
@@ -242,23 +283,26 @@ export const getNotificationCount = (): number => {
 
 // Utility function สำหรับนับจำนวน Notification ที่ยังไม่ได้อ่าน
 export const getUnreadNotificationCount = (): number => {
-  return notifications.filter(notification => !notification.is_read).length;
+  return notifications.filter((notification) => !notification.is_read).length;
 };
 
 // Utility function สำหรับนับจำนวน Notification ที่ยังไม่ได้ส่ง
 export const getUnsentNotificationCount = (): number => {
-  return notifications.filter(notification => !notification.is_sent).length;
+  return notifications.filter((notification) => !notification.is_sent).length;
 };
 
 // Utility function สำหรับนับจำนวน Notification สำหรับ user
 export const getNotificationCountForUser = (userId: string): number => {
-  return notifications.filter(notification => notification.to_user_id === userId).length;
+  return notifications.filter(
+    (notification) => notification.to_user_id === userId
+  ).length;
 };
 
 // Utility function สำหรับนับจำนวน Notification ที่ยังไม่ได้อ่านสำหรับ user
 export const getUnreadNotificationCountForUser = (userId: string): number => {
-  return notifications.filter(notification => 
-    notification.to_user_id === userId && !notification.is_read
+  return notifications.filter(
+    (notification) =>
+      notification.to_user_id === userId && !notification.is_read
   ).length;
 };
 
@@ -270,42 +314,61 @@ export const searchNotifications = (searchCriteria: {
   is_read?: boolean;
   is_sent?: boolean;
 }): Notification[] => {
-  return notifications.filter(notification => {
-    if (searchCriteria.from_user_id && notification.from_user_id !== searchCriteria.from_user_id) {
+  return notifications.filter((notification) => {
+    if (
+      searchCriteria.from_user_id &&
+      notification.from_user_id !== searchCriteria.from_user_id
+    ) {
       return false;
     }
-    
-    if (searchCriteria.to_user_id && notification.to_user_id !== searchCriteria.to_user_id) {
+
+    if (
+      searchCriteria.to_user_id &&
+      notification.to_user_id !== searchCriteria.to_user_id
+    ) {
       return false;
     }
-    
-    if (searchCriteria.message && !notification.message.toLowerCase().includes(searchCriteria.message.toLowerCase())) {
+
+    if (
+      searchCriteria.message &&
+      !notification.message
+        .toLowerCase()
+        .includes(searchCriteria.message.toLowerCase())
+    ) {
       return false;
     }
-    
-    if (searchCriteria.is_read !== undefined && notification.is_read !== searchCriteria.is_read) {
+
+    if (
+      searchCriteria.is_read !== undefined &&
+      notification.is_read !== searchCriteria.is_read
+    ) {
       return false;
     }
-    
-    if (searchCriteria.is_sent !== undefined && notification.is_sent !== searchCriteria.is_sent) {
+
+    if (
+      searchCriteria.is_sent !== undefined &&
+      notification.is_sent !== searchCriteria.is_sent
+    ) {
       return false;
     }
-    
+
     return true;
   });
 };
 
 // Utility function สำหรับตรวจสอบ Notification สำหรับ user
 export const hasNotificationsForUser = (userId: string): boolean => {
-  return notifications.some(notification => notification.to_user_id === userId);
+  return notifications.some(
+    (notification) => notification.to_user_id === userId
+  );
 };
 
 // Utility function สำหรับตรวจสอบ Notification ที่ยังไม่ได้อ่าน
 export const hasUnreadNotifications = (): boolean => {
-  return notifications.some(notification => !notification.is_read);
+  return notifications.some((notification) => !notification.is_read);
 };
 
 // Utility function สำหรับตรวจสอบ Notification ที่ยังไม่ได้ส่ง
 export const hasUnsentNotifications = (): boolean => {
-  return notifications.some(notification => !notification.is_sent);
+  return notifications.some((notification) => !notification.is_sent);
 };

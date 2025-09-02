@@ -18,7 +18,7 @@ export const modules: Module[] = [
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
     updated_at: "2024-01-15T10:30:00Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440002",
@@ -27,7 +27,7 @@ export const modules: Module[] = [
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
     updated_at: "2024-01-15T10:30:00Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440003",
@@ -36,19 +36,21 @@ export const modules: Module[] = [
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
     updated_at: "2024-01-15T10:30:00Z",
-    updated_by_id: null
-  }
+    updated_by_id: null,
+  },
 ];
 
 // CREATE - สร้าง Module ใหม่
-export const createModule = (moduleData: Omit<Module, 'id' | 'created_at' | 'updated_at'>): Module => {
+export const createModule = (
+  moduleData: Omit<Module, "id" | "created_at" | "updated_at">
+): Module => {
   const newModule: Module = {
     ...moduleData,
     id: generateId(),
     created_at: getCurrentTimestamp(),
-    updated_at: getCurrentTimestamp()
+    updated_at: getCurrentTimestamp(),
   };
-  
+
   modules.push(newModule);
   return newModule;
 };
@@ -60,40 +62,43 @@ export const getAllModules = (): Module[] => {
 
 // READ - อ่าน Module ตาม ID
 export const getModuleById = (id: string): Module | undefined => {
-  return modules.find(module => module.id === id);
+  return modules.find((module) => module.id === id);
 };
 
 // READ - อ่าน Module ตาม name
 export const getModuleByName = (name: string): Module[] => {
-  return modules.filter(module => 
+  return modules.filter((module) =>
     module.name.toLowerCase().includes(name.toLowerCase())
   );
 };
 
 // READ - อ่าน Module ที่มี description
 export const getModulesWithDescription = (): Module[] => {
-  return modules.filter(module => module.description !== null);
+  return modules.filter((module) => module.description !== null);
 };
 
 // READ - อ่าน Module ที่ไม่มี description
 export const getModulesWithoutDescription = (): Module[] => {
-  return modules.filter(module => module.description === null);
+  return modules.filter((module) => module.description === null);
 };
 
 // UPDATE - อัปเดต Module
-export const updateModule = (id: string, updateData: Partial<Omit<Module, 'id' | 'created_at' | 'created_by_id'>>): Module | null => {
-  const index = modules.findIndex(module => module.id === id);
-  
+export const updateModule = (
+  id: string,
+  updateData: Partial<Omit<Module, "id" | "created_at" | "created_by_id">>
+): Module | null => {
+  const index = modules.findIndex((module) => module.id === id);
+
   if (index === -1) {
     return null;
   }
-  
+
   modules[index] = {
     ...modules[index],
     ...updateData,
-    updated_at: getCurrentTimestamp()
+    updated_at: getCurrentTimestamp(),
   };
-  
+
   return modules[index];
 };
 
@@ -103,27 +108,30 @@ export const updateModuleName = (id: string, name: string): Module | null => {
 };
 
 // UPDATE - อัปเดต Module description
-export const updateModuleDescription = (id: string, description: string): Module | null => {
+export const updateModuleDescription = (
+  id: string,
+  description: string
+): Module | null => {
   return updateModule(id, { description });
 };
 
 // DELETE - ลบ Module
 export const deleteModule = (id: string): boolean => {
-  const index = modules.findIndex(module => module.id === id);
-  
+  const index = modules.findIndex((module) => module.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   modules.splice(index, 1);
   return true;
 };
 
 // DELETE - ลบ Module ตาม name
 export const deleteModuleByName = (name: string): boolean => {
-  const module = modules.find(m => m.name === name);
+  const module = modules.find((m) => m.name === name);
   if (!module) return false;
-  
+
   return deleteModule(module.id);
 };
 
@@ -143,32 +151,41 @@ export const searchModules = (searchCriteria: {
   description?: string;
   has_description?: boolean;
 }): Module[] => {
-  return modules.filter(module => {
-    if (searchCriteria.name && !module.name.toLowerCase().includes(searchCriteria.name.toLowerCase())) {
+  return modules.filter((module) => {
+    if (
+      searchCriteria.name &&
+      !module.name.toLowerCase().includes(searchCriteria.name.toLowerCase())
+    ) {
       return false;
     }
-    
-    if (searchCriteria.description && module.description && !module.description.toLowerCase().includes(searchCriteria.description.toLowerCase())) {
+
+    if (
+      searchCriteria.description &&
+      module.description &&
+      !module.description
+        .toLowerCase()
+        .includes(searchCriteria.description.toLowerCase())
+    ) {
       return false;
     }
-    
+
     if (searchCriteria.has_description !== undefined) {
       const hasDescription = module.description !== null;
       if (hasDescription !== searchCriteria.has_description) {
         return false;
       }
     }
-    
+
     return true;
   });
 };
 
 // Utility function สำหรับตรวจสอบ name ซ้ำ
 export const isModuleNameExists = (name: string): boolean => {
-  return modules.some(module => module.name === name);
+  return modules.some((module) => module.name === name);
 };
 
 // Utility function สำหรับตรวจสอบ Module ที่มี description
 export const hasModulesWithDescription = (): boolean => {
-  return modules.some(module => module.description !== null);
+  return modules.some((module) => module.description !== null);
 };

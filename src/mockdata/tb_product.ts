@@ -8,7 +8,7 @@ export interface Product {
   description: string | null;
   inventory_unit_id: string;
   inventory_unit_name: string;
-  product_status_type: 'active' | 'inactive' | 'discontinued';
+  product_status_type: "active" | "inactive" | "discontinued";
   product_item_group_id: string;
   is_used_in_recipe: boolean;
   is_sold_directly: boolean;
@@ -52,7 +52,7 @@ export const products: Product[] = [
     updated_at: "2025-07-29T01:05:40.576Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "918959fb-cce8-4a56-9382-2b3dbf0de9cb",
@@ -78,7 +78,7 @@ export const products: Product[] = [
     updated_at: "2025-07-29T01:05:40.625Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "d013f929-e797-4120-9823-112a33f3397d",
@@ -104,7 +104,7 @@ export const products: Product[] = [
     updated_at: "2025-07-29T01:05:40.665Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "c2afa2b3-4b3e-4845-a486-079193faf90d",
@@ -130,7 +130,7 @@ export const products: Product[] = [
     updated_at: "2025-07-29T01:05:40.700Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "7d28a000-a54f-4c79-8139-cd0dee2f136a",
@@ -156,7 +156,7 @@ export const products: Product[] = [
     updated_at: "2025-07-29T01:05:40.733Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "089be085-c5f9-4f00-b48d-9508f3ae9e7c",
@@ -182,7 +182,7 @@ export const products: Product[] = [
     updated_at: "2025-07-29T01:05:40.769Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "faf29e8b-2a5e-4e59-b598-7c4514c1c3ca",
@@ -208,7 +208,7 @@ export const products: Product[] = [
     updated_at: "2025-07-29T01:05:40.803Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "5efc9c8e-2fe2-48e0-8fae-f4e82067c25d",
@@ -234,7 +234,7 @@ export const products: Product[] = [
     updated_at: "2025-07-29T01:05:40.834Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "98b28879-614f-4c18-ba42-ba7ba6b90a73",
@@ -260,7 +260,7 @@ export const products: Product[] = [
     updated_at: "2025-07-29T01:05:40.870Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "b15e179c-6851-4ef3-a20e-d2b9cca1a887",
@@ -286,19 +286,21 @@ export const products: Product[] = [
     updated_at: "2025-07-29T01:05:40.903Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
-  }
+    deleted_by_id: null,
+  },
 ];
 
 // CREATE - สร้าง Product ใหม่
-export const createProduct = (productData: Omit<Product, 'id' | 'created_at' | 'updated_at'>): Product => {
+export const createProduct = (
+  productData: Omit<Product, "id" | "created_at" | "updated_at">
+): Product => {
   const newProduct: Product = {
     ...productData,
     id: generateId(),
     created_at: getCurrentTimestamp(),
-    updated_at: getCurrentTimestamp()
+    updated_at: getCurrentTimestamp(),
   };
-  
+
   products.push(newProduct);
   return newProduct;
 };
@@ -310,91 +312,112 @@ export const getAllProducts = (): Product[] => {
 
 // READ - อ่าน Product ตาม ID
 export const getProductById = (id: string): Product | undefined => {
-  return products.find(product => product.id === id);
+  return products.find((product) => product.id === id);
 };
 
 // READ - อ่าน Product ตาม code
 export const getProductByCode = (code: string): Product | undefined => {
-  return products.find(product => product.code === code);
+  return products.find((product) => product.code === code);
 };
 
 // READ - อ่าน Product ตาม name
 export const getProductByName = (name: string): Product[] => {
-  return products.filter(product => 
-    product.name.toLowerCase().includes(name.toLowerCase()) ||
-    (product.local_name && product.local_name.toLowerCase().includes(name.toLowerCase()))
+  return products.filter(
+    (product) =>
+      product.name.toLowerCase().includes(name.toLowerCase()) ||
+      (product.local_name &&
+        product.local_name.toLowerCase().includes(name.toLowerCase()))
   );
 };
 
 // READ - อ่าน Product ตาม product_status_type
-export const getProductsByStatus = (status: 'active' | 'inactive' | 'discontinued'): Product[] => {
-  return products.filter(product => product.product_status_type === status);
+export const getProductsByStatus = (
+  status: "active" | "inactive" | "discontinued"
+): Product[] => {
+  return products.filter((product) => product.product_status_type === status);
 };
 
 // READ - อ่าน Product ตาม product_item_group_id
 export const getProductsByItemGroup = (itemGroupId: string): Product[] => {
-  return products.filter(product => product.product_item_group_id === itemGroupId);
+  return products.filter(
+    (product) => product.product_item_group_id === itemGroupId
+  );
 };
 
 // READ - อ่าน Product ตาม inventory_unit_id
 export const getProductsByInventoryUnit = (unitId: string): Product[] => {
-  return products.filter(product => product.inventory_unit_id === unitId);
+  return products.filter((product) => product.inventory_unit_id === unitId);
 };
 
 // READ - อ่าน Product ที่ใช้ใน recipe
 export const getProductsUsedInRecipe = (): Product[] => {
-  return products.filter(product => product.is_used_in_recipe);
+  return products.filter((product) => product.is_used_in_recipe);
 };
 
 // READ - อ่าน Product ที่ขายโดยตรง
 export const getProductsSoldDirectly = (): Product[] => {
-  return products.filter(product => product.is_sold_directly);
+  return products.filter((product) => product.is_sold_directly);
 };
 
 // READ - อ่าน Product ที่มี barcode
 export const getProductsWithBarcode = (): Product[] => {
-  return products.filter(product => product.barcode !== null);
+  return products.filter((product) => product.barcode !== null);
 };
 
 // READ - อ่าน Product ที่มี SKU
 export const getProductsWithSKU = (): Product[] => {
-  return products.filter(product => product.sku !== null);
+  return products.filter((product) => product.sku !== null);
 };
 
 // UPDATE - อัปเดต Product
-export const updateProduct = (id: string, updateData: Partial<Omit<Product, 'id' | 'created_at' | 'created_by_id'>>): Product | null => {
-  const index = products.findIndex(product => product.id === id);
-  
+export const updateProduct = (
+  id: string,
+  updateData: Partial<Omit<Product, "id" | "created_at" | "created_by_id">>
+): Product | null => {
+  const index = products.findIndex((product) => product.id === id);
+
   if (index === -1) {
     return null;
   }
-  
+
   products[index] = {
     ...products[index],
     ...updateData,
-    updated_at: getCurrentTimestamp()
+    updated_at: getCurrentTimestamp(),
   };
-  
+
   return products[index];
 };
 
 // UPDATE - อัปเดต Product status
-export const updateProductStatus = (id: string, status: 'active' | 'inactive' | 'discontinued'): Product | null => {
+export const updateProductStatus = (
+  id: string,
+  status: "active" | "inactive" | "discontinued"
+): Product | null => {
   return updateProduct(id, { product_status_type: status });
 };
 
 // UPDATE - อัปเดต Product price deviation limit
-export const updateProductPriceDeviationLimit = (id: string, limit: string): Product | null => {
+export const updateProductPriceDeviationLimit = (
+  id: string,
+  limit: string
+): Product | null => {
   return updateProduct(id, { price_deviation_limit: limit });
 };
 
 // UPDATE - อัปเดต Product quantity deviation limit
-export const updateProductQtyDeviationLimit = (id: string, limit: string): Product | null => {
+export const updateProductQtyDeviationLimit = (
+  id: string,
+  limit: string
+): Product | null => {
   return updateProduct(id, { qty_deviation_limit: limit });
 };
 
 // UPDATE - อัปเดต Product barcode
-export const updateProductBarcode = (id: string, barcode: string): Product | null => {
+export const updateProductBarcode = (
+  id: string,
+  barcode: string
+): Product | null => {
   return updateProduct(id, { barcode });
 };
 
@@ -405,45 +428,48 @@ export const updateProductSKU = (id: string, sku: string): Product | null => {
 
 // DELETE - ลบ Product (soft delete)
 export const deleteProduct = (id: string, deletedById: string): boolean => {
-  const index = products.findIndex(product => product.id === id);
-  
+  const index = products.findIndex((product) => product.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   products[index] = {
     ...products[index],
     deleted_at: getCurrentTimestamp(),
-    deleted_by_id: deletedById
+    deleted_by_id: deletedById,
   };
-  
+
   return true;
 };
 
 // DELETE - ลบ Product แบบถาวร
 export const hardDeleteProduct = (id: string): boolean => {
-  const index = products.findIndex(product => product.id === id);
-  
+  const index = products.findIndex((product) => product.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   products.splice(index, 1);
   return true;
 };
 
 // DELETE - ลบ Product ตาม product_item_group_id
-export const deleteProductsByItemGroup = (itemGroupId: string, deletedById: string): number => {
+export const deleteProductsByItemGroup = (
+  itemGroupId: string,
+  deletedById: string
+): number => {
   let deletedCount = 0;
-  
-  products.forEach(product => {
+
+  products.forEach((product) => {
     if (product.product_item_group_id === itemGroupId && !product.deleted_at) {
       product.deleted_at = getCurrentTimestamp();
       product.deleted_by_id = deletedById;
       deletedCount++;
     }
   });
-  
+
   return deletedCount;
 };
 
@@ -459,7 +485,8 @@ export const getProductCount = (): number => {
 
 // Utility function สำหรับนับจำนวน Product ที่ active
 export const getActiveProductCount = (): number => {
-  return products.filter(product => product.product_status_type === 'active').length;
+  return products.filter((product) => product.product_status_type === "active")
+    .length;
 };
 
 // Utility function สำหรับค้นหา Product แบบ advanced search
@@ -475,68 +502,95 @@ export const searchProducts = (searchCriteria: {
   has_barcode?: boolean;
   has_sku?: boolean;
 }): Product[] => {
-  return products.filter(product => {
-    if (searchCriteria.code && !product.code.toLowerCase().includes(searchCriteria.code.toLowerCase())) {
+  return products.filter((product) => {
+    if (
+      searchCriteria.code &&
+      !product.code.toLowerCase().includes(searchCriteria.code.toLowerCase())
+    ) {
       return false;
     }
-    
-    if (searchCriteria.name && !product.name.toLowerCase().includes(searchCriteria.name.toLowerCase())) {
+
+    if (
+      searchCriteria.name &&
+      !product.name.toLowerCase().includes(searchCriteria.name.toLowerCase())
+    ) {
       return false;
     }
-    
-    if (searchCriteria.local_name && product.local_name && !product.local_name.toLowerCase().includes(searchCriteria.local_name.toLowerCase())) {
+
+    if (
+      searchCriteria.local_name &&
+      product.local_name &&
+      !product.local_name
+        .toLowerCase()
+        .includes(searchCriteria.local_name.toLowerCase())
+    ) {
       return false;
     }
-    
-    if (searchCriteria.product_status_type && product.product_status_type !== searchCriteria.product_status_type) {
+
+    if (
+      searchCriteria.product_status_type &&
+      product.product_status_type !== searchCriteria.product_status_type
+    ) {
       return false;
     }
-    
-    if (searchCriteria.product_item_group_id && product.product_item_group_id !== searchCriteria.product_item_group_id) {
+
+    if (
+      searchCriteria.product_item_group_id &&
+      product.product_item_group_id !== searchCriteria.product_item_group_id
+    ) {
       return false;
     }
-    
-    if (searchCriteria.inventory_unit_id && product.inventory_unit_id !== searchCriteria.inventory_unit_id) {
+
+    if (
+      searchCriteria.inventory_unit_id &&
+      product.inventory_unit_id !== searchCriteria.inventory_unit_id
+    ) {
       return false;
     }
-    
-    if (searchCriteria.is_used_in_recipe !== undefined && product.is_used_in_recipe !== searchCriteria.is_used_in_recipe) {
+
+    if (
+      searchCriteria.is_used_in_recipe !== undefined &&
+      product.is_used_in_recipe !== searchCriteria.is_used_in_recipe
+    ) {
       return false;
     }
-    
-    if (searchCriteria.is_sold_directly !== undefined && product.is_sold_directly !== searchCriteria.is_sold_directly) {
+
+    if (
+      searchCriteria.is_sold_directly !== undefined &&
+      product.is_sold_directly !== searchCriteria.is_sold_directly
+    ) {
       return false;
     }
-    
+
     if (searchCriteria.has_barcode !== undefined) {
       const hasBarcode = product.barcode !== null;
       if (hasBarcode !== searchCriteria.has_barcode) {
         return false;
       }
     }
-    
+
     if (searchCriteria.has_sku !== undefined) {
       const hasSKU = product.sku !== null;
       if (hasSKU !== searchCriteria.has_sku) {
         return false;
       }
     }
-    
+
     return true;
   });
 };
 
 // Utility function สำหรับตรวจสอบ code ซ้ำ
 export const isProductCodeExists = (code: string): boolean => {
-  return products.some(product => product.code === code);
+  return products.some((product) => product.code === code);
 };
 
 // Utility function สำหรับตรวจสอบ barcode ซ้ำ
 export const isProductBarcodeExists = (barcode: string): boolean => {
-  return products.some(product => product.barcode === barcode);
+  return products.some((product) => product.barcode === barcode);
 };
 
 // Utility function สำหรับตรวจสอบ SKU ซ้ำ
 export const isProductSKUExists = (sku: string): boolean => {
-  return products.some(product => product.sku === sku);
+  return products.some((product) => product.sku === sku);
 };

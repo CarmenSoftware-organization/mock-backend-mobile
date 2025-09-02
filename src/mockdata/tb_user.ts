@@ -4,7 +4,7 @@ export interface User {
   id: string;
   username: string;
   email: string;
-  platform_role: 'platform_admin' | 'user';
+  platform_role: "platform_admin" | "user";
   is_active: boolean;
   is_consent: boolean;
   consent_at: string | null;
@@ -26,7 +26,7 @@ export const users: User[] = [
     created_at: "2025-07-29T01:37:27.156Z",
     created_by_id: null,
     updated_at: "2025-07-29T01:37:27.156Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "1bfdb891-58ee-499c-8115-34a964de8122",
@@ -39,7 +39,7 @@ export const users: User[] = [
     created_at: "2025-07-29T01:37:27.540Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
     updated_at: "2025-07-29T01:37:27.540Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "3c5280a7-492e-421d-b739-7447455ce99e",
@@ -52,7 +52,7 @@ export const users: User[] = [
     created_at: "2025-07-29T01:37:27.818Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
     updated_at: "2025-07-29T01:37:27.818Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "c7092848-78f7-4cfe-bb6d-095c286a1019",
@@ -65,7 +65,7 @@ export const users: User[] = [
     created_at: "2025-07-29T01:37:28.036Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
     updated_at: "2025-07-29T01:37:28.036Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "d9aef974-0dd1-4acd-93b7-93c8ccc8cfeb",
@@ -78,7 +78,7 @@ export const users: User[] = [
     created_at: "2025-07-29T01:37:28.268Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
     updated_at: "2025-07-29T01:37:28.268Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "e88e8da4-ad87-4255-befc-1556d1b66b69",
@@ -91,7 +91,7 @@ export const users: User[] = [
     created_at: "2025-07-29T01:37:28.503Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
     updated_at: "2025-07-29T01:37:28.503Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "57c0721a-4afd-4e8f-b118-f0480c537215",
@@ -104,7 +104,7 @@ export const users: User[] = [
     created_at: "2025-07-29T01:37:28.756Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
     updated_at: "2025-07-29T01:37:28.756Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "59c4ce87-84e5-48e5-b246-7d0f6d2c5594",
@@ -117,7 +117,7 @@ export const users: User[] = [
     created_at: "2025-07-29T01:37:28.990Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
     updated_at: "2025-07-29T01:37:28.990Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "d3ba9c08-162f-4e81-8337-75d3d56f6aff",
@@ -130,19 +130,21 @@ export const users: User[] = [
     created_at: "2025-07-30T19:59:55.626Z",
     created_by_id: null,
     updated_at: "2025-07-30T19:59:55.626Z",
-    updated_by_id: null
-  }
+    updated_by_id: null,
+  },
 ];
 
 // CREATE - สร้าง User ใหม่
-export const createUser = (userData: Omit<User, 'id' | 'created_at' | 'updated_at'>): User => {
+export const createUser = (
+  userData: Omit<User, "id" | "created_at" | "updated_at">
+): User => {
   const newUser: User = {
     ...userData,
     id: generateId(),
     created_at: getCurrentTimestamp(),
-    updated_at: getCurrentTimestamp()
+    updated_at: getCurrentTimestamp(),
   };
-  
+
   users.push(newUser);
   return newUser;
 };
@@ -154,94 +156,112 @@ export const getAllUsers = (): User[] => {
 
 // READ - อ่าน User ตาม ID
 export const getUserById = (id: string): User | undefined => {
-  return users.find(user => user.id === id);
+  return users.find((user) => user.id === id);
 };
 
 // READ - อ่าน User ตาม username
 export const getUserByUsername = (username: string): User | undefined => {
-  return users.find(user => user.username === username);
+  return users.find((user) => user.username === username);
 };
 
 // READ - อ่าน User ตาม email
 export const getUserByEmail = (email: string): User | undefined => {
-  return users.find(user => user.email === email);
+  return users.find((user) => user.email === email);
 };
 
 // READ - อ่าน User ตาม platform_role
-export const getUsersByPlatformRole = (platformRole: 'platform_admin' | 'user'): User[] => {
-  return users.filter(user => user.platform_role === platformRole);
+export const getUsersByPlatformRole = (
+  platformRole: "platform_admin" | "user"
+): User[] => {
+  return users.filter((user) => user.platform_role === platformRole);
 };
 
 // READ - อ่าน User ที่ active
 export const getActiveUsers = (): User[] => {
-  return users.filter(user => user.is_active);
+  return users.filter((user) => user.is_active);
 };
 
 // READ - อ่าน User ที่มี consent
 export const getConsentedUsers = (): User[] => {
-  return users.filter(user => user.is_consent);
+  return users.filter((user) => user.is_consent);
 };
 
 // UPDATE - อัปเดต User
-export const updateUser = (id: string, updateData: Partial<Omit<User, 'id' | 'created_at' | 'created_by_id'>>): User | null => {
-  const index = users.findIndex(user => user.id === id);
-  
+export const updateUser = (
+  id: string,
+  updateData: Partial<Omit<User, "id" | "created_at" | "created_by_id">>
+): User | null => {
+  const index = users.findIndex((user) => user.id === id);
+
   if (index === -1) {
     return null;
   }
-  
+
   users[index] = {
     ...users[index],
     ...updateData,
-    updated_at: getCurrentTimestamp()
+    updated_at: getCurrentTimestamp(),
   };
-  
+
   return users[index];
 };
 
 // UPDATE - อัปเดต password
-export const updateUserPassword = (id: string, newPassword: string): boolean => {
+export const updateUserPassword = (
+  id: string,
+  newPassword: string
+): boolean => {
   const user = getUserById(id);
   if (!user) return false;
-  
+
   // ในระบบจริงควร hash password ก่อน
   return true;
 };
 
 // UPDATE - อัปเดต consent status
-export const updateUserConsent = (id: string, isConsent: boolean): User | null => {
+export const updateUserConsent = (
+  id: string,
+  isConsent: boolean
+): User | null => {
   return updateUser(id, {
     is_consent: isConsent,
-    consent_at: isConsent ? getCurrentTimestamp() : null
+    consent_at: isConsent ? getCurrentTimestamp() : null,
   });
 };
 
 // UPDATE - อัปเดต active status
-export const updateUserActiveStatus = (id: string, isActive: boolean): User | null => {
+export const updateUserActiveStatus = (
+  id: string,
+  isActive: boolean
+): User | null => {
   return updateUser(id, { is_active: isActive });
 };
 
 // DELETE - ลบ User
 export const deleteUser = (id: string): boolean => {
-  const index = users.findIndex(user => user.id === id);
-  
+  const index = users.findIndex((user) => user.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   users.splice(index, 1);
   return true;
 };
 
 // DELETE - ลบ User ตาม platform_role
-export const deleteUsersByPlatformRole = (platformRole: 'platform_admin' | 'user'): number => {
+export const deleteUsersByPlatformRole = (
+  platformRole: "platform_admin" | "user"
+): number => {
   const initialLength = users.length;
-  const filteredUsers = users.filter(user => user.platform_role !== platformRole);
+  const filteredUsers = users.filter(
+    (user) => user.platform_role !== platformRole
+  );
   const deletedCount = initialLength - filteredUsers.length;
-  
+
   users.length = 0;
   users.push(...filteredUsers);
-  
+
   return deletedCount;
 };
 
@@ -259,41 +279,58 @@ export const getUserCount = (): number => {
 export const searchUsers = (searchCriteria: {
   username?: string;
   email?: string;
-  platform_role?: 'platform_admin' | 'user';
+  platform_role?: "platform_admin" | "user";
   is_active?: boolean;
   is_consent?: boolean;
 }): User[] => {
-  return users.filter(user => {
-    if (searchCriteria.username && !user.username.toLowerCase().includes(searchCriteria.username.toLowerCase())) {
+  return users.filter((user) => {
+    if (
+      searchCriteria.username &&
+      !user.username
+        .toLowerCase()
+        .includes(searchCriteria.username.toLowerCase())
+    ) {
       return false;
     }
-    
-    if (searchCriteria.email && !user.email.toLowerCase().includes(searchCriteria.email.toLowerCase())) {
+
+    if (
+      searchCriteria.email &&
+      !user.email.toLowerCase().includes(searchCriteria.email.toLowerCase())
+    ) {
       return false;
     }
-    
-    if (searchCriteria.platform_role && user.platform_role !== searchCriteria.platform_role) {
+
+    if (
+      searchCriteria.platform_role &&
+      user.platform_role !== searchCriteria.platform_role
+    ) {
       return false;
     }
-    
-    if (searchCriteria.is_active !== undefined && user.is_active !== searchCriteria.is_active) {
+
+    if (
+      searchCriteria.is_active !== undefined &&
+      user.is_active !== searchCriteria.is_active
+    ) {
       return false;
     }
-    
-    if (searchCriteria.is_consent !== undefined && user.is_consent !== searchCriteria.is_consent) {
+
+    if (
+      searchCriteria.is_consent !== undefined &&
+      user.is_consent !== searchCriteria.is_consent
+    ) {
       return false;
     }
-    
+
     return true;
   });
 };
 
 // Utility function สำหรับตรวจสอบ username ซ้ำ
 export const isUsernameExists = (username: string): boolean => {
-  return users.some(user => user.username === username);
+  return users.some((user) => user.username === username);
 };
 
 // Utility function สำหรับตรวจสอบ email ซ้ำ
 export const isEmailExists = (email: string): boolean => {
-  return users.some(user => user.email === email);
+  return users.some((user) => user.email === email);
 };

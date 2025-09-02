@@ -12,11 +12,11 @@ export interface PurchaseRequest {
   workflow_previous_stage: string | null;
   workflow_next_stage: string | null;
   user_action: any;
-  last_action: 'submitted' | 'approved' | 'rejected' | 'completed';
+  last_action: "submitted" | "approved" | "rejected" | "completed";
   last_action_at_date: string | null;
   last_action_by_id: string | null;
   last_action_by_name: string | null;
-  pr_status: 'draft' | 'in_progress' | 'completed' | 'cancelled';
+  pr_status: "draft" | "in_progress" | "completed" | "cancelled";
   requestor_id: string;
   requestor_name: string;
   department_id: string;
@@ -64,7 +64,7 @@ export const purchaseRequests: PurchaseRequest[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440002",
@@ -96,7 +96,7 @@ export const purchaseRequests: PurchaseRequest[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440003",
@@ -128,73 +128,102 @@ export const purchaseRequests: PurchaseRequest[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
-  }
+    deleted_by_id: null,
+  },
 ];
 
 // CREATE - สร้าง PurchaseRequest ใหม่
-export const createPurchaseRequest = (data: Omit<PurchaseRequest, 'id' | 'created_at' | 'created_by_id'>): PurchaseRequest => {
+export const createPurchaseRequest = (
+  data: Omit<PurchaseRequest, "id" | "created_at" | "created_by_id">
+): PurchaseRequest => {
   const newPurchaseRequest: PurchaseRequest = {
     ...data,
     id: generateId(),
     created_at: getCurrentTimestamp(),
-    created_by_id: 'system'
+    created_by_id: "system",
   };
-  
+
   purchaseRequests.push(newPurchaseRequest);
   return newPurchaseRequest;
 };
 
 // READ - อ่าน PurchaseRequest ทั้งหมด
 export const getAllPurchaseRequests = (): PurchaseRequest[] => {
-  return purchaseRequests.filter(pr => !pr.deleted_at);
+  return purchaseRequests.filter((pr) => !pr.deleted_at);
 };
 
 // READ - อ่าน PurchaseRequest ตาม ID
 export const getPurchaseRequestById = (id: string): PurchaseRequest | null => {
-  const pr = purchaseRequests.find(pr => pr.id === id && !pr.deleted_at);
+  const pr = purchaseRequests.find((pr) => pr.id === id && !pr.deleted_at);
   return pr || null;
 };
 
 // READ - อ่าน PurchaseRequest ตาม pr_no
-export const getPurchaseRequestByPrNo = (prNo: string): PurchaseRequest | null => {
-  const pr = purchaseRequests.find(pr => pr.pr_no === prNo && !pr.deleted_at);
+export const getPurchaseRequestByPrNo = (
+  prNo: string
+): PurchaseRequest | null => {
+  const pr = purchaseRequests.find((pr) => pr.pr_no === prNo && !pr.deleted_at);
   return pr || null;
 };
 
 // READ - อ่าน PurchaseRequest ตาม pr_status
-export const getPurchaseRequestsByStatus = (status: PurchaseRequest['pr_status']): PurchaseRequest[] => {
-  return purchaseRequests.filter(pr => pr.pr_status === status && !pr.deleted_at);
+export const getPurchaseRequestsByStatus = (
+  status: PurchaseRequest["pr_status"]
+): PurchaseRequest[] => {
+  return purchaseRequests.filter(
+    (pr) => pr.pr_status === status && !pr.deleted_at
+  );
 };
 
 // READ - อ่าน PurchaseRequest ตาม requestor_id
-export const getPurchaseRequestsByRequestor = (requestorId: string): PurchaseRequest[] => {
-  return purchaseRequests.filter(pr => pr.requestor_id === requestorId && !pr.deleted_at);
+export const getPurchaseRequestsByRequestor = (
+  requestorId: string
+): PurchaseRequest[] => {
+  return purchaseRequests.filter(
+    (pr) => pr.requestor_id === requestorId && !pr.deleted_at
+  );
 };
 
 // READ - อ่าน PurchaseRequest ตาม department_id
-export const getPurchaseRequestsByDepartment = (departmentId: string): PurchaseRequest[] => {
-  return purchaseRequests.filter(pr => pr.department_id === departmentId && !pr.deleted_at);
+export const getPurchaseRequestsByDepartment = (
+  departmentId: string
+): PurchaseRequest[] => {
+  return purchaseRequests.filter(
+    (pr) => pr.department_id === departmentId && !pr.deleted_at
+  );
 };
 
 // READ - อ่าน PurchaseRequest ตาม last_action
-export const getPurchaseRequestsByLastAction = (lastAction: PurchaseRequest['last_action']): PurchaseRequest[] => {
-  return purchaseRequests.filter(pr => pr.last_action === lastAction && !pr.deleted_at);
+export const getPurchaseRequestsByLastAction = (
+  lastAction: PurchaseRequest["last_action"]
+): PurchaseRequest[] => {
+  return purchaseRequests.filter(
+    (pr) => pr.last_action === lastAction && !pr.deleted_at
+  );
 };
 
 // READ - อ่าน PurchaseRequest ที่มี note
 export const getPurchaseRequestsWithNote = (): PurchaseRequest[] => {
-  return purchaseRequests.filter(pr => pr.note && pr.note.trim() !== '' && !pr.deleted_at);
+  return purchaseRequests.filter(
+    (pr) => pr.note && pr.note.trim() !== "" && !pr.deleted_at
+  );
 };
 
 // READ - อ่าน PurchaseRequest ตามวันที่
-export const getPurchaseRequestsByDate = (prDate: string): PurchaseRequest[] => {
-  return purchaseRequests.filter(pr => pr.pr_date === prDate && !pr.deleted_at);
+export const getPurchaseRequestsByDate = (
+  prDate: string
+): PurchaseRequest[] => {
+  return purchaseRequests.filter(
+    (pr) => pr.pr_date === prDate && !pr.deleted_at
+  );
 };
 
 // READ - อ่าน PurchaseRequests ตามช่วงวันที่
-export const getPurchaseRequestsByDateRange = (startDate: string, endDate: string): PurchaseRequest[] => {
-  return purchaseRequests.filter(pr => {
+export const getPurchaseRequestsByDateRange = (
+  startDate: string,
+  endDate: string
+): PurchaseRequest[] => {
+  return purchaseRequests.filter((pr) => {
     const prDate = new Date(pr.pr_date);
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -204,186 +233,196 @@ export const getPurchaseRequestsByDateRange = (startDate: string, endDate: strin
 
 // READ - อ่าน PurchaseRequests ที่เสร็จสิ้น
 export const getCompletedPurchaseRequests = (): PurchaseRequest[] => {
-  return purchaseRequests.filter(pr => pr.pr_status === 'completed' && !pr.deleted_at);
+  return purchaseRequests.filter(
+    (pr) => pr.pr_status === "completed" && !pr.deleted_at
+  );
 };
 
 // READ - อ่าน PurchaseRequests ที่รอการอนุมัติ
 export const getInProgressPurchaseRequests = (): PurchaseRequest[] => {
-  return purchaseRequests.filter(pr => pr.pr_status === 'in_progress' && !pr.deleted_at);
+  return purchaseRequests.filter(
+    (pr) => pr.pr_status === "in_progress" && !pr.deleted_at
+  );
 };
 
 // READ - อ่าน PurchaseRequests ที่ถูกยกเลิก
 export const getCancelledPurchaseRequests = (): PurchaseRequest[] => {
-  return purchaseRequests.filter(pr => pr.pr_status === 'cancelled' && !pr.deleted_at);
+  return purchaseRequests.filter(
+    (pr) => pr.pr_status === "cancelled" && !pr.deleted_at
+  );
 };
 
 // READ - อ่าน PurchaseRequests ที่เป็น draft
 export const getDraftPurchaseRequests = (): PurchaseRequest[] => {
-  return purchaseRequests.filter(pr => pr.pr_status === 'draft' && !pr.deleted_at);
-};
-
-// READ - ค้นหา PurchaseRequest แบบ fuzzy search
-export const searchPurchaseRequests = (searchTerm: string): PurchaseRequest[] => {
-  const lowerSearchTerm = searchTerm.toLowerCase();
-  return purchaseRequests.filter(pr => 
-    !pr.deleted_at && (
-      pr.pr_no.toLowerCase().includes(lowerSearchTerm) ||
-      pr.description?.toLowerCase().includes(lowerSearchTerm) ||
-      pr.requestor_name.toLowerCase().includes(lowerSearchTerm) ||
-      pr.department_name?.toLowerCase().includes(lowerSearchTerm) ||
-      pr.note?.toLowerCase().includes(lowerSearchTerm)
-    )
+  return purchaseRequests.filter(
+    (pr) => pr.pr_status === "draft" && !pr.deleted_at
   );
 };
 
-
+// READ - ค้นหา PurchaseRequest แบบ fuzzy search
+export const searchPurchaseRequests = (
+  searchTerm: string
+): PurchaseRequest[] => {
+  const lowerSearchTerm = searchTerm.toLowerCase();
+  return purchaseRequests.filter(
+    (pr) =>
+      !pr.deleted_at &&
+      (pr.pr_no.toLowerCase().includes(lowerSearchTerm) ||
+        pr.description?.toLowerCase().includes(lowerSearchTerm) ||
+        pr.requestor_name.toLowerCase().includes(lowerSearchTerm) ||
+        pr.department_name?.toLowerCase().includes(lowerSearchTerm) ||
+        pr.note?.toLowerCase().includes(lowerSearchTerm))
+  );
+};
 
 // DELETE - ลบ PurchaseRequest (soft delete)
-export const deletePurchaseRequest = (id: string, deletedById: string): boolean => {
-  const index = purchaseRequests.findIndex(pr => pr.id === id);
-  
+export const deletePurchaseRequest = (
+  id: string,
+  deletedById: string
+): boolean => {
+  const index = purchaseRequests.findIndex((pr) => pr.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   purchaseRequests[index] = {
     ...purchaseRequests[index],
     deleted_at: getCurrentTimestamp(),
-    deleted_by_id: deletedById
+    deleted_by_id: deletedById,
   };
-  
+
   return true;
 };
 
 // DELETE - ลบ PurchaseRequest แบบถาวร
 export const hardDeletePurchaseRequest = (id: string): boolean => {
-  const index = purchaseRequests.findIndex(pr => pr.id === id);
-  
+  const index = purchaseRequests.findIndex((pr) => pr.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   purchaseRequests.splice(index, 1);
   return true;
 };
 
 // DELETE - ลบ PurchaseRequest ตาม requestor_id
-export const deletePurchaseRequestsByRequestor = (requestorId: string, deletedById: string): number => {
+export const deletePurchaseRequestsByRequestor = (
+  requestorId: string,
+  deletedById: string
+): number => {
   let deletedCount = 0;
-  
-  purchaseRequests.forEach(pr => {
+
+  purchaseRequests.forEach((pr) => {
     if (pr.requestor_id === requestorId && !pr.deleted_at) {
       pr.deleted_at = getCurrentTimestamp();
       pr.deleted_by_id = deletedById;
       deletedCount++;
     }
   });
-  
+
   return deletedCount;
 };
 
 // DELETE - ลบ PurchaseRequest ตาม department_id
-export const deletePurchaseRequestsByDepartment = (departmentId: string, deletedById: string): number => {
+export const deletePurchaseRequestsByDepartment = (
+  departmentId: string,
+  deletedById: string
+): number => {
   let deletedCount = 0;
-  
-  purchaseRequests.forEach(pr => {
+
+  purchaseRequests.forEach((pr) => {
     if (pr.department_id === departmentId && !pr.deleted_at) {
       pr.deleted_at = getCurrentTimestamp();
       pr.deleted_by_id = deletedById;
       deletedCount++;
     }
   });
-  
+
   return deletedCount;
 };
 
 // DELETE - ลบ PurchaseRequest ตาม status
-export const deletePurchaseRequestsByStatus = (status: PurchaseRequest['pr_status'], deletedById: string): number => {
+export const deletePurchaseRequestsByStatus = (
+  status: PurchaseRequest["pr_status"],
+  deletedById: string
+): number => {
   let deletedCount = 0;
-  
-  purchaseRequests.forEach(pr => {
+
+  purchaseRequests.forEach((pr) => {
     if (pr.pr_status === status && !pr.deleted_at) {
       pr.deleted_at = getCurrentTimestamp();
       pr.deleted_by_id = deletedById;
       deletedCount++;
     }
   });
-  
+
   return deletedCount;
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
 // DELETE - ลบ PurchaseRequest ตาม priority
-export const deletePurchaseRequestsByPriority = (priority: string, deletedById: string): number => {
+export const deletePurchaseRequestsByPriority = (
+  priority: string,
+  deletedById: string
+): number => {
   let deletedCount = 0;
-  
-  purchaseRequests.forEach(pr => {
+
+  purchaseRequests.forEach((pr) => {
     if (pr.pr_status === priority && !pr.deleted_at) {
       pr.deleted_at = getCurrentTimestamp();
       pr.deleted_by_id = deletedById;
       deletedCount++;
     }
   });
-  
+
   return deletedCount;
 };
 
 // DELETE - ลบ PurchaseRequest ตาม currency_id
-export const deletePurchaseRequestsByCurrency = (currencyId: string, deletedById: string): number => {
+export const deletePurchaseRequestsByCurrency = (
+  currencyId: string,
+  deletedById: string
+): number => {
   let deletedCount = 0;
-  
-  purchaseRequests.forEach(pr => {
+
+  purchaseRequests.forEach((pr) => {
     if (pr.workflow_id === currencyId && !pr.deleted_at) {
       pr.deleted_at = getCurrentTimestamp();
       pr.deleted_by_id = deletedById;
       deletedCount++;
     }
   });
-  
+
   return deletedCount;
 };
 
-
-
 // Utility function สำหรับตรวจสอบ PurchaseRequest PR number ซ้ำ
 export const isPurchaseRequestNumberExists = (prNumber: string): boolean => {
-  return purchaseRequests.some(pr => pr.pr_no === prNumber);
+  return purchaseRequests.some((pr) => pr.pr_no === prNumber);
 };
 
 // Utility function สำหรับตรวจสอบ PurchaseRequest ที่ถูกลบแล้ว
 export const getDeletedPurchaseRequests = (): PurchaseRequest[] => {
-  return purchaseRequests.filter(pr => pr.deleted_at !== null);
+  return purchaseRequests.filter((pr) => pr.deleted_at !== null);
 };
 
 // Utility function สำหรับกู้คืน PurchaseRequest ที่ถูกลบแล้ว
 export const restorePurchaseRequest = (id: string): boolean => {
-  const index = purchaseRequests.findIndex(pr => pr.id === id);
-  
+  const index = purchaseRequests.findIndex((pr) => pr.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   if (purchaseRequests[index].deleted_at) {
     purchaseRequests[index] = {
       ...purchaseRequests[index],
       deleted_at: null,
-      deleted_by_id: null
+      deleted_by_id: null,
     };
     return true;
   }
-  
+
   return false;
 };
-
-

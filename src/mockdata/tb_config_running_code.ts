@@ -30,7 +30,7 @@ export const configRunningCodes: ConfigRunningCode[] = [
       A: "PR",
       B: "date('yyyyMM')",
       C: "running(5, '0')",
-      format: "{A}{B}{C}"
+      format: "{A}{B}{C}",
     },
     note: "initialized by system default.",
     info: null,
@@ -40,7 +40,7 @@ export const configRunningCodes: ConfigRunningCode[] = [
     updated_at: "2025-07-31T03:27:54.539Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "98f4924b-751d-5c61-b94f-2874g5g696g7",
@@ -49,7 +49,7 @@ export const configRunningCodes: ConfigRunningCode[] = [
       A: "PO",
       B: "date('yyyyMM')",
       C: "running(5, '0')",
-      format: "{A}{B}{C}"
+      format: "{A}{B}{C}",
     },
     note: "Purchase Order running code configuration",
     info: { category: "purchase" },
@@ -59,7 +59,7 @@ export const configRunningCodes: ConfigRunningCode[] = [
     updated_at: "2025-07-31T04:30:00.000Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "a9g5035c-862e-6d72-ca50-3985h6h7a7h8",
@@ -68,7 +68,7 @@ export const configRunningCodes: ConfigRunningCode[] = [
       A: "INV",
       B: "date('yyyyMM')",
       C: "running(5, '0')",
-      format: "{A}{B}{C}"
+      format: "{A}{B}{C}",
     },
     note: "Invoice running code configuration",
     info: { category: "sales" },
@@ -78,19 +78,21 @@ export const configRunningCodes: ConfigRunningCode[] = [
     updated_at: "2025-07-31T05:35:00.000Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
-  }
+    deleted_by_id: null,
+  },
 ];
 
 // CREATE - สร้าง ConfigRunningCode ใหม่
-export const createConfigRunningCode = (configData: Omit<ConfigRunningCode, 'id' | 'created_at' | 'updated_at'>): ConfigRunningCode => {
+export const createConfigRunningCode = (
+  configData: Omit<ConfigRunningCode, "id" | "created_at" | "updated_at">
+): ConfigRunningCode => {
   const newConfig: ConfigRunningCode = {
     ...configData,
     id: generateId(),
     created_at: getCurrentTimestamp(),
-    updated_at: getCurrentTimestamp()
+    updated_at: getCurrentTimestamp(),
   };
-  
+
   configRunningCodes.push(newConfig);
   return newConfig;
 };
@@ -101,154 +103,201 @@ export const getAllConfigRunningCodes = (): ConfigRunningCode[] => {
 };
 
 // READ - อ่าน ConfigRunningCode ตาม ID
-export const getConfigRunningCodeById = (id: string): ConfigRunningCode | undefined => {
-  return configRunningCodes.find(config => config.id === id);
+export const getConfigRunningCodeById = (
+  id: string
+): ConfigRunningCode | undefined => {
+  return configRunningCodes.find((config) => config.id === id);
 };
 
 // READ - อ่าน ConfigRunningCode ตาม type
-export const getConfigRunningCodeByType = (type: string): ConfigRunningCode | undefined => {
-  return configRunningCodes.find(config => config.type === type);
+export const getConfigRunningCodeByType = (
+  type: string
+): ConfigRunningCode | undefined => {
+  return configRunningCodes.find((config) => config.type === type);
 };
 
 // READ - อ่าน ConfigRunningCode ที่ไม่ถูกลบ
 export const getActiveConfigRunningCodes = (): ConfigRunningCode[] => {
-  return configRunningCodes.filter(config => !config.deleted_at);
+  return configRunningCodes.filter((config) => !config.deleted_at);
 };
 
 // READ - อ่าน ConfigRunningCode ที่ถูกลบ
 export const getDeletedConfigRunningCodes = (): ConfigRunningCode[] => {
-  return configRunningCodes.filter(config => config.deleted_at);
+  return configRunningCodes.filter((config) => config.deleted_at);
 };
 
 // READ - อ่าน ConfigRunningCode ตาม created_by_id
-export const getConfigRunningCodesByCreatedBy = (createdById: string): ConfigRunningCode[] => {
-  return configRunningCodes.filter(config => config.created_by_id === createdById);
+export const getConfigRunningCodesByCreatedBy = (
+  createdById: string
+): ConfigRunningCode[] => {
+  return configRunningCodes.filter(
+    (config) => config.created_by_id === createdById
+  );
 };
 
 // READ - อ่าน ConfigRunningCode ตาม doc_version
-export const getConfigRunningCodesByDocVersion = (docVersion: string): ConfigRunningCode[] => {
-  return configRunningCodes.filter(config => config.doc_version === docVersion);
+export const getConfigRunningCodesByDocVersion = (
+  docVersion: string
+): ConfigRunningCode[] => {
+  return configRunningCodes.filter(
+    (config) => config.doc_version === docVersion
+  );
 };
 
 // READ - อ่าน ConfigRunningCode ตาม note
-export const getConfigRunningCodesByNote = (note: string): ConfigRunningCode[] => {
-  return configRunningCodes.filter(config => 
+export const getConfigRunningCodesByNote = (
+  note: string
+): ConfigRunningCode[] => {
+  return configRunningCodes.filter((config) =>
     config.note.toLowerCase().includes(note.toLowerCase())
   );
 };
 
 // UPDATE - อัปเดต ConfigRunningCode
 export const updateConfigRunningCode = (
-  id: string, 
-  updateData: Partial<Omit<ConfigRunningCode, 'id' | 'created_at' | 'created_by_id'>>,
+  id: string,
+  updateData: Partial<
+    Omit<ConfigRunningCode, "id" | "created_at" | "created_by_id">
+  >,
   updatedById: string
 ): ConfigRunningCode | null => {
-  const index = configRunningCodes.findIndex(config => config.id === id);
-  
+  const index = configRunningCodes.findIndex((config) => config.id === id);
+
   if (index === -1) {
     return null;
   }
-  
+
   configRunningCodes[index] = {
     ...configRunningCodes[index],
     ...updateData,
     updated_at: getCurrentTimestamp(),
-    updated_by_id: updatedById
+    updated_by_id: updatedById,
   };
-  
+
   return configRunningCodes[index];
 };
 
 // UPDATE - อัปเดต ConfigRunningCode type
-export const updateConfigRunningCodeType = (id: string, type: string, updatedById: string): ConfigRunningCode | null => {
+export const updateConfigRunningCodeType = (
+  id: string,
+  type: string,
+  updatedById: string
+): ConfigRunningCode | null => {
   return updateConfigRunningCode(id, { type }, updatedById);
 };
 
 // UPDATE - อัปเดต ConfigRunningCode config
-export const updateConfigRunningCodeConfig = (id: string, config: RunningCodeConfig, updatedById: string): ConfigRunningCode | null => {
+export const updateConfigRunningCodeConfig = (
+  id: string,
+  config: RunningCodeConfig,
+  updatedById: string
+): ConfigRunningCode | null => {
   return updateConfigRunningCode(id, { config }, updatedById);
 };
 
 // UPDATE - อัปเดต ConfigRunningCode note
-export const updateConfigRunningCodeNote = (id: string, note: string, updatedById: string): ConfigRunningCode | null => {
+export const updateConfigRunningCodeNote = (
+  id: string,
+  note: string,
+  updatedById: string
+): ConfigRunningCode | null => {
   return updateConfigRunningCode(id, { note }, updatedById);
 };
 
 // UPDATE - อัปเดต ConfigRunningCode info
-export const updateConfigRunningCodeInfo = (id: string, info: any, updatedById: string): ConfigRunningCode | null => {
+export const updateConfigRunningCodeInfo = (
+  id: string,
+  info: any,
+  updatedById: string
+): ConfigRunningCode | null => {
   return updateConfigRunningCode(id, { info }, updatedById);
 };
 
 // UPDATE - อัปเดต ConfigRunningCode doc version
-export const updateConfigRunningCodeDocVersion = (id: string, docVersion: string, updatedById: string): ConfigRunningCode | null => {
+export const updateConfigRunningCodeDocVersion = (
+  id: string,
+  docVersion: string,
+  updatedById: string
+): ConfigRunningCode | null => {
   return updateConfigRunningCode(id, { doc_version: docVersion }, updatedById);
 };
 
 // UPDATE - อัปเดต ConfigRunningCode โดย type
 export const updateConfigRunningCodeByType = (
-  type: string, 
-  updateData: Partial<Omit<ConfigRunningCode, 'id' | 'type' | 'created_at' | 'created_by_id'>>,
+  type: string,
+  updateData: Partial<
+    Omit<ConfigRunningCode, "id" | "type" | "created_at" | "created_by_id">
+  >,
   updatedById: string
 ): ConfigRunningCode | null => {
   const config = getConfigRunningCodeByType(type);
   if (!config) return null;
-  
+
   return updateConfigRunningCode(config.id, updateData, updatedById);
 };
 
 // DELETE - ลบ ConfigRunningCode (soft delete)
-export const deleteConfigRunningCode = (id: string, deletedById: string): boolean => {
-  const index = configRunningCodes.findIndex(config => config.id === id);
-  
+export const deleteConfigRunningCode = (
+  id: string,
+  deletedById: string
+): boolean => {
+  const index = configRunningCodes.findIndex((config) => config.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   configRunningCodes[index] = {
     ...configRunningCodes[index],
     deleted_at: getCurrentTimestamp(),
-    deleted_by_id: deletedById
+    deleted_by_id: deletedById,
   };
-  
+
   return true;
 };
 
 // DELETE - ลบ ConfigRunningCode แบบถาวร
 export const hardDeleteConfigRunningCode = (id: string): boolean => {
-  const index = configRunningCodes.findIndex(config => config.id === id);
-  
+  const index = configRunningCodes.findIndex((config) => config.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   configRunningCodes.splice(index, 1);
   return true;
 };
 
 // DELETE - ลบ ConfigRunningCode ตาม type
-export const deleteConfigRunningCodeByType = (type: string, deletedById: string): boolean => {
-  const config = configRunningCodes.find(cfg => cfg.type === type);
+export const deleteConfigRunningCodeByType = (
+  type: string,
+  deletedById: string
+): boolean => {
+  const config = configRunningCodes.find((cfg) => cfg.type === type);
   if (!config) return false;
-  
+
   return deleteConfigRunningCode(config.id, deletedById);
 };
 
 // RESTORE - กู้คืน ConfigRunningCode ที่ถูกลบ
-export const restoreConfigRunningCode = (id: string, restoredById: string): ConfigRunningCode | null => {
-  const index = configRunningCodes.findIndex(config => config.id === id);
-  
+export const restoreConfigRunningCode = (
+  id: string,
+  restoredById: string
+): ConfigRunningCode | null => {
+  const index = configRunningCodes.findIndex((config) => config.id === id);
+
   if (index === -1) {
     return null;
   }
-  
+
   configRunningCodes[index] = {
     ...configRunningCodes[index],
     deleted_at: null,
     deleted_by_id: null,
     updated_at: getCurrentTimestamp(),
-    updated_by_id: restoredById
+    updated_by_id: restoredById,
   };
-  
+
   return configRunningCodes[index];
 };
 
@@ -264,12 +313,14 @@ export const getConfigRunningCodeCount = (): number => {
 
 // Utility function สำหรับนับจำนวน ConfigRunningCode ที่ไม่ถูกลบ
 export const getActiveConfigRunningCodeCount = (): number => {
-  return configRunningCodes.filter(config => !config.deleted_at).length;
+  return configRunningCodes.filter((config) => !config.deleted_at).length;
 };
 
 // Utility function สำหรับนับจำนวน ConfigRunningCode ของ type
 export const getConfigRunningCodeCountByType = (type: string): number => {
-  return configRunningCodes.filter(config => config.type === type && !config.deleted_at).length;
+  return configRunningCodes.filter(
+    (config) => config.type === type && !config.deleted_at
+  ).length;
 };
 
 // Utility function สำหรับค้นหา ConfigRunningCode แบบ advanced search
@@ -282,27 +333,36 @@ export const searchConfigRunningCodes = (searchCriteria: {
   start_date?: string;
   end_date?: string;
 }): ConfigRunningCode[] => {
-  return configRunningCodes.filter(config => {
+  return configRunningCodes.filter((config) => {
     // ตรวจสอบ type
     if (searchCriteria.type && config.type !== searchCriteria.type) {
       return false;
     }
-    
+
     // ตรวจสอบ note
-    if (searchCriteria.note && !config.note.toLowerCase().includes(searchCriteria.note.toLowerCase())) {
+    if (
+      searchCriteria.note &&
+      !config.note.toLowerCase().includes(searchCriteria.note.toLowerCase())
+    ) {
       return false;
     }
-    
+
     // ตรวจสอบ doc_version
-    if (searchCriteria.doc_version && config.doc_version !== searchCriteria.doc_version) {
+    if (
+      searchCriteria.doc_version &&
+      config.doc_version !== searchCriteria.doc_version
+    ) {
       return false;
     }
-    
+
     // ตรวจสอบ created_by_id
-    if (searchCriteria.created_by_id && config.created_by_id !== searchCriteria.created_by_id) {
+    if (
+      searchCriteria.created_by_id &&
+      config.created_by_id !== searchCriteria.created_by_id
+    ) {
       return false;
     }
-    
+
     // ตรวจสอบสถานะการลบ
     if (searchCriteria.is_deleted !== undefined) {
       const isDeleted = !!config.deleted_at;
@@ -310,18 +370,18 @@ export const searchConfigRunningCodes = (searchCriteria: {
         return false;
       }
     }
-    
+
     // ตรวจสอบช่วงเวลา
     if (searchCriteria.start_date || searchCriteria.end_date) {
       const configDate = new Date(config.created_at);
-      
+
       if (searchCriteria.start_date) {
         const startDate = new Date(searchCriteria.start_date);
         if (configDate < startDate) {
           return false;
         }
       }
-      
+
       if (searchCriteria.end_date) {
         const endDate = new Date(searchCriteria.end_date);
         if (configDate > endDate) {
@@ -329,56 +389,61 @@ export const searchConfigRunningCodes = (searchCriteria: {
         }
       }
     }
-    
+
     return true;
   });
 };
 
 // Utility function สำหรับตรวจสอบ type ซ้ำ
 export const isConfigRunningCodeTypeExists = (type: string): boolean => {
-  return configRunningCodes.some(config => config.type === type && !config.deleted_at);
+  return configRunningCodes.some(
+    (config) => config.type === type && !config.deleted_at
+  );
 };
 
 // Utility function สำหรับตรวจสอบ type ซ้ำทั้งหมด
 export const isConfigRunningCodeTypeExistsAll = (type: string): boolean => {
-  return configRunningCodes.some(config => config.type === type);
+  return configRunningCodes.some((config) => config.type === type);
 };
 
 // Utility function สำหรับสร้าง running code ตาม config
 export const generateRunningCode = (type: string, sequence: number): string => {
   const config = getConfigRunningCodeByType(type);
-  if (!config) return '';
-  
+  if (!config) return "";
+
   const { A, B, C, format } = config.config;
-  
+
   // แทนที่ placeholder ใน format
   let result = format;
-  
+
   // แทนที่ {A}
   result = result.replace(/{A}/g, A);
-  
+
   // แทนที่ {B} ด้วยวันที่ปัจจุบัน
-  if (B.includes('date(')) {
+  if (B.includes("date(")) {
     const dateMatch = B.match(/date\('([^']+)'\)/);
     if (dateMatch) {
       const dateFormat = dateMatch[1];
       const now = new Date();
-      let dateStr = '';
-      
-      if (dateFormat === 'yyyyMM') {
-        dateStr = now.getFullYear().toString() + (now.getMonth() + 1).toString().padStart(2, '0');
-      } else if (dateFormat === 'yyyyMMdd') {
-        dateStr = now.getFullYear().toString() + 
-                  (now.getMonth() + 1).toString().padStart(2, '0') + 
-                  now.getDate().toString().padStart(2, '0');
+      let dateStr = "";
+
+      if (dateFormat === "yyyyMM") {
+        dateStr =
+          now.getFullYear().toString() +
+          (now.getMonth() + 1).toString().padStart(2, "0");
+      } else if (dateFormat === "yyyyMMdd") {
+        dateStr =
+          now.getFullYear().toString() +
+          (now.getMonth() + 1).toString().padStart(2, "0") +
+          now.getDate().toString().padStart(2, "0");
       }
-      
+
       result = result.replace(/{B}/g, dateStr);
     }
   }
-  
+
   // แทนที่ {C} ด้วย sequence number
-  if (C.includes('running(')) {
+  if (C.includes("running(")) {
     const runningMatch = C.match(/running\((\d+),\s*'([^']+)'\)/);
     if (runningMatch) {
       const digits = parseInt(runningMatch[1]);
@@ -387,6 +452,6 @@ export const generateRunningCode = (type: string, sequence: number): string => {
       result = result.replace(/{C}/g, sequenceStr);
     }
   }
-  
+
   return result;
 };

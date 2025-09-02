@@ -42,7 +42,7 @@ export const productItemGroups: ProductItemGroup[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440002",
@@ -63,7 +63,7 @@ export const productItemGroups: ProductItemGroup[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440003",
@@ -84,7 +84,7 @@ export const productItemGroups: ProductItemGroup[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440004",
@@ -105,7 +105,7 @@ export const productItemGroups: ProductItemGroup[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440005",
@@ -126,19 +126,24 @@ export const productItemGroups: ProductItemGroup[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
-  }
+    deleted_by_id: null,
+  },
 ];
 
 // CREATE - สร้าง ProductItemGroup ใหม่
-export const createProductItemGroup = (productItemGroupData: Omit<ProductItemGroup, 'id' | 'created_at' | 'updated_at'>): ProductItemGroup => {
+export const createProductItemGroup = (
+  productItemGroupData: Omit<
+    ProductItemGroup,
+    "id" | "created_at" | "updated_at"
+  >
+): ProductItemGroup => {
   const newProductItemGroup: ProductItemGroup = {
     ...productItemGroupData,
     id: generateId(),
     created_at: getCurrentTimestamp(),
-    updated_at: getCurrentTimestamp()
+    updated_at: getCurrentTimestamp(),
   };
-  
+
   productItemGroups.push(newProductItemGroup);
   return newProductItemGroup;
 };
@@ -149,119 +154,161 @@ export const getAllProductItemGroups = (): ProductItemGroup[] => {
 };
 
 // READ - อ่าน ProductItemGroup ตาม ID
-export const getProductItemGroupById = (id: string): ProductItemGroup | undefined => {
-  return productItemGroups.find(group => group.id === id);
+export const getProductItemGroupById = (
+  id: string
+): ProductItemGroup | undefined => {
+  return productItemGroups.find((group) => group.id === id);
 };
 
 // READ - อ่าน ProductItemGroup ตาม name
-export const getProductItemGroupByName = (name: string): ProductItemGroup | undefined => {
-  return productItemGroups.find(group => group.name === name);
+export const getProductItemGroupByName = (
+  name: string
+): ProductItemGroup | undefined => {
+  return productItemGroups.find((group) => group.name === name);
 };
 
 // READ - อ่าน ProductItemGroup ตาม product_subcategory_id
-export const getProductItemGroupsBySubcategory = (subcategoryId: string): ProductItemGroup[] => {
-  return productItemGroups.filter(group => group.product_subcategory_id === subcategoryId);
+export const getProductItemGroupsBySubcategory = (
+  subcategoryId: string
+): ProductItemGroup[] => {
+  return productItemGroups.filter(
+    (group) => group.product_subcategory_id === subcategoryId
+  );
 };
 
 // READ - อ่าน ProductItemGroup ที่ active
 export const getActiveProductItemGroups = (): ProductItemGroup[] => {
-  return productItemGroups.filter(group => group.is_active);
+  return productItemGroups.filter((group) => group.is_active);
 };
 
 // READ - อ่าน ProductItemGroup ที่ inactive
 export const getInactiveProductItemGroups = (): ProductItemGroup[] => {
-  return productItemGroups.filter(group => !group.is_active);
+  return productItemGroups.filter((group) => !group.is_active);
 };
 
 // READ - อ่าน ProductItemGroup ตาม description
-export const getProductItemGroupsByDescription = (description: string): ProductItemGroup[] => {
-  return productItemGroups.filter(group => 
-    group.description && group.description.toLowerCase().includes(description.toLowerCase())
+export const getProductItemGroupsByDescription = (
+  description: string
+): ProductItemGroup[] => {
+  return productItemGroups.filter(
+    (group) =>
+      group.description &&
+      group.description.toLowerCase().includes(description.toLowerCase())
   );
 };
 
 // READ - อ่าน ProductItemGroup ที่ไม่มี subcategory
-export const getProductItemGroupsWithoutSubcategory = (): ProductItemGroup[] => {
-  return productItemGroups.filter(group => group.product_subcategory_id === null);
-};
+export const getProductItemGroupsWithoutSubcategory =
+  (): ProductItemGroup[] => {
+    return productItemGroups.filter(
+      (group) => group.product_subcategory_id === null
+    );
+  };
 
 // READ - ค้นหา ProductItemGroup แบบ fuzzy search
-export const searchProductItemGroups = (searchTerm: string): ProductItemGroup[] => {
+export const searchProductItemGroups = (
+  searchTerm: string
+): ProductItemGroup[] => {
   const lowerSearchTerm = searchTerm.toLowerCase();
-  return productItemGroups.filter(group => 
-    group.name.toLowerCase().includes(lowerSearchTerm) ||
-    (group.description && group.description.toLowerCase().includes(lowerSearchTerm))
+  return productItemGroups.filter(
+    (group) =>
+      group.name.toLowerCase().includes(lowerSearchTerm) ||
+      (group.description &&
+        group.description.toLowerCase().includes(lowerSearchTerm))
   );
 };
 
 // UPDATE - อัปเดต ProductItemGroup
-export const updateProductItemGroup = (id: string, updateData: Partial<Omit<ProductItemGroup, 'id' | 'created_at' | 'created_by_id'>>): ProductItemGroup | null => {
-  const index = productItemGroups.findIndex(group => group.id === id);
-  
+export const updateProductItemGroup = (
+  id: string,
+  updateData: Partial<
+    Omit<ProductItemGroup, "id" | "created_at" | "created_by_id">
+  >
+): ProductItemGroup | null => {
+  const index = productItemGroups.findIndex((group) => group.id === id);
+
   if (index === -1) {
     return null;
   }
-  
+
   productItemGroups[index] = {
     ...productItemGroups[index],
     ...updateData,
-    updated_at: getCurrentTimestamp()
+    updated_at: getCurrentTimestamp(),
   };
-  
+
   return productItemGroups[index];
 };
 
 // UPDATE - อัปเดต ProductItemGroup name
-export const updateProductItemGroupName = (id: string, name: string): ProductItemGroup | null => {
+export const updateProductItemGroupName = (
+  id: string,
+  name: string
+): ProductItemGroup | null => {
   return updateProductItemGroup(id, { name });
 };
 
 // UPDATE - อัปเดต ProductItemGroup description
-export const updateProductItemGroupDescription = (id: string, description: string): ProductItemGroup | null => {
+export const updateProductItemGroupDescription = (
+  id: string,
+  description: string
+): ProductItemGroup | null => {
   return updateProductItemGroup(id, { description });
 };
 
 // UPDATE - อัปเดต ProductItemGroup product_subcategory_id
-export const updateProductItemGroupSubcategory = (id: string, subcategoryId: string): ProductItemGroup | null => {
+export const updateProductItemGroupSubcategory = (
+  id: string,
+  subcategoryId: string
+): ProductItemGroup | null => {
   return updateProductItemGroup(id, { product_subcategory_id: subcategoryId });
 };
 
 // UPDATE - อัปเดต ProductItemGroup active status
-export const updateProductItemGroupActiveStatus = (id: string, isActive: boolean): ProductItemGroup | null => {
+export const updateProductItemGroupActiveStatus = (
+  id: string,
+  isActive: boolean
+): ProductItemGroup | null => {
   return updateProductItemGroup(id, { is_active: isActive });
 };
 
 // DELETE - ลบ ProductItemGroup (soft delete)
-export const deleteProductItemGroup = (id: string, deletedById: string): boolean => {
-  const index = productItemGroups.findIndex(group => group.id === id);
-  
+export const deleteProductItemGroup = (
+  id: string,
+  deletedById: string
+): boolean => {
+  const index = productItemGroups.findIndex((group) => group.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   productItemGroups[index] = {
     ...productItemGroups[index],
     deleted_at: getCurrentTimestamp(),
-    deleted_by_id: deletedById
+    deleted_by_id: deletedById,
   };
-  
+
   return true;
 };
 
 // DELETE - ลบ ProductItemGroup แบบถาวร
 export const hardDeleteProductItemGroup = (id: string): boolean => {
-  const index = productItemGroups.findIndex(group => group.id === id);
-  
+  const index = productItemGroups.findIndex((group) => group.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   productItemGroups.splice(index, 1);
   return true;
 };
 
 // DELETE - ลบ ProductItemGroup ตาม name
-export const deleteProductItemGroupByName = (name: string, deletedById: string): boolean => {
+export const deleteProductItemGroupByName = (
+  name: string,
+  deletedById: string
+): boolean => {
   const group = getProductItemGroupByName(name);
   if (group) {
     return deleteProductItemGroup(group.id, deletedById);
@@ -270,32 +317,37 @@ export const deleteProductItemGroupByName = (name: string, deletedById: string):
 };
 
 // DELETE - ลบ ProductItemGroup ตาม product_subcategory_id
-export const deleteProductItemGroupsBySubcategory = (subcategoryId: string, deletedById: string): number => {
+export const deleteProductItemGroupsBySubcategory = (
+  subcategoryId: string,
+  deletedById: string
+): number => {
   let deletedCount = 0;
-  
-  productItemGroups.forEach(group => {
+
+  productItemGroups.forEach((group) => {
     if (group.product_subcategory_id === subcategoryId && !group.deleted_at) {
       group.deleted_at = getCurrentTimestamp();
       group.deleted_by_id = deletedById;
       deletedCount++;
     }
   });
-  
+
   return deletedCount;
 };
 
 // DELETE - ลบ ProductItemGroup ที่ inactive
-export const deleteInactiveProductItemGroups = (deletedById: string): number => {
+export const deleteInactiveProductItemGroups = (
+  deletedById: string
+): number => {
   let deletedCount = 0;
-  
-  productItemGroups.forEach(group => {
+
+  productItemGroups.forEach((group) => {
     if (!group.is_active && !group.deleted_at) {
       group.deleted_at = getCurrentTimestamp();
       group.deleted_by_id = deletedById;
       deletedCount++;
     }
   });
-  
+
   return deletedCount;
 };
 
@@ -311,46 +363,50 @@ export const getProductItemGroupCount = (): number => {
 
 // Utility function สำหรับนับจำนวน ProductItemGroup ที่ active
 export const getActiveProductItemGroupCount = (): number => {
-  return productItemGroups.filter(group => group.is_active).length;
+  return productItemGroups.filter((group) => group.is_active).length;
 };
 
 // Utility function สำหรับนับจำนวน ProductItemGroup ที่ inactive
 export const getInactiveProductItemGroupCount = (): number => {
-  return productItemGroups.filter(group => !group.is_active).length;
+  return productItemGroups.filter((group) => !group.is_active).length;
 };
 
 // Utility function สำหรับนับจำนวน ProductItemGroup ตาม product_subcategory_id
-export const getProductItemGroupCountBySubcategory = (subcategoryId: string): number => {
-  return productItemGroups.filter(group => group.product_subcategory_id === subcategoryId).length;
+export const getProductItemGroupCountBySubcategory = (
+  subcategoryId: string
+): number => {
+  return productItemGroups.filter(
+    (group) => group.product_subcategory_id === subcategoryId
+  ).length;
 };
 
 // Utility function สำหรับตรวจสอบ ProductItemGroup name ซ้ำ
 export const isProductItemGroupNameExists = (name: string): boolean => {
-  return productItemGroups.some(group => group.name === name);
+  return productItemGroups.some((group) => group.name === name);
 };
 
 // Utility function สำหรับตรวจสอบ ProductItemGroup ที่ถูกลบแล้ว
 export const getDeletedProductItemGroups = (): ProductItemGroup[] => {
-  return productItemGroups.filter(group => group.deleted_at !== null);
+  return productItemGroups.filter((group) => group.deleted_at !== null);
 };
 
 // Utility function สำหรับกู้คืน ProductItemGroup ที่ถูกลบแล้ว
 export const restoreProductItemGroup = (id: string): boolean => {
-  const index = productItemGroups.findIndex(group => group.id === id);
-  
+  const index = productItemGroups.findIndex((group) => group.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   if (productItemGroups[index].deleted_at) {
     productItemGroups[index] = {
       ...productItemGroups[index],
       deleted_at: null,
-      deleted_by_id: null
+      deleted_by_id: null,
     };
     return true;
   }
-  
+
   return false;
 };
 
@@ -362,30 +418,45 @@ export const searchProductItemGroupsAdvanced = (searchCriteria: {
   is_active?: boolean;
   has_subcategory?: boolean;
 }): ProductItemGroup[] => {
-  return productItemGroups.filter(group => {
-    if (searchCriteria.name && !group.name.toLowerCase().includes(searchCriteria.name.toLowerCase())) {
+  return productItemGroups.filter((group) => {
+    if (
+      searchCriteria.name &&
+      !group.name.toLowerCase().includes(searchCriteria.name.toLowerCase())
+    ) {
       return false;
     }
-    
-    if (searchCriteria.description && group.description && !group.description.toLowerCase().includes(searchCriteria.description.toLowerCase())) {
+
+    if (
+      searchCriteria.description &&
+      group.description &&
+      !group.description
+        .toLowerCase()
+        .includes(searchCriteria.description.toLowerCase())
+    ) {
       return false;
     }
-    
-    if (searchCriteria.product_subcategory_id && group.product_subcategory_id !== searchCriteria.product_subcategory_id) {
+
+    if (
+      searchCriteria.product_subcategory_id &&
+      group.product_subcategory_id !== searchCriteria.product_subcategory_id
+    ) {
       return false;
     }
-    
-    if (searchCriteria.is_active !== undefined && group.is_active !== searchCriteria.is_active) {
+
+    if (
+      searchCriteria.is_active !== undefined &&
+      group.is_active !== searchCriteria.is_active
+    ) {
       return false;
     }
-    
+
     if (searchCriteria.has_subcategory !== undefined) {
       const hasSubcategory = group.product_subcategory_id !== null;
       if (hasSubcategory !== searchCriteria.has_subcategory) {
         return false;
       }
     }
-    
+
     return true;
   });
 };

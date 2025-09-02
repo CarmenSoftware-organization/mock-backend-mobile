@@ -24,7 +24,7 @@ export const currencyIsos: CurrencyIso[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440002",
@@ -36,7 +36,7 @@ export const currencyIsos: CurrencyIso[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440003",
@@ -48,7 +48,7 @@ export const currencyIsos: CurrencyIso[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440004",
@@ -60,7 +60,7 @@ export const currencyIsos: CurrencyIso[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440005",
@@ -72,19 +72,21 @@ export const currencyIsos: CurrencyIso[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
-  }
+    deleted_by_id: null,
+  },
 ];
 
 // CREATE - สร้าง CurrencyIso ใหม่
-export const createCurrencyIso = (currencyIsoData: Omit<CurrencyIso, 'id' | 'created_at' | 'updated_at'>): CurrencyIso => {
+export const createCurrencyIso = (
+  currencyIsoData: Omit<CurrencyIso, "id" | "created_at" | "updated_at">
+): CurrencyIso => {
   const newCurrencyIso: CurrencyIso = {
     ...currencyIsoData,
     id: generateId(),
     created_at: getCurrentTimestamp(),
-    updated_at: getCurrentTimestamp()
+    updated_at: getCurrentTimestamp(),
   };
-  
+
   currencyIsos.push(newCurrencyIso);
   return newCurrencyIso;
 };
@@ -96,97 +98,115 @@ export const getAllCurrencyIsos = (): CurrencyIso[] => {
 
 // READ - อ่าน CurrencyIso ตาม ID
 export const getCurrencyIsoById = (id: string): CurrencyIso | undefined => {
-  return currencyIsos.find(currencyIso => currencyIso.id === id);
+  return currencyIsos.find((currencyIso) => currencyIso.id === id);
 };
 
 // READ - อ่าน CurrencyIso ตาม code
 export const getCurrencyIsoByCode = (code: string): CurrencyIso | undefined => {
-  return currencyIsos.find(currencyIso => currencyIso.iso_code === code);
+  return currencyIsos.find((currencyIso) => currencyIso.iso_code === code);
 };
 
 // READ - อ่าน CurrencyIso ตาม name
 export const getCurrencyIsoByName = (name: string): CurrencyIso | undefined => {
-  return currencyIsos.find(currencyIso => currencyIso.name === name);
+  return currencyIsos.find((currencyIso) => currencyIso.name === name);
 };
 
 // READ - อ่าน CurrencyIso ตาม symbol
-export const getCurrencyIsoBySymbol = (symbol: string): CurrencyIso | undefined => {
-  return currencyIsos.find(currencyIso => currencyIso.symbol === symbol);
+export const getCurrencyIsoBySymbol = (
+  symbol: string
+): CurrencyIso | undefined => {
+  return currencyIsos.find((currencyIso) => currencyIso.symbol === symbol);
 };
 
 // READ - ค้นหา CurrencyIso ตาม code หรือ name
 export const searchCurrencyIsos = (searchTerm: string): CurrencyIso[] => {
   const lowerSearchTerm = searchTerm.toLowerCase();
-  return currencyIsos.filter(currencyIso => 
-    currencyIso.iso_code.toLowerCase().includes(lowerSearchTerm) ||
-    currencyIso.name.toLowerCase().includes(lowerSearchTerm) ||
-    currencyIso.symbol.toLowerCase().includes(lowerSearchTerm)
+  return currencyIsos.filter(
+    (currencyIso) =>
+      currencyIso.iso_code.toLowerCase().includes(lowerSearchTerm) ||
+      currencyIso.name.toLowerCase().includes(lowerSearchTerm) ||
+      currencyIso.symbol.toLowerCase().includes(lowerSearchTerm)
   );
 };
 
 // UPDATE - อัปเดต CurrencyIso
-export const updateCurrencyIso = (id: string, updateData: Partial<Omit<CurrencyIso, 'id' | 'created_at' | 'created_by_id'>>): CurrencyIso | null => {
-  const index = currencyIsos.findIndex(currencyIso => currencyIso.id === id);
-  
+export const updateCurrencyIso = (
+  id: string,
+  updateData: Partial<Omit<CurrencyIso, "id" | "created_at" | "created_by_id">>
+): CurrencyIso | null => {
+  const index = currencyIsos.findIndex((currencyIso) => currencyIso.id === id);
+
   if (index === -1) {
     return null;
   }
-  
+
   currencyIsos[index] = {
     ...currencyIsos[index],
     ...updateData,
-    updated_at: getCurrentTimestamp()
+    updated_at: getCurrentTimestamp(),
   };
-  
+
   return currencyIsos[index];
 };
 
 // UPDATE - อัปเดต CurrencyIso code
-export const updateCurrencyIsoCode = (id: string, code: string): CurrencyIso | null => {
+export const updateCurrencyIsoCode = (
+  id: string,
+  code: string
+): CurrencyIso | null => {
   return updateCurrencyIso(id, { iso_code: code });
 };
 
 // UPDATE - อัปเดต CurrencyIso name
-export const updateCurrencyIsoName = (id: string, name: string): CurrencyIso | null => {
+export const updateCurrencyIsoName = (
+  id: string,
+  name: string
+): CurrencyIso | null => {
   return updateCurrencyIso(id, { name });
 };
 
 // UPDATE - อัปเดต CurrencyIso symbol
-export const updateCurrencyIsoSymbol = (id: string, symbol: string): CurrencyIso | null => {
+export const updateCurrencyIsoSymbol = (
+  id: string,
+  symbol: string
+): CurrencyIso | null => {
   return updateCurrencyIso(id, { symbol });
 };
 
 // DELETE - ลบ CurrencyIso (soft delete)
 export const deleteCurrencyIso = (id: string, deletedById: string): boolean => {
-  const index = currencyIsos.findIndex(currencyIso => currencyIso.id === id);
-  
+  const index = currencyIsos.findIndex((currencyIso) => currencyIso.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   currencyIsos[index] = {
     ...currencyIsos[index],
     deleted_at: getCurrentTimestamp(),
-    deleted_by_id: deletedById
+    deleted_by_id: deletedById,
   };
-  
+
   return true;
 };
 
 // DELETE - ลบ CurrencyIso แบบถาวร
 export const hardDeleteCurrencyIso = (id: string): boolean => {
-  const index = currencyIsos.findIndex(currencyIso => currencyIso.id === id);
-  
+  const index = currencyIsos.findIndex((currencyIso) => currencyIso.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   currencyIsos.splice(index, 1);
   return true;
 };
 
 // DELETE - ลบ CurrencyIso ตาม code
-export const deleteCurrencyIsoByCode = (code: string, deletedById: string): boolean => {
+export const deleteCurrencyIsoByCode = (
+  code: string,
+  deletedById: string
+): boolean => {
   const currencyIso = getCurrencyIsoByCode(code);
   if (currencyIso) {
     return deleteCurrencyIso(currencyIso.id, deletedById);
@@ -195,7 +215,10 @@ export const deleteCurrencyIsoByCode = (code: string, deletedById: string): bool
 };
 
 // DELETE - ลบ CurrencyIso ตาม name
-export const deleteCurrencyIsoByName = (name: string, deletedById: string): boolean => {
+export const deleteCurrencyIsoByName = (
+  name: string,
+  deletedById: string
+): boolean => {
   const currencyIso = getCurrencyIsoByName(name);
   if (currencyIso) {
     return deleteCurrencyIso(currencyIso.id, deletedById);
@@ -204,7 +227,10 @@ export const deleteCurrencyIsoByName = (name: string, deletedById: string): bool
 };
 
 // DELETE - ลบ CurrencyIso ตาม symbol
-export const deleteCurrencyIsoBySymbol = (symbol: string, deletedById: string): boolean => {
+export const deleteCurrencyIsoBySymbol = (
+  symbol: string,
+  deletedById: string
+): boolean => {
   const currencyIso = getCurrencyIsoBySymbol(symbol);
   if (currencyIso) {
     return deleteCurrencyIso(currencyIso.id, deletedById);
@@ -224,40 +250,40 @@ export const getCurrencyIsoCount = (): number => {
 
 // Utility function สำหรับตรวจสอบ CurrencyIso code ซ้ำ
 export const isCurrencyIsoCodeExists = (code: string): boolean => {
-  return currencyIsos.some(currencyIso => currencyIso.iso_code === code);
+  return currencyIsos.some((currencyIso) => currencyIso.iso_code === code);
 };
 
 // Utility function สำหรับตรวจสอบ CurrencyIso name ซ้ำ
 export const isCurrencyIsoNameExists = (name: string): boolean => {
-  return currencyIsos.some(currencyIso => currencyIso.name === name);
+  return currencyIsos.some((currencyIso) => currencyIso.name === name);
 };
 
 // Utility function สำหรับตรวจสอบ CurrencyIso symbol ซ้ำ
 export const isCurrencyIsoSymbolExists = (symbol: string): boolean => {
-  return currencyIsos.some(currencyIso => currencyIso.symbol === symbol);
+  return currencyIsos.some((currencyIso) => currencyIso.symbol === symbol);
 };
 
 // Utility function สำหรับตรวจสอบ CurrencyIso ที่ถูกลบแล้ว
 export const getDeletedCurrencyIsos = (): CurrencyIso[] => {
-  return currencyIsos.filter(currencyIso => currencyIso.deleted_at !== null);
+  return currencyIsos.filter((currencyIso) => currencyIso.deleted_at !== null);
 };
 
 // Utility function สำหรับกู้คืน CurrencyIso ที่ถูกลบแล้ว
 export const restoreCurrencyIso = (id: string): boolean => {
-  const index = currencyIsos.findIndex(currencyIso => currencyIso.id === id);
-  
+  const index = currencyIsos.findIndex((currencyIso) => currencyIso.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   if (currencyIsos[index].deleted_at) {
     currencyIsos[index] = {
       ...currencyIsos[index],
       deleted_at: null,
-      deleted_by_id: null
+      deleted_by_id: null,
     };
     return true;
   }
-  
+
   return false;
 };

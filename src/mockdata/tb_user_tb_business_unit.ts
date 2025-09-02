@@ -2,7 +2,7 @@ export interface UserBusinessUnit {
   id: string;
   user_id: string;
   business_unit_id: string;
-  role: 'admin' | 'user';
+  role: "admin" | "user";
   is_default: boolean;
   is_active: boolean;
   created_at: string;
@@ -22,7 +22,7 @@ export const userBusinessUnits: UserBusinessUnit[] = [
     created_at: "2025-07-29T01:37:29.005Z",
     created_by_id: null,
     updated_at: "2025-07-29T01:37:29.006Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "fb0e8944-3727-493f-a6bc-6bd408d62fa3",
@@ -34,7 +34,7 @@ export const userBusinessUnits: UserBusinessUnit[] = [
     created_at: "2025-07-29T01:37:29.007Z",
     created_by_id: null,
     updated_at: "2025-07-29T01:37:29.008Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "966a0679-0c68-437c-ad36-687f82c389a9",
@@ -46,7 +46,7 @@ export const userBusinessUnits: UserBusinessUnit[] = [
     created_at: "2025-07-29T01:37:29.008Z",
     created_by_id: null,
     updated_at: "2025-07-29T01:37:29.009Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "862b7169-8af5-430c-963e-dd12b82a0359",
@@ -58,7 +58,7 @@ export const userBusinessUnits: UserBusinessUnit[] = [
     created_at: "2025-07-29T01:37:29.009Z",
     created_by_id: null,
     updated_at: "2025-07-29T01:37:29.009Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "8e9aa186-2abe-4496-b69b-95b1d1d404a4",
@@ -70,7 +70,7 @@ export const userBusinessUnits: UserBusinessUnit[] = [
     created_at: "2025-07-29T01:37:29.009Z",
     created_by_id: null,
     updated_at: "2025-07-29T01:37:29.010Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "c874ef4a-c6c2-4849-9d49-036be1700122",
@@ -82,7 +82,7 @@ export const userBusinessUnits: UserBusinessUnit[] = [
     created_at: "2025-07-29T01:37:29.010Z",
     created_by_id: null,
     updated_at: "2025-07-29T01:37:29.010Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "49896d9f-c1a4-437a-ab71-5aa537de5716",
@@ -94,7 +94,7 @@ export const userBusinessUnits: UserBusinessUnit[] = [
     created_at: "2025-07-29T01:37:29.010Z",
     created_by_id: null,
     updated_at: "2025-07-29T01:37:29.011Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "cc6e2fb7-b9e7-4cde-b267-f0c9e5dcab91",
@@ -106,7 +106,7 @@ export const userBusinessUnits: UserBusinessUnit[] = [
     created_at: "2025-07-29T01:37:29.011Z",
     created_by_id: null,
     updated_at: "2025-07-29T01:37:29.011Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "0932f78a-35f7-4e11-aed7-35191a3b6ad4",
@@ -118,7 +118,7 @@ export const userBusinessUnits: UserBusinessUnit[] = [
     created_at: "2025-07-29T01:37:29.011Z",
     created_by_id: null,
     updated_at: "2025-07-29T01:37:29.012Z",
-    updated_by_id: null
+    updated_by_id: null,
   },
   {
     id: "6f377b13-3c8f-48be-a8d9-4cfcd6fbbe2b",
@@ -130,6 +130,6 @@ export const userBusinessUnits: UserBusinessUnit[] = [
     created_at: "2025-07-29T01:37:29.012Z",
     created_by_id: null,
     updated_at: "2025-07-29T01:37:29.012Z",
-    updated_by_id: null
-  }
+    updated_by_id: null,
+  },
 ];

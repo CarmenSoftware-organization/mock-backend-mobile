@@ -27,7 +27,7 @@ export const userLocations: UserLocation[] = [
     updated_at: "2025-07-29T01:06:01.327Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "c0b587d2-8097-4b7c-a16c-05e004004268",
@@ -40,7 +40,7 @@ export const userLocations: UserLocation[] = [
     updated_at: "2025-07-29T01:06:01.378Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "f80bd61b-9a5f-420e-98b4-b90f04e5cfc3",
@@ -53,7 +53,7 @@ export const userLocations: UserLocation[] = [
     updated_at: "2025-07-29T01:06:01.410Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "3a48777e-eff8-4156-a685-2420cf078711",
@@ -66,7 +66,7 @@ export const userLocations: UserLocation[] = [
     updated_at: "2025-07-29T01:06:01.441Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "c571bd72-76ac-4359-aac7-ae851918e25c",
@@ -79,7 +79,7 @@ export const userLocations: UserLocation[] = [
     updated_at: "2025-07-29T01:06:01.473Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "0cc426a7-f896-40df-87ed-815cbb46bd07",
@@ -92,7 +92,7 @@ export const userLocations: UserLocation[] = [
     updated_at: "2025-07-29T01:06:01.503Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "46b67fe6-5770-4569-8adc-7e361b0a91f5",
@@ -105,7 +105,7 @@ export const userLocations: UserLocation[] = [
     updated_at: "2025-07-29T01:06:01.533Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "d9f8e68f-393c-4cc5-9768-c681984d34cc",
@@ -118,7 +118,7 @@ export const userLocations: UserLocation[] = [
     updated_at: "2025-07-29T01:06:01.563Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "7b878126-4565-4324-904c-a0e7f2206784",
@@ -131,7 +131,7 @@ export const userLocations: UserLocation[] = [
     updated_at: "2025-07-29T01:06:01.591Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "9b9bffae-09db-4af1-ba8c-f97e843832bb",
@@ -144,99 +144,145 @@ export const userLocations: UserLocation[] = [
     updated_at: "2025-07-29T01:06:01.621Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
-  }
+    deleted_by_id: null,
+  },
 ];
 
 // CREATE - สร้าง UserLocation ใหม่
-export const createUserLocation = (data: Omit<UserLocation, 'id' | 'created_at' | 'created_by_id' | 'updated_at' | 'updated_by_id'>): UserLocation => {
+export const createUserLocation = (
+  data: Omit<
+    UserLocation,
+    "id" | "created_at" | "created_by_id" | "updated_at" | "updated_by_id"
+  >
+): UserLocation => {
   const newUserLocation: UserLocation = {
     ...data,
     id: generateId(),
     created_at: getCurrentTimestamp(),
-    created_by_id: 'system',
+    created_by_id: "system",
     updated_at: getCurrentTimestamp(),
-    updated_by_id: 'system'
+    updated_by_id: "system",
   };
-  
+
   userLocations.push(newUserLocation);
   return newUserLocation;
 };
 
 // READ - อ่านข้อมูล UserLocation
 export const getAllUserLocations = (): UserLocation[] => {
-  return userLocations.filter(userLocation => !userLocation.deleted_at);
+  return userLocations.filter((userLocation) => !userLocation.deleted_at);
 };
 
 export const getUserLocationById = (id: string): UserLocation | null => {
-  const userLocation = userLocations.find(ul => ul.id === id && !ul.deleted_at);
+  const userLocation = userLocations.find(
+    (ul) => ul.id === id && !ul.deleted_at
+  );
   return userLocation || null;
 };
 
 export const getUserLocationsByUser = (userId: string): UserLocation[] => {
-  return userLocations.filter(userLocation => userLocation.user_id === userId && !userLocation.deleted_at);
+  return userLocations.filter(
+    (userLocation) =>
+      userLocation.user_id === userId && !userLocation.deleted_at
+  );
 };
 
-export const getUserLocationsByLocation = (locationId: string): UserLocation[] => {
-  return userLocations.filter(userLocation => userLocation.location_id === locationId && !userLocation.deleted_at);
+export const getUserLocationsByLocation = (
+  locationId: string
+): UserLocation[] => {
+  return userLocations.filter(
+    (userLocation) =>
+      userLocation.location_id === locationId && !userLocation.deleted_at
+  );
 };
 
-export const getUserLocationsByCreator = (createdById: string): UserLocation[] => {
-  return userLocations.filter(userLocation => userLocation.created_by_id === createdById && !userLocation.deleted_at);
+export const getUserLocationsByCreator = (
+  createdById: string
+): UserLocation[] => {
+  return userLocations.filter(
+    (userLocation) =>
+      userLocation.created_by_id === createdById && !userLocation.deleted_at
+  );
 };
 
-export const getUserLocationsByDateRange = (startDate: string, endDate: string): UserLocation[] => {
-  return userLocations.filter(userLocation => {
+export const getUserLocationsByDateRange = (
+  startDate: string,
+  endDate: string
+): UserLocation[] => {
+  return userLocations.filter((userLocation) => {
     const createdDate = new Date(userLocation.created_at);
     const start = new Date(startDate);
     const end = new Date(endDate);
-    return createdDate >= start && createdDate <= end && !userLocation.deleted_at;
+    return (
+      createdDate >= start && createdDate <= end && !userLocation.deleted_at
+    );
   });
 };
 
 export const getUserLocationsWithNote = (): UserLocation[] => {
-  return userLocations.filter(userLocation => userLocation.note !== null && !userLocation.deleted_at);
+  return userLocations.filter(
+    (userLocation) => userLocation.note !== null && !userLocation.deleted_at
+  );
 };
 
 export const getUserLocationsWithoutNote = (): UserLocation[] => {
-  return userLocations.filter(userLocation => userLocation.note === null && !userLocation.deleted_at);
+  return userLocations.filter(
+    (userLocation) => userLocation.note === null && !userLocation.deleted_at
+  );
 };
 
 // UPDATE - อัปเดต UserLocation
-export const updateUserLocation = (id: string, data: Partial<Omit<UserLocation, 'id' | 'created_at' | 'created_by_id'>>): UserLocation | null => {
-  const index = userLocations.findIndex(userLocation => userLocation.id === id && !userLocation.deleted_at);
-  
+export const updateUserLocation = (
+  id: string,
+  data: Partial<Omit<UserLocation, "id" | "created_at" | "created_by_id">>
+): UserLocation | null => {
+  const index = userLocations.findIndex(
+    (userLocation) => userLocation.id === id && !userLocation.deleted_at
+  );
+
   if (index === -1) {
     return null;
   }
-  
+
   userLocations[index] = {
     ...userLocations[index],
     ...data,
     updated_at: getCurrentTimestamp(),
-    updated_by_id: 'system'
+    updated_by_id: "system",
   };
-  
+
   return userLocations[index];
 };
 
 // UPDATE - อัปเดต UserLocation note
-export const updateUserLocationNote = (id: string, note: string): UserLocation | null => {
+export const updateUserLocationNote = (
+  id: string,
+  note: string
+): UserLocation | null => {
   return updateUserLocation(id, { note });
 };
 
 // UPDATE - อัปเดต UserLocation info
-export const updateUserLocationInfo = (id: string, info: any): UserLocation | null => {
+export const updateUserLocationInfo = (
+  id: string,
+  info: any
+): UserLocation | null => {
   return updateUserLocation(id, { info });
 };
 
 // UPDATE - อัปเดต UserLocation location
-export const updateUserLocationLocation = (id: string, locationId: string): UserLocation | null => {
+export const updateUserLocationLocation = (
+  id: string,
+  locationId: string
+): UserLocation | null => {
   return updateUserLocation(id, { location_id: locationId });
 };
 
 // DELETE - Soft delete UserLocation
-export const softDeleteUserLocation = (id: string, deletedById: string): UserLocation | null => {
+export const softDeleteUserLocation = (
+  id: string,
+  deletedById: string
+): UserLocation | null => {
   const userLocation = getUserLocationById(id);
   if (!userLocation) return null;
 
@@ -250,53 +296,61 @@ export const softDeleteUserLocation = (id: string, deletedById: string): UserLoc
 
 // DELETE - Hard delete UserLocation
 export const hardDeleteUserLocation = (id: string): boolean => {
-  const index = userLocations.findIndex(userLocation => userLocation.id === id);
-  
+  const index = userLocations.findIndex(
+    (userLocation) => userLocation.id === id
+  );
+
   if (index === -1) {
     return false;
   }
-  
+
   userLocations.splice(index, 1);
   return true;
 };
 
 // DELETE - ลบ UserLocation ตาม user
-export const deleteUserLocationsByUser = (userId: string, deletedById: string): boolean => {
+export const deleteUserLocationsByUser = (
+  userId: string,
+  deletedById: string
+): boolean => {
   const userLocationsByUser = getUserLocationsByUser(userId);
   let deletedCount = 0;
-  
-  userLocationsByUser.forEach(userLocation => {
+
+  userLocationsByUser.forEach((userLocation) => {
     if (softDeleteUserLocation(userLocation.id, deletedById)) {
       deletedCount++;
     }
   });
-  
+
   return deletedCount > 0;
 };
 
 // DELETE - ลบ UserLocation ตาม location
-export const deleteUserLocationsByLocation = (locationId: string, deletedById: string): boolean => {
+export const deleteUserLocationsByLocation = (
+  locationId: string,
+  deletedById: string
+): boolean => {
   const userLocationsByLocation = getUserLocationsByLocation(locationId);
   let deletedCount = 0;
-  
-  userLocationsByLocation.forEach(userLocation => {
+
+  userLocationsByLocation.forEach((userLocation) => {
     if (softDeleteUserLocation(userLocation.id, deletedById)) {
       deletedCount++;
     }
   });
-  
+
   return deletedCount > 0;
 };
 
 // RESTORE - กู้คืน UserLocation ที่ถูก soft delete
 export const restoreUserLocation = (id: string): UserLocation | null => {
-  const userLocation = userLocations.find(ul => ul.id === id);
+  const userLocation = userLocations.find((ul) => ul.id === id);
   if (!userLocation || !userLocation.deleted_at) return null;
 
   userLocation.deleted_at = null;
   userLocation.deleted_by_id = null;
   userLocation.updated_at = getCurrentTimestamp();
-  userLocation.updated_by_id = 'system';
+  userLocation.updated_by_id = "system";
 
   return userLocation;
 };
@@ -310,69 +364,96 @@ export const searchUserLocations = (criteria: {
   start_date?: string;
   end_date?: string;
 }): UserLocation[] => {
-  return userLocations.filter(userLocation => {
+  return userLocations.filter((userLocation) => {
     if (userLocation.deleted_at) return false;
-    
+
     if (criteria.user_id && userLocation.user_id !== criteria.user_id) {
       return false;
     }
-    
-    if (criteria.location_id && userLocation.location_id !== criteria.location_id) {
+
+    if (
+      criteria.location_id &&
+      userLocation.location_id !== criteria.location_id
+    ) {
       return false;
     }
-    
+
     if (criteria.has_note !== undefined) {
       const hasNote = userLocation.note !== null;
       if (hasNote !== criteria.has_note) {
         return false;
       }
     }
-    
-    if (criteria.created_by_id && userLocation.created_by_id !== criteria.created_by_id) {
+
+    if (
+      criteria.created_by_id &&
+      userLocation.created_by_id !== criteria.created_by_id
+    ) {
       return false;
     }
-    
+
     if (criteria.start_date || criteria.end_date) {
       const createdDate = new Date(userLocation.created_at);
-      if (criteria.start_date && createdDate < new Date(criteria.start_date)) return false;
-      if (criteria.end_date && createdDate > new Date(criteria.end_date)) return false;
+      if (criteria.start_date && createdDate < new Date(criteria.start_date))
+        return false;
+      if (criteria.end_date && createdDate > new Date(criteria.end_date))
+        return false;
     }
-    
+
     return true;
   });
 };
 
 // UTILITY FUNCTIONS - ฟังก์ชันเสริม
 export const getUserLocationCount = (): number => {
-  return userLocations.filter(userLocation => !userLocation.deleted_at).length;
+  return userLocations.filter((userLocation) => !userLocation.deleted_at)
+    .length;
 };
 
 export const getUserLocationCountByUser = (userId: string): number => {
-  return userLocations.filter(userLocation => userLocation.user_id === userId && !userLocation.deleted_at).length;
+  return userLocations.filter(
+    (userLocation) =>
+      userLocation.user_id === userId && !userLocation.deleted_at
+  ).length;
 };
 
 export const getUserLocationCountByLocation = (locationId: string): number => {
-  return userLocations.filter(userLocation => userLocation.location_id === locationId && !userLocation.deleted_at).length;
+  return userLocations.filter(
+    (userLocation) =>
+      userLocation.location_id === locationId && !userLocation.deleted_at
+  ).length;
 };
 
 export const isUserLocationExists = (id: string): boolean => {
-  return userLocations.some(userLocation => userLocation.id === id && !userLocation.deleted_at);
+  return userLocations.some(
+    (userLocation) => userLocation.id === id && !userLocation.deleted_at
+  );
 };
 
-export const isUserLocationExistsByUserAndLocation = (userId: string, locationId: string): boolean => {
-  return userLocations.some(userLocation => 
-    userLocation.user_id === userId && 
-    userLocation.location_id === locationId && 
-    !userLocation.deleted_at
+export const isUserLocationExistsByUserAndLocation = (
+  userId: string,
+  locationId: string
+): boolean => {
+  return userLocations.some(
+    (userLocation) =>
+      userLocation.user_id === userId &&
+      userLocation.location_id === locationId &&
+      !userLocation.deleted_at
   );
 };
 
 export const hasUserLocationsByUser = (userId: string): boolean => {
-  return userLocations.some(userLocation => userLocation.user_id === userId && !userLocation.deleted_at);
+  return userLocations.some(
+    (userLocation) =>
+      userLocation.user_id === userId && !userLocation.deleted_at
+  );
 };
 
 export const hasUserLocationsByLocation = (locationId: string): boolean => {
-  return userLocations.some(userLocation => userLocation.location_id === locationId && !userLocation.deleted_at);
+  return userLocations.some(
+    (userLocation) =>
+      userLocation.location_id === locationId && !userLocation.deleted_at
+  );
 };
 
 export const clearAllUserLocations = (): void => {

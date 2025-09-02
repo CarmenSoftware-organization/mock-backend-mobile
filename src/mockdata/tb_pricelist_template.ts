@@ -5,7 +5,7 @@ export interface PricelistTemplate {
   name: string;
   description: string;
   note: string;
-  status: 'draft' | 'active' | 'inactive';
+  status: "draft" | "active" | "inactive";
   info: any;
   dimension: any;
   doc_version: string;
@@ -32,7 +32,7 @@ export const pricelistTemplates: PricelistTemplate[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440502",
@@ -48,7 +48,7 @@ export const pricelistTemplates: PricelistTemplate[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440503",
@@ -64,7 +64,7 @@ export const pricelistTemplates: PricelistTemplate[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
+    deleted_by_id: null,
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440504",
@@ -80,19 +80,21 @@ export const pricelistTemplates: PricelistTemplate[] = [
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
-    deleted_by_id: null
-  }
+    deleted_by_id: null,
+  },
 ];
 
 // CREATE - สร้าง PricelistTemplate ใหม่
-export const createPricelistTemplate = (templateData: Omit<PricelistTemplate, 'id' | 'created_at' | 'updated_at'>): PricelistTemplate => {
+export const createPricelistTemplate = (
+  templateData: Omit<PricelistTemplate, "id" | "created_at" | "updated_at">
+): PricelistTemplate => {
   const newTemplate: PricelistTemplate = {
     ...templateData,
     id: generateId(),
     created_at: getCurrentTimestamp(),
-    updated_at: getCurrentTimestamp()
+    updated_at: getCurrentTimestamp(),
   };
-  
+
   pricelistTemplates.push(newTemplate);
   return newTemplate;
 };
@@ -103,113 +105,147 @@ export const getAllPricelistTemplates = (): PricelistTemplate[] => {
 };
 
 // READ - อ่าน PricelistTemplate ตาม ID
-export const getPricelistTemplateById = (id: string): PricelistTemplate | undefined => {
-  return pricelistTemplates.find(template => template.id === id);
+export const getPricelistTemplateById = (
+  id: string
+): PricelistTemplate | undefined => {
+  return pricelistTemplates.find((template) => template.id === id);
 };
 
 // READ - อ่าน PricelistTemplate ตาม name
-export const getPricelistTemplateByName = (name: string): PricelistTemplate | undefined => {
-  return pricelistTemplates.find(template => template.name === name);
+export const getPricelistTemplateByName = (
+  name: string
+): PricelistTemplate | undefined => {
+  return pricelistTemplates.find((template) => template.name === name);
 };
 
 // READ - อ่าน PricelistTemplate ตาม status
-export const getPricelistTemplatesByStatus = (status: 'draft' | 'active' | 'inactive'): PricelistTemplate[] => {
-  return pricelistTemplates.filter(template => template.status === status);
+export const getPricelistTemplatesByStatus = (
+  status: "draft" | "active" | "inactive"
+): PricelistTemplate[] => {
+  return pricelistTemplates.filter((template) => template.status === status);
 };
 
 // READ - อ่าน PricelistTemplate ที่ active
 export const getActivePricelistTemplates = (): PricelistTemplate[] => {
-  return pricelistTemplates.filter(template => template.status === 'active');
+  return pricelistTemplates.filter((template) => template.status === "active");
 };
 
 // READ - อ่าน PricelistTemplate ที่ draft
 export const getDraftPricelistTemplates = (): PricelistTemplate[] => {
-  return pricelistTemplates.filter(template => template.status === 'draft');
+  return pricelistTemplates.filter((template) => template.status === "draft");
 };
 
 // READ - อ่าน PricelistTemplate ที่ inactive
 export const getInactivePricelistTemplates = (): PricelistTemplate[] => {
-  return pricelistTemplates.filter(template => template.status === 'inactive');
+  return pricelistTemplates.filter(
+    (template) => template.status === "inactive"
+  );
 };
 
 // READ - ค้นหา PricelistTemplate แบบ fuzzy search
-export const searchPricelistTemplates = (searchTerm: string): PricelistTemplate[] => {
+export const searchPricelistTemplates = (
+  searchTerm: string
+): PricelistTemplate[] => {
   const lowerSearchTerm = searchTerm.toLowerCase();
-  return pricelistTemplates.filter(template => 
-    template.name.toLowerCase().includes(lowerSearchTerm) ||
-    template.description.toLowerCase().includes(lowerSearchTerm) ||
-    template.note.toLowerCase().includes(lowerSearchTerm)
+  return pricelistTemplates.filter(
+    (template) =>
+      template.name.toLowerCase().includes(lowerSearchTerm) ||
+      template.description.toLowerCase().includes(lowerSearchTerm) ||
+      template.note.toLowerCase().includes(lowerSearchTerm)
   );
 };
 
 // UPDATE - อัปเดต PricelistTemplate
-export const updatePricelistTemplate = (id: string, updateData: Partial<Omit<PricelistTemplate, 'id' | 'created_at' | 'created_by_id'>>): PricelistTemplate | null => {
-  const index = pricelistTemplates.findIndex(template => template.id === id);
-  
+export const updatePricelistTemplate = (
+  id: string,
+  updateData: Partial<
+    Omit<PricelistTemplate, "id" | "created_at" | "created_by_id">
+  >
+): PricelistTemplate | null => {
+  const index = pricelistTemplates.findIndex((template) => template.id === id);
+
   if (index === -1) {
     return null;
   }
-  
+
   pricelistTemplates[index] = {
     ...pricelistTemplates[index],
     ...updateData,
-    updated_at: getCurrentTimestamp()
+    updated_at: getCurrentTimestamp(),
   };
-  
+
   return pricelistTemplates[index];
 };
 
 // UPDATE - อัปเดต PricelistTemplate name
-export const updatePricelistTemplateName = (id: string, name: string): PricelistTemplate | null => {
+export const updatePricelistTemplateName = (
+  id: string,
+  name: string
+): PricelistTemplate | null => {
   return updatePricelistTemplate(id, { name });
 };
 
 // UPDATE - อัปเดต PricelistTemplate description
-export const updatePricelistTemplateDescription = (id: string, description: string): PricelistTemplate | null => {
+export const updatePricelistTemplateDescription = (
+  id: string,
+  description: string
+): PricelistTemplate | null => {
   return updatePricelistTemplate(id, { description });
 };
 
 // UPDATE - อัปเดต PricelistTemplate status
-export const updatePricelistTemplateStatus = (id: string, status: 'draft' | 'active' | 'inactive'): PricelistTemplate | null => {
+export const updatePricelistTemplateStatus = (
+  id: string,
+  status: "draft" | "active" | "inactive"
+): PricelistTemplate | null => {
   return updatePricelistTemplate(id, { status });
 };
 
 // UPDATE - อัปเดต PricelistTemplate note
-export const updatePricelistTemplateNote = (id: string, note: string): PricelistTemplate | null => {
+export const updatePricelistTemplateNote = (
+  id: string,
+  note: string
+): PricelistTemplate | null => {
   return updatePricelistTemplate(id, { note });
 };
 
 // DELETE - ลบ PricelistTemplate (soft delete)
-export const deletePricelistTemplate = (id: string, deletedById: string): boolean => {
-  const index = pricelistTemplates.findIndex(template => template.id === id);
-  
+export const deletePricelistTemplate = (
+  id: string,
+  deletedById: string
+): boolean => {
+  const index = pricelistTemplates.findIndex((template) => template.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   pricelistTemplates[index] = {
     ...pricelistTemplates[index],
     deleted_at: getCurrentTimestamp(),
-    deleted_by_id: deletedById
+    deleted_by_id: deletedById,
   };
-  
+
   return true;
 };
 
 // DELETE - ลบ PricelistTemplate แบบถาวร
 export const hardDeletePricelistTemplate = (id: string): boolean => {
-  const index = pricelistTemplates.findIndex(template => template.id === id);
-  
+  const index = pricelistTemplates.findIndex((template) => template.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   pricelistTemplates.splice(index, 1);
   return true;
 };
 
 // DELETE - ลบ PricelistTemplate ตาม name
-export const deletePricelistTemplateByName = (name: string, deletedById: string): boolean => {
+export const deletePricelistTemplateByName = (
+  name: string,
+  deletedById: string
+): boolean => {
   const template = getPricelistTemplateByName(name);
   if (template) {
     return deletePricelistTemplate(template.id, deletedById);
@@ -218,17 +254,20 @@ export const deletePricelistTemplateByName = (name: string, deletedById: string)
 };
 
 // DELETE - ลบ PricelistTemplate ตาม status
-export const deletePricelistTemplatesByStatus = (status: 'draft' | 'active' | 'inactive', deletedById: string): number => {
+export const deletePricelistTemplatesByStatus = (
+  status: "draft" | "active" | "inactive",
+  deletedById: string
+): number => {
   let deletedCount = 0;
-  
-  pricelistTemplates.forEach(template => {
+
+  pricelistTemplates.forEach((template) => {
     if (template.status === status && !template.deleted_at) {
       template.deleted_at = getCurrentTimestamp();
       template.deleted_by_id = deletedById;
       deletedCount++;
     }
   });
-  
+
   return deletedCount;
 };
 
@@ -243,42 +282,46 @@ export const getPricelistTemplateCount = (): number => {
 };
 
 // Utility function สำหรับนับจำนวน PricelistTemplate ตาม status
-export const getPricelistTemplateCountByStatus = (status: 'draft' | 'active' | 'inactive'): number => {
-  return pricelistTemplates.filter(template => template.status === status).length;
+export const getPricelistTemplateCountByStatus = (
+  status: "draft" | "active" | "inactive"
+): number => {
+  return pricelistTemplates.filter((template) => template.status === status)
+    .length;
 };
 
 // Utility function สำหรับนับจำนวน PricelistTemplate ที่ active
 export const getActivePricelistTemplateCount = (): number => {
-  return pricelistTemplates.filter(template => template.status === 'active').length;
+  return pricelistTemplates.filter((template) => template.status === "active")
+    .length;
 };
 
 // Utility function สำหรับตรวจสอบ PricelistTemplate name ซ้ำ
 export const isPricelistTemplateNameExists = (name: string): boolean => {
-  return pricelistTemplates.some(template => template.name === name);
+  return pricelistTemplates.some((template) => template.name === name);
 };
 
 // Utility function สำหรับตรวจสอบ PricelistTemplate ที่ถูกลบแล้ว
 export const getDeletedPricelistTemplates = (): PricelistTemplate[] => {
-  return pricelistTemplates.filter(template => template.deleted_at !== null);
+  return pricelistTemplates.filter((template) => template.deleted_at !== null);
 };
 
 // Utility function สำหรับกู้คืน PricelistTemplate ที่ถูกลบแล้ว
 export const restorePricelistTemplate = (id: string): boolean => {
-  const index = pricelistTemplates.findIndex(template => template.id === id);
-  
+  const index = pricelistTemplates.findIndex((template) => template.id === id);
+
   if (index === -1) {
     return false;
   }
-  
+
   if (pricelistTemplates[index].deleted_at) {
     pricelistTemplates[index] = {
       ...pricelistTemplates[index],
       deleted_at: null,
-      deleted_by_id: null
+      deleted_by_id: null,
     };
     return true;
   }
-  
+
   return false;
 };
 
@@ -286,41 +329,58 @@ export const restorePricelistTemplate = (id: string): boolean => {
 export const searchPricelistTemplatesAdvanced = (searchCriteria: {
   name?: string;
   description?: string;
-  status?: 'draft' | 'active' | 'inactive';
+  status?: "draft" | "active" | "inactive";
   category?: string;
 }): PricelistTemplate[] => {
-  return pricelistTemplates.filter(template => {
-    if (searchCriteria.name && !template.name.toLowerCase().includes(searchCriteria.name.toLowerCase())) {
+  return pricelistTemplates.filter((template) => {
+    if (
+      searchCriteria.name &&
+      !template.name.toLowerCase().includes(searchCriteria.name.toLowerCase())
+    ) {
       return false;
     }
-    
-    if (searchCriteria.description && !template.description.toLowerCase().includes(searchCriteria.description.toLowerCase())) {
+
+    if (
+      searchCriteria.description &&
+      !template.description
+        .toLowerCase()
+        .includes(searchCriteria.description.toLowerCase())
+    ) {
       return false;
     }
-    
+
     if (searchCriteria.status && template.status !== searchCriteria.status) {
       return false;
     }
-    
-    if (searchCriteria.category && template.info?.category !== searchCriteria.category) {
+
+    if (
+      searchCriteria.category &&
+      template.info?.category !== searchCriteria.category
+    ) {
       return false;
     }
-    
+
     return true;
   });
 };
 
 // Utility function สำหรับเปลี่ยน status ของ PricelistTemplate เป็น active
-export const activatePricelistTemplate = (id: string): PricelistTemplate | null => {
-  return updatePricelistTemplateStatus(id, 'active');
+export const activatePricelistTemplate = (
+  id: string
+): PricelistTemplate | null => {
+  return updatePricelistTemplateStatus(id, "active");
 };
 
 // Utility function สำหรับเปลี่ยน status ของ PricelistTemplate เป็น inactive
-export const deactivatePricelistTemplate = (id: string): PricelistTemplate | null => {
-  return updatePricelistTemplateStatus(id, 'inactive');
+export const deactivatePricelistTemplate = (
+  id: string
+): PricelistTemplate | null => {
+  return updatePricelistTemplateStatus(id, "inactive");
 };
 
 // Utility function สำหรับเปลี่ยน status ของ PricelistTemplate เป็น draft
-export const setPricelistTemplateToDraft = (id: string): PricelistTemplate | null => {
-  return updatePricelistTemplateStatus(id, 'draft');
+export const setPricelistTemplateToDraft = (
+  id: string
+): PricelistTemplate | null => {
+  return updatePricelistTemplateStatus(id, "draft");
 };
