@@ -1,5 +1,7 @@
 import type { Elysia } from "elysia";
 import {
+  resBadRequest,
+  resError,
   resInternalServerError,
   resNotFound,
   resUnauthorized,
@@ -14,6 +16,7 @@ import {
   tbDepartmentUser,
   tbDepartment,
 } from "@/mockdata";
+import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
 
 export default (app: Elysia) =>
   app
@@ -49,87 +52,85 @@ export default (app: Elysia) =>
     // Get user profile
     .get(
       "/api/user/profile",
-      async ({ jwt, params, query, body, headers, set }) => {
-        const token = headers.authorization?.split(" ")[1];
-        if (!token) {
-          set.status = 401;
-          return resUnauthorized;
+      async (ctx) => {
+
+        // check app id
+        const { error: appIdError } = CheckHeaderHasAppId(ctx.headers);
+        if (appIdError) {
+          ctx.set.status = 400;
+          return resError(400, appIdError);
         }
 
-        const currentUser = await jwt.verify(token);
-        if (!currentUser) {
-          set.status = 401;
-          return resUnauthorized;
+        const { error, currentUser } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+        if (error) {
+          ctx.set.status = 401;
+          return error;
         }
 
         let res = {};
 
         try {
           // Get the actual user from mock data
-          let user = tbUser.users.find((u: any) => u.id === currentUser.id);
-
-          // Fallback to first user if current user not found
-          if (!user) {
-            user = tbUser.users[0] || null;
-          }
+          let getUser = tbUser.users.find((u: any) => u.id === currentUser.id);
 
           // If no user found, return error
-          if (!user) {
+          if (!getUser) {
             return resNotFound("User not found");
           }
 
-          const user_info = tbUserProfile.userProfiles.find(
-            (u: any) => u.user_id === user.id
+          const getUserInfo = tbUserProfile.userProfiles.find(
+            (u: any) => u.user_id === getUser.id
           );
 
           // Use user data directly since we don't have separate profile table
-          const userProfile = {
+          const cUserProfile = {
             firstname:
-              user_info?.firstname ||
-              user_info?.firstname?.split(" ")[0] ||
+              getUserInfo?.firstname ||
+              getUserInfo?.firstname?.split(" ")[0] ||
               "Unknown",
-            middlename: user_info?.middlename || "",
+            middlename: getUserInfo?.middlename || "",
             lastname:
-              user_info?.lastname ||
-              user_info?.lastname?.split(" ").slice(1).join(" ") ||
+              getUserInfo?.lastname ||
+              getUserInfo?.lastname?.split(" ").slice(1).join(" ") ||
               "Unknown",
           };
 
           // get all bu list
-          const bu_user = tbUserTbBusinessUnit.userBusinessUnits.filter(
-            (u: any) => u.user_id === user.id
+          const getUserBU = tbUserTbBusinessUnit.userBusinessUnits.filter(
+            (u: any) => u.user_id === getUser.id
           );
-          const business_unit = bu_user
+
+          const cBusiness_unit = getUserBU
             .filter((user_bu) =>
               tbBusinessUnit.businessUnits.find(
                 (u) => u.id === user_bu.business_unit_id
               )
             )
             .map((user_bu) => {
-              const getBU = tbBusinessUnit.businessUnits.find(
+              const cBU = tbBusinessUnit.businessUnits.find(
                 (u) => u.id === user_bu.business_unit_id
               );
 
-              const getDepartmentUser =
+              const cDepartmentUser =
                 tbDepartmentUser.getDepartmentUsersByUserId(user_bu.user_id);
 
               let departmentInfo = {};
-              if (getDepartmentUser) {
+              if (cDepartmentUser) {
                 const getDepartment = tbDepartment.getDepartmentById(
-                  getDepartmentUser[0].department_id
+                  cDepartmentUser[0].department_id
                 );
                 departmentInfo = {
                   id: getDepartment?.id,
                   name: getDepartment?.name,
-                  is_hod: getDepartmentUser[0].is_hod,
+                  is_hod: cDepartmentUser[0].is_hod,
                 };
               }
 
-              if (getBU) {
+              if (cBU) {
                 return {
-                  id: getBU.id,
-                  name: getBU.name,
-                  alias_name: getBU.alias_name,
+                  id: cBU.id,
+                  name: cBU.name,
+                  alias_name: cBU.alias_name,
                   is_default: user_bu.is_default,
                   department: departmentInfo,
                 };
@@ -142,10 +143,10 @@ export default (app: Elysia) =>
             });
 
           res = {
-            id: user.id,
-            email: user.email,
-            user_info: userProfile,
-            business_unit: business_unit,
+            id: getUser.id,
+            email: getUser.email,
+            user_info: cUserProfile,
+            business_unit: cBusiness_unit,
           };
 
           // Return the actual user data from mock database

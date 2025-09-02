@@ -72,46 +72,6 @@ export default (app: Elysia) =>
           return error;
         }
 
-        // get user permissions
-        // const userPermissions = await tbUserCrud.getUserPermissions(currentUser.id as string);
-
-        return {};
-      },
-      {
-        detail: {
-          tags: ["user"],
-          summary: "all permissions of current user",
-          description:
-            `all permissions of current user. if add '${PARAM_X_TENANT_ID_OPTIONAL.name}' header it will return all permissions of user in that tenant`,
-          parameters: [PARAM_X_APP_ID, PARAM_X_TENANT_ID_OPTIONAL],
-        },
-      }
-    )
-
-    .get(
-      "/api/auth",
-      async ({ headers, jwt, set }) => {
-        // check token
-        const token = headers.authorization?.split(" ")[1];
-        if (!token) {
-          set.status = 401;
-          return resUnauthorized;
-        }
-
-        // check x-tenant-id
-        const tenantId = headers["x-tenant-id"];
-        const isUseTenantId = tenantId ? true : false;
-
-        const currentUser = await jwt.verify(token);
-        if (!currentUser) {
-          set.status = 401;
-          return resUnauthorized;
-        }
-
-        // get user permissions
-        // const userPermissions = await tbUserCrud.getUserPermissions(currentUser.id as string);
-
-        // Mock user permissions data
         const userPermissions = {
           user_id: currentUser.id,
           permissions: [
@@ -122,16 +82,15 @@ export default (app: Elysia) =>
           ],
         };
 
-        return {
-          data: userPermissions,
-        };
+        return {data : userPermissions};
+
       },
       {
         detail: {
           tags: ["user"],
-          summary: "all permissions of current user (Mobile)",
+          summary: "all permissions of current user",
           description:
-            "all permissions of current user (Mobile). if add x-tenant-id header it will return all permissions of user in that tenant",
+            `all permissions of current user. if add '${PARAM_X_TENANT_ID_OPTIONAL.name}' header it will return all permissions of user in that tenant`,
           parameters: [PARAM_X_APP_ID, PARAM_X_TENANT_ID_OPTIONAL],
         },
       }
