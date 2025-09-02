@@ -1,5 +1,6 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
 import { tbPermission, tbUser } from "./index";
+import { mock } from "./mock";
 
 export interface UserPermission {
   id: string;
@@ -13,17 +14,13 @@ export interface UserPermission {
   deleted_by_id: string | null;
 }
 
-const user1 = tbUser.users.find((user) => user.username === "user1@test.com");
-const user2 = tbUser.users.find((user) => user.username === "user2@test.com");
-const user3 = tbUser.users.find((user) => user.username === "user3@test.com");
-const user4 = tbUser.users.find((user) => user.username === "user4@test.com");
-const user5 = tbUser.users.find((user) => user.username === "user5@test.com");
-const user6 = tbUser.users.find((user) => user.username === "user6@test.com");
+const mock_users = mock.users;
+
 
 const userPermissions_user1: UserPermission[] = [
   {
     id: "550e8400-e29b-41d4-a716-446655440001",
-    user_id: user1?.id || "",
+    user_id: mock_users.user1?.id || "",
     permission_id: tbPermission.permissions[0].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -34,7 +31,7 @@ const userPermissions_user1: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440002",
-    user_id: user1?.id || "",
+    user_id: mock_users.user1?.id || "",
     permission_id: tbPermission.permissions[1].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -45,7 +42,7 @@ const userPermissions_user1: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440003",
-    user_id: user1?.id || "",
+    user_id: mock_users.user1?.id || "",
     permission_id: tbPermission.permissions[2].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -56,7 +53,7 @@ const userPermissions_user1: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440004",
-    user_id: user1?.id || "",
+    user_id: mock_users.user1?.id || "",
     permission_id: tbPermission.permissions[3].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -67,7 +64,7 @@ const userPermissions_user1: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440005",
-    user_id: user1?.id || "",
+    user_id: mock_users.user1?.id || "",
     permission_id: tbPermission.permissions[4].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -78,7 +75,7 @@ const userPermissions_user1: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440006",
-    user_id: user1?.id || "",
+    user_id: mock_users.user1?.id || "",
     permission_id: tbPermission.permissions[5].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -89,7 +86,7 @@ const userPermissions_user1: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440007",
-    user_id: user1?.id || "",
+    user_id: mock_users.user1?.id || "",
     permission_id: tbPermission.permissions[6].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -100,7 +97,7 @@ const userPermissions_user1: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440009",
-    user_id: user1?.id || "",
+    user_id: mock_users.user1?.id || "",
     permission_id: tbPermission.permissions[8].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -111,7 +108,7 @@ const userPermissions_user1: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440010",
-    user_id: user1?.id || "",
+    user_id: mock_users.user1?.id || "",
     permission_id: tbPermission.permissions[9].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -125,7 +122,7 @@ const userPermissions_user1: UserPermission[] = [
 const userPermissions_user2: UserPermission[] = [
   {
     id: "550e8400-e29b-41d4-a716-446655440001",
-    user_id: user2?.id || "",
+    user_id: mock_users.user2?.id || "",
     permission_id: tbPermission.permissions[0].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -136,7 +133,7 @@ const userPermissions_user2: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440002",
-    user_id: user2?.id || "",
+    user_id: mock_users.user2?.id || "",
     permission_id: tbPermission.permissions[1].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -147,7 +144,7 @@ const userPermissions_user2: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440003",
-    user_id: user2?.id || "",
+    user_id: mock_users.user2?.id || "",
     permission_id: tbPermission.permissions[2].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -158,7 +155,7 @@ const userPermissions_user2: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440004",
-    user_id: user2?.id || "",
+    user_id: mock_users.user2?.id || "",
     permission_id: tbPermission.permissions[3].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -169,7 +166,7 @@ const userPermissions_user2: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440005",
-    user_id: user2?.id || "",
+    user_id: mock_users.user2?.id || "",
     permission_id: tbPermission.permissions[4].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -180,7 +177,7 @@ const userPermissions_user2: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440006",
-    user_id: user2?.id || "",
+    user_id: mock_users.user2?.id || "",
     permission_id: tbPermission.permissions[5].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -191,7 +188,7 @@ const userPermissions_user2: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440007",
-    user_id: user2?.id || "",
+    user_id: mock_users.user2?.id || "",
     permission_id: tbPermission.permissions[6].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -202,7 +199,7 @@ const userPermissions_user2: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440009",
-    user_id: user2?.id || "",
+    user_id: mock_users.user2?.id || "",
     permission_id: tbPermission.permissions[8].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -213,7 +210,7 @@ const userPermissions_user2: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440010",
-    user_id: user2?.id || "",
+    user_id: mock_users.user2?.id || "",
     permission_id: tbPermission.permissions[9].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -227,7 +224,7 @@ const userPermissions_user2: UserPermission[] = [
 const userPermissions_user3: UserPermission[] = [
   {
     id: "550e8400-e29b-41d4-a716-446655440001",
-    user_id: user3?.id || "",
+    user_id: mock_users.user3?.id || "",
     permission_id: tbPermission.permissions[0].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -238,7 +235,7 @@ const userPermissions_user3: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440002",
-    user_id: user3?.id || "",
+    user_id: mock_users.user3?.id || "",
     permission_id: tbPermission.permissions[1].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -249,7 +246,7 @@ const userPermissions_user3: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440003",
-    user_id: user3?.id || "",
+    user_id: mock_users.user3?.id || "",
     permission_id: tbPermission.permissions[2].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -260,7 +257,7 @@ const userPermissions_user3: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440004",
-    user_id: user3?.id || "",
+    user_id: mock_users.user3?.id || "",
     permission_id: tbPermission.permissions[3].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -271,7 +268,7 @@ const userPermissions_user3: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440005",
-    user_id: user3?.id || "",
+    user_id: mock_users.user3?.id || "",
     permission_id: tbPermission.permissions[4].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -282,7 +279,7 @@ const userPermissions_user3: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440006",
-    user_id: user3?.id || "",
+    user_id: mock_users.user3?.id || "",
     permission_id: tbPermission.permissions[5].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -293,7 +290,7 @@ const userPermissions_user3: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440007",
-    user_id: user3?.id || "",
+    user_id: mock_users.user3?.id || "",
     permission_id: tbPermission.permissions[6].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -304,7 +301,7 @@ const userPermissions_user3: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440009",
-    user_id: user3?.id || "",
+    user_id: mock_users.user3?.id || "",
     permission_id: tbPermission.permissions[8].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -315,7 +312,7 @@ const userPermissions_user3: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440010",
-    user_id: user3?.id || "",
+    user_id: mock_users.user3?.id || "",
     permission_id: tbPermission.permissions[9].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -329,7 +326,7 @@ const userPermissions_user3: UserPermission[] = [
 const userPermissions_user4: UserPermission[] = [
   {
     id: "550e8400-e29b-41d4-a716-446655440001",
-    user_id: user4?.id || "",
+    user_id: mock_users.user4?.id || "",
     permission_id: tbPermission.permissions[0].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -340,7 +337,7 @@ const userPermissions_user4: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440002",
-    user_id: user4?.id || "",
+    user_id: mock_users.user4?.id || "",
     permission_id: tbPermission.permissions[1].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -351,7 +348,7 @@ const userPermissions_user4: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440003",
-    user_id: user4?.id || "",
+    user_id: mock_users.user4?.id || "",
     permission_id: tbPermission.permissions[2].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -362,7 +359,7 @@ const userPermissions_user4: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440004",
-    user_id: user4?.id || "",
+    user_id: mock_users.user4?.id || "",
     permission_id: tbPermission.permissions[3].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -373,7 +370,7 @@ const userPermissions_user4: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440005",
-    user_id: user4?.id || "",
+    user_id: mock_users.user4?.id || "",
     permission_id: tbPermission.permissions[4].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -384,7 +381,7 @@ const userPermissions_user4: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440006",
-    user_id: user4?.id || "",
+    user_id: mock_users.user4?.id || "",
     permission_id: tbPermission.permissions[5].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -395,7 +392,7 @@ const userPermissions_user4: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440007",
-    user_id: user4?.id || "",
+    user_id: mock_users.user4?.id || "",
     permission_id: tbPermission.permissions[6].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -406,7 +403,7 @@ const userPermissions_user4: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440009",
-    user_id: user4?.id || "",
+    user_id: mock_users.user4?.id || "",
     permission_id: tbPermission.permissions[8].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -417,7 +414,7 @@ const userPermissions_user4: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440010",
-    user_id: user4?.id || "",
+    user_id: mock_users.user4?.id || "",
     permission_id: tbPermission.permissions[9].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -431,7 +428,7 @@ const userPermissions_user4: UserPermission[] = [
 const userPermissions_user5: UserPermission[] = [
   {
     id: "550e8400-e29b-41d4-a716-446655440001",
-    user_id: user5?.id || "",
+    user_id: mock_users.user5?.id || "",
     permission_id: tbPermission.permissions[0].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -442,7 +439,7 @@ const userPermissions_user5: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440002",
-    user_id: user5?.id || "",
+    user_id: mock_users.user5?.id || "",
     permission_id: tbPermission.permissions[1].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -453,7 +450,7 @@ const userPermissions_user5: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440003",
-    user_id: user5?.id || "",
+    user_id: mock_users.user5?.id || "",
     permission_id: tbPermission.permissions[2].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -464,7 +461,7 @@ const userPermissions_user5: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440004",
-    user_id: user5?.id || "",
+    user_id: mock_users.user5?.id || "",
     permission_id: tbPermission.permissions[3].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -475,7 +472,7 @@ const userPermissions_user5: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440005",
-    user_id: user5?.id || "",
+    user_id: mock_users.user5?.id || "",
     permission_id: tbPermission.permissions[4].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -486,7 +483,7 @@ const userPermissions_user5: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440006",
-    user_id: user5?.id || "",
+    user_id: mock_users.user5?.id || "",
     permission_id: tbPermission.permissions[5].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -497,7 +494,7 @@ const userPermissions_user5: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440007",
-    user_id: user5?.id || "",
+    user_id: mock_users.user5?.id || "",
     permission_id: tbPermission.permissions[6].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -508,7 +505,7 @@ const userPermissions_user5: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440009",
-    user_id: user5?.id || "",
+    user_id: mock_users.user5?.id || "",
     permission_id: tbPermission.permissions[8].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -519,7 +516,7 @@ const userPermissions_user5: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440010",
-    user_id: user5?.id || "",
+    user_id: mock_users.user5?.id || "",
     permission_id: tbPermission.permissions[9].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -533,7 +530,7 @@ const userPermissions_user5: UserPermission[] = [
 const userPermissions_user6: UserPermission[] = [
   {
     id: "550e8400-e29b-41d4-a716-446655440001",
-    user_id: user6?.id || "",
+    user_id: mock_users.user6?.id || "",
     permission_id: tbPermission.permissions[0].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -544,7 +541,7 @@ const userPermissions_user6: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440002",
-    user_id: user6?.id || "",
+    user_id: mock_users.user6?.id || "",
     permission_id: tbPermission.permissions[1].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -555,7 +552,7 @@ const userPermissions_user6: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440003",
-    user_id: user6?.id || "",
+    user_id: mock_users.user6?.id || "",
     permission_id: tbPermission.permissions[2].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -566,7 +563,7 @@ const userPermissions_user6: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440004",
-    user_id: user6?.id || "",
+    user_id: mock_users.user6?.id || "",
     permission_id: tbPermission.permissions[3].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -577,7 +574,7 @@ const userPermissions_user6: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440005",
-    user_id: user6?.id || "",
+    user_id: mock_users.user6?.id || "",
     permission_id: tbPermission.permissions[4].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -588,7 +585,7 @@ const userPermissions_user6: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440006",
-    user_id: user6?.id || "",
+    user_id: mock_users.user6?.id || "",
     permission_id: tbPermission.permissions[5].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -599,7 +596,7 @@ const userPermissions_user6: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440007",
-    user_id: user6?.id || "",
+    user_id: mock_users.user6?.id || "",
     permission_id: tbPermission.permissions[6].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -610,7 +607,7 @@ const userPermissions_user6: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440009",
-    user_id: user6?.id || "",
+    user_id: mock_users.user6?.id || "",
     permission_id: tbPermission.permissions[8].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -621,7 +618,7 @@ const userPermissions_user6: UserPermission[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440010",
-    user_id: user6?.id || "",
+    user_id: mock_users.user6?.id || "",
     permission_id: tbPermission.permissions[9].id,
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",

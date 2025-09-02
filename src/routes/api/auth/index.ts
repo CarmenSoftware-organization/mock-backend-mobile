@@ -11,7 +11,6 @@ import {
 } from "@libs/res.error";
 import type { LoginDto, LoginError, LoginResponse } from "@/types/auth";
 import {
-  APP_ID_VALUE,
   PARAM_X_APP_ID,
   PARAM_X_TENANT_ID_OPTIONAL,
 } from "@mockdata/const";
@@ -19,11 +18,8 @@ import {
   tbPermission,
   tbUser,
   tbUserPermission,
-  tbUserProfile,
 } from "@mockdata/index";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
-
-// Types moved to src/types/auth.ts
 
 export default (app: Elysia) =>
   app
@@ -242,7 +238,6 @@ export default (app: Elysia) =>
     .post(
       "/api/auth/refresh-token",
       async (ctx) => {
-
         console.log("Refresh Token");
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
@@ -251,13 +246,16 @@ export default (app: Elysia) =>
         }
 
         try {
-
           console.log(ctx.request.body);
 
-          const getRefreshToken = ctx.request.body as unknown as   { refresh_token: string };
-          const { access_token, refresh_token } = await refreshToken(getRefreshToken.refresh_token, ctx.jwt);
+          const getRefreshToken = ctx.request.body as unknown as {
+            refresh_token: string;
+          };
+          const { access_token, refresh_token } = await refreshToken(
+            getRefreshToken.refresh_token,
+            ctx.jwt
+          );
           return { access_token, refresh_token };
-
         } catch (error) {
           console.error(error);
           return resInternalServerError(
@@ -266,49 +264,12 @@ export default (app: Elysia) =>
         }
       },
       {
-        detail: {
-          tags: ["auth"],
-          summary: "Refresh Token",
-          description: "Refresh access token",
-          parameters: [PARAM_X_APP_ID],
-        },
-        requestBody: {
-          description: "Refresh token",
-          required: true,
-          content: {
-            "application/json": {
-              schema: {
-                type: "object",
-                properties: {
-                  refresh_token: {
-                    type: "string",
-                    description: "Refresh token",
-                  },
-                },
-              },
-            },
-          },
-          example: {
-            refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-          },
-        },
+        refreshTokenEndpointDetail,
       }
     )
 
     // Forgot Password
     .post("/api/auth/forgot-password", (ctx) => {
-      ctx.set.status = 501;
-      return resNotImplemented;
-    })
-
-    // Mobile Auth
-    // .post("/api/auth/mobile", (ctx) => {
-    //   ctx.set.status = 501;
-    //   return resNotImplemented;
-    // })
-
-    // Web Auth
-    .post("/api/auth/web", (ctx) => {
       ctx.set.status = 501;
       return resNotImplemented;
     });
@@ -355,8 +316,8 @@ async function login(
   }
 }
 
+// Logout function implementation
 async function logout(token: string, jwt: any) {
-
   // delete refresh token from database
   const refreshToken = await jwt.verify(token);
   if (refreshToken) {
@@ -368,6 +329,7 @@ async function logout(token: string, jwt: any) {
   return resSuccess("Logged out");
 }
 
+// Refresh Token function implementation
 async function refreshToken(refresh_token: string, jwt: any) {
   const { id, email } = await jwt.verify(refresh_token);
   return {
@@ -507,6 +469,42 @@ const loginEndpointDetail = {
           },
         },
       },
+    },
+  },
+};
+
+const refreshTokenEndpointDetail = {
+  body: "refreshTokenDto",
+  response: {
+    200: t.Object({
+      access_token: t.String(),
+      refresh_token: t.String(),
+    }),
+  },
+  detail: {
+    tags: ["auth"],
+    summary: "Refresh Token",
+    description: "Refresh access token",
+    parameters: [PARAM_X_APP_ID],
+  },
+  requestBody: {
+    description: "Refresh token",
+    required: true,
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            refresh_token: {
+              type: "string",
+              description: "Refresh token",
+            },
+          },
+        },
+      },
+    },
+    example: {
+      refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
     },
   },
 };

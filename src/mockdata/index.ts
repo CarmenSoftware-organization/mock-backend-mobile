@@ -1,4 +1,4 @@
-import { tbUserBusinessUnitCrud } from "./tables/tb-user-business-unit";
+
 // export const
 export * as const from "./const";
 
