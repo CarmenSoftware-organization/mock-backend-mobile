@@ -12,13 +12,10 @@ import {
 import type { LoginDto, LoginError, LoginResponse } from "@/types/auth";
 import {
   PARAM_X_APP_ID,
-  PARAM_X_TENANT_ID_OPTIONAL,
+  TENANT_ID_QUERY,
+  // PARAM_X_TENANT_ID_OPTIONAL,
 } from "@mockdata/const";
-import {
-  tbPermission,
-  tbUser,
-  tbUserPermission,
-} from "@mockdata/index";
+import { tbPermission, tbUser, tbUserPermission } from "@mockdata/index";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
 
 export default (app: Elysia) =>
@@ -105,6 +102,10 @@ export default (app: Elysia) =>
           return appIdError;
         }
 
+        const { tenant_id } = ctx.query;
+
+        console.log(tenant_id);
+
         const {
           error: errorAccessToken,
           jwtUser,
@@ -121,21 +122,6 @@ export default (app: Elysia) =>
 
         try {
           const cBusiness_unit = bussiness_Units.map((bu: any) => {
-            // get permission by business unit id
-            // dummy data is  know is same business unit id
-            const permissions = tbUserPermission
-              .getUserPermissionsByUserId(currentUser.id)
-              .map((permission: any) => {
-                const permissionObject = tbPermission.permissions.find(
-                  (p: any) => p.id === permission.permission_id
-                );
-                return {
-                  id: permission.id,
-                  name:
-                    permissionObject?.resource + ":" + permissionObject?.action,
-                };
-              });
-
             // สร้าง permissions array ในรูปแบบ string เช่น "pr.view", "po.view" ฯลฯ
             const permissionNames: string[] = tbUserPermission
               .getUserPermissionsByUserId(currentUser.id)
@@ -149,13 +135,27 @@ export default (app: Elysia) =>
               })
               .filter((name: string | null): name is string => !!name);
 
-            return {
-              id: bu.id,
-              name: bu.name,
-              alias_name: bu.alias_name,
-              permissions: permissionNames,
-            };
-          });
+            // ถ้ามีค่า tenant_Id ให้ตรวจสอบว่า business unit id ตรงกับ tenant_Id หรือไม่
+            if (tenant_id) {
+              if (bu.id === tenant_id) {
+                return {
+                  id: bu.id,
+                  name: bu.name,
+                  alias_name: bu.alias_name,
+                  permissions: permissionNames,
+                };
+              }else {
+                return null;
+              }
+            } else {
+              return {
+                id: bu.id,
+                name: bu.name,
+                alias_name: bu.alias_name,
+                permissions: permissionNames,
+              };
+            }
+          }).filter((bu: any) => bu !== null);
 
           res = {
             business_unit: cBusiness_unit,
@@ -172,8 +172,8 @@ export default (app: Elysia) =>
         detail: {
           tags: ["user"],
           summary: "all permissions of current user",
-          description: `all permissions of current user. if add '${PARAM_X_TENANT_ID_OPTIONAL.name}' header it will return all permissions of user in that tenant`,
-          parameters: [PARAM_X_APP_ID, PARAM_X_TENANT_ID_OPTIONAL],
+          description: `all permissions of current user. if add '${TENANT_ID_QUERY}' header it will return all permissions of user in that tenant`,
+          parameters: [PARAM_X_APP_ID],
         },
       }
     )
@@ -244,7 +244,6 @@ export default (app: Elysia) =>
         }
 
         try {
-
           const getRefreshToken = ctx.request.body as unknown as {
             refresh_token: string;
           };

@@ -1,4 +1,5 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
+import { getUuidByName } from "./mapping.uuid";
 
 export interface DbConnection {
   host: string;
@@ -29,8 +30,8 @@ export interface BusinessUnit {
 }
 
 const businessUnit1: BusinessUnit ={
-  id: "e4a432c0-86d9-4d75-8b03-096caf03c2d1",
-  cluster_id: "75e036ab-19c5-4825-97cf-24581ff2dda3",
+  id: getUuidByName("BUSINESS_UNIT_01"),
+  cluster_id: getUuidByName("CLUSTER_01"),
   code: "CARMEN-1",
   name: "BU-CARMEN-1",
   description: null,
@@ -47,16 +48,16 @@ const businessUnit1: BusinessUnit ={
   },
   config: null,
   created_at: "2025-07-29T01:37:29.002Z",
-  created_by_id: "3c5280a7-492e-421d-b739-7447455ce99e",
+  created_by_id: getUuidByName("USER_ADMIN"),
   updated_at: "2025-07-29T01:37:29.002Z",
-  updated_by_id: null,
+  updated_by_id: getUuidByName("USER_ADMIN"),
   info: null,
   alias_name: "AA",
 };
 
 const businessUnit2: BusinessUnit =  {
-  id: "5c7b29ca-484f-401a-a21f-325f3d20eecc",
-  cluster_id: "75e036ab-19c5-4825-97cf-24581ff2dda3",
+  id: getUuidByName("BUSINESS_UNIT_02"),
+  cluster_id: getUuidByName("CLUSTER_01"),
   code: "CARMEN-2",
   name: "BU-CARMEN-2",
   description: null,
@@ -73,16 +74,16 @@ const businessUnit2: BusinessUnit =  {
   },
   config: null,
   created_at: "2025-07-29T01:37:29.004Z",
-  created_by_id: "3c5280a7-492e-421d-b739-7447455ce99e",
+  created_by_id: getUuidByName("USER_ADMIN"),
   updated_at: "2025-07-29T01:37:29.004Z",
-  updated_by_id: null,
+  updated_by_id: getUuidByName("USER_ADMIN"),
   info: null,
   alias_name: "BB",
 };
 
 const businessUnit3: BusinessUnit =   {
-  id: "3a397114-e1fc-42a8-836c-d8cfef1bd169",
-  cluster_id: "75e036ab-19c5-4825-97cf-24581ff2dda3",
+  id: getUuidByName("BUSINESS_UNIT_03"),
+  cluster_id: getUuidByName("CLUSTER_01"),
   code: "CARMEN-3",
   name: "BU-CARMEN-3",
   description: null,
@@ -99,9 +100,9 @@ const businessUnit3: BusinessUnit =   {
   },
   config: null,
   created_at: "2025-07-29T01:37:29.005Z",
-  created_by_id: "3c5280a7-492e-421d-b739-7447455ce99e",
+  created_by_id: getUuidByName("USER_ADMIN"),
   updated_at: "2025-07-29T01:37:29.005Z",
-  updated_by_id: null,
+  updated_by_id: getUuidByName("USER_ADMIN"),
   info: null,
   alias_name: "CC",
 };

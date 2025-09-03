@@ -34,10 +34,13 @@ export interface PurchaseRequest {
   deleted_by_id: string | null;
 }
 
+// ใช้ hard-coded ID เพื่อหลีกเลี่ยง circular dependency
+const DEFAULT_BU_ID = "e4a432c0-86d9-4d75-8b03-096caf03c2d1";
+
 export const purchaseRequests: PurchaseRequest[] = [
   {
     id: "550e8400-e29b-41d4-a716-446655440001",
-    bu_id: "e4a432c0-86d9-4d75-8b03-096caf03c2d1",
+    bu_id: DEFAULT_BU_ID,
     pr_no: "PR-2024-001",
     pr_date: "2024-01-15",
     description: "IT equipment request for new employees",
@@ -70,7 +73,7 @@ export const purchaseRequests: PurchaseRequest[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440002",
-    bu_id: "e4a432c0-86d9-4d75-8b03-096caf03c2d1",
+    bu_id: DEFAULT_BU_ID,
     pr_no: "PR-2024-002",
     pr_date: "2024-01-16",
     description: "Office supplies for admin team",
@@ -103,7 +106,7 @@ export const purchaseRequests: PurchaseRequest[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440003",
-    bu_id: "e4a432c0-86d9-4d75-8b03-096caf03c2d1",
+    bu_id: DEFAULT_BU_ID,
     pr_no: "PR-2024-003",
     pr_date: "2024-01-17",
     description: "Marketing materials for campaign",
@@ -136,7 +139,7 @@ export const purchaseRequests: PurchaseRequest[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440004",
-    bu_id: "5c7b29ca-484f-401a-a21f-325f3d20eecc",
+    bu_id: DEFAULT_BU_ID,
     pr_no: "PR-2024-004",
     pr_date: "2024-01-18",
     description: "Marketing materials for campaign",
@@ -169,11 +172,11 @@ export const purchaseRequests: PurchaseRequest[] = [
   },
   {
     id: "550e8400-e29b-41d4-a716-446655440005",
-    bu_id: "5c7b29ca-484f-401a-a21f-325f3d20eecc",
+    bu_id: DEFAULT_BU_ID,
     pr_no: "PR-2024-005",
     pr_date: "2024-01-19",
-    description: "Marketing materials for campaign",  
-    workflow_id: "wf001", 
+    description: "Marketing materials for campaign",
+    workflow_id: "wf001",
     workflow_name: "Purchase Request Approval",
     workflow_history: [{ stage: "draft", date: "2024-01-19", user: "user7" }],
     workflow_current_stage: "submitted",

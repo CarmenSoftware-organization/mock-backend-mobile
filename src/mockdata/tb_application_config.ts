@@ -1,4 +1,5 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
+import { getUuidByName } from "./mapping.uuid";
 
 export interface TaxProfile {
   id: string;
@@ -21,50 +22,50 @@ export interface ApplicationConfig {
 
 export const applicationConfigs: ApplicationConfig[] = [
   {
-    id: "51c59249-e69f-4efd-ab81-a006842b58dc",
+    id: getUuidByName("APPLICATION_CONFIG_01"),
     key: "tax_profile",
     value: [
       {
-        id: "5840ede0-cb85-4c0e-b306-be118f5df614",
+        id: getUuidByName("TAX_PROFILE_01"),
         name: "VAT 7%",
         tax_rate: 7,
         is_active: true,
       },
       {
-        id: "93542964-4dea-48f7-a6a6-3ab83c715d91",
+        id: getUuidByName("TAX_PROFILE_02"),
         name: "VAT 10%",
         tax_rate: 10,
         is_active: true,
       },
       {
-        id: "d56754df-ea69-4aae-b85a-3ccec6a6da91",
+        id: getUuidByName("TAX_PROFILE_03"),
         name: "None",
         tax_rate: 0,
         is_active: true,
       },
     ],
-    created_at: "2025-07-29T01:05:32.815Z",
-    created_by_id: null,
+    created_at:  "2025-07-29T01:05:32.815Z",
+    created_by_id: getUuidByName("USER_ADMIN"),
     updated_at: "2025-07-29T01:05:32.815Z",
-    updated_by_id: null,
+    updated_by_id: getUuidByName("USER_ADMIN"),
     deleted_at: null,
     deleted_by_id: null,
   },
   {
-    id: "62d7035a-f7a0-5fge-bc92-b117953c69ed",
+    id: getUuidByName("APPLICATION_CONFIG_02"),
     key: "system_settings",
     value: [
       {
-        id: "6951fef1-dc96-5d1f-cd03-c228064d7afe",
+        id: getUuidByName("DEFAULT_CURRENCY"),
         name: "Default Currency",
         tax_rate: 0,
         is_active: true,
       },
     ],
     created_at: "2025-07-29T02:15:45.123Z",
-    created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
+    created_by_id: getUuidByName("USER_ADMIN"),
     updated_at: "2025-07-29T02:15:45.123Z",
-    updated_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
+    updated_by_id: getUuidByName("USER_ADMIN"),
     deleted_at: null,
     deleted_by_id: null,
   },

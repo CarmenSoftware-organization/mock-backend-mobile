@@ -1,3 +1,5 @@
+import { getUuidByName } from "./mapping.uuid";
+
 export interface UserBusinessUnit {
   id: string;
   user_id: string;
@@ -13,9 +15,9 @@ export interface UserBusinessUnit {
 
 export const userBusinessUnits: UserBusinessUnit[] = [
   {
-    id: "4416754c-3a12-4dfc-b3b9-37e1d7b2e9f6",
-    user_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
-    business_unit_id: "e4a432c0-86d9-4d75-8b03-096caf03c2d1",
+    id: getUuidByName("USER_BUSINESS_UNIT_01"),
+    user_id: getUuidByName("USER_01"),
+    business_unit_id: getUuidByName("BUSINESS_UNIT_01"),
     role: "admin",
     is_default: true,
     is_active: true,
@@ -25,9 +27,9 @@ export const userBusinessUnits: UserBusinessUnit[] = [
     updated_by_id: null,
   },
   {
-    id: "fb0e8944-3727-493f-a6bc-6bd408d62fa3",
-    user_id: "3c5280a7-492e-421d-b739-7447455ce99e",
-    business_unit_id: "e4a432c0-86d9-4d75-8b03-096caf03c2d1",
+    id: getUuidByName("USER_BUSINESS_UNIT_02"),
+    user_id: getUuidByName("USER_02"),
+    business_unit_id: getUuidByName("BUSINESS_UNIT_01"),
     role: "admin",
     is_default: false,
     is_active: true,
@@ -37,9 +39,9 @@ export const userBusinessUnits: UserBusinessUnit[] = [
     updated_by_id: null,
   },
   {
-    id: "966a0679-0c68-437c-ad36-687f82c389a9",
-    user_id: "c7092848-78f7-4cfe-bb6d-095c286a1019",
-    business_unit_id: "e4a432c0-86d9-4d75-8b03-096caf03c2d1",
+    id: getUuidByName("USER_BUSINESS_UNIT_03"),
+    user_id: getUuidByName("USER_03"),
+    business_unit_id: getUuidByName("BUSINESS_UNIT_01"),
     role: "user",
     is_default: false,
     is_active: true,
@@ -49,9 +51,9 @@ export const userBusinessUnits: UserBusinessUnit[] = [
     updated_by_id: null,
   },
   {
-    id: "862b7169-8af5-430c-963e-dd12b82a0359",
-    user_id: "d9aef974-0dd1-4acd-93b7-93c8ccc8cfeb",
-    business_unit_id: "e4a432c0-86d9-4d75-8b03-096caf03c2d1",
+    id: getUuidByName("USER_BUSINESS_UNIT_04"),
+    user_id: getUuidByName("USER_04"),
+    business_unit_id: getUuidByName("BUSINESS_UNIT_01"),
     role: "user",
     is_default: false,
     is_active: true,
@@ -61,9 +63,9 @@ export const userBusinessUnits: UserBusinessUnit[] = [
     updated_by_id: null,
   },
   {
-    id: "8e9aa186-2abe-4496-b69b-95b1d1d404a4",
-    user_id: "e88e8da4-ad87-4255-befc-1556d1b66b69",
-    business_unit_id: "e4a432c0-86d9-4d75-8b03-096caf03c2d1",
+    id: getUuidByName("USER_BUSINESS_UNIT_05"),
+    user_id: getUuidByName("USER_05"),
+    business_unit_id: getUuidByName("BUSINESS_UNIT_01"),
     role: "user",
     is_default: false,
     is_active: true,
@@ -73,9 +75,9 @@ export const userBusinessUnits: UserBusinessUnit[] = [
     updated_by_id: null,
   },
   {
-    id: "c874ef4a-c6c2-4849-9d49-036be1700122",
-    user_id: "57c0721a-4afd-4e8f-b118-f0480c537215",
-    business_unit_id: "e4a432c0-86d9-4d75-8b03-096caf03c2d1",
+    id: getUuidByName("USER_BUSINESS_UNIT_06"),
+    user_id: getUuidByName("USER_06"),
+    business_unit_id: getUuidByName("BUSINESS_UNIT_01"),
     role: "user",
     is_default: false,
     is_active: true,
@@ -85,9 +87,9 @@ export const userBusinessUnits: UserBusinessUnit[] = [
     updated_by_id: null,
   },
   {
-    id: "49896d9f-c1a4-437a-ab71-5aa537de5716",
-    user_id: "59c4ce87-84e5-48e5-b246-7d0f6d2c5594",
-    business_unit_id: "e4a432c0-86d9-4d75-8b03-096caf03c2d1",
+    id: getUuidByName("USER_BUSINESS_UNIT_07"),
+    user_id: getUuidByName("USER_07"),
+    business_unit_id: getUuidByName("BUSINESS_UNIT_01"),
     role: "user",
     is_default: false,
     is_active: true,
@@ -97,9 +99,9 @@ export const userBusinessUnits: UserBusinessUnit[] = [
     updated_by_id: null,
   },
   {
-    id: "cc6e2fb7-b9e7-4cde-b267-f0c9e5dcab91",
-    user_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
-    business_unit_id: "5c7b29ca-484f-401a-a21f-325f3d20eecc",
+    id: getUuidByName("USER_BUSINESS_UNIT_08"),
+    user_id: getUuidByName("USER_01"),
+    business_unit_id: getUuidByName("BUSINESS_UNIT_02"),
     role: "admin",
     is_default: false,
     is_active: true,
@@ -109,9 +111,9 @@ export const userBusinessUnits: UserBusinessUnit[] = [
     updated_by_id: null,
   },
   {
-    id: "0932f78a-35f7-4e11-aed7-35191a3b6ad4",
-    user_id: "3c5280a7-492e-421d-b739-7447455ce99e",
-    business_unit_id: "5c7b29ca-484f-401a-a21f-325f3d20eecc",
+    id: getUuidByName("USER_BUSINESS_UNIT_09"),
+    user_id: getUuidByName("USER_02"),
+    business_unit_id: getUuidByName("BUSINESS_UNIT_02"),
     role: "admin",
     is_default: true,
     is_active: true,
@@ -121,9 +123,9 @@ export const userBusinessUnits: UserBusinessUnit[] = [
     updated_by_id: null,
   },
   {
-    id: "6f377b13-3c8f-48be-a8d9-4cfcd6fbbe2b",
-    user_id: "c7092848-78f7-4cfe-bb6d-095c286a1019",
-    business_unit_id: "5c7b29ca-484f-401a-a21f-325f3d20eecc",
+    id: getUuidByName("USER_BUSINESS_UNIT_10"),
+    user_id: getUuidByName("USER_03"),
+    business_unit_id: getUuidByName("BUSINESS_UNIT_02"),
     role: "user",
     is_default: true,
     is_active: true,

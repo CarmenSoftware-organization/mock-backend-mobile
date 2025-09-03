@@ -1,4 +1,5 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
+import { getUuidByName } from "./mapping.uuid";
 
 export interface Activity {
   id: string;
@@ -18,11 +19,11 @@ export interface Activity {
 
 export const activities: Activity[] = [
   {
-    id: "550e8400-e29b-41d4-a716-446655440001",
+    id: getUuidByName("ACTIVITY_01"),
     action: "CREATE",
     entity_type: "USER",
     entity_id: "user_001",
-    actor_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
+    actor_id: getUuidByName("USER_01"),
     meta_data: { source: "web" },
     old_data: null,
     new_data: { username: "john.doe", email: "john@example.com" },
@@ -30,14 +31,14 @@ export const activities: Activity[] = [
     user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
     description: "สร้างผู้ใช้ใหม่: john.doe",
     created_at: "2024-01-15T10:30:00Z",
-    created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
+    created_by_id: getUuidByName("USER_ADMIN"),
   },
   {
-    id: "550e8400-e29b-41d4-a716-446655440002",
+    id: getUuidByName("ACTIVITY_02"),
     action: "UPDATE",
     entity_type: "PRODUCT",
     entity_id: "prod_001",
-    actor_id: "1bfdb891-58ee-499c-8115-34a964de8122",
+    actor_id: getUuidByName("USER_02"),
     meta_data: { reason: "price_update" },
     old_data: { price: 100.0 },
     new_data: { price: 120.0 },
@@ -46,14 +47,14 @@ export const activities: Activity[] = [
       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
     description: "อัปเดตราคาสินค้า: 100.00 -> 120.00",
     created_at: "2024-01-15T14:20:00Z",
-    created_by_id: "1bfdb891-58ee-499c-8115-34a964de8122",
+    created_by_id: getUuidByName("USER_ADMIN"),
   },
   {
-    id: "550e8400-e29b-41d4-a716-446655440003",
+    id: getUuidByName("ACTIVITY_03"),
     action: "DELETE",
     entity_type: "ORDER",
     entity_id: "order_001",
-    actor_id: "3c5280a7-492e-421d-b739-7447455ce99e",
+    actor_id: getUuidByName("USER_03"),
     meta_data: { reason: "cancelled" },
     old_data: { status: "pending", total: 500.0 },
     new_data: null,
@@ -61,7 +62,7 @@ export const activities: Activity[] = [
     user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
     description: "ยกเลิกคำสั่งซื้อ: order_001",
     created_at: "2024-01-15T16:45:00Z",
-    created_by_id: "3c5280a7-492e-421d-b739-7447455ce99e",
+    created_by_id: getUuidByName("USER_ADMIN"),
   },
 ];
 

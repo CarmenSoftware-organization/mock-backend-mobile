@@ -1,4 +1,5 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
+import { getUuidByName } from "./mapping.uuid";
 
 export interface Cluster {
   id: string;
@@ -16,15 +17,15 @@ export interface Cluster {
 
 export const clusters: Cluster[] = [
   {
-    id: "75e036ab-19c5-4825-97cf-24581ff2dda3",
+    id: getUuidByName("CLUSTER_01"),
     code: "CARMEN",
     name: "Carmen Cluster",
     is_active: true,
     info: null,
     created_at: "2025-07-29T01:37:28.992Z",
-    created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
+    created_by_id: getUuidByName("USER_ADMIN"),
     updated_at: "2025-07-29T01:37:28.992Z",
-    updated_by_id: null,
+    updated_by_id: getUuidByName("USER_ADMIN"),
     alias_name: null,
     logo_url: null,
   },

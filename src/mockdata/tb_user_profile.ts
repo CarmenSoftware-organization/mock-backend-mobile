@@ -1,4 +1,5 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
+import { getUuidByName } from "./mapping.uuid";
 
 export interface UserProfile {
   id: string;
@@ -16,8 +17,8 @@ export interface UserProfile {
 // Sample data
 export const userProfiles: UserProfile[] = [
   {
-    id: "550e8400-e29b-41d4-a716-446655440001",
-    user_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
+    id: getUuidByName("USER_PROFILE_01"),
+    user_id: getUuidByName("USER_SYSTEM_ADMIN"),
     firstname: "system-admin",
     middlename: "",
     lastname: "system-admin",
@@ -28,20 +29,8 @@ export const userProfiles: UserProfile[] = [
     updated_by_id: null,
   },
   {
-    id: "df030cd8-962d-49ed-9ad6-b75109c12fc0",
-    user_id: "1bfdb891-58ee-499c-8115-34a964de8122",
-    firstname: "test",
-    middlename: "",
-    lastname: "test",
-    bio: {},
-    created_at: "2025-07-29T01:37:27.541Z",
-    created_by_id: null,
-    updated_at: "2025-07-29T01:37:27.541Z",
-    updated_by_id: null,
-  },
-  {
-    id: "9cd129f4-ab43-4f5c-a752-1cb78e8cd9b3",
-    user_id: "3c5280a7-492e-421d-b739-7447455ce99e",
+    id: getUuidByName("USER_PROFILE_02"),
+    user_id: getUuidByName("USER_ADMIN"),
     firstname: "admin",
     middlename: "",
     lastname: "admin",
@@ -52,8 +41,8 @@ export const userProfiles: UserProfile[] = [
     updated_by_id: null,
   },
   {
-    id: "0494a73a-ba78-41a7-a45f-b9efb49d6f2d",
-    user_id: "c7092848-78f7-4cfe-bb6d-095c286a1019",
+    id: getUuidByName("USER_PROFILE_03"),
+    user_id: getUuidByName("USER_01"),
     firstname: "user1",
     middlename: "",
     lastname: "staff",
@@ -64,8 +53,8 @@ export const userProfiles: UserProfile[] = [
     updated_by_id: null,
   },
   {
-    id: "f0db2292-5ae4-4e73-a379-ed5ef3d3f95c",
-    user_id: "d9aef974-0dd1-4acd-93b7-93c8ccc8cfeb",
+    id: getUuidByName("USER_PROFILE_04"),
+    user_id: getUuidByName("USER_02"),
     firstname: "user2",
     middlename: "",
     lastname: "department-manager",
@@ -76,8 +65,8 @@ export const userProfiles: UserProfile[] = [
     updated_by_id: null,
   },
   {
-    id: "fd177757-0e4d-44f7-bb4d-57118829be2d",
-    user_id: "e88e8da4-ad87-4255-befc-1556d1b66b69",
+    id: getUuidByName("USER_PROFILE_05"),
+    user_id: getUuidByName("USER_03"),
     firstname: "user3",
     middlename: "",
     lastname: "purchasing-staff",
@@ -88,8 +77,8 @@ export const userProfiles: UserProfile[] = [
     updated_by_id: null,
   },
   {
-    id: "f685cca4-899f-49e6-9753-cfe2180f2f11",
-    user_id: "57c0721a-4afd-4e8f-b118-f0480c537215",
+    id: getUuidByName("USER_PROFILE_06"),
+    user_id: getUuidByName("USER_04"),
     firstname: "user4",
     middlename: "",
     lastname: "finance-manager",
@@ -100,8 +89,8 @@ export const userProfiles: UserProfile[] = [
     updated_by_id: null,
   },
   {
-    id: "683df8ab-59f2-49d9-af58-637630d9955f",
-    user_id: "59c4ce87-84e5-48e5-b246-7d0f6d2c5594",
+    id: getUuidByName("USER_PROFILE_07"),
+    user_id: getUuidByName("USER_05"),
     firstname: "user5",
     middlename: "",
     lastname: "general-manager",
@@ -112,8 +101,8 @@ export const userProfiles: UserProfile[] = [
     updated_by_id: null,
   },
   {
-    id: "d3ba9c08-162f-4e81-8337-75d3d56f6aff",
-    user_id: "d3ba9c08-162f-4e81-8337-75d3d56f6aff",
+    id: getUuidByName("USER_PROFILE_08"),
+    user_id: getUuidByName("USER_06"),
     firstname: "user6",
     middlename: "",
     lastname: "",
@@ -121,6 +110,18 @@ export const userProfiles: UserProfile[] = [
     created_at: "2025-07-30T20:00:19.073Z",
     created_by_id: null,
     updated_at: "2025-07-30T20:00:19.073Z",
+    updated_by_id: null,
+  },
+  {
+    id: getUuidByName("USER_PROFILE_09"),
+    user_id: getUuidByName("USER_07"),
+    firstname: "test",
+    middlename: "",
+    lastname: "test",
+    bio: {},
+    created_at: "2025-07-29T01:37:27.541Z",
+    created_by_id: null,
+    updated_at: "2025-07-29T01:37:27.541Z",
     updated_by_id: null,
   },
 ];

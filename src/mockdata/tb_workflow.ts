@@ -1,4 +1,5 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
+import { getUuidByName } from "./mapping.uuid";
 
 export interface Workflow {
   id: string;
@@ -26,7 +27,7 @@ export interface Workflow {
 // Sample data
 export const workflows: Workflow[] = [
   {
-    id: "550e8400-e29b-41d4-a716-446655440001",
+    id: getUuidByName("WORKFLOW_01"),
     name: "General Approval Workflow",
     workflow_type: "other",
     data: { stages: ["draft", "submitted", "approved", "completed"] },
@@ -36,14 +37,14 @@ export const workflows: Workflow[] = [
     info: { version: "1.0", category: "approval" },
     dimension: { department: "General", region: "All" },
     created_at: "2024-01-15T10:30:00Z",
-    created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
+    created_by_id: getUuidByName("USER_ADMIN"),
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
     deleted_by_id: null,
   },
   {
-    id: "550e8400-e29b-41d4-a716-446655440002",
+    id: getUuidByName("WORKFLOW_02"),
     name: "Purchase Request Workflow",
     workflow_type: "purchase_request_workflow",
     data: {
@@ -55,14 +56,14 @@ export const workflows: Workflow[] = [
     info: { version: "2.0", category: "purchase" },
     dimension: { department: "Procurement", region: "All" },
     created_at: "2024-01-15T10:30:00Z",
-    created_by_id: "1bfdb891-58ee-499c-8115-34a964de8122",
+    created_by_id: getUuidByName("USER_ADMIN"),
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
     deleted_by_id: null,
   },
   {
-    id: "550e8400-e29b-41d4-a716-446655440003",
+    id: getUuidByName("WORKFLOW_03"),
     name: "Store Requisition Workflow",
     workflow_type: "store_requisition_workflow",
     data: { stages: ["draft", "submitted", "approved", "issued"] },
@@ -72,14 +73,14 @@ export const workflows: Workflow[] = [
     info: { version: "1.5", category: "requisition" },
     dimension: { department: "Store", region: "All" },
     created_at: "2024-01-15T10:30:00Z",
-    created_by_id: "3c5280a7-492e-421d-b739-7447455ce99e",
+    created_by_id: getUuidByName("USER_ADMIN"),
     updated_at: "2024-01-15T10:30:00Z",
     updated_by_id: null,
     deleted_at: null,
     deleted_by_id: null,
   },
   {
-    id: "550e8400-e29b-41d4-a716-446655440004",
+    id: getUuidByName("WORKFLOW_04"),
     name: "Purchase Order Workflow",
     workflow_type: "purchase_order_workflow",
     data: { stages: ["draft", "submitted", "approved", "ordered", "received"] },
@@ -89,14 +90,14 @@ export const workflows: Workflow[] = [
     info: { version: "2.1", category: "purchase" },
     dimension: { department: "Procurement", region: "All" },
     created_at: "2024-01-16T09:00:00Z",
-    created_by_id: "1bfdb891-58ee-499c-8115-34a964de8122",
+    created_by_id: getUuidByName("USER_ADMIN"),
     updated_at: "2024-01-16T09:00:00Z",
     updated_by_id: null,
     deleted_at: null,
     deleted_by_id: null,
   },
   {
-    id: "550e8400-e29b-41d4-a716-446655440005",
+    id: getUuidByName("WORKFLOW_05"),
     name: "GRN Workflow",
     workflow_type: "grn_workflow",
     data: {
@@ -108,7 +109,7 @@ export const workflows: Workflow[] = [
     info: { version: "1.8", category: "receiving" },
     dimension: { department: "Warehouse", region: "All" },
     created_at: "2024-01-17T08:00:00Z",
-    created_by_id: "3c5280a7-492e-421d-b739-7447455ce99e",
+    created_by_id: getUuidByName("USER_ADMIN"),
     updated_at: "2024-01-17T08:00:00Z",
     updated_by_id: null,
     deleted_at: null,
