@@ -23,16 +23,39 @@ export default (app: Elysia) =>
           return errorAppId;
         }
 
-        const { error: errorAccessToken, jwtUser } =
+        const { error: errorAccessToken, jwtUser, currentUser, userProfile, bussiness_Units } =
           await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
         if (errorAccessToken) {
           ctx.set.status = 401;
           return errorAccessToken;
         }
 
+        const {tenant_id} = ctx.query;
+
         try {
-          const purchaseRequests = tbPurchaseRequest.purchaseRequests.filter((purchaseRequest: any) => purchaseRequest.bu_id === jwtUser.bu_id);
+
+          let purchaseRequests: any[] = [];
+
+          for (const bu of bussiness_Units) {
+
+            if (tenant_id && tenant_id !== bu.id) {
+              continue;
+            }
+
+            // find pr in bu_id
+            const prData = tbPurchaseRequest.getPurchaseRequestsByBuId(bu.id);
+
+            const res = {
+              bu_id: bu.id,
+              bu_name: bu.name,
+              // bu_alias_name: bu.alias_name,
+              data: prData,
+            };
+            purchaseRequests.push(res);
+          }
+
           return purchaseRequests;
+
         } catch (error) {
           return resInternalServerError(
             error instanceof Error ? error.message : "Unknown error"

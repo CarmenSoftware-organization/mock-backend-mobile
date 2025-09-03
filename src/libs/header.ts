@@ -79,6 +79,8 @@ export const CheckHeaderHasAccessToken = async (headers: any, jwt: any) => {
     };
   });
 
+  // console.log( currentUser, userProfile, bussiness_Units);
+
   return { error: null, jwtUser, currentUser, userProfile, bussiness_Units };
 };
 
