@@ -1,16 +1,8 @@
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
-import { resInternalServerError, resSuccess } from "@/libs/res.error";
+import { resInternalServerError, resNotImplemented } from "@/libs/res.error";
 import { tbPurchaseRequest } from "@/mockdata";
 import jwt from "@elysiajs/jwt";
 import type { Elysia } from "elysia";
-
-// Utility function for not implemented endpoints
-const resNotImplemented = {
-  success: false,
-  error: "Not Implemented",
-  message: "This endpoint is not implemented yet",
-  timestamp: new Date().toISOString(),
-};
 
 export default (app: Elysia) =>
   app
