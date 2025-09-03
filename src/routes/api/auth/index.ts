@@ -46,7 +46,6 @@ export default (app: Elysia) =>
       "/mockdata/users",
       (ctx) => {
         const allUsers = tbUser.getAllUsers();
-        console.log(allUsers);
 
         try {
           const users = allUsers.map((users) => {
@@ -238,7 +237,6 @@ export default (app: Elysia) =>
     .post(
       "/api/auth/refresh-token",
       async (ctx) => {
-        console.log("Refresh Token");
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
           ctx.set.status = 400;
@@ -246,7 +244,6 @@ export default (app: Elysia) =>
         }
 
         try {
-          console.log(ctx.request.body);
 
           const getRefreshToken = ctx.request.body as unknown as {
             refresh_token: string;
@@ -257,7 +254,6 @@ export default (app: Elysia) =>
           );
           return { access_token, refresh_token };
         } catch (error) {
-          console.error(error);
           return resInternalServerError(
             error instanceof Error ? error.message : "Unknown error"
           );
