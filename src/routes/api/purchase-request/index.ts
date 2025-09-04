@@ -2,7 +2,7 @@ import { resNotFound, resNotImplemented } from "@/libs/res.error";
 import type { Elysia } from "elysia";
 import jwt from "@elysiajs/jwt";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
-import { tbBusinessUnit, tbPurchaseRequest } from "@/mockdata";
+import { tbBusinessUnit, tbPurchaseRequest, tbPurchaseRequestDetail } from "@/mockdata";
 
 export default (app: Elysia) =>
   app
@@ -51,10 +51,17 @@ export default (app: Elysia) =>
         return resNotFound("Purchase request not found");
       }
 
+      const purchaseRequestDetail = tbPurchaseRequestDetail.getPurchaseRequestDetailById(id);
+
+      let prWithDetail = {
+        ...purchaseRequest,
+        purchase_request_detail: purchaseRequestDetail,
+      };
+
       const res = {
         bu_code: bu_code,
         bu_name: bu.name,
-        data: purchaseRequest,
+        data: prWithDetail,
       };
 
       return res;
