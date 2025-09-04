@@ -32,7 +32,7 @@ export interface BusinessUnit {
 const businessUnit1: BusinessUnit ={
   id: getUuidByName("BUSINESS_UNIT_01"),
   cluster_id: getUuidByName("CLUSTER_01"),
-  code: "CARMEN-1",
+  code: getUuidByName("BU_CODE_01"),
   name: "BU-CARMEN-1",
   description: null,
   is_hq: true,
@@ -58,7 +58,7 @@ const businessUnit1: BusinessUnit ={
 const businessUnit2: BusinessUnit =  {
   id: getUuidByName("BUSINESS_UNIT_02"),
   cluster_id: getUuidByName("CLUSTER_01"),
-  code: "CARMEN-2",
+  code: getUuidByName("BU_CODE_02"),
   name: "BU-CARMEN-2",
   description: null,
   is_hq: false,
@@ -84,7 +84,7 @@ const businessUnit2: BusinessUnit =  {
 const businessUnit3: BusinessUnit =   {
   id: getUuidByName("BUSINESS_UNIT_03"),
   cluster_id: getUuidByName("CLUSTER_01"),
-  code: "CARMEN-3",
+  code: getUuidByName("BU_CODE_03"),
   name: "BU-CARMEN-3",
   description: null,
   is_hq: false,

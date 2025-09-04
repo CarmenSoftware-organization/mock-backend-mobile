@@ -12,8 +12,7 @@ import {
 import type { LoginDto, LoginError, LoginResponse } from "@/types/auth";
 import {
   PARAM_X_APP_ID,
-  TENANT_ID_QUERY,
-  // PARAM_X_TENANT_ID_OPTIONAL,
+  BU_CODE_QUERY,
 } from "@mockdata/const";
 import { tbPermission, tbUser, tbUserPermission } from "@mockdata/index";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
@@ -102,9 +101,7 @@ export default (app: Elysia) =>
           return appIdError;
         }
 
-        const { tenant_id } = ctx.query;
-
-        console.log(tenant_id);
+        const { bu_code } = ctx.query;
 
         const {
           error: errorAccessToken,
@@ -135,11 +132,11 @@ export default (app: Elysia) =>
               })
               .filter((name: string | null): name is string => !!name);
 
-            // ถ้ามีค่า tenant_Id ให้ตรวจสอบว่า business unit id ตรงกับ tenant_Id หรือไม่
-            if (tenant_id) {
-              if (bu.id === tenant_id) {
+            // ถ้ามีค่า bu_code ให้ตรวจสอบว่า business unit id ตรงกับ bu_code หรือไม่
+            if (bu_code) {
+              if (bu.code === bu_code) {
                 return {
-                  id: bu.id,
+                  code: bu.code,
                   name: bu.name,
                   alias_name: bu.alias_name,
                   permissions: permissionNames,
@@ -149,7 +146,7 @@ export default (app: Elysia) =>
               }
             } else {
               return {
-                id: bu.id,
+                code: bu.code,
                 name: bu.name,
                 alias_name: bu.alias_name,
                 permissions: permissionNames,
@@ -172,7 +169,7 @@ export default (app: Elysia) =>
         detail: {
           tags: ["user"],
           summary: "all permissions of current user",
-          description: `all permissions of current user. if add '${TENANT_ID_QUERY}' header it will return all permissions of user in that tenant`,
+          description: `all permissions of current user. if add '${BU_CODE_QUERY}' header it will return all permissions of user in that tenant`,
           parameters: [PARAM_X_APP_ID],
         },
       }

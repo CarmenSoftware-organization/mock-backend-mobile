@@ -5,6 +5,10 @@ const UUID_MAPPING = {
   BUSINESS_UNIT_02: "0ea02e07-a751-4efa-aa7d-1cb53290faab",
   BUSINESS_UNIT_03: "0646b923-7f55-4371-9d04-92e7e202c3fe",
 
+  BU_CODE_01: "carmen-1",
+  BU_CODE_02: "carmen-2",
+  BU_CODE_03: "carmen-3",
+
   CLUSTER_USER_01: "5b7e3a35-f56e-49d6-a0c6-2711339046d2",
   CLUSTER_USER_02: "23582fa8-a600-446f-bc14-586fd10cb3ac",
   CLUSTER_USER_03: "cacbef7c-8c60-4a53-bbfd-1af697d04438",

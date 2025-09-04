@@ -36,24 +36,22 @@ export default (app: Elysia) =>
           return errorAccessToken;
         }
 
-        const { tenant_id } = ctx.query;
+        const { bu_code } = ctx.query;
 
         try {
           let purchaseRequests: any[] = [];
 
           for (const bu of bussiness_Units) {
-            if (tenant_id && tenant_id !== bu.id) {
+            if (bu_code && bu_code !== bu.code) {
               continue;
             }
 
-            console.log({ id: bu.id });
-
             // find pr in bu_id
             const prData = tbPurchaseRequest
-              .getPurchaseRequestsByBuIdAndInProgress(bu.id)
+              .getPurchaseRequestsByCodeAndInProgress(bu.code ?? "")
               .map((pr) => ({
                 id: pr.id,
-                bu_id: pr.bu_id,
+                bu_code: pr.bu_code,
                 pr_no: pr.pr_no,
                 pr_date: pr.pr_date,
                 description: pr.description,
@@ -70,9 +68,8 @@ export default (app: Elysia) =>
               }));
 
             const res = {
-              bu_id: bu.id,
+              bu_code: bu.code,
               bu_name: bu.name,
-              // bu_alias_name: bu.alias_name,
               data: prData,
             };
             purchaseRequests.push(res);

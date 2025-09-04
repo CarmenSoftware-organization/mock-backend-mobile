@@ -1,9 +1,11 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
 import { getUuidByName } from "./mapping.uuid";
+import { tbBusinessUnit } from ".";
+import { resNotFound } from "@/libs/res.error";
 
 export interface PurchaseRequest {
   id: string;
-  bu_id: string;
+  bu_code: string;
   pr_no: string;
   pr_date: string;
   description: string | null;
@@ -38,7 +40,7 @@ export interface PurchaseRequest {
 export const purchaseRequests: PurchaseRequest[] = [
   {
     id: getUuidByName("PURCHASE_REQUEST_01"),
-    bu_id: getUuidByName("BUSINESS_UNIT_01"),
+    bu_code: getUuidByName("BU_CODE_01"),
     pr_no: "PR-2024-001",
     pr_date: "2024-01-15",
     description: "IT equipment request for new employees",
@@ -71,7 +73,7 @@ export const purchaseRequests: PurchaseRequest[] = [
   },
   {
     id: getUuidByName("PURCHASE_REQUEST_02"),
-    bu_id: getUuidByName("BUSINESS_UNIT_01"),
+    bu_code: getUuidByName("BU_CODE_01"),
     pr_no: "PR-2024-002",
     pr_date: "2024-01-16",
     description: "Office supplies for admin team",
@@ -104,7 +106,7 @@ export const purchaseRequests: PurchaseRequest[] = [
   },
   {
     id: getUuidByName("PURCHASE_REQUEST_03"),
-    bu_id: getUuidByName("BUSINESS_UNIT_01"),
+    bu_code: getUuidByName("BU_CODE_01"),
     pr_no: "PR-2024-003",
     pr_date: "2024-01-17",
     description: "Marketing materials for campaign",
@@ -137,7 +139,7 @@ export const purchaseRequests: PurchaseRequest[] = [
   },
   {
     id: getUuidByName("PURCHASE_REQUEST_04"),
-    bu_id: getUuidByName("BUSINESS_UNIT_01"),
+    bu_code: getUuidByName("BU_CODE_01"),
     pr_no: "PR-2024-004",
     pr_date: "2024-01-18",
     description: "Marketing materials for campaign",
@@ -170,7 +172,7 @@ export const purchaseRequests: PurchaseRequest[] = [
   },
   {
     id: getUuidByName("PURCHASE_REQUEST_05"),
-    bu_id: getUuidByName("BUSINESS_UNIT_01"),
+    bu_code: getUuidByName("BU_CODE_01"),
     pr_no: "PR-2024-005",
     pr_date: "2024-01-19",
     description: "Marketing materials for campaign",
@@ -182,6 +184,72 @@ export const purchaseRequests: PurchaseRequest[] = [
     workflow_next_stage: "approved",
     user_action: { action: "submit", comment: "Submitted for approval" },
     last_action: "submitted",
+    last_action_at_date: "2024-01-19",
+    last_action_by_id: getUuidByName("USER_02"),
+    last_action_by_name: "John Requestor",
+    pr_status: "in_progress",
+    requestor_id: getUuidByName("USER_02"),
+    requestor_name: "Jane Requestor",
+    department_id: getUuidByName("DEPARTMENT_01"),
+    department_name: "Marketing Department",
+    note: "Campaign materials for Q1",
+    info: { category: "Marketing", priority: "Medium" },
+    dimension: { department: "Marketing", region: "All" },
+    doc_version: "1.0",
+    created_at: "2024-01-15T10:30:00Z",
+    created_by_id: getUuidByName("USER_01"),
+    updated_at: "2024-01-15T10:30:00Z",
+    updated_by_id: null,
+    deleted_at: null,
+    deleted_by_id: null,
+  },
+  {
+    id: getUuidByName("PURCHASE_REQUEST_06"),
+    bu_code: getUuidByName("BU_CODE_02"),
+    pr_no: "PR-2024-004",
+    pr_date: "2024-01-18",
+    description: "Marketing materials for campaign",
+    workflow_id: getUuidByName("WORKFLOW_01"),
+    workflow_name: "Purchase Request Approval",
+    workflow_history: [{ stage: "draft", date: "2024-01-18", user: "user6" }],
+    workflow_current_stage: "submitted",
+    workflow_previous_stage: "draft",
+    workflow_next_stage: "approved",
+    user_action: { action: "submit", comment: "Submitted for approval" },
+    last_action: "submitted",
+    last_action_at_date: "2024-01-18",
+    last_action_by_id: getUuidByName("USER_06"),
+    last_action_by_name: "John Requestor",
+    pr_status: "in_progress",
+    requestor_id: getUuidByName("USER_05"),
+    requestor_name: "Jane Requestor",
+    department_id: getUuidByName("DEPARTMENT_01"),
+    department_name: "Marketing Department",
+    note: "Campaign materials for Q1",
+    info: { category: "Marketing", priority: "Medium" },
+    dimension: { department: "Marketing", region: "All" },
+    doc_version: "1.0",
+    created_at: "2024-01-15T10:30:00Z",
+    created_by_id: getUuidByName("USER_01"),
+    updated_at: "2024-01-15T10:30:00Z",
+    updated_by_id: null,
+    deleted_at: null,
+    deleted_by_id: null,
+  },
+  {
+    id: getUuidByName("PURCHASE_REQUEST_07"),
+    bu_code: getUuidByName("BU_CODE_02"),
+    pr_no: "PR-2024-005",
+    pr_date: "2024-01-19",
+    description: "Marketing materials for campaign",
+    workflow_id: getUuidByName("WORKFLOW_01"),
+    workflow_name: "Purchase Request Approval",
+    workflow_history: [{ stage: "draft", date: "2024-01-19", user: "user7" }],
+    workflow_current_stage: "submitted",
+    workflow_previous_stage: "hod_approved",
+    workflow_next_stage: "approved",
+    user_action: { action: "submit", comment: "Submitted for approval" },
+    last_action: "reviewed",
     last_action_at_date: "2024-01-19",
     last_action_by_id: getUuidByName("USER_02"),
     last_action_by_name: "John Requestor",
@@ -273,16 +341,9 @@ export const getPurchaseRequestsByLastAction = (
   );
 };
 
-// READ - อ่าน PurchaseRequest ตาม bu_id
-export const getPurchaseRequestsByBuId = (buId: string): PurchaseRequest[] => {
-  return purchaseRequests.filter((pr) => pr.bu_id === buId && !pr.deleted_at);
-};
-
-export const getPurchaseRequestsByBuIdAndInProgress = (buId: string): PurchaseRequest[] => {
+export const getPurchaseRequestsByCodeAndInProgress = (buCode: string): PurchaseRequest[] => {
   const inProgress = "in_progress";
-  console.log({purchaseRequests});
-  const result = purchaseRequests.filter((pr) => pr.bu_id === buId && pr.pr_status === inProgress && !pr.deleted_at);
-  console.log({result});
+  const result = purchaseRequests.filter((pr) => pr.bu_code === buCode && pr.pr_status === inProgress && !pr.deleted_at);
   return result;
 };
 

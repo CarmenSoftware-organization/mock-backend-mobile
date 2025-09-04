@@ -1,7 +1,6 @@
 import {
   APP_ID_VALUE,
   PARAM_X_APP_ID,
-  // PARAM_X_TENANT_ID,
 } from "@/mockdata/const";
 import { resError, resNotFound, resUnauthorized } from "./res.error";
 import { tbBusinessUnit, tbUser, tbUserProfile, tbUserTbBusinessUnit } from "@/mockdata";
@@ -27,16 +26,6 @@ export const CheckHeaderHasAppId = (headers: any) => {
 
   return { error: null };
 };
-
-// export const CheckHeaderHasTenantId = (headers: any) => {
-//   const tenantId = headers[PARAM_X_TENANT_ID.name];
-//   if (!tenantId) {
-//     return {
-//       error: resError(400, "Invalid header '" + PARAM_X_TENANT_ID.name + "'"),
-//     };
-//   }
-//   return { error: null };
-// };
 
 export const CheckHeaderHasAppIdAndTenantId = (headers: any) => {
   const { error: appIdError } = CheckHeaderHasAppId(headers);
@@ -72,6 +61,7 @@ export const CheckHeaderHasAccessToken = async (headers: any, jwt: any) => {
     const buObject = tbBusinessUnit.businessUnits.find((b: any) => b.id === bu.business_unit_id);
     return {
       id: bu.business_unit_id,
+      code: buObject?.code,
       name: buObject?.name,
       alias_name: buObject?.alias_name,
       is_default: bu.is_default,

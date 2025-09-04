@@ -117,7 +117,7 @@ export default (app: Elysia) =>
 
               if (cBU) {
                 return {
-                  id: cBU.id,
+                  code: cBU.code,
                   name: cBU.name,
                   alias_name: cBU.alias_name,
                   is_default: user_bu.is_default,
