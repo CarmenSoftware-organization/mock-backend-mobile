@@ -71,7 +71,7 @@ export const CheckHeaderHasAccessToken = async (headers: any, jwt: any) => {
   const bussiness_Units = tbUserTbBusinessUnit.userBusinessUnits.filter((bu: any) => bu.user_id === currentUser.id).map((bu: any) => {
     const buObject = tbBusinessUnit.businessUnits.find((b: any) => b.id === bu.business_unit_id);
     return {
-      id: bu.id,
+      id: bu.business_unit_id,
       name: buObject?.name,
       alias_name: buObject?.alias_name,
       is_default: bu.is_default,

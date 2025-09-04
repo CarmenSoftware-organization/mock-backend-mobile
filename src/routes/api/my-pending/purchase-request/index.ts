@@ -1,6 +1,7 @@
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
 import { resInternalServerError, resNotImplemented } from "@/libs/res.error";
-import { tbPurchaseRequest } from "@/mockdata";
+import { randomNumber } from "@/libs/utils";
+import { tbPurchaseRequest, tbPurchaseRequestDetail } from "@/mockdata";
 import jwt from "@elysiajs/jwt";
 import type { Elysia } from "elysia";
 
@@ -23,27 +24,50 @@ export default (app: Elysia) =>
           return errorAppId;
         }
 
-        const { error: errorAccessToken, jwtUser, currentUser, userProfile, bussiness_Units } =
-          await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+        const {
+          error: errorAccessToken,
+          jwtUser,
+          currentUser,
+          userProfile,
+          bussiness_Units,
+        } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
         if (errorAccessToken) {
           ctx.set.status = 401;
           return errorAccessToken;
         }
 
-        const {tenant_id} = ctx.query;
+        const { tenant_id } = ctx.query;
 
         try {
-
           let purchaseRequests: any[] = [];
 
           for (const bu of bussiness_Units) {
-
             if (tenant_id && tenant_id !== bu.id) {
               continue;
             }
 
+            console.log({ id: bu.id });
+
             // find pr in bu_id
-            const prData = tbPurchaseRequest.getPurchaseRequestsByBuId(bu.id);
+            const prData = tbPurchaseRequest
+              .getPurchaseRequestsByBuIdAndInProgress(bu.id)
+              .map((pr) => ({
+                id: pr.id,
+                bu_id: pr.bu_id,
+                pr_no: pr.pr_no,
+                pr_date: pr.pr_date,
+                description: pr.description,
+                pr_status: pr.pr_status,
+                requestor_name: pr.requestor_name,
+                department_name: pr.department_name,
+                workflow_name: pr.workflow_name,
+                workflow_current_stage: pr.workflow_current_stage,
+                workflow_previous_stage: pr.workflow_previous_stage,
+                workflow_next_stage: pr.workflow_next_stage,
+                last_action: pr.last_action,
+                created_at: pr.created_at,
+                total_amount: Number(randomNumber(50, 100000)),
+              }));
 
             const res = {
               bu_id: bu.id,
@@ -55,7 +79,6 @@ export default (app: Elysia) =>
           }
 
           return purchaseRequests;
-
         } catch (error) {
           return resInternalServerError(
             error instanceof Error ? error.message : "Unknown error"

@@ -14,7 +14,7 @@ export interface PurchaseRequest {
   workflow_previous_stage: string | null;
   workflow_next_stage: string | null;
   user_action: any;
-  last_action: "submitted" | "approved" | "rejected" | "completed";
+  last_action: "submitted" | "approved" | "rejected" | "reviewed" | "completed" ;
   last_action_at_date: string | null;
   last_action_by_id: string | null;
   last_action_by_name: string | null;
@@ -38,7 +38,7 @@ export interface PurchaseRequest {
 export const purchaseRequests: PurchaseRequest[] = [
   {
     id: getUuidByName("PURCHASE_REQUEST_01"),
-    bu_id: getUuidByName("BU_01"),  
+    bu_id: getUuidByName("BUSINESS_UNIT_01"),
     pr_no: "PR-2024-001",
     pr_date: "2024-01-15",
     description: "IT equipment request for new employees",
@@ -49,7 +49,7 @@ export const purchaseRequests: PurchaseRequest[] = [
     workflow_previous_stage: "draft",
     workflow_next_stage: "approved",
     user_action: { action: "submit", comment: "Submitted for approval" },
-    last_action: "submitted",
+    last_action: "reviewed",
     last_action_at_date: "2024-01-15",
     last_action_by_id: "user1",
     last_action_by_name: "John Requestor",
@@ -71,7 +71,7 @@ export const purchaseRequests: PurchaseRequest[] = [
   },
   {
     id: getUuidByName("PURCHASE_REQUEST_02"),
-    bu_id: getUuidByName("BU_01"),
+    bu_id: getUuidByName("BUSINESS_UNIT_01"),
     pr_no: "PR-2024-002",
     pr_date: "2024-01-16",
     description: "Office supplies for admin team",
@@ -104,7 +104,7 @@ export const purchaseRequests: PurchaseRequest[] = [
   },
   {
     id: getUuidByName("PURCHASE_REQUEST_03"),
-    bu_id: getUuidByName("BU_01"),
+    bu_id: getUuidByName("BUSINESS_UNIT_01"),
     pr_no: "PR-2024-003",
     pr_date: "2024-01-17",
     description: "Marketing materials for campaign",
@@ -137,7 +137,7 @@ export const purchaseRequests: PurchaseRequest[] = [
   },
   {
     id: getUuidByName("PURCHASE_REQUEST_04"),
-    bu_id: getUuidByName("BU_01"),
+    bu_id: getUuidByName("BUSINESS_UNIT_01"),
     pr_no: "PR-2024-004",
     pr_date: "2024-01-18",
     description: "Marketing materials for campaign",
@@ -170,7 +170,7 @@ export const purchaseRequests: PurchaseRequest[] = [
   },
   {
     id: getUuidByName("PURCHASE_REQUEST_05"),
-    bu_id: getUuidByName("BU_01"),
+    bu_id: getUuidByName("BUSINESS_UNIT_01"),
     pr_no: "PR-2024-005",
     pr_date: "2024-01-19",
     description: "Marketing materials for campaign",
@@ -273,14 +273,17 @@ export const getPurchaseRequestsByLastAction = (
   );
 };
 
-
 // READ - อ่าน PurchaseRequest ตาม bu_id
-export const getPurchaseRequestsByBuId = (
-  buId: string
-): PurchaseRequest[] => {
-  return purchaseRequests.filter(
-    (pr) => pr.bu_id === buId && !pr.deleted_at
-  );
+export const getPurchaseRequestsByBuId = (buId: string): PurchaseRequest[] => {
+  return purchaseRequests.filter((pr) => pr.bu_id === buId && !pr.deleted_at);
+};
+
+export const getPurchaseRequestsByBuIdAndInProgress = (buId: string): PurchaseRequest[] => {
+  const inProgress = "in_progress";
+  console.log({purchaseRequests});
+  const result = purchaseRequests.filter((pr) => pr.bu_id === buId && pr.pr_status === inProgress && !pr.deleted_at);
+  console.log({result});
+  return result;
 };
 
 // READ - อ่าน PurchaseRequest ที่มี note
