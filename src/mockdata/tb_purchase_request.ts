@@ -2,6 +2,7 @@ import { generateId, getCurrentTimestamp } from "@/libs/utils";
 import { getUuidByName } from "./mapping.uuid";
 import { tbBusinessUnit } from ".";
 import { resNotFound } from "@/libs/res.error";
+import { getWorkflowById } from "./tb_workflow";
 
 export interface PurchaseRequest {
   id: string;
@@ -37,15 +38,18 @@ export interface PurchaseRequest {
   deleted_by_id: string | null;
 }
 
-export const purchaseRequests: PurchaseRequest[] = [
+export const purchaseRequests: PurchaseRequest[] = (() => {
+  const workflow1 = getWorkflowById(getUuidByName("WORKFLOW_01"));
+  const workflow2 = getWorkflowById(getUuidByName("WORKFLOW_02"));
+  return [
   {
     id: getUuidByName("PURCHASE_REQUEST_01"),
     bu_code: getUuidByName("BU_CODE_01"),
     pr_no: "PR-2024-001",
     pr_date: "2024-01-15",
     description: "IT equipment request for new employees",
-    workflow_id: getUuidByName("WORKFLOW_01"),
-    workflow_name: "Purchase Request Approval",
+    workflow_id: workflow1?.id || "",
+    workflow_name: workflow1?.name || "",
     workflow_history: [{ stage: "draft", date: "2024-01-15", user: "user1" }],
     workflow_current_stage: "submitted",
     workflow_previous_stage: "draft",
@@ -77,8 +81,8 @@ export const purchaseRequests: PurchaseRequest[] = [
     pr_no: "PR-2024-002",
     pr_date: "2024-01-16",
     description: "Office supplies for admin team",
-    workflow_id: getUuidByName("WORKFLOW_01"),
-    workflow_name: "Purchase Request Approval",
+    workflow_id: workflow1?.id || "",
+    workflow_name: workflow1?.name || "",
     workflow_history: [{ stage: "draft", date: "2024-01-16", user: "user2" }],
     workflow_current_stage: "completed",
     workflow_previous_stage: "approved",
@@ -110,8 +114,8 @@ export const purchaseRequests: PurchaseRequest[] = [
     pr_no: "PR-2024-003",
     pr_date: "2024-01-17",
     description: "Marketing materials for campaign",
-    workflow_id: getUuidByName("WORKFLOW_01"),
-    workflow_name: "Purchase Request Approval",
+    workflow_id: workflow1?.id || "",
+    workflow_name: workflow1?.name || "",
     workflow_history: [{ stage: "draft", date: "2024-01-17", user: "user4" }],
     workflow_current_stage: "rejected",
     workflow_previous_stage: "submitted",
@@ -143,8 +147,8 @@ export const purchaseRequests: PurchaseRequest[] = [
     pr_no: "PR-2024-004",
     pr_date: "2024-01-18",
     description: "Marketing materials for campaign",
-    workflow_id: getUuidByName("WORKFLOW_01"),
-    workflow_name: "Purchase Request Approval",
+    workflow_id: workflow1?.id || "",
+    workflow_name: workflow1?.name || "",
     workflow_history: [{ stage: "draft", date: "2024-01-18", user: "user6" }],
     workflow_current_stage: "submitted",
     workflow_previous_stage: "draft",
@@ -176,8 +180,8 @@ export const purchaseRequests: PurchaseRequest[] = [
     pr_no: "PR-2024-005",
     pr_date: "2024-01-19",
     description: "Marketing materials for campaign",
-    workflow_id: getUuidByName("WORKFLOW_01"),
-    workflow_name: "Purchase Request Approval",
+    workflow_id: workflow1?.id || "",
+    workflow_name: workflow1?.name || "",
     workflow_history: [{ stage: "draft", date: "2024-01-19", user: "user7" }],
     workflow_current_stage: "submitted",
     workflow_previous_stage: "draft",
@@ -209,8 +213,8 @@ export const purchaseRequests: PurchaseRequest[] = [
     pr_no: "PR-2024-004",
     pr_date: "2024-01-18",
     description: "Marketing materials for campaign",
-    workflow_id: getUuidByName("WORKFLOW_01"),
-    workflow_name: "Purchase Request Approval",
+    workflow_id: workflow1?.id || "",
+    workflow_name: workflow1?.name || "",
     workflow_history: [{ stage: "draft", date: "2024-01-18", user: "user6" }],
     workflow_current_stage: "submitted",
     workflow_previous_stage: "draft",
@@ -242,8 +246,8 @@ export const purchaseRequests: PurchaseRequest[] = [
     pr_no: "PR-2024-005",
     pr_date: "2024-01-19",
     description: "Marketing materials for campaign",
-    workflow_id: getUuidByName("WORKFLOW_01"),
-    workflow_name: "Purchase Request Approval",
+    workflow_id: workflow1?.id || "",
+    workflow_name: workflow1?.name || "",
     workflow_history: [{ stage: "draft", date: "2024-01-19", user: "user7" }],
     workflow_current_stage: "submitted",
     workflow_previous_stage: "hod_approved",
@@ -270,7 +274,7 @@ export const purchaseRequests: PurchaseRequest[] = [
     deleted_by_id: null,
   },
 ];
-
+})();
 // CREATE - สร้าง PurchaseRequest ใหม่
 export const createPurchaseRequest = (
   data: Omit<PurchaseRequest, "id" | "created_at" | "created_by_id">

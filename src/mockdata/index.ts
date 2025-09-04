@@ -77,3 +77,4 @@ export * as tbBusinessUnit from "./tb_business_unit";
 export * as tbUserTbBusinessUnit from "./tb_user_tb_business_unit";
 export * as tbPermission from "./tb_permission";
 export * as tbUserPermission from "./temp_tb_user_permission";
+export * as tbTaxProfile from "./tb_tax_profile";

@@ -28,8 +28,8 @@ export interface Workflow {
 export const workflows: Workflow[] = [
   {
     id: getUuidByName("WORKFLOW_01"),
-    name: "General Approval Workflow",
-    workflow_type: "other",
+    name: "General",
+    workflow_type: "purchase_request_workflow",
     data: { stages: ["draft", "submitted", "approved", "completed"] },
     is_active: true,
     description: "Standard workflow for general approvals",
@@ -45,7 +45,7 @@ export const workflows: Workflow[] = [
   },
   {
     id: getUuidByName("WORKFLOW_02"),
-    name: "Purchase Request Workflow",
+    name: "Market list",
     workflow_type: "purchase_request_workflow",
     data: {
       stages: ["draft", "submitted", "reviewed", "approved", "purchased"],
@@ -64,7 +64,7 @@ export const workflows: Workflow[] = [
   },
   {
     id: getUuidByName("WORKFLOW_03"),
-    name: "Store Requisition Workflow",
+    name: "General",
     workflow_type: "store_requisition_workflow",
     data: { stages: ["draft", "submitted", "approved", "issued"] },
     is_active: true,
