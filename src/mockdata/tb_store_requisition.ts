@@ -1,12 +1,14 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
+import { getUuidByName } from "./mapping.uuid";
 
 export interface StoreRequisition {
   id: string;
+  bu_code: string;
   sr_no: string;
   sr_date: string;
   expected_date: string;
   description: string;
-  doc_status: "draft" | "submitted" | "approved" | "rejected" | "completed";
+  doc_status: "draft" | "in_progress" | "completed" | "cancelled";
   from_location_id: string;
   from_location_name: string;
   workflow_id: string;
@@ -16,7 +18,7 @@ export interface StoreRequisition {
   workflow_previous_stage: string;
   workflow_next_stage: string;
   user_action: any;
-  last_action: "submit" | "approve" | "reject" | "complete";
+  last_action: "submit" | "approve" | "reject" | "review";
   last_action_at_date: string;
   last_action_by_id: string;
   last_action_by_name: string;
@@ -38,32 +40,33 @@ export interface StoreRequisition {
 // Sample data
 export const storeRequisitions: StoreRequisition[] = [
   {
-    id: "sr-001",
-    sr_no: "SR-2024-001",
+    id: getUuidByName("STORE_REQUISITION_01"),
+    bu_code: getUuidByName("BU_CODE_01"),
+    sr_no: getUuidByName("STORE_REQUISITION_01"),
     sr_date: "2024-01-15",
     expected_date: "2024-01-20",
     description: "Kitchen supplies for daily operations",
-    doc_status: "approved",
+    doc_status: "in_progress",
     from_location_id: "loc-kitchen-001",
     from_location_name: "Kitchen Storage",
-    workflow_id: "wf-004",
+    workflow_id: getUuidByName("WORKFLOW_04"),
     workflow_name: "Store Requisition Approval",
     workflow_history: [
-      { stage: "draft", date: "2024-01-15T10:00:00Z", user: "user-001" },
-      { stage: "submitted", date: "2024-01-15T11:00:00Z", user: "user-001" },
-      { stage: "approved", date: "2024-01-15T15:00:00Z", user: "user-002" },
+      { stage: "draft", date: "2024-01-15T10:00:00Z", user: getUuidByName("USER_01") },
+      { stage: "submitted", date: "2024-01-15T11:00:00Z", user: getUuidByName("USER_01") },
+      { stage: "approved", date: "2024-01-15T15:00:00Z", user: getUuidByName("USER_02") },
     ],
     workflow_current_stage: "approved",
     workflow_previous_stage: "submitted",
     workflow_next_stage: "completed",
     user_action: { can_edit: false, can_delete: false, can_approve: false },
-    last_action: "approve",
+    last_action: "review",
     last_action_at_date: "2024-01-15T15:00:00Z",
-    last_action_by_id: "user-002",
+    last_action_by_id: getUuidByName("USER_02"),
     last_action_by_name: "Kitchen Manager",
-    requestor_id: "user-001",
+    requestor_id: getUuidByName("USER_01"),
     requestor_name: "Kitchen Staff",
-    department_id: "dept-kitchen",
+    department_id: getUuidByName("DEPARTMENT_01"),
     department_name: "Kitchen Department",
     info: {
       category: "Kitchen Supplies",
@@ -73,40 +76,41 @@ export const storeRequisitions: StoreRequisition[] = [
     dimension: { cost_center: "KITCHEN-001", project: "Daily Operations" },
     doc_version: "1",
     created_at: "2024-01-15T10:00:00Z",
-    created_by_id: "user-001",
+    created_by_id: getUuidByName("USER_01"),
     updated_at: "2024-01-15T15:00:00Z",
-    updated_by_id: "user-002",
+    updated_by_id: getUuidByName("USER_02"),
     deleted_at: null,
     deleted_by_id: null,
   },
   {
-    id: "sr-002",
-    sr_no: "SR-2024-002",
+    id: getUuidByName("STORE_REQUISITION_02"),
+    bu_code: getUuidByName("BU_CODE_01"),
+    sr_no: getUuidByName("STORE_REQUISITION_02"),
     sr_date: "2024-01-16",
     expected_date: "2024-01-22",
     description: "Front office stationery supplies",
-    doc_status: "completed",
-    from_location_id: "loc-office-001",
+    doc_status: "in_progress",
+    from_location_id: getUuidByName("LOCATION_01"),
     from_location_name: "Office Storage",
-    workflow_id: "wf-004",
+    workflow_id: getUuidByName("WORKFLOW_04"),
     workflow_name: "Store Requisition Approval",
     workflow_history: [
-      { stage: "draft", date: "2024-01-16T09:00:00Z", user: "user-003" },
-      { stage: "submitted", date: "2024-01-16T10:00:00Z", user: "user-003" },
-      { stage: "approved", date: "2024-01-16T14:00:00Z", user: "user-002" },
-      { stage: "completed", date: "2024-01-17T09:00:00Z", user: "user-004" },
+      { stage: "draft", date: "2024-01-16T09:00:00Z", user: getUuidByName("USER_03") },
+      { stage: "submitted", date: "2024-01-16T10:00:00Z", user: getUuidByName("USER_03") },
+      { stage: "approved", date: "2024-01-16T14:00:00Z", user: getUuidByName("USER_02") },
+      { stage: "completed", date: "2024-01-17T09:00:00Z", user: getUuidByName("USER_04") },
     ],
     workflow_current_stage: "completed",
     workflow_previous_stage: "approved",
     workflow_next_stage: "",
     user_action: { can_edit: false, can_delete: false, can_approve: false },
-    last_action: "complete",
+    last_action: "approve",
     last_action_at_date: "2024-01-17T09:00:00Z",
-    last_action_by_id: "user-004",
+    last_action_by_id: getUuidByName("USER_04"),
     last_action_by_name: "Office Manager",
-    requestor_id: "user-003",
+    requestor_id: getUuidByName("USER_03"),
     requestor_name: "Front Office Staff",
-    department_id: "dept-office",
+    department_id: getUuidByName("DEPARTMENT_01"),
     department_name: "Office Department",
     info: {
       category: "Office Supplies",
@@ -116,25 +120,26 @@ export const storeRequisitions: StoreRequisition[] = [
     dimension: { cost_center: "OFFICE-001", project: "Monthly Supplies" },
     doc_version: "1",
     created_at: "2024-01-16T09:00:00Z",
-    created_by_id: "user-003",
+    created_by_id: getUuidByName("USER_03"),
     updated_at: "2024-01-17T09:00:00Z",
-    updated_by_id: "user-004",
+    updated_by_id: getUuidByName("USER_04"),
     deleted_at: null,
     deleted_by_id: null,
   },
   {
-    id: "sr-003",
-    sr_no: "SR-2024-003",
+    id: getUuidByName("STORE_REQUISITION_03"),
+    bu_code: getUuidByName("BU_CODE_01"),
+    sr_no: getUuidByName("STORE_REQUISITION_03"),
     sr_date: "2024-01-17",
     expected_date: "2024-01-19",
     description: "Marketing materials for Q1 campaign",
-    doc_status: "draft",
-    from_location_id: "loc-marketing-001",
+    doc_status: "in_progress",
+    from_location_id: getUuidByName("LOCATION_01"),
     from_location_name: "Marketing Storage",
-    workflow_id: "wf-004",
+    workflow_id: getUuidByName("WORKFLOW_04"),
     workflow_name: "Store Requisition Approval",
     workflow_history: [
-      { stage: "draft", date: "2024-01-17T14:00:00Z", user: "user-005" },
+      { stage: "draft", date: "2024-01-17T14:00:00Z", user: getUuidByName("USER_05") },
     ],
     workflow_current_stage: "draft",
     workflow_previous_stage: "",
@@ -142,11 +147,11 @@ export const storeRequisitions: StoreRequisition[] = [
     user_action: { can_edit: true, can_delete: true, can_approve: false },
     last_action: "submit",
     last_action_at_date: "2024-01-17T14:00:00Z",
-    last_action_by_id: "user-005",
+    last_action_by_id: getUuidByName("USER_05"),
     last_action_by_name: "Marketing Staff",
-    requestor_id: "user-005",
+    requestor_id: getUuidByName("USER_05"),
     requestor_name: "Marketing Staff",
-    department_id: "dept-marketing",
+    department_id: getUuidByName("DEPARTMENT_01"),
     department_name: "Marketing Department",
     info: {
       category: "Marketing Materials",
@@ -156,9 +161,9 @@ export const storeRequisitions: StoreRequisition[] = [
     dimension: { cost_center: "MKT-001", project: "Q1 Campaign" },
     doc_version: "1",
     created_at: "2024-01-17T14:00:00Z",
-    created_by_id: "user-005",
+    created_by_id: getUuidByName("USER_05"),
     updated_at: "2024-01-17T14:00:00Z",
-    updated_by_id: "user-005",
+    updated_by_id: getUuidByName("USER_05"),
     deleted_at: null,
     deleted_by_id: null,
   },
@@ -199,6 +204,13 @@ export const getStoreRequisitionById = (
   return storeRequisition || null;
 };
 
+export const getStoreRequisitionsByCodeAndInProgress = (
+  buCode: string
+): StoreRequisition[] => {
+  return storeRequisitions.filter(
+    (sr) => sr.bu_code === buCode && sr.doc_status === "in_progress" && !sr.deleted_at
+  );
+};
 export const getStoreRequisitionByNo = (
   srNo: string
 ): StoreRequisition | null => {

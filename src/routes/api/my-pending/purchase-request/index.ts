@@ -51,7 +51,6 @@ export default (app: Elysia) =>
               .getPurchaseRequestsByCodeAndInProgress(bu.code ?? "")
               .map((pr) => ({
                 id: pr.id,
-                // bu_code: pr.bu_code,
                 pr_no: pr.pr_no,
                 pr_date: pr.pr_date,
                 description: pr.description,
