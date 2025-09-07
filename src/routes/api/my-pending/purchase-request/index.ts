@@ -1,6 +1,6 @@
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
 import { resInternalServerError, resNotImplemented } from "@/libs/res.error";
-import { randomNumber } from "@/libs/utils";
+import { getRandomInt } from "@/libs/utils";
 import { tbPurchaseRequest, tbPurchaseRequestDetail } from "@/mockdata";
 import jwt from "@elysiajs/jwt";
 import type { Elysia } from "elysia";
@@ -64,7 +64,7 @@ export default (app: Elysia) =>
                 workflow_next_stage: pr.workflow_next_stage,
                 last_action: pr.last_action,
                 created_at: pr.created_at,
-                total_amount: Number(randomNumber(50, 100000)),
+                total_amount: Number(getRandomInt(50, 100000)),
               }));
 
             const res = {

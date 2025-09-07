@@ -4,6 +4,22 @@ import { tbBusinessUnit } from ".";
 import { resNotFound } from "@/libs/res.error";
 import { getWorkflowById } from "./tb_workflow";
 
+export interface PurchaseRequestApproval {
+  state_role: "approve" | "create" | "purchase" | "view_only";
+  destination?: string;
+  body: PurchaseRequestApprovalItem[];
+}
+export interface PurchaseRequestApprovalItem {
+  id: string;
+  state_status: "approve" | "reject" | "review";
+  state_message?: string;
+  description?: string;
+  approved_qty?: number;
+  approved_unit_id?: string;
+  approved_unit_conversion_factor?: number;
+  approved_base_qty?: number;
+}
+
 export interface PurchaseRequest {
   id: string;
   bu_code: string;

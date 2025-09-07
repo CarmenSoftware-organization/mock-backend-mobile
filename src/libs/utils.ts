@@ -12,6 +12,12 @@ export const getCurrentTimestamp = (): string => {
   return new Date().toISOString();
 };
 
-export const randomNumber = (min: number, max: number): number => {
+// Utility function สำหรับสร้างตัวเลขสุ่ม
+export const getRandomInt = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+// Utility function สำหรับสร้างตัวเลขสุ่มที่เป็นทศนิยม
+export const getRandomFloat = (min: number, max: number): number => {
+  return parseFloat(((Math.random() * (max - min) + min) + '.' + getRandomInt(1,99999)));
 };

@@ -10,15 +10,13 @@ import {
   resUnauthorized,
 } from "@libs/res.error";
 import type { LoginDto, LoginError, LoginResponse } from "@/types/auth";
-import {
-  PARAM_X_APP_ID,
-  BU_CODE_QUERY,
-} from "@mockdata/const";
+import { PARAM_X_APP_ID, BU_CODE_QUERY } from "@mockdata/const";
 import { tbPermission, tbUser, tbUserPermission } from "@mockdata/index";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
 
 export default (app: Elysia) =>
   app
+
     .model({
       loginDto: t.Object({
         email: t.String({
@@ -118,41 +116,43 @@ export default (app: Elysia) =>
         let res = {};
 
         try {
-          const cBusiness_unit = bussiness_Units.map((bu: any) => {
-            // สร้าง permissions array ในรูปแบบ string เช่น "pr.view", "po.view" ฯลฯ
-            const permissionNames: string[] = tbUserPermission
-              .getUserPermissionsByUserId(currentUser.id)
-              .map((permission: any) => {
-                const permissionObject = tbPermission.permissions.find(
-                  (p: any) => p.id === permission.permission_id
-                );
-                if (!permissionObject) return null;
-                // resource:action เช่น pr:view → pr.view
-                return `${permissionObject.resource}.${permissionObject.action}`;
-              })
-              .filter((name: string | null): name is string => !!name);
+          const cBusiness_unit = bussiness_Units
+            .map((bu: any) => {
+              // สร้าง permissions array ในรูปแบบ string เช่น "pr.view", "po.view" ฯลฯ
+              const permissionNames: string[] = tbUserPermission
+                .getUserPermissionsByUserId(currentUser.id)
+                .map((permission: any) => {
+                  const permissionObject = tbPermission.permissions.find(
+                    (p: any) => p.id === permission.permission_id
+                  );
+                  if (!permissionObject) return null;
+                  // resource:action เช่น pr:view → pr.view
+                  return `${permissionObject.resource}.${permissionObject.action}`;
+                })
+                .filter((name: string | null): name is string => !!name);
 
-            // ถ้ามีค่า bu_code ให้ตรวจสอบว่า business unit id ตรงกับ bu_code หรือไม่
-            if (bu_code) {
-              if (bu.code === bu_code) {
+              // ถ้ามีค่า bu_code ให้ตรวจสอบว่า business unit id ตรงกับ bu_code หรือไม่
+              if (bu_code) {
+                if (bu.code === bu_code) {
+                  return {
+                    code: bu.code,
+                    name: bu.name,
+                    alias_name: bu.alias_name,
+                    permissions: permissionNames,
+                  };
+                } else {
+                  return null;
+                }
+              } else {
                 return {
                   code: bu.code,
                   name: bu.name,
                   alias_name: bu.alias_name,
                   permissions: permissionNames,
                 };
-              }else {
-                return null;
               }
-            } else {
-              return {
-                code: bu.code,
-                name: bu.name,
-                alias_name: bu.alias_name,
-                permissions: permissionNames,
-              };
-            }
-          }).filter((bu: any) => bu !== null);
+            })
+            .filter((bu: any) => bu !== null);
 
           res = {
             business_unit: cBusiness_unit,

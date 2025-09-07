@@ -1,4 +1,3 @@
-
 // Utility function for not implemented endpoints
 export const resNotImplemented = {
   success: false,
@@ -7,10 +6,12 @@ export const resNotImplemented = {
   timestamp: new Date().toISOString(),
 };
 
-export const resBadRequest = {
-  status: 400,
-  message: "Bad Request",
-  timestamp: new Date().toISOString(),
+export const resBadRequest = (message: string = "Bad Request") => {
+  return {
+    status: 400,
+    message: message,
+    timestamp: new Date().toISOString(),
+  };
 };
 
 export const resSuccess = (message: string = "Success") => {
@@ -29,7 +30,6 @@ export const resUnauthorized = (message: string = "Unauthorized") => {
   };
 };
 
-
 export const resSuccessWithData = (message: string = "Success", data: any) => {
   return {
     status: 200,
@@ -39,7 +39,9 @@ export const resSuccessWithData = (message: string = "Success", data: any) => {
   };
 };
 
-export const resInternalServerError = (message: string = "Internal Server Error") => {
+export const resInternalServerError = (
+  message: string = "Internal Server Error"
+) => {
   return {
     status: 500,
     message: message,
@@ -55,7 +57,7 @@ export const resNotFound = (message: string = "Not Found") => {
   };
 };
 
-export const resError = (status: number, message: string = "Unknown error") =>  {
+export const resError = (status: number, message: string = "Unknown error") => {
   return {
     status: status,
     message: message,
@@ -63,7 +65,11 @@ export const resError = (status: number, message: string = "Unknown error") =>  
   };
 };
 
-export const resErrorWithData = (status: number, message: string = "Unknown error", data: any) => {
+export const resErrorWithData = (
+  status: number,
+  message: string = "Unknown error",
+  data: any
+) => {
   return {
     status: status,
     message: message,
@@ -71,5 +77,3 @@ export const resErrorWithData = (status: number, message: string = "Unknown erro
     timestamp: new Date().toISOString(),
   };
 };
-
-

@@ -370,6 +370,11 @@ export const getProductsWithSKU = (): Product[] => {
   return products.filter((product) => product.sku !== null);
 };
 
+// READ - อ่าน Product ตาม business_unit_code
+export const getProductsByBusinessUnitCode = (businessUnitCode: string): Product[] => {
+  return products;
+};
+
 // UPDATE - อัปเดต Product
 export const updateProduct = (
   id: string,

@@ -215,7 +215,7 @@ export interface PurchaseRequestDetail {
     {
       id: getUuidByName("PURCHASE_REQUEST_DETAIL_02"),
       purchase_request_id: getUuidByName("PURCHASE_REQUEST_01"),
-      sequence_no: 1,
+      sequence_no: 2,
       location_id: location2?.id || "",
       location_name: location2?.name || "",
       delivery_point_id: deliveryPoint2?.id || "",

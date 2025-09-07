@@ -46,6 +46,42 @@ export default (app: Elysia) =>
       };
     })
 
+    .get(
+      "/api/:bu_code/workflow/purchase-request/:pr_id/previous",
+      async (ctx) => {
+        const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+        if (errorAppId) {
+          return errorAppId;
+        }
+
+        const { error: errorAccessToken } = await CheckHeaderHasAccessToken(
+          ctx.headers,
+          ctx.jwt
+        );
+        if (errorAccessToken) {
+          return errorAccessToken;
+        }
+
+        const { bu_code, pr_id } = ctx.params;
+
+        const bu = tbBusinessUnit.getBusinessUnitByCode(bu_code);
+        if (!bu) {
+          return resNotFound("Business unit not found");
+        }
+
+        const pr = tbPurchaseRequest.getPurchaseRequestById(pr_id);
+        if (!pr) {
+          return resNotFound("Purchase request not found");
+        }
+
+        return {
+          1: "Request Creation",
+          2: "Department Approval",
+          3: "Purchasing Review",
+        };
+      }
+    )
+
     .get("/api/workflow/type/:type", ({ params, query, body, headers }) => {
       return Response.json(resNotImplemented, { status: 501 });
     });

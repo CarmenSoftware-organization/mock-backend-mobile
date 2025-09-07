@@ -1,5 +1,6 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
 import { getUuidByName } from "./mapping.uuid";
+import { tbBusinessUnit } from ".";
 
 export interface Location {
   id: string;
@@ -251,6 +252,11 @@ export const getLocationsByType = (locationType: string): Location[] => {
   return locations.filter(
     (location) => location.location_type === locationType
   );
+};
+
+// READ - อ่าน Location ตาม business_unit_code
+export const getLocationsByBusinessUnitCode = (businessUnitCode: string): Location[] => {
+  return locations;
 };
 
 // READ - อ่าน Location ตาม delivery_point_id

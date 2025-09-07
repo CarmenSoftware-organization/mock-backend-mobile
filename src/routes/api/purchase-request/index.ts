@@ -1,8 +1,19 @@
-import { resNotFound, resNotImplemented } from "@/libs/res.error";
+import {
+  resBadRequest,
+  resNotFound,
+  resNotImplemented,
+  resSuccess,
+} from "@/libs/res.error";
 import type { Elysia } from "elysia";
 import jwt from "@elysiajs/jwt";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
-import { tbBusinessUnit, tbPurchaseRequest, tbPurchaseRequestDetail } from "@/mockdata";
+import {
+  tbBusinessUnit,
+  tbPurchaseRequest,
+  tbPurchaseRequestDetail,
+} from "@/mockdata";
+import { t } from "elysia";
+import { PurchaseRequestApproval } from "@/mockdata/tb_purchase_request";
 
 export default (app: Elysia) =>
   app
@@ -12,6 +23,69 @@ export default (app: Elysia) =>
         secret: process.env.JWT_SECRET || "secret",
       })
     )
+
+    // create model from PurchaseRequestApproval
+    .model({
+      PurchaseRequestApproval: t.Object({
+        state_role: t.Enum({
+          approve: "approve",
+          create: "create",
+          purchase: "purchase",
+          view_only: "view_only",
+        }),
+      }),
+      PurchaseRequestApprovalItem: t.Object({
+        id: t.String({
+          description: "Purchase request detail id",
+          required: true,
+        }),
+        state_status: t.Enum(
+          {
+            approve: "approve",
+            reject: "reject",
+            review: "review",
+          },
+          {
+            required: true,
+          }
+        ),
+        state_message: t.String({
+          description: "State message",
+          required: false,
+        }),
+        description: t.String({
+          description: "Description",
+          required: false,
+        }),
+        approved_qty: t.Number({
+          description: "Approved quantity",
+          required: false,
+        }),
+        approved_unit_id: t.String({
+          required: false,
+          description: "Approved unit id",
+        }),
+        approved_unit_conversion_factor: t.Number({
+          required: false,
+          description: "Approved unit conversion factor",
+        }),
+        approved_base_qty: t.Number({
+          required: false,
+          description: "Approved base quantity",
+        }),
+      }),
+    })
+
+    .patch(
+      "/api/:bu_code/purchase-request/:id/approve",
+      ({ params, query, body, headers }) => {
+        return Response.json(resNotImplemented, { status: 501 });
+      }
+    )
+    .patch("/api/:bu_code/purchase-request/:id/reject", (ctx) => {
+      return Response.json(resNotImplemented, { status: 501 });
+    })
+
     .get(
       "/api/:bu_code/purchase-request",
       ({ params, query, body, headers }) => {
@@ -24,6 +98,7 @@ export default (app: Elysia) =>
         return Response.json(resNotImplemented, { status: 501 });
       }
     )
+
     .get("/api/:bu_code/purchase-request/:id", async (ctx) => {
       const { bu_code, id } = ctx.params;
 
@@ -51,7 +126,16 @@ export default (app: Elysia) =>
         return resNotFound("Purchase request not found");
       }
 
-      const purchaseRequestDetail = tbPurchaseRequestDetail.getPurchaseRequestDetailById(id);
+      let purchaseRequestDetail = [];
+
+      const prdByPrId =
+        tbPurchaseRequestDetail.getPurchaseRequestDetailsByPurchaseRequestId(
+          purchaseRequest.id
+        );
+
+      for (const prd of prdByPrId) {
+        purchaseRequestDetail.push(prd);
+      }
 
       let prWithDetail = {
         ...purchaseRequest,
@@ -66,45 +150,172 @@ export default (app: Elysia) =>
 
       return res;
     })
-    .delete(
-      "/api/:bu_code/purchase-request/:id",
-      ({ params, query, body, headers }) => {
-        return Response.json(resNotImplemented, { status: 501 });
-      }
-    )
-    .patch(
-      "/api/:bu_code/purchase-request/:id/submit",
-      ({ params, query, body, headers }) => {
-        return Response.json(resNotImplemented, { status: 501 });
-      }
-    )
+    .delete("/api/:bu_code/purchase-request/:id", (ctx) => {
+      return Response.json(resNotImplemented, { status: 501 });
+    })
+    .patch("/api/:bu_code/purchase-request/:id/submit", (ctx) => {
+      return Response.json(resNotImplemented, { status: 501 });
+    })
+
     .patch(
       "/api/:bu_code/purchase-request/:id/approve",
-      ({ params, query, body, headers }) => {
-        return Response.json(resNotImplemented, { status: 501 });
+      async (ctx) => {
+        const { bu_code, id } = ctx.params;
+
+        const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+        if (errorAppId) {
+          return errorAppId;
+        }
+
+        const { error: errorAccessToken } = await CheckHeaderHasAccessToken(
+          ctx.headers,
+          ctx.jwt
+        );
+        if (errorAccessToken) {
+          return errorAccessToken;
+        }
+
+        const bu = tbBusinessUnit.getBusinessUnitByCode(bu_code);
+        if (!bu) {
+          return resNotFound("Business unit not found");
+        }
+
+        const purchaseRequest = tbPurchaseRequest.getPurchaseRequestById(id);
+        if (!purchaseRequest) {
+          return resNotFound("Purchase request not found");
+        }
+
+        const body = (await ctx.body) as PurchaseRequestApproval | undefined;
+        if (!body) {
+          return resBadRequest("Invalid body");
+        }
+
+        for (const item of body.body) {
+          const purchaseRequestDetail =
+            tbPurchaseRequestDetail.getPurchaseRequestDetailById(item.id);
+          if (!purchaseRequestDetail) {
+            return resNotFound("Purchase request detail " + item.id + " not found");
+          }
+        }
+
+        return { data: purchaseRequest.id };
+      },
+      {
+        type: "json",
+        tags: ["Application - Purchase Request"],
+        description: "Approve a purchase request",
       }
     )
-    .patch(
-      "/api/:bu_code/purchase-request/:id/reject",
-      ({ params, query, body, headers }) => {
-        return Response.json(resNotImplemented, { status: 501 });
+
+    .patch("/api/:bu_code/purchase-request/:id/reject", async (ctx) => {
+        const { bu_code, id } = ctx.params;
+
+        const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+        if (errorAppId) {
+          return errorAppId;
+        }
+
+        const { error: errorAccessToken } = await CheckHeaderHasAccessToken(
+          ctx.headers,
+          ctx.jwt
+        );
+        if (errorAccessToken) {
+          return errorAccessToken;
+        }
+
+        const bu = tbBusinessUnit.getBusinessUnitByCode(bu_code);
+        if (!bu) {
+          return resNotFound("Business unit not found");
+        }
+
+        const purchaseRequest = tbPurchaseRequest.getPurchaseRequestById(id);
+        if (!purchaseRequest) {
+          return resNotFound("Purchase request not found");
+        }
+
+        const body = (await ctx.body) as PurchaseRequestApproval | undefined;
+        if (!body) {
+          return resBadRequest("Invalid body");
+        }
+
+        for (const item of body.body) {
+          const purchaseRequestDetail =
+            tbPurchaseRequestDetail.getPurchaseRequestDetailById(item.id);
+          if (!purchaseRequestDetail) {
+            return resNotFound("Purchase request detail " + item.id + " not found");
+          }
+          if (item.state_status !== "reject") {
+            return resBadRequest("Invalid state status (" + item.state_status + ")");
+          }
+          if (!item.state_message) {
+            return resBadRequest("State message is required");
+          }
+        }
+
+        return { data: purchaseRequest.id };
+      },
+      {
+        type: "json",
+        tags: ["Application - Purchase Request"],
+        description: "Reject a purchase request",
       }
     )
-    .patch(
-      "/api/:bu_code/purchase-request/:id/review",
-      ({ params, query, body, headers }) => {
-        return Response.json(resNotImplemented, { status: 501 });
+
+    .patch("/api/:bu_code/purchase-request/:id/review", async (ctx) => {
+        const { bu_code, id } = ctx.params;
+
+        const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+        if (errorAppId) {
+          return errorAppId;
+        }
+
+        const { error: errorAccessToken } = await CheckHeaderHasAccessToken(
+          ctx.headers,
+          ctx.jwt
+        );
+        if (errorAccessToken) {
+          return errorAccessToken;
+        }
+
+        const bu = tbBusinessUnit.getBusinessUnitByCode(bu_code);
+        if (!bu) {
+          return resNotFound("Business unit not found");
+        }
+
+        const purchaseRequest = tbPurchaseRequest.getPurchaseRequestById(id);
+        if (!purchaseRequest) {
+          return resNotFound("Purchase request not found");
+        }
+
+        const body = (await ctx.body) as PurchaseRequestApproval | undefined;
+        if (!body) {
+          return resBadRequest("Invalid body");
+        }
+
+        const destination = body.destination;
+        if (!destination) {
+          return resBadRequest("Destination is required");
+        }
+
+        for (const item of body.body) {
+          const purchaseRequestDetail =
+            tbPurchaseRequestDetail.getPurchaseRequestDetailById(item.id);
+          if (!purchaseRequestDetail) {
+            return resNotFound("Purchase request detail " + item.id + " not found");
+          }
+        }
+
+        return { data: purchaseRequest.id };
+      },
+      {
+        type: "json",
+        tags: ["Application - Purchase Request"],
+        description: "Review a purchase request",
       }
     )
-    .patch(
-      "/api/:bu_code/purchase-request/:id/save",
-      ({ params, query, body, headers }) => {
-        return Response.json(resNotImplemented, { status: 501 });
-      }
-    )
-    .get(
-      "/api/:bu_code/purchase-request/status/:status",
-      ({ params, query, body, headers }) => {
-        return Response.json(resNotImplemented, { status: 501 });
-      }
-    );
+    .patch("/api/:bu_code/purchase-request/:id/save", (ctx) => {
+      return Response.json(resNotImplemented, { status: 501 });
+    })
+    .get("/api/:bu_code/purchase-request/status/:status", (ctx) => {
+      return Response.json(resNotImplemented, { status: 501 });
+    });
