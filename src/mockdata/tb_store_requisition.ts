@@ -1,6 +1,20 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
 import { getUuidByName } from "./mapping.uuid";
 
+export interface StoreRequisitionApproval {
+  state_role: "create" | "approve" | "issue" | "view_only";
+  destination?: string;
+  body: StoreRequisitionApprovalItem[];
+}
+export interface StoreRequisitionApprovalItem {
+  id: string;
+  state_status: "approve" | "reject" | "review";
+  state_message?: string;
+  description?: string;
+  approved_base_qty?: number;
+  issued_base_qty?: number;
+}
+
 export interface StoreRequisition {
   id: string;
   bu_code: string;
@@ -11,6 +25,8 @@ export interface StoreRequisition {
   doc_status: "draft" | "in_progress" | "completed" | "cancelled";
   from_location_id: string;
   from_location_name: string;
+  to_location_id: string;
+  to_location_name: string;
   workflow_id: string;
   workflow_name: string;
   workflow_history: any;
@@ -47,14 +63,28 @@ export const storeRequisitions: StoreRequisition[] = [
     expected_date: "2024-01-20",
     description: "Kitchen supplies for daily operations",
     doc_status: "in_progress",
-    from_location_id: "loc-kitchen-001",
+    from_location_id: getUuidByName("LOCATION_01"),
     from_location_name: "Kitchen Storage",
+    to_location_id: getUuidByName("LOCATION_02"),
+    to_location_name: "ABF Kitchen",
     workflow_id: getUuidByName("WORKFLOW_04"),
     workflow_name: "Store Requisition Approval",
     workflow_history: [
-      { stage: "draft", date: "2024-01-15T10:00:00Z", user: getUuidByName("USER_01") },
-      { stage: "submitted", date: "2024-01-15T11:00:00Z", user: getUuidByName("USER_01") },
-      { stage: "approved", date: "2024-01-15T15:00:00Z", user: getUuidByName("USER_02") },
+      {
+        stage: "draft",
+        date: "2024-01-15T10:00:00Z",
+        user: getUuidByName("USER_01"),
+      },
+      {
+        stage: "submitted",
+        date: "2024-01-15T11:00:00Z",
+        user: getUuidByName("USER_01"),
+      },
+      {
+        stage: "approved",
+        date: "2024-01-15T15:00:00Z",
+        user: getUuidByName("USER_02"),
+      },
     ],
     workflow_current_stage: "approved",
     workflow_previous_stage: "submitted",
@@ -92,13 +122,31 @@ export const storeRequisitions: StoreRequisition[] = [
     doc_status: "in_progress",
     from_location_id: getUuidByName("LOCATION_01"),
     from_location_name: "Office Storage",
+    to_location_id: getUuidByName("LOCATION_02"),
+    to_location_name: "ABF Office",
     workflow_id: getUuidByName("WORKFLOW_04"),
     workflow_name: "Store Requisition Approval",
     workflow_history: [
-      { stage: "draft", date: "2024-01-16T09:00:00Z", user: getUuidByName("USER_03") },
-      { stage: "submitted", date: "2024-01-16T10:00:00Z", user: getUuidByName("USER_03") },
-      { stage: "approved", date: "2024-01-16T14:00:00Z", user: getUuidByName("USER_02") },
-      { stage: "completed", date: "2024-01-17T09:00:00Z", user: getUuidByName("USER_04") },
+      {
+        stage: "draft",
+        date: "2024-01-16T09:00:00Z",
+        user: getUuidByName("USER_03"),
+      },
+      {
+        stage: "submitted",
+        date: "2024-01-16T10:00:00Z",
+        user: getUuidByName("USER_03"),
+      },
+      {
+        stage: "approved",
+        date: "2024-01-16T14:00:00Z",
+        user: getUuidByName("USER_02"),
+      },
+      {
+        stage: "completed",
+        date: "2024-01-17T09:00:00Z",
+        user: getUuidByName("USER_04"),
+      },
     ],
     workflow_current_stage: "completed",
     workflow_previous_stage: "approved",
@@ -136,10 +184,16 @@ export const storeRequisitions: StoreRequisition[] = [
     doc_status: "in_progress",
     from_location_id: getUuidByName("LOCATION_01"),
     from_location_name: "Marketing Storage",
+    to_location_id: getUuidByName("LOCATION_02"),
+    to_location_name: "ABF Marketing",
     workflow_id: getUuidByName("WORKFLOW_04"),
     workflow_name: "Store Requisition Approval",
     workflow_history: [
-      { stage: "draft", date: "2024-01-17T14:00:00Z", user: getUuidByName("USER_05") },
+      {
+        stage: "draft",
+        date: "2024-01-17T14:00:00Z",
+        user: getUuidByName("USER_05"),
+      },
     ],
     workflow_current_stage: "draft",
     workflow_previous_stage: "",
@@ -208,7 +262,8 @@ export const getStoreRequisitionsByCodeAndInProgress = (
   buCode: string
 ): StoreRequisition[] => {
   return storeRequisitions.filter(
-    (sr) => sr.bu_code === buCode && sr.doc_status === "in_progress" && !sr.deleted_at
+    (sr) =>
+      sr.bu_code === buCode && sr.doc_status === "in_progress" && !sr.deleted_at
   );
 };
 export const getStoreRequisitionByNo = (

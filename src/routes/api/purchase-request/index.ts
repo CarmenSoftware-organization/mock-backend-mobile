@@ -76,22 +76,6 @@ export default (app: Elysia) =>
       }),
     })
 
-    .patch(
-      "/api/:bu_code/purchase-request/:id/approve",
-      ({ params, query, body, headers }) => {
-        return Response.json(resNotImplemented, { status: 501 });
-      }
-    )
-    .patch("/api/:bu_code/purchase-request/:id/reject", (ctx) => {
-      return Response.json(resNotImplemented, { status: 501 });
-    })
-
-    .get(
-      "/api/:bu_code/purchase-request",
-      ({ params, query, body, headers }) => {
-        return Response.json(resNotImplemented, { status: 501 });
-      }
-    )
     .post(
       "/api/:bu_code/purchase-request",
       ({ params, query, body, headers }) => {
@@ -121,8 +105,8 @@ export default (app: Elysia) =>
         return resNotFound("Business unit not found");
       }
 
-      const purchaseRequest = tbPurchaseRequest.getPurchaseRequestById(id);
-      if (!purchaseRequest) {
+      const pr = tbPurchaseRequest.getPurchaseRequestById(id);
+      if (!pr) {
         return resNotFound("Purchase request not found");
       }
 
@@ -130,7 +114,7 @@ export default (app: Elysia) =>
 
       const prdByPrId =
         tbPurchaseRequestDetail.getPurchaseRequestDetailsByPurchaseRequestId(
-          purchaseRequest.id
+          pr.id
         );
 
       for (const prd of prdByPrId) {
@@ -138,7 +122,7 @@ export default (app: Elysia) =>
       }
 
       let prWithDetail = {
-        ...purchaseRequest,
+        ...pr,
         purchase_request_detail: purchaseRequestDetail,
       };
 
@@ -150,9 +134,11 @@ export default (app: Elysia) =>
 
       return res;
     })
+
     .delete("/api/:bu_code/purchase-request/:id", (ctx) => {
       return Response.json(resNotImplemented, { status: 501 });
     })
+
     .patch("/api/:bu_code/purchase-request/:id/submit", (ctx) => {
       return Response.json(resNotImplemented, { status: 501 });
     })
@@ -190,11 +176,17 @@ export default (app: Elysia) =>
           return resBadRequest("Invalid body");
         }
 
+        if (body.state_role !== "approve") {
+          return resBadRequest("Invalid state role");
+        }
+
         for (const item of body.body) {
           const purchaseRequestDetail =
             tbPurchaseRequestDetail.getPurchaseRequestDetailById(item.id);
           if (!purchaseRequestDetail) {
-            return resNotFound("Purchase request detail " + item.id + " not found");
+            return resNotFound(
+              "Purchase request detail " + item.id + " not found"
+            );
           }
         }
 
@@ -207,7 +199,9 @@ export default (app: Elysia) =>
       }
     )
 
-    .patch("/api/:bu_code/purchase-request/:id/reject", async (ctx) => {
+    .patch(
+      "/api/:bu_code/purchase-request/:id/reject",
+      async (ctx) => {
         const { bu_code, id } = ctx.params;
 
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
@@ -238,14 +232,22 @@ export default (app: Elysia) =>
           return resBadRequest("Invalid body");
         }
 
+        if (body.state_role !== "approve") {
+          return resBadRequest("Invalid state role");
+        }
+
         for (const item of body.body) {
           const purchaseRequestDetail =
             tbPurchaseRequestDetail.getPurchaseRequestDetailById(item.id);
           if (!purchaseRequestDetail) {
-            return resNotFound("Purchase request detail " + item.id + " not found");
+            return resNotFound(
+              "Purchase request detail " + item.id + " not found"
+            );
           }
           if (item.state_status !== "reject") {
-            return resBadRequest("Invalid state status (" + item.state_status + ")");
+            return resBadRequest(
+              "Invalid state status (" + item.state_status + ")"
+            );
           }
           if (!item.state_message) {
             return resBadRequest("State message is required");
@@ -261,7 +263,9 @@ export default (app: Elysia) =>
       }
     )
 
-    .patch("/api/:bu_code/purchase-request/:id/review", async (ctx) => {
+    .patch(
+      "/api/:bu_code/purchase-request/:id/review",
+      async (ctx) => {
         const { bu_code, id } = ctx.params;
 
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
@@ -292,6 +296,10 @@ export default (app: Elysia) =>
           return resBadRequest("Invalid body");
         }
 
+        if (body.state_role !== "approve") {
+          return resBadRequest("Invalid state role");
+        }
+
         const destination = body.destination;
         if (!destination) {
           return resBadRequest("Destination is required");
@@ -301,7 +309,9 @@ export default (app: Elysia) =>
           const purchaseRequestDetail =
             tbPurchaseRequestDetail.getPurchaseRequestDetailById(item.id);
           if (!purchaseRequestDetail) {
-            return resNotFound("Purchase request detail " + item.id + " not found");
+            return resNotFound(
+              "Purchase request detail " + item.id + " not found"
+            );
           }
         }
 

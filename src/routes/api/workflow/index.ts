@@ -2,7 +2,7 @@ import type { Elysia } from "elysia";
 import { resNotImplemented } from "@/libs/res.error";
 import jwt from "@elysiajs/jwt";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
-import { tbBusinessUnit, tbPurchaseRequest } from "@/mockdata";
+import { tbBusinessUnit, tbPurchaseRequest, tbStoreRequisition } from "@/mockdata";
 import { resNotFound } from "@/libs/res.error";
 
 export default (app: Elysia) =>
@@ -78,6 +78,72 @@ export default (app: Elysia) =>
           1: "Request Creation",
           2: "Department Approval",
           3: "Purchasing Review",
+        };
+      }
+    )
+
+    .get("/api/:bu_code/workflow/store-requisition/:sr_id", async (ctx) => {
+      const { bu_code, sr_id } = ctx.params;
+
+      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+      if (errorAppId) {
+        return errorAppId;
+      }
+
+      const { error: errorAccessToken } = await CheckHeaderHasAccessToken(
+        ctx.headers,
+        ctx.jwt
+      );
+      if (errorAccessToken) {
+        return errorAccessToken;
+      }
+
+      const bu = tbBusinessUnit.getBusinessUnitByCode(bu_code);
+      if (!bu) {
+        return resNotFound("Business unit not found");
+      }
+
+      const sr = tbStoreRequisition.getStoreRequisitionById(sr_id);
+      if (!sr) {
+        return resNotFound("Store requisition not found");
+      }
+
+      return {
+        stage_role: "issue",
+      };
+    })
+
+    .get(
+      "/api/:bu_code/workflow/store-requisition/:sr_id/previous",
+      async (ctx) => {
+        const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+        if (errorAppId) {
+          return errorAppId;
+        }
+
+        const { error: errorAccessToken } = await CheckHeaderHasAccessToken(
+          ctx.headers,
+          ctx.jwt
+        );
+        if (errorAccessToken) {
+          return errorAccessToken;
+        }
+
+        const { bu_code, sr_id } = ctx.params;
+
+        const bu = tbBusinessUnit.getBusinessUnitByCode(bu_code);
+        if (!bu) {
+          return resNotFound("Business unit not found");
+        }
+
+        const sr = tbStoreRequisition.getStoreRequisitionById(sr_id);
+        if (!sr) {
+          return resNotFound("Store requisition not found");
+        }
+
+        return {
+          1: "Draft",
+          2: "Approved"
         };
       }
     )
