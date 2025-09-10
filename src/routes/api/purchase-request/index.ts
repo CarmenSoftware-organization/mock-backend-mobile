@@ -1,5 +1,7 @@
 import {
   resBadRequest,
+  resError,
+  resErrorWithData,
   resNotFound,
   resNotImplemented,
   resSuccess,
@@ -336,4 +338,46 @@ export default (app: Elysia) =>
     })
     .get("/api/:bu_code/purchase-request/status/:status", (ctx) => {
       return Response.json(resNotImplemented, { status: 501 });
-    });
+    })
+
+    .get(
+      "/api/:bu_code/purchase-request/:id/dimension",
+      async (ctx) => {
+        const { bu_code, id } = ctx.params;
+
+        const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+        if (errorAppId) {
+          ctx.set.status = 400;
+          return errorAppId;
+        }
+
+        const {
+          error: errorAccessToken,
+          userProfile,
+          bussiness_Units,
+        } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+        if (errorAccessToken) {
+          ctx.set.status = 401;
+          return errorAccessToken;
+        }
+
+        try {
+          const bu = bussiness_Units?.find((bu) => bu.code === bu_code);
+          if (!bu) {
+            return resNotFound("Business unit not found");
+          }
+          const prd =
+            tbPurchaseRequestDetail.getPurchaseRequestDetailById(id);
+          if (!prd) {
+            return resNotFound("Purchase request detail not found");
+          }
+          const dimension = prd.dimension;
+          const res = {
+            data: dimension,
+          };
+          return res;
+        } catch (error) {
+          return resErrorWithData(500, "error", error);
+        }
+      }
+    );

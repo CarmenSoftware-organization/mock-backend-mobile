@@ -9,6 +9,8 @@ import { getPurchaseRequestById } from "./tb_purchase_request";
 import { getTaxProfileById } from "./tb_tax_profile";
 import { getUnitById } from "./tb_unit";
 import { getVendorById } from "./tb_vendor";
+import { getUserById } from "./tb_user";
+import { getUserProfileById } from "./tb_user_profile";
 
 export interface PurchaseRequestDetail {
   id: string;
@@ -20,6 +22,7 @@ export interface PurchaseRequestDetail {
   delivery_point_name: string | null;
   delivery_date: string;
   product_id: string;
+  product_sku: string | null;
   product_name: string | null;
   product_local_name: string | null;
   inventory_unit_id: string | null;
@@ -81,7 +84,14 @@ export interface PurchaseRequestDetail {
   deleted_by_id: string | null;
 }
 
-  export const purchaseRequestDetails: PurchaseRequestDetail[] = (() => {
+export const purchaseRequestDetails: PurchaseRequestDetail[] = (() => {
+  const user1 = getUserById(getUuidByName("USER_01"));
+  const user2 = getUserById(getUuidByName("USER_02"));
+  const user3 = getUserById(getUuidByName("USER_03"));
+
+  const user1Profile = getUserProfileById(getUuidByName("USER_PROFILE_01"));
+  const user2Profile = getUserProfileById(getUuidByName("USER_PROFILE_02"));
+  const user3Profile = getUserProfileById(getUuidByName("USER_PROFILE_03"));
 
   const taxProfile1 = getTaxProfileById(getUuidByName("TAX_PROFILE_01"));
   const taxProfile2 = getTaxProfileById(getUuidByName("TAX_PROFILE_02"));
@@ -144,12 +154,11 @@ export interface PurchaseRequestDetail {
       delivery_point_name: deliveryPoint1?.name || "",
       delivery_date: "2025-06-30T08:36:00.898Z",
       product_id: product1?.id || "",
+      product_sku: product1?.sku || "",
       product_name: product1?.name || "",
       product_local_name: product1?.local_name || "",
-      inventory_unit_id:
-        product1?.inventory_unit_id || "",
-      inventory_unit_name:
-        product1?.inventory_unit_name || "",
+      inventory_unit_id: product1?.inventory_unit_id || "",
+      inventory_unit_name: product1?.inventory_unit_name || "",
       description: "dddddd",
       comment: null,
       vendor_id: null,
@@ -194,7 +203,22 @@ export interface PurchaseRequestDetail {
       base_sub_total_price: 1,
       base_net_amount: 1,
       base_total_price: 1 + (7 * 1) / 100,
-      history: null,
+      history: [
+        {
+          action: "submit",
+          by: "1bfdb891-58ee-499c-8115-34a964de8122",
+          by_name: user1Profile?.firstname + " " + user1Profile?.lastname || "",
+          at: "2025-07-31T03:25:45.468Z",
+          message: "Submit purchase request",
+        },
+        {
+          action: "approve",
+          by: "1bfdb891-58ee-499c-8115-34a964de8122",
+          by_name: user2Profile?.firstname + " " + user2Profile?.lastname || "",
+          at: "2025-07-31T03:25:45.468Z",
+          message: "Approve purchase request",
+        },
+      ],
       stages_status: [
         {
           seq: 1,
@@ -203,7 +227,50 @@ export interface PurchaseRequestDetail {
         },
       ],
       info: null,
-      dimension: null,
+      dimension: [
+        {
+          key: "project_code",
+          label: "Project Code",
+          type: "string",
+          value: "PROJ-2025-001",
+        },
+        {
+          key: "project_name",
+          label: "Project Name",
+          type: "string",
+          value: "Project 1",
+        },
+        {
+          key: "cost_center",
+          label: "Cost Center",
+          type: "string",
+          value: "CC-F&B-001",
+        },
+        {
+          key: "market_segment",
+          label: "Market Segment",
+          type: "string",
+          value: "Corporate Events",
+        },
+        {
+          key: "event",
+          label: "Event",
+          type: "string",
+          value: "Annual Conference 2025",
+        },
+        {
+          key: "department",
+          label: "Department",
+          type: "string",
+          value: "Food & Beverage",
+        },
+        {
+          key: "region",
+          label: "Region",
+          type: "string",
+          value: "Singapore East",
+        },
+      ],
       doc_version: "1",
       created_at: "2025-07-31T03:25:45.468Z",
       created_by_id: "1bfdb891-58ee-499c-8115-34a964de8122",
@@ -222,6 +289,7 @@ export interface PurchaseRequestDetail {
       delivery_point_name: deliveryPoint2?.name || "",
       delivery_date: "2025-07-30T17:00:00.000Z",
       product_id: product2?.id || "",
+      product_sku: product2?.sku || "",
       product_name: product2?.name || "",
       product_local_name: product2?.local_name || "",
       inventory_unit_id: product2?.inventory_unit_id || "",
@@ -257,7 +325,7 @@ export interface PurchaseRequestDetail {
       tax_profile_name: taxProfile1?.name || "",
       tax_rate: 7,
       tax_amount: (7 * 1) / 100,
-      base_tax_amount: (7 * 1) / 100 * 35,
+      base_tax_amount: ((7 * 1) / 100) * 35,
       is_tax_adjustment: false,
       discount_rate: 0.0,
       discount_amount: 0.0,
@@ -269,11 +337,54 @@ export interface PurchaseRequestDetail {
       base_price: 1 * 35,
       base_sub_total_price: 1,
       base_net_amount: 1,
-      base_total_price: 1 + (7 * 1) / 100 * 35,
+      base_total_price: 1 + ((7 * 1) / 100) * 35,
       history: null,
       stages_status: null,
       info: null,
-      dimension: null,
+      dimension: [
+        {
+          key: "project_code",
+          label: "Project Code",
+          type: "string",
+          value: "PROJ-2025-001",
+        },
+        {
+          key: "project_name",
+          label: "Project Name",
+          type: "string",
+          value: "Project 1",
+        },
+        {
+          key: "cost_center",
+          label: "Cost Center",
+          type: "string",
+          value: "CC-F&B-001",
+        },
+        {
+          key: "market_segment",
+          label: "Market Segment",
+          type: "string",
+          value: "Corporate Events",
+        },
+        {
+          key: "event",
+          label: "Event",
+          type: "string",
+          value: "Annual Conference 2025",
+        },
+        {
+          key: "department",
+          label: "Department",
+          type: "string",
+          value: "Food & Beverage",
+        },
+        {
+          key: "region",
+          label: "Region",
+          type: "string",
+          value: "Singapore East",
+        },
+      ],
       doc_version: "0",
       created_at: "2025-07-31T05:08:04.223Z",
       created_by_id: "1bfdb891-58ee-499c-8115-34a964de8122",
@@ -292,6 +403,7 @@ export interface PurchaseRequestDetail {
       delivery_point_name: deliveryPoint1?.name || "",
       delivery_date: "2025-06-30T08:36:00.898Z",
       product_id: product3?.id || "",
+      product_sku: product3?.sku || "",
       product_name: product3?.name || "",
       product_local_name: product3?.local_name || "",
       inventory_unit_id: product3?.inventory_unit_id || "",
@@ -388,6 +500,7 @@ export interface PurchaseRequestDetail {
       delivery_point_name: deliveryPoint1?.name || "",
       delivery_date: "2025-06-30T08:36:00.898Z",
       product_id: product4?.id || "",
+      product_sku: product4?.sku || "",
       product_name: product4?.name || "",
       product_local_name: product4?.local_name || "",
       inventory_unit_id: product4?.inventory_unit_id || "",
@@ -439,7 +552,50 @@ export interface PurchaseRequestDetail {
       history: null,
       stages_status: null,
       info: null,
-      dimension: null,
+      dimension: [
+        {
+          key: "project_code",
+          label: "Project Code",
+          type: "string",
+          value: "PROJ-2025-001",
+        },
+        {
+          key: "project_name",
+          label: "Project Name",
+          type: "string",
+          value: "Project 1",
+        },
+        {
+          key: "cost_center",
+          label: "Cost Center",
+          type: "string",
+          value: "CC-F&B-001",
+        },
+        {
+          key: "market_segment",
+          label: "Market Segment",
+          type: "string",
+          value: "Corporate Events",
+        },
+        {
+          key: "event",
+          label: "Event",
+          type: "string",
+          value: "Annual Conference 2025",
+        },
+        {
+          key: "department",
+          label: "Department",
+          type: "string",
+          value: "Food & Beverage",
+        },
+        {
+          key: "region",
+          label: "Region",
+          type: "string",
+          value: "Singapore East",
+        },
+      ],
       doc_version: "0",
       created_at: "2025-08-27T10:10:30.493Z",
       created_by_id: "1bfdb891-58ee-499c-8115-34a964de8122",
@@ -458,6 +614,7 @@ export interface PurchaseRequestDetail {
       delivery_point_name: deliveryPoint1?.name || "",
       delivery_date: "2025-06-30T08:36:00.898Z",
       product_id: product5?.id || "",
+      product_sku: product5?.sku || "",
       product_name: product5?.name || "",
       product_local_name: product5?.local_name || "",
       inventory_unit_id: product5?.inventory_unit_id || "",
@@ -509,7 +666,50 @@ export interface PurchaseRequestDetail {
       history: null,
       stages_status: null,
       info: null,
-      dimension: null,
+      dimension: [
+        {
+          key: "project_code",
+          label: "Project Code",
+          type: "string",
+          value: "PROJ-2025-001",
+        },
+        {
+          key: "project_name",
+          label: "Project Name",
+          type: "string",
+          value: "Project 1",
+        },
+        {
+          key: "cost_center",
+          label: "Cost Center",
+          type: "string",
+          value: "CC-F&B-001",
+        },
+        {
+          key: "market_segment",
+          label: "Market Segment",
+          type: "string",
+          value: "Corporate Events",
+        },
+        {
+          key: "event",
+          label: "Event",
+          type: "string",
+          value: "Annual Conference 2025",
+        },
+        {
+          key: "department",
+          label: "Department",
+          type: "string",
+          value: "Food & Beverage",
+        },
+        {
+          key: "region",
+          label: "Region",
+          type: "string",
+          value: "Singapore East",
+        },
+      ],
       doc_version: "0",
       created_at: "2025-08-27T10:13:36.244Z",
       created_by_id: "1bfdb891-58ee-499c-8115-34a964de8122",
@@ -528,6 +728,7 @@ export interface PurchaseRequestDetail {
       delivery_point_name: deliveryPoint1?.name || "",
       delivery_date: "2025-06-30T08:36:00.898Z",
       product_id: product5?.id || "",
+      product_sku: product5?.sku || "",
       product_name: product5?.name || "",
       product_local_name: product5?.local_name || "",
       inventory_unit_id: product5?.inventory_unit_id || "",
@@ -579,7 +780,50 @@ export interface PurchaseRequestDetail {
       history: null,
       stages_status: null,
       info: null,
-      dimension: null,
+      dimension: [
+        {
+          key: "project_code",
+          label: "Project Code",
+          type: "string",
+          value: "PROJ-2025-001",
+        },
+        {
+          key: "project_name",
+          label: "Project Name",
+          type: "string",
+          value: "Project 1",
+        },
+        {
+          key: "cost_center",
+          label: "Cost Center",
+          type: "string",
+          value: "CC-F&B-001",
+        },
+        {
+          key: "market_segment",
+          label: "Market Segment",
+          type: "string",
+          value: "Corporate Events",
+        },
+        {
+          key: "event",
+          label: "Event",
+          type: "string",
+          value: "Annual Conference 2025",
+        },
+        {
+          key: "department",
+          label: "Department",
+          type: "string",
+          value: "Food & Beverage",
+        },
+        {
+          key: "region",
+          label: "Region",
+          type: "string",
+          value: "Singapore East",
+        },
+      ],
       doc_version: "0",
       created_at: "2025-08-28T04:50:55.267Z",
       created_by_id: "1bfdb891-58ee-499c-8115-34a964de8122",
@@ -598,6 +842,7 @@ export interface PurchaseRequestDetail {
       delivery_point_name: deliveryPoint1?.name || "",
       delivery_date: "2025-06-30T08:36:00.898Z",
       product_id: product5?.id || "",
+      product_sku: product5?.sku || "",
       product_name: product5?.name || "",
       product_local_name: product5?.local_name || "",
       inventory_unit_id: product5?.inventory_unit_id || "",
@@ -649,7 +894,50 @@ export interface PurchaseRequestDetail {
       history: null,
       stages_status: null,
       info: null,
-      dimension: null,
+      dimension: [
+        {
+          key: "project_code",
+          label: "Project Code",
+          type: "string",
+          value: "PROJ-2025-001",
+        },
+        {
+          key: "project_name",
+          label: "Project Name",
+          type: "string",
+          value: "Project 1",
+        },
+        {
+          key: "cost_center",
+          label: "Cost Center",
+          type: "string",
+          value: "CC-F&B-001",
+        },
+        {
+          key: "market_segment",
+          label: "Market Segment",
+          type: "string",
+          value: "Corporate Events",
+        },
+        {
+          key: "event",
+          label: "Event",
+          type: "string",
+          value: "Annual Conference 2025",
+        },
+        {
+          key: "department",
+          label: "Department",
+          type: "string",
+          value: "Food & Beverage",
+        },
+        {
+          key: "region",
+          label: "Region",
+          type: "string",
+          value: "Singapore East",
+        },
+      ],
       doc_version: "0",
       created_at: "2025-08-28T04:59:05.449Z",
       created_by_id: "1bfdb891-58ee-499c-8115-34a964de8122",
@@ -668,6 +956,7 @@ export interface PurchaseRequestDetail {
       delivery_point_name: deliveryPoint1?.name || "",
       delivery_date: "2025-06-30T08:36:00.898Z",
       product_id: product5?.id || "",
+      product_sku: product5?.sku || "",
       product_name: product5?.name || "",
       product_local_name: product5?.local_name || "",
       inventory_unit_id: product5?.inventory_unit_id || "",
@@ -719,7 +1008,50 @@ export interface PurchaseRequestDetail {
       history: null,
       stages_status: null,
       info: null,
-      dimension: null,
+      dimension: [
+        {
+          key: "project_code",
+          label: "Project Code",
+          type: "string",
+          value: "PROJ-2025-001",
+        },
+        {
+          key: "project_name",
+          label: "Project Name",
+          type: "string",
+          value: "Project 1",
+        },
+        {
+          key: "cost_center",
+          label: "Cost Center",
+          type: "string",
+          value: "CC-F&B-001",
+        },
+        {
+          key: "market_segment",
+          label: "Market Segment",
+          type: "string",
+          value: "Corporate Events",
+        },
+        {
+          key: "event",
+          label: "Event",
+          type: "string",
+          value: "Annual Conference 2025",
+        },
+        {
+          key: "department",
+          label: "Department",
+          type: "string",
+          value: "Food & Beverage",
+        },
+        {
+          key: "region",
+          label: "Region",
+          type: "string",
+          value: "Singapore East",
+        },
+      ],
       doc_version: "0",
       created_at: "2025-08-28T04:59:35.434Z",
       created_by_id: "1bfdb891-58ee-499c-8115-34a964de8122",
@@ -732,12 +1064,13 @@ export interface PurchaseRequestDetail {
       id: getUuidByName("PURCHASE_REQUEST_DETAIL_09"),
       purchase_request_id: getUuidByName("PURCHASE_REQUEST_02"),
       sequence_no: 1,
-        location_id: location1?.id || "",
+      location_id: location1?.id || "",
       location_name: location1?.name || "",
       delivery_point_id: deliveryPoint1?.id || "",
       delivery_point_name: deliveryPoint1?.name || "",
       delivery_date: "2025-08-26T17:00:00.000Z",
       product_id: product6?.id || "",
+      product_sku: product6?.sku || "",
       product_name: product6?.name || "",
       product_local_name: "สะเต๊ะไก่",
       inventory_unit_id: product6?.inventory_unit_id || "",
@@ -789,7 +1122,50 @@ export interface PurchaseRequestDetail {
       history: null,
       stages_status: null,
       info: null,
-      dimension: null,
+      dimension: [
+        {
+          key: "project_code",
+          label: "Project Code",
+          type: "string",
+          value: "PROJ-2025-001",
+        },
+        {
+          key: "project_name",
+          label: "Project Name",
+          type: "string",
+          value: "Project 1",
+        },
+        {
+          key: "cost_center",
+          label: "Cost Center",
+          type: "string",
+          value: "CC-F&B-001",
+        },
+        {
+          key: "market_segment",
+          label: "Market Segment",
+          type: "string",
+          value: "Corporate Events",
+        },
+        {
+          key: "event",
+          label: "Event",
+          type: "string",
+          value: "Annual Conference 2025",
+        },
+        {
+          key: "department",
+          label: "Department",
+          type: "string",
+          value: "Food & Beverage",
+        },
+        {
+          key: "region",
+          label: "Region",
+          type: "string",
+          value: "Singapore East",
+        },
+      ],
       doc_version: "0",
       created_at: "2025-08-28T07:23:19.407Z",
       created_by_id: "1bfdb891-58ee-499c-8115-34a964de8122",
@@ -808,6 +1184,7 @@ export interface PurchaseRequestDetail {
       delivery_point_name: deliveryPoint2?.name || "",
       delivery_date: "2025-08-26T17:00:00.000Z",
       product_id: product2?.id || "",
+      product_sku: product2?.sku || "",
       product_name: product2?.name || "",
       product_local_name: product2?.local_name || "",
       inventory_unit_id: product2?.inventory_unit_id || "",
@@ -859,7 +1236,50 @@ export interface PurchaseRequestDetail {
       history: null,
       stages_status: null,
       info: null,
-      dimension: null,
+      dimension: [
+        {
+          key: "project_code",
+          label: "Project Code",
+          type: "string",
+          value: "PROJ-2025-001",
+        },
+        {
+          key: "project_name",
+          label: "Project Name",
+          type: "string",
+          value: "Project 1",
+        },
+        {
+          key: "cost_center",
+          label: "Cost Center",
+          type: "string",
+          value: "CC-F&B-001",
+        },
+        {
+          key: "market_segment",
+          label: "Market Segment",
+          type: "string",
+          value: "Corporate Events",
+        },
+        {
+          key: "event",
+          label: "Event",
+          type: "string",
+          value: "Annual Conference 2025",
+        },
+        {
+          key: "department",
+          label: "Department",
+          type: "string",
+          value: "Food & Beverage",
+        },
+        {
+          key: "region",
+          label: "Region",
+          type: "string",
+          value: "Singapore East",
+        },
+      ],
       doc_version: "0",
       created_at: "2025-08-28T08:25:23.272Z",
       created_by_id: "1bfdb891-58ee-499c-8115-34a964de8122",

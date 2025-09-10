@@ -60,7 +60,7 @@ export const resNotFound = (message: string = "Not Found") => {
 export const resError = (status: number, message: string = "Unknown error") => {
   return {
     status: status,
-    message: message,
+    message: message as string,
     timestamp: new Date().toISOString(),
   };
 };

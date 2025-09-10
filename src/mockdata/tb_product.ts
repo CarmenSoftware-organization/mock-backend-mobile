@@ -3,7 +3,7 @@ import { getUuidByName } from "./mapping.uuid";
 
 export interface Product {
   id: string;
-  code: string;
+  sku: string;
   name: string;
   local_name: string;
   description: string | null;
@@ -14,7 +14,6 @@ export interface Product {
   is_used_in_recipe: boolean;
   is_sold_directly: boolean;
   barcode: string | null;
-  sku: string | null;
   price_deviation_limit: string;
   qty_deviation_limit: string;
   note: string | null;
@@ -31,7 +30,7 @@ export interface Product {
 export const products: Product[] = [
   {
     id: getUuidByName("PRODUCT_01"),
-    code: getUuidByName("PRODUCT_CODE_01"),
+    sku: getUuidByName("PRODUCT_CODE_01"),
     name: "Beef Tenderloin",
     local_name: "เนื้อสันใน",
     description: null,
@@ -42,7 +41,6 @@ export const products: Product[] = [
     is_used_in_recipe: true,
     is_sold_directly: false,
     barcode: null,
-    sku: null,
     price_deviation_limit: "0.00000",
     qty_deviation_limit: "0.00000",
     note: null,
@@ -57,7 +55,7 @@ export const products: Product[] = [
   },
   {
     id: getUuidByName("PRODUCT_02"),
-    code: getUuidByName("PRODUCT_CODE_02"),
+    sku: getUuidByName("PRODUCT_CODE_02"),
     name: "Ground Beef A",
     local_name: "เนื้อบด A",
     description: null,
@@ -68,7 +66,6 @@ export const products: Product[] = [
     is_used_in_recipe: true,
     is_sold_directly: false,
     barcode: null,
-    sku: null,
     price_deviation_limit: "0.00000",
     qty_deviation_limit: "0.00000",
     note: null,
@@ -83,7 +80,7 @@ export const products: Product[] = [
   },
   {
     id: getUuidByName("PRODUCT_03"),
-    code: getUuidByName("PRODUCT_CODE_03"),
+    sku: getUuidByName("PRODUCT_CODE_03"),
     name: "Beef Tenderloin Grade A",
     local_name: "เนื้อสันในโคขุนแต่ง เกรด A",
     description: null,
@@ -94,7 +91,6 @@ export const products: Product[] = [
     is_used_in_recipe: true,
     is_sold_directly: false,
     barcode: null,
-    sku: null,
     price_deviation_limit: "0.00000",
     qty_deviation_limit: "0.00000",
     note: null,
@@ -109,7 +105,7 @@ export const products: Product[] = [
   },
   {
     id: getUuidByName("PRODUCT_04"),
-    code: getUuidByName("PRODUCT_CODE_04"),
+    sku: getUuidByName("PRODUCT_CODE_04"),
     name: "Beef Tenderloin Grade AAA",
     local_name: "เนื้อสันในโคขุนแต่ง เกรด AAA",
     description: null,
@@ -120,7 +116,6 @@ export const products: Product[] = [
     is_used_in_recipe: true,
     is_sold_directly: false,
     barcode: null,
-    sku: null,
     price_deviation_limit: "0.00000",
     qty_deviation_limit: "0.00000",
     note: null,
@@ -135,7 +130,7 @@ export const products: Product[] = [
   },
   {
     id: getUuidByName("PRODUCT_05"),
-    code: getUuidByName("PRODUCT_CODE_05"),
+    sku: getUuidByName("PRODUCT_CODE_05"),
     name: "Beef Hip Top",
     local_name: "เนื้อสะโพกโคขุน",
     description: null,
@@ -146,7 +141,6 @@ export const products: Product[] = [
     is_used_in_recipe: true,
     is_sold_directly: false,
     barcode: null,
-    sku: null,
     price_deviation_limit: "0.00000",
     qty_deviation_limit: "0.00000",
     note: null,
@@ -161,7 +155,7 @@ export const products: Product[] = [
   },
   {
     id: getUuidByName("PRODUCT_06"),
-    code: getUuidByName("PRODUCT_CODE_06"),
+    sku: getUuidByName("PRODUCT_CODE_06"),
     name: "Beef Burger 150G.",
     local_name: "เบอร์เกอร์เนื้อ 150กรัม",
     description: null,
@@ -172,7 +166,6 @@ export const products: Product[] = [
     is_used_in_recipe: true,
     is_sold_directly: false,
     barcode: null,
-    sku: null,
     price_deviation_limit: "0.00000",
     qty_deviation_limit: "0.00000",
     note: null,
@@ -187,7 +180,7 @@ export const products: Product[] = [
   },
   {
     id: getUuidByName("PRODUCT_07"),
-    code: getUuidByName("PRODUCT_CODE_07"),
+    sku: getUuidByName("PRODUCT_CODE_07"),
     name: "Ground Pork",
     local_name: "หมูบด",
     description: null,
@@ -198,7 +191,6 @@ export const products: Product[] = [
     is_used_in_recipe: true,
     is_sold_directly: false,
     barcode: null,
-    sku: null,
     price_deviation_limit: "0.00000",
     qty_deviation_limit: "0.00000",
     note: null,
@@ -213,7 +205,7 @@ export const products: Product[] = [
   },
   {
     id: getUuidByName("PRODUCT_08"),
-    code: getUuidByName("PRODUCT_CODE_08"),
+    sku: getUuidByName("PRODUCT_CODE_08"),
     name: "Pork Loin",
     local_name: "หมูสันนอก",
     description: null,
@@ -224,7 +216,6 @@ export const products: Product[] = [
     is_used_in_recipe: true,
     is_sold_directly: false,
     barcode: null,
-    sku: null,
     price_deviation_limit: "0.00000",
     qty_deviation_limit: "0.00000",
     note: null,
@@ -239,7 +230,7 @@ export const products: Product[] = [
   },
   {
     id: getUuidByName("PRODUCT_09"),
-    code: getUuidByName("PRODUCT_CODE_09"),
+    sku: getUuidByName("PRODUCT_CODE_09"),
     name: "Pork Top Round",
     local_name: "หมูสะโพก",
     description: null,
@@ -250,7 +241,6 @@ export const products: Product[] = [
     is_used_in_recipe: true,
     is_sold_directly: false,
     barcode: null,
-    sku: null,
     price_deviation_limit: "0.00000",
     qty_deviation_limit: "0.00000",
     note: null,
@@ -265,7 +255,7 @@ export const products: Product[] = [
   },
   {
     id: getUuidByName("PRODUCT_10"),
-    code: getUuidByName("PRODUCT_CODE_10"),
+    sku: getUuidByName("PRODUCT_CODE_10"),
     name: "Pork Top Round Slice",
     local_name: "หมูสะโพกหั่นชิ้น",
     description: null,
@@ -276,7 +266,6 @@ export const products: Product[] = [
     is_used_in_recipe: true,
     is_sold_directly: false,
     barcode: null,
-    sku: null,
     price_deviation_limit: "0.00000",
     qty_deviation_limit: "0.00000",
     note: null,
@@ -318,7 +307,7 @@ export const getProductById = (id: string): Product | undefined => {
 
 // READ - อ่าน Product ตาม code
 export const getProductByCode = (code: string): Product | undefined => {
-  return products.find((product) => product.code === code);
+  return products.find((product) => product.sku === code);
 };
 
 // READ - อ่าน Product ตาม name
@@ -511,7 +500,7 @@ export const searchProducts = (searchCriteria: {
   return products.filter((product) => {
     if (
       searchCriteria.code &&
-      !product.code.toLowerCase().includes(searchCriteria.code.toLowerCase())
+      !product.sku.toLowerCase().includes(searchCriteria.code.toLowerCase())
     ) {
       return false;
     }
@@ -588,7 +577,7 @@ export const searchProducts = (searchCriteria: {
 
 // Utility function สำหรับตรวจสอบ code ซ้ำ
 export const isProductCodeExists = (code: string): boolean => {
-  return products.some((product) => product.code === code);
+  return products.some((product) => product.sku === code);
 };
 
 // Utility function สำหรับตรวจสอบ barcode ซ้ำ
