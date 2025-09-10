@@ -7,21 +7,21 @@ import {
 } from "@/libs/res.error";
 import jwt from "@elysiajs/jwt";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
+import { tbStoreRequisition } from "@/mockdata";
 import { getRandomInt } from "@/libs/utils";
 
 export default (app: Elysia) =>
   app
+
     .use(
       jwt({
         name: "jwt",
         secret: process.env.JWT_SECRET || "secret",
       })
     )
-    .get("/api/good-received-note", ({ params, query, body, headers }) => {
-      return Response.json(resNotImplemented, { status: 501 });
-    })
+
     .get(
-      "/api/good-received-note/pending",
+      "/api/spot-check/pending",
       async (ctx) => {
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
@@ -48,7 +48,7 @@ export default (app: Elysia) =>
             return resNotFound("Business unit not found");
           }
 
-          // mock data
+          // mock random data
           const res = { pending: getRandomInt(1, 20) };
           return {
             data: res,
@@ -61,33 +61,9 @@ export default (app: Elysia) =>
       },
       {
         detail: {
-          tags: ["good-received-note"],
-          summary: "Get my pending good received notes",
-          description: "Get my pending good received notes",
+          tags: ["spot-check"],
+          summary: "Get my pending spot checks",
+          description: "Get my pending spot checks",
         },
-      }
-    )
-    .post("/api/good-received-note", ({ params, query, body, headers }) => {
-      return Response.json(resNotImplemented, { status: 501 });
-    })
-    .get("/api/good-received-note/:id", ({ params, query, body, headers }) => {
-      return Response.json(resNotImplemented, { status: 501 });
-    })
-    .patch(
-      "/api/good-received-note/:id",
-      ({ params, query, body, headers }) => {
-        return Response.json(resNotImplemented, { status: 501 });
-      }
-    )
-    .delete(
-      "/api/good-received-note/:id",
-      ({ params, query, body, headers }) => {
-        return Response.json(resNotImplemented, { status: 501 });
-      }
-    )
-    .get(
-      "/api/good-received-note/scan-po/:qr_code",
-      ({ params, query, body, headers }) => {
-        return Response.json(resNotImplemented, { status: 501 });
       }
     );

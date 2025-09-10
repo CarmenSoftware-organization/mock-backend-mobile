@@ -26,6 +26,8 @@ import creditNoteReasonRoutes from "./api/credit-note-reason";
 import unitRoutes from "./api/unit";
 import myPendingStoreRequisitionRoutes from "./api/my-pending/store-requisition";
 import myPendingPurchaseRequestRoutes from "./api/my-pending/purchase-request";
+import physicalCountRoutes from "./api/physical-count";
+import spotCheckRoutes from "./api/spot-check";
 
 export const applyGeneratedRoutes = (app: Elysia) => {
   app.use(authRoutes);
@@ -54,6 +56,8 @@ export const applyGeneratedRoutes = (app: Elysia) => {
   app.use(unitRoutes);
   app.use(myPendingStoreRequisitionRoutes);
   app.use(myPendingPurchaseRequestRoutes);
+  app.use(physicalCountRoutes);
+  app.use(spotCheckRoutes);
   return app;
 };
 
