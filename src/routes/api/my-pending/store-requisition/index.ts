@@ -78,30 +78,40 @@ export default (app: Elysia) =>
       description: "Get my pending store requisitions",
     },
   })
-  .post("/api/my-pending/store-requisition/:tenant_id", ({ params, query, body, headers }) => {
-    return Response.json(resNotImplemented, { status: 501 });
-  })
-  .get("/api/my-pending/store-requisition/:tenant_id/:id", ({ params, query, body, headers }) => {
-    return Response.json(resNotImplemented, { status: 501 });
-  })
-  .delete("/api/my-pending/store-requisition/:tenant_id/:id", ({ params, query, body, headers }) => {
-    return Response.json(resNotImplemented, { status: 501 });
-  })
-  .patch("/api/my-pending/store-requisition/:tenant_id/:id/submit", ({ params, query, body, headers }) => {
-    return Response.json(resNotImplemented, { status: 501 });
-  })
-  .patch("/api/my-pending/store-requisition/:tenant_id/:id/approve", ({ params, query, body, headers }) => {
-    return Response.json(resNotImplemented, { status: 501 });
-  })
-  .patch("/api/my-pending/store-requisition/:tenant_id/:id/reject", ({ params, query, body, headers }) => {
-    return Response.json(resNotImplemented, { status: 501 });
-  })
-  .patch("/api/my-pending/store-requisition/:tenant_id/:id/review", ({ params, query, body, headers }) => {
-    return Response.json(resNotImplemented, { status: 501 });
-  })
-  .patch("/api/my-pending/store-requisition/:tenant_id/:id/save", ({ params, query, body, headers }) => {
-    return Response.json(resNotImplemented, { status: 501 });
-  })
-  .get("/api/my-pending/store-requisition/:tenant_id/status/:status", ({ params, query, body, headers }) => {
-    return Response.json(resNotImplemented, { status: 501 });
-  });
+  .get(
+    "/api/my-pending/store-requisition/pending",
+    async (ctx) => {
+      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+      if (errorAppId) {
+        ctx.set.status = 400;
+        return errorAppId;
+      }
+
+      const { error: errorAccessToken } = await CheckHeaderHasAccessToken(
+        ctx.headers,
+        ctx.jwt
+      );
+      if (errorAccessToken) {
+        ctx.set.status = 401;
+        return errorAccessToken;
+      }
+
+      try {
+        const res = { pending: getRandomInt(1, 20) };
+        return {
+          data: res,
+        };
+      } catch (error) {
+        return resInternalServerError(
+          error instanceof Error ? error.message : "Unknown error"
+        );
+      }
+    },
+    {
+      detail: {
+        tags: ["my-pending"],
+        summary: "Get my pending store requisitions",
+        description: "Get my pending store requisitions",
+      },
+    }
+  );
