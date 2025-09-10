@@ -1,8 +1,10 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
 import { getUuidByName } from "./mapping.uuid";
-import { tbBusinessUnit } from ".";
-import { resNotFound } from "@/libs/res.error";
 import { getWorkflowById } from "./tb_workflow";
+
+export interface CalculatePurchaseRequestDetail {
+  qty: number;
+}
 
 export interface PurchaseRequestApproval {
   state_role: "approve" | "create" | "purchase" | "view_only";

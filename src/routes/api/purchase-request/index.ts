@@ -15,7 +15,10 @@ import {
   tbPurchaseRequestDetail,
 } from "@/mockdata";
 import { t } from "elysia";
-import { PurchaseRequestApproval } from "@/mockdata/tb_purchase_request";
+import {
+  CalculatePurchaseRequestDetail,
+  PurchaseRequestApproval,
+} from "@/mockdata/tb_purchase_request";
 
 export default (app: Elysia) =>
   app
@@ -381,6 +384,94 @@ export default (app: Elysia) =>
         }
       }
     )
-    .get("/api/:bu_code/purchase-request/detail/:pr_detail_id/calculate", (ctx) => {
-      return Response.json(resNotImplemented, { status: 501 });
-    });
+
+    .model({
+      CalculatePurchaseRequestDetail: t.Object({
+        qty: t.Number({
+          required: true,
+        }),
+      }),
+    })
+    .post(
+      "/api/:bu_code/purchase-request/detail/:pr_detail_id/calculate",
+      async (ctx) => {
+        const { bu_code, pr_detail_id } = ctx.params;
+
+        const body = (await ctx.body) as
+          | CalculatePurchaseRequestDetail
+          | undefined;
+
+        if (!body) {
+          return resBadRequest("Invalid body");
+        }
+
+        const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+        if (errorAppId) {
+          ctx.set.status = 400;
+          return errorAppId;
+        }
+
+        const { error: errorAccessToken, bussiness_Units } =
+          await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+        if (errorAccessToken) {
+          ctx.set.status = 401;
+          return errorAccessToken;
+        }
+
+        const bu = bussiness_Units?.find((bu) => bu.code === bu_code);
+        if (!bu) {
+          return resNotFound("Business unit not found");
+        }
+        const prd =
+          tbPurchaseRequestDetail.getPurchaseRequestDetailById(pr_detail_id);
+        if (!prd) {
+          return resNotFound("Purchase request detail not found");
+        }
+
+        const qty = body.qty;
+
+        if (!qty) {
+          return resBadRequest("Qty is required");
+        }
+
+        const currency_rate = 35.5;
+
+        // mock simple data
+        const pricelist = {
+          price: 200,
+          unit: "ชิ้น",
+          tax_rate: 7,
+          is_tax_adjustment: false,
+          discount_rate: 0,
+        };
+
+        const res = {
+          sub_total_price: qty * pricelist.price,
+          discount_percentage: pricelist.discount_rate,
+          discount_amount:
+            (qty * pricelist.price * pricelist.discount_rate) / 100,
+
+          net_amount:
+            qty * pricelist.price -
+            (qty * pricelist.price * pricelist.discount_rate) / 100,
+          tax_percentage: pricelist.tax_rate,
+          tax_amount: (qty * pricelist.price * pricelist.tax_rate) / 100,
+
+          total_amount:
+            qty * pricelist.price +
+            (qty * pricelist.price * pricelist.tax_rate) / 100 -
+            (qty * pricelist.price * pricelist.discount_rate) / 100,
+          base_total_amount:
+            qty * pricelist.price +
+            (qty * pricelist.price * pricelist.tax_rate) / 100 -
+            ((qty * pricelist.price * pricelist.discount_rate) / 100) *
+              currency_rate,
+        };
+        return { data: res };
+      },
+      {
+        type: "json",
+        tags: ["Application - Purchase Request"],
+        description: "Calculate a purchase request detail",
+      }
+    );
