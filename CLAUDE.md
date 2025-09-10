@@ -11,6 +11,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `bun run start:prod` - Start production server from built files
 - `bun install` - Install dependencies
 
+### Data Management Commands
+- `bun run routes:gen` - Generate routes automatically
+- `bun run export-postgres` - Export data from PostgreSQL to JSON
+- `bun run import-mock-data` - Import JSON data to TypeScript mock data
+- `bun run test-db` - Test database connection and check tables
+
 ### Code Quality & Validation
 - `bun run type-check` - Run TypeScript type checking (no emit)
 - `bun run format` - Format code using Prettier
@@ -46,10 +52,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   - `/api-system/*` - System-level API endpoints
 
 **Mock Data System**: `src/mockdata/`
-- Comprehensive mock database with 40+ tables
-- CRUD operations for each table with `*Crud` pattern
-- UUID mapping system for legacy ID compatibility
-- Relationship functions for complex data queries
+- Comprehensive mock database with 80+ tables (tb_*.ts files)
+- Flat table structure with direct exports from each file
+- UUID mapping system via `mapping.uuid.ts` for legacy ID compatibility  
+- Constants and configurations in `const.ts`
+- Main export aggregator in `index.ts`
 - All mock data is in-memory (no persistent storage)
 
 ### Path Aliases (tsconfig.json)
@@ -75,10 +82,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Error responses use standardized format from `@libs/res.error`
 
 **Mock Data Access**:
-- Tables follow `tb-{entity-name}.ts` naming convention
-- Each table exports CRUD functions: `tb{EntityName}Crud`
-- Use `UUID_MAPPING` for converting legacy IDs to UUIDs
-- Complex queries use relationship functions from `src/mockdata/tables/index.ts`
+- Tables follow `tb_{entity_name}.ts` naming convention
+- Each table exports data arrays directly (no CRUD pattern)
+- Use `UUID_MAPPING` from `mapping.uuid.ts` for converting legacy IDs to UUIDs
+- Access all mock data through central `src/mockdata/index.ts` export
 
 ### Business Domain Coverage
 The API covers comprehensive ERP functionality:
@@ -95,20 +102,22 @@ The API covers comprehensive ERP functionality:
 1. Create route file in appropriate `/api/` or `/api-system/` directory
 2. Import and register route in `src/routes/index.ts`
 3. Use mock data from `@mockdata/index` for responses
-4. Add proper TypeScript types in `src/types/`
-5. Include Swagger documentation in route definitions
+4. Include Swagger documentation in route definitions
+5. Follow existing patterns for JWT authentication and error handling
 
 **Mock Data Modifications**:
-- Tables are defined in `src/mockdata/tables/tb-*.ts`
-- Export both raw data and CRUD functions
-- Update `src/mockdata/tables/index.ts` to export new tables
+- Tables are defined in `src/mockdata/tb_*.ts`
+- Export raw data arrays directly from each file
+- Update `src/mockdata/index.ts` to export new tables
 - Use UUID format for all IDs (leverage UUID_MAPPING if needed)
+- Use data import/export scripts for PostgreSQL integration
 
 **Authentication Integration**:
 - Import JWT verification from route context
 - Check `x-app-id` header for protected endpoints
 - Use `@mockdata/index` constants for APP_ID validation
-- Return standardized error responses from `@libs/res.error`
+- Return standardized error responses from utility functions
+- Handle Sentry error reporting via `instrument.ts` setup
 
 ## Environment Configuration
 

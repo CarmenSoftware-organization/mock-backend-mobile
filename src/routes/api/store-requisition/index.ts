@@ -91,6 +91,7 @@ export default (app: Elysia) =>
 
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
+          ctx.set.status = 400;
           return errorAppId;
         }
 
@@ -99,6 +100,7 @@ export default (app: Elysia) =>
           ctx.jwt
         );
         if (errorAccessToken) {
+          ctx.set.status = 401;
           return errorAccessToken;
         }
 
@@ -147,6 +149,7 @@ export default (app: Elysia) =>
 
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
+          ctx.set.status = 400;
           return errorAppId;
         }
 
@@ -155,6 +158,7 @@ export default (app: Elysia) =>
           ctx.jwt
         );
         if (errorAccessToken) {
+          ctx.set.status = 401;
           return errorAccessToken;
         }
 
@@ -203,6 +207,7 @@ export default (app: Elysia) =>
 
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
+          ctx.set.status = 400;
           return errorAppId;
         }
 
@@ -211,6 +216,7 @@ export default (app: Elysia) =>
           ctx.jwt
         );
         if (errorAccessToken) {
+          ctx.set.status = 401;
           return errorAccessToken;
         }
 
@@ -267,6 +273,7 @@ export default (app: Elysia) =>
 
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
+          ctx.set.status = 400;
           return errorAppId;
         }
 
@@ -275,6 +282,7 @@ export default (app: Elysia) =>
           ctx.jwt
         );
         if (errorAccessToken) {
+          ctx.set.status = 401;
           return errorAccessToken;
         }
 

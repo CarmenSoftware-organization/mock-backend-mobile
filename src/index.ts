@@ -1,9 +1,13 @@
+import "./instrument";
+
 import { Elysia } from "elysia";
 import { swagger } from "@elysiajs/swagger";
 import applyGeneratedRoutes from "./routes";
 import { bearer } from "@elysiajs/bearer";
 import { cors } from "@elysiajs/cors";
 import *  as httpdocs from "@httpdocs/index";
+
+import * as Sentry from "@sentry/bun";
 
 const PORT = process.env.PORT || 4000;
 
@@ -70,6 +74,20 @@ const app = new Elysia()
         "Content-Type": "text/html",
       },
     });
+  })
+  .onError(({ code, error }) => {
+    Sentry.captureException(error);
+    if (code === "VALIDATION") {
+      return error.message;
+    }
+  })
+  .get('testerror', () => {
+    try {
+      console.log('start test Sentry');
+      throw new Error('Start test Sentry');
+    } catch (e) {
+      Sentry.captureException(e);
+    }
   })
   .listen(PORT);
 
