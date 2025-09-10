@@ -341,9 +341,9 @@ export default (app: Elysia) =>
     })
 
     .get(
-      "/api/:bu_code/purchase-request/:id/dimension",
+      "/api/:bu_code/purchase-request/detail/:pr_detail_id/dimension",
       async (ctx) => {
-        const { bu_code, id } = ctx.params;
+        const { bu_code, pr_detail_id } = ctx.params;
 
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
@@ -367,7 +367,7 @@ export default (app: Elysia) =>
             return resNotFound("Business unit not found");
           }
           const prd =
-            tbPurchaseRequestDetail.getPurchaseRequestDetailById(id);
+            tbPurchaseRequestDetail.getPurchaseRequestDetailById(pr_detail_id);
           if (!prd) {
             return resNotFound("Purchase request detail not found");
           }
@@ -380,4 +380,7 @@ export default (app: Elysia) =>
           return resErrorWithData(500, "error", error);
         }
       }
-    );
+    )
+    .get("/api/:bu_code/purchase-request/detail/:pr_detail_id/calculate", (ctx) => {
+      return Response.json(resNotImplemented, { status: 501 });
+    });
