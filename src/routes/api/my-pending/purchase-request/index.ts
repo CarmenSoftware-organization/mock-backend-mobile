@@ -108,7 +108,7 @@ export default (app: Elysia) =>
         }
 
         try {
-          const res = { pending: getRandomInt(1, 20) };
+          const res = { pending: getRandomInt(0, 20) };
           return {
             data: res,
           };
