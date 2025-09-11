@@ -81,14 +81,14 @@ const app = new Elysia()
       return error.message;
     }
   })
-  .get('testerror', () => {
-    try {
-      console.log('start test Sentry');
-      throw new Error('Start test Sentry');
-    } catch (e) {
-      Sentry.captureException(e);
-    }
-  })
+  // .get('testerror', () => {
+  //   try {
+  //     console.log('start test Sentry');
+  //     throw new Error('Start test Sentry');
+  //   } catch (e) {
+  //     Sentry.captureException(e);
+  //   }
+  // })
   .listen(PORT);
 
 console.log(

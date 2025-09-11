@@ -1219,7 +1219,24 @@ export const purchaseRequestDetails: PurchaseRequestDetail[] = (() => {
       base_sub_total_price: 1,
       base_net_amount: 1,
       base_total_price: 1,
-      history: null,
+      history: [
+        {
+          action: "submit",
+          user_id: user1?.id || "",
+          user_name: user1?.username || "",
+          user: user1Profile?.firstname + " " + user1Profile?.lastname || "",
+          created_at: "2025-08-28T07:23:19.407Z",
+          message: "Submit purchase request for chicken satay",
+        },
+        {
+          action: "review",
+          user_id: user2?.id || "",
+          user_name: user2?.username || "",
+          user: user2Profile?.firstname + " " + user2Profile?.lastname || "",
+          created_at: "2025-08-28T07:25:15.123Z",
+          message: "Review pricing and quantity",
+        },
+      ],
       stages_status: null,
       info: null,
       dimension: [
@@ -1343,41 +1360,33 @@ export const purchaseRequestDetails: PurchaseRequestDetail[] = (() => {
           type: "string",
           value: "PROJ-2025-001",
         },
+
         {
           key: "project_name",
           label: "Project Name",
           type: "string",
           value: "Project 1",
         },
+
         {
           key: "cost_center",
           label: "Cost Center",
           type: "string",
           value: "CC-F&B-001",
         },
+
         {
           key: "market_segment",
           label: "Market Segment",
           type: "string",
           value: "Corporate Events",
         },
+
         {
           key: "event",
           label: "Event",
           type: "string",
           value: "Annual Conference 2025",
-        },
-        {
-          key: "department",
-          label: "Department",
-          type: "string",
-          value: "Food & Beverage",
-        },
-        {
-          key: "region",
-          label: "Region",
-          type: "string",
-          value: "Singapore East",
         },
       ],
       doc_version: "0",
