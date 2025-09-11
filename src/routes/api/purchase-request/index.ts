@@ -445,27 +445,28 @@ export default (app: Elysia) =>
           discount_rate: 0,
         };
 
+        const sub_total_price = qty * pricelist.price;
+        const discount_amount =
+          (qty * pricelist.price * pricelist.discount_rate) / 100;
+        const net_amount = qty * pricelist.price - discount_amount;
+        const tax_amount = (qty * pricelist.price * pricelist.tax_rate) / 100;
+        const total_amount = sub_total_price + tax_amount - discount_amount;
+        const base_total_amount =
+          (sub_total_price + tax_amount - discount_amount) * currency_rate;
+
         const res = {
-          sub_total_price: qty * pricelist.price,
+          sub_total_price: sub_total_price,
           discount_percentage: pricelist.discount_rate,
-          discount_amount:
-            (qty * pricelist.price * pricelist.discount_rate) / 100,
+          discount_amount: discount_amount,
 
-          net_amount:
-            qty * pricelist.price -
-            (qty * pricelist.price * pricelist.discount_rate) / 100,
+          net_amount: net_amount,
+
           tax_percentage: pricelist.tax_rate,
-          tax_amount: (qty * pricelist.price * pricelist.tax_rate) / 100,
+          tax_amount: tax_amount,
 
-          total_amount:
-            qty * pricelist.price +
-            (qty * pricelist.price * pricelist.tax_rate) / 100 -
-            (qty * pricelist.price * pricelist.discount_rate) / 100,
-          base_total_amount:
-            qty * pricelist.price +
-            (qty * pricelist.price * pricelist.tax_rate) / 100 -
-            ((qty * pricelist.price * pricelist.discount_rate) / 100) *
-              currency_rate,
+          total_amount: total_amount,
+          base_total_amount: base_total_amount,
+          currency_rate,
         };
         return { data: res };
       },
@@ -474,4 +475,43 @@ export default (app: Elysia) =>
         tags: ["Application - Purchase Request"],
         description: "Calculate a purchase request detail",
       }
-    );
+    )
+    .get("/api/:bu_code/purchase-request/detail/:pr_detail_id/history", async(ctx) => {
+      const { bu_code, pr_detail_id } = ctx.params;
+
+      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+      if (errorAppId) {
+        ctx.set.status = 400;
+        return errorAppId;
+      }
+      
+      const { error: errorAccessToken, bussiness_Units } =
+        await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+      if (errorAccessToken) {
+        ctx.set.status = 401;
+        return errorAccessToken;
+      }
+      
+      const bu = bussiness_Units?.find((bu) => bu.code === bu_code);
+      if (!bu) {
+        return resNotFound("Business unit not found");
+      }
+      
+      
+      const prd =
+        tbPurchaseRequestDetail.getPurchaseRequestDetailById(pr_detail_id);
+      if (!prd) {
+        return resNotFound("Purchase request detail not found");
+      }
+      
+      
+      const history = prd.history;
+      const res = {
+        data: history,
+      };
+      return res;
+    }, {
+      type: "json",
+      tags: ["Application - Purchase Request"],
+      description: "Get a purchase request detail history",
+    });
