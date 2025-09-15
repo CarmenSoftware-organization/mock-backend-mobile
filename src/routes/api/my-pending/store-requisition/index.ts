@@ -5,7 +5,7 @@ import jwt from "@elysiajs/jwt";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from '@/libs/header';
 import { tbStoreRequisition } from '@/mockdata';
 import { getRandomInt } from '@/libs/utils';
-import { getDefaultCurrency, getDefaultCurrencyByBusinessUnitId } from '@/mockdata/tb_application_config';
+import { getDefaultCurrencyByBusinessUnitId } from '@/mockdata/tb_application_config';
 
 export default (app: Elysia) =>
   app

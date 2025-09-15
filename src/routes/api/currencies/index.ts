@@ -33,11 +33,13 @@ export default (app: Elysia) =>
 
      const defaultCurrency = getDefaultCurrencyByBusinessUnitId(bu.id);
      return {
-      bu_code: bu.code,
-      bu_name: bu.name,
-      currency_id: defaultCurrency?.id || "",
-      currency_name: defaultCurrency?.name || "",
-      currency_code: defaultCurrency?.code || "",
+      currency : {
+        id: defaultCurrency?.id || "",
+        name: defaultCurrency?.name || "",
+        code: defaultCurrency?.code || "",
+        symbol: defaultCurrency?.symbol || "",
+        decimal_places: defaultCurrency?.decimal_places || 0,
+      },
      }
   }, {
     detail: {
