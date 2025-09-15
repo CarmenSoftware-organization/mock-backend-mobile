@@ -530,8 +530,8 @@ export const getProductLocationsAboveMaxQty = (): ProductLocation[] => {
 
 // READ - อ่าน ProductLocation ตาม par_qty range
 export const getProductLocationsByParQtyRange = (
-  minQty: string,
-  maxQty: string
+  minQty: number,
+  maxQty: number
 ): ProductLocation[] => {
   return productLocations.filter((productLocation) => {
     const parQty = productLocation.par_qty;
