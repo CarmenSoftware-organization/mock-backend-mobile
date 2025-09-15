@@ -2,7 +2,7 @@ import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
 import { resInternalServerError, resNotImplemented } from "@/libs/res.error";
 import { getRandomInt } from "@/libs/utils";
 import { tbPurchaseRequest, tbPurchaseRequestDetail } from "@/mockdata";
-import { getDefaultCurrency } from "@/mockdata/tb_application_config";
+import { getDefaultCurrencyByBusinessUnitId } from "@/mockdata/tb_application_config";
 import jwt from "@elysiajs/jwt";
 import type { Elysia } from "elysia";
 
@@ -37,8 +37,6 @@ export default (app: Elysia) =>
           return errorAccessToken;
         }
 
-         const defaultCurrency = getDefaultCurrency();
-
         const { bu_code } = ctx.query;
 
         try {
@@ -69,14 +67,18 @@ export default (app: Elysia) =>
                 total_amount: Number(getRandomInt(50, 100000)),
               }));
 
+            const defaultCurrency = getDefaultCurrencyByBusinessUnitId(bu.id);
+
             const res = {
               bu_code: bu.code,
               bu_name: bu.name,
-              currency_id: defaultCurrency?.id || "",
-              currency_name: defaultCurrency?.name || "",
-              currency_code: defaultCurrency?.code || "",
-              currency_symbol: defaultCurrency?.symbol || "",
-              currency_decimal_places: defaultCurrency?.decimal_places || 0,
+              currency : {
+                id: defaultCurrency?.id || "",
+                name: defaultCurrency?.name || "",
+                code: defaultCurrency?.code || "",
+                symbol: defaultCurrency?.symbol || "",
+                decimal_places: defaultCurrency?.decimal_places || 0,
+              },
               data: prData,
             };
             purchaseRequests.push(res);

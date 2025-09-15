@@ -449,7 +449,7 @@ export const isActiveApplicationConfigKeyExists = (key: string): boolean => {
   );
 };
 
-export const getDefaultCurrency = (): Currency | null => {
+export const getDefaultCurrencyByBusinessUnitId = (bu_id: string): Currency | null => {
   const defaultCurrency = applicationConfigs.find((config) => config.key === "system_settings")?.value.find((value) => value.name === "Default Currency")?.id;
 
   if (!defaultCurrency) {
