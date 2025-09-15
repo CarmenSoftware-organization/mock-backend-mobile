@@ -1,4 +1,8 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
+import { getUuidByName } from "./mapping.uuid";
+import { getUnitById } from "./tb_unit";
+import { getProductById } from "./tb_product";
+import { tbProduct, tbUnit } from ".";
 
 export interface UnitConversion {
   id: string;
@@ -24,17 +28,29 @@ export interface UnitConversion {
   deleted_by_id: string | null;
 }
 
+const unit01 = getUnitById(getUuidByName("UNIT_01"));
+const unit02 = getUnitById(getUuidByName("UNIT_02"));
+const unit03 = getUnitById(getUuidByName("UNIT_03"));
+const unit04 = getUnitById(getUuidByName("UNIT_04"));
+const unit05 = getUnitById(getUuidByName("UNIT_05"));
+
+const product01 = getProductById(getUuidByName("PRODUCT_01"));
+const product02 = getProductById(getUuidByName("PRODUCT_02"));
+const product03 = getProductById(getUuidByName("PRODUCT_03"));
+const product04 = getProductById(getUuidByName("PRODUCT_04"));
+const product05 = getProductById(getUuidByName("PRODUCT_05"));
+
 // Sample data
 export const unitConversions: UnitConversion[] = [
   {
-    id: "d438ae4b-3db3-48d8-b72b-2aa79f6cd224",
-    product_id: "7d28a000-a54f-4c79-8139-cd0dee2f136a",
+    id: getUuidByName("UNIT_CONVERSION_01"),
+    product_id: getUuidByName("PRODUCT_01"),
     unit_type: "ingredient_unit",
-    from_unit_id: "a944b693-3a71-4275-9d6a-ddca551533d7",
-    from_unit_name: "KG",
+    from_unit_id: unit01?.id || "",
+    from_unit_name: unit01?.name || "",
     from_unit_qty: "1.00000",
-    to_unit_id: "4442857f-36c9-4ed2-bb6e-cca8ccfd0e32",
-    to_unit_name: "CUP",
+    to_unit_id: unit02?.id || "",
+    to_unit_name: unit02?.name || "",
     to_unit_qty: "5.00000",
     is_default: false,
     description: null,
@@ -50,14 +66,14 @@ export const unitConversions: UnitConversion[] = [
     deleted_by_id: null,
   },
   {
-    id: "aa508ec4-5031-40bd-967b-af2547b97e01",
-    product_id: "7d28a000-a54f-4c79-8139-cd0dee2f136a",
+    id: getUuidByName("UNIT_CONVERSION_02"),
+    product_id: product01?.id || "",
     unit_type: "order_unit",
-    from_unit_id: "92850418-9a14-469e-befd-1a4cb13dfa93",
-    from_unit_name: "PACK",
+    from_unit_id: unit01?.id || "",
+    from_unit_name: unit01?.name || "",
     from_unit_qty: "1.00000",
-    to_unit_id: "a944b693-3a71-4275-9d6a-ddca551533d7",
-    to_unit_name: "KG",
+    to_unit_id: unit03?.id || "",
+    to_unit_name: unit03?.name || "",
     to_unit_qty: "12.00000",
     is_default: true,
     description: null,
@@ -73,14 +89,84 @@ export const unitConversions: UnitConversion[] = [
     deleted_by_id: null,
   },
   {
-    id: "a2cb4bc1-baab-462c-928b-761f4a6ad1c7",
-    product_id: "7d28a000-a54f-4c79-8139-cd0dee2f136a",
+    id: getUuidByName("UNIT_CONVERSION_03"),
+    product_id: product01?.id || "",
     unit_type: "ingredient_unit",
-    from_unit_id: "a944b693-3a71-4275-9d6a-ddca551533d7",
-    from_unit_name: "KG",
+    from_unit_id: unit01?.id || "",
+    from_unit_name: unit01?.name || "",
     from_unit_qty: "1.00000",
-    to_unit_id: "db76d19c-40af-4b54-bfa8-6da446aac7f3",
-    to_unit_name: "BTL",
+    to_unit_id: unit04?.id || "",
+    to_unit_name: unit04?.name || "",
+    to_unit_qty: "10.00000",
+    is_default: true,
+    description: null,
+    is_active: true,
+    note: null,
+    info: null,
+    dimension: null,
+    created_at: "2025-07-30T03:49:44.642Z",
+    created_by_id: null,
+    updated_at: "2025-07-30T03:49:44.642Z",
+    updated_by_id: null,
+    deleted_at: null,
+    deleted_by_id: null,
+  },
+
+  {
+    id: getUuidByName("UNIT_CONVERSION_04"),
+    product_id: product02?.id || "",
+    unit_type: "order_unit",
+    from_unit_id: unit02?.id || "",
+    from_unit_name: unit02?.name || "",
+    from_unit_qty: "1.00000",
+    to_unit_id: unit03?.id || "",
+    to_unit_name: unit03?.name || "",
+    to_unit_qty: "12.00000",
+    is_default: true,
+    description: null,
+    is_active: true,
+    note: null,
+    info: null,
+    dimension: null,
+    created_at: "2025-07-30T03:49:44.642Z",
+    created_by_id: null,
+    updated_at: "2025-07-30T03:49:44.642Z",
+    updated_by_id: null,
+    deleted_at: null,
+    deleted_by_id: null,
+  },
+  {
+    id: getUuidByName("UNIT_CONVERSION_05"),
+    product_id: product02?.id || "",
+    unit_type: "ingredient_unit",
+    from_unit_id: unit01?.id || "",
+    from_unit_name: unit01?.name || "",
+    from_unit_qty: "1.00000",
+    to_unit_id: unit03?.id || "",
+    to_unit_name: unit03?.name || "",
+    to_unit_qty: "10.00000",
+    is_default: true,
+    description: null,
+    is_active: true,
+    note: null,
+    info: null,
+    dimension: null,
+    created_at: "2025-07-30T03:49:44.642Z",
+    created_by_id: null,
+    updated_at: "2025-07-30T03:49:44.642Z",
+    updated_by_id: null,
+    deleted_at: null,
+    deleted_by_id: null,
+  },
+  {
+    id: getUuidByName("UNIT_CONVERSION_06"),
+    product_id: product02?.id || "",
+    unit_type: "order_unit",
+    from_unit_id: unit01?.id || "",
+    from_unit_name: unit01?.name || "",
+    from_unit_qty: "1.00000",
+    to_unit_id: unit05?.id || "",
+    to_unit_name: unit05?.name || "",
     to_unit_qty: "10.00000",
     is_default: true,
     description: null,
@@ -431,4 +517,55 @@ export const hasDefaultUnitConversion = (
 
 export const clearAllUnitConversions = (): void => {
   unitConversions.length = 0;
+};
+
+export type ResponseUnitConversion = {
+  id: string;
+  name: string;
+  conversion: number;
+};
+
+export const getAvailableUnitByProductId = (productId: string): ResponseUnitConversion[] => {
+
+  const inventoryUnit = tbProduct.getProductById(productId);
+
+  if (!inventoryUnit) {
+    throw new Error("Inventory unit not found");
+  }
+
+  const defaultUnit = tbUnit.getUnitById(inventoryUnit.inventory_unit_id);
+
+  if (!defaultUnit) {
+    throw new Error("Default unit not found");
+  }
+
+  const orderUnit = unitConversions.filter(
+    (conversion) => conversion.product_id === productId && !conversion.deleted_at && conversion.unit_type === "order_unit"
+  ).map((conversion) => ({
+    id: conversion.from_unit_id,
+    name: conversion.from_unit_name,
+    conversion: parseFloat(conversion.from_unit_qty),
+  }));
+  
+  const ingredientUnit = unitConversions.filter(
+    (conversion) => conversion.product_id === productId && !conversion.deleted_at && conversion.unit_type === "ingredient_unit"
+  ).map((conversion) => ({
+    id: conversion.to_unit_id,
+    name: conversion.to_unit_name,
+    conversion: 1 / parseFloat(conversion.to_unit_qty),
+  }));
+
+  const availableUnit = [...orderUnit, ...ingredientUnit, {
+    id: defaultUnit.id,
+    name: defaultUnit.name,
+    conversion: 1,
+  }];
+
+  // remove duplicate
+  const uniqueAvailableUnit = availableUnit.filter((unit, index, self) =>
+    index === self.findIndex((t) => t.id === unit.id)
+  );
+
+  return uniqueAvailableUnit;
+
 };

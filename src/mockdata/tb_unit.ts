@@ -21,8 +21,8 @@ export interface Unit {
 export const units: Unit[] = [
   {
     id: getUuidByName("UNIT_01"),
-    name: "BAG",
-    description: "BAG",
+    name: "KG",
+    description: "KG",
     is_active: true,
     note: null,
     info: null,
@@ -36,8 +36,8 @@ export const units: Unit[] = [
   },
   {
     id: getUuidByName("UNIT_02"),
-    name: "BOOK",
-    description: "BOOK",
+    name: "GRAM",
+    description: "GRAM",
     is_active: true,
     note: null,
     info: null,
