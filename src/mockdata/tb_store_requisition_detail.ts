@@ -1,5 +1,7 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
 import { getUuidByName } from "./mapping.uuid";
+import { getProductById } from "./tb_product";
+import { getLocationById } from "./tb_location";
 
 export interface StoreRequisitionDetail {
   id: string;
@@ -12,9 +14,10 @@ export interface StoreRequisitionDetail {
   product_id: string;
   product_name: string;
   product_local_name: string;
-  requested_qty: string;
-  approved_qty: string;
-  issued_qty: string;
+  sku: string;
+  requested_qty: number;
+  approved_qty: number;
+  issued_qty: number;
   history: any;
   last_action: "submit" | "approve" | "reject" | "complete";
   approved_message: string | null;
@@ -40,6 +43,21 @@ export interface StoreRequisitionDetail {
   deleted_by_id: string | null;
 }
 
+const product1 = getProductById(getUuidByName("PRODUCT_01"));
+const product2 = getProductById(getUuidByName("PRODUCT_02"));
+const product3 = getProductById(getUuidByName("PRODUCT_03"));
+const product4 = getProductById(getUuidByName("PRODUCT_04"));
+const product5 = getProductById(getUuidByName("PRODUCT_05"));
+const product6 = getProductById(getUuidByName("PRODUCT_06"));
+const product7 = getProductById(getUuidByName("PRODUCT_07"));
+const product8 = getProductById(getUuidByName("PRODUCT_08"));
+const product9 = getProductById(getUuidByName("PRODUCT_09"));
+const product10 = getProductById(getUuidByName("PRODUCT_10"));
+
+const location1 = getLocationById(getUuidByName("LOCATION_01"));
+const location2 = getLocationById(getUuidByName("LOCATION_02"));
+const location3 = getLocationById(getUuidByName("LOCATION_03"));
+
 // Sample data
 export const storeRequisitionDetails: StoreRequisitionDetail[] = [
   {
@@ -48,14 +66,15 @@ export const storeRequisitionDetails: StoreRequisitionDetail[] = [
     store_requisition_id: getUuidByName("STORE_REQUISITION_01"),
     sequence_no: 1,
     description: "Cleaning supplies for kitchen",
-    to_location_id: getUuidByName("LOCATION_01"),
-    to_location_name: "Kitchen Storage",
-    product_id: getUuidByName("PRODUCT_01"),
-    product_name: "Kitchen Cleaner",
-    product_local_name: "น้ำยาทำความสะอาดครัว",
-    requested_qty: "10.00",
-    approved_qty: "8.00",
-    issued_qty: "8.00",
+    to_location_id: location2?.id || "",
+    to_location_name: location2?.name || "",
+    product_id: product1?.id || "",
+    product_name: product1?.name || "",
+    product_local_name: product1?.local_name || "",
+    sku: product1?.sku || "",
+    requested_qty: 10,
+    approved_qty: 10,
+    issued_qty: 10,
     history: [
       {
         action: "submit",
@@ -109,14 +128,15 @@ export const storeRequisitionDetails: StoreRequisitionDetail[] = [
     store_requisition_id: getUuidByName("STORE_REQUISITION_01"),
     sequence_no: 2,
     description: "Cooking ingredients for kitchen",
-    to_location_id: getUuidByName("LOCATION_01"),
-    to_location_name: "Kitchen Storage",
-    product_id: getUuidByName("PRODUCT_01"),
-    product_name: "Cooking Oil",
-    product_local_name: "น้ำมันปรุงอาหาร",
-    requested_qty: "20.00",
-    approved_qty: "20.00",
-    issued_qty: "20.00",
+    to_location_id: location2?.id || "",
+    to_location_name: location2?.name || "",
+    product_id: product2?.id || "",
+    product_name: product2?.name || "",
+    product_local_name: product2?.local_name || "",
+    sku: product2?.sku || "",
+    requested_qty: 20,
+    approved_qty: 20,
+    issued_qty: 20,
     history: [
       {
         action: "submit",
@@ -170,14 +190,15 @@ export const storeRequisitionDetails: StoreRequisitionDetail[] = [
     store_requisition_id: getUuidByName("STORE_REQUISITION_01"),
     sequence_no: 1,
     description: "Stationery supplies for office",
-    to_location_id: getUuidByName("LOCATION_01"),
-    to_location_name: "Office Storage",
-    product_id: getUuidByName("PRODUCT_01"),
-    product_name: "Ballpoint Pen",
-    product_local_name: "ปากกาลูกลื่น",
-    requested_qty: "50.00",
-    approved_qty: "50.00",
-    issued_qty: "50.00",
+    to_location_id: location3?.id || "",
+    to_location_name: location3?.name || "",
+    product_id: product3?.id || "",
+    product_name: product3?.name || "",
+    product_local_name: product3?.local_name || "",
+    sku: product3?.sku || "",
+    requested_qty: 50,
+    approved_qty: 50,
+    issued_qty: 50,
     history: [
       {
         action: "submit",
@@ -231,14 +252,15 @@ export const storeRequisitionDetails: StoreRequisitionDetail[] = [
     store_requisition_id: getUuidByName("STORE_REQUISITION_01"),
     sequence_no: 2,
     description: "Paper supplies for office",
-    to_location_id: getUuidByName("LOCATION_01"),
-    to_location_name: "Office Storage",
-    product_id: getUuidByName("PRODUCT_01"),
-    product_name: "A4 Paper",
-    product_local_name: "กระดาษ A4",
-    requested_qty: "10.00",
-    approved_qty: "8.00",
-    issued_qty: "8.00",
+    to_location_id: location3?.id || "",
+    to_location_name: location3?.name || "",
+    product_id: product4?.id || "",
+    product_name: product4?.name || "",
+    product_local_name: product4?.local_name || "",
+    sku: product4?.sku || "",
+    requested_qty: 10,
+    approved_qty: 8,
+    issued_qty: 8,
     history: [
       {
         action: "submit",
@@ -407,9 +429,9 @@ export const updateStoreRequisitionDetailDescription = (
 // UPDATE - อัปเดต StoreRequisitionDetail quantities
 export const updateStoreRequisitionDetailQuantities = (
   id: string,
-  requestedQty: string,
-  approvedQty: string,
-  issuedQty: string
+  requestedQty: number,
+  approvedQty: number,
+  issuedQty: number
 ): StoreRequisitionDetail | null => {
   return updateStoreRequisitionDetail(id, {
     requested_qty: requestedQty,
@@ -421,7 +443,7 @@ export const updateStoreRequisitionDetailQuantities = (
 // UPDATE - อัปเดต StoreRequisitionDetail approval
 export const updateStoreRequisitionDetailApproval = (
   id: string,
-  approvedQty: string,
+  approvedQty: number,
   approvedMessage: string,
   approvedById: string,
   approvedByName: string
@@ -470,7 +492,7 @@ export const updateStoreRequisitionDetailRejection = (
 // UPDATE - อัปเดต StoreRequisitionDetail completion
 export const updateStoreRequisitionDetailCompletion = (
   id: string,
-  issuedQty: string
+  issuedQty: number
 ): StoreRequisitionDetail | null => {
   return updateStoreRequisitionDetail(id, {
     issued_qty: issuedQty,
