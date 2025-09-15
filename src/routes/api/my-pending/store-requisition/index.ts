@@ -58,16 +58,16 @@ export default (app: Elysia) =>
           last_action: sr.last_action,
           created_at: sr.created_at,
           total_amount: Number(getRandomInt(50, 100000)),
-          currency_id: defaultCurrency?.id || "",
-          currency_name: defaultCurrency?.name || "",
-          currency_code: defaultCurrency?.code || "",
-          currency_symbol: defaultCurrency?.symbol || "",
-          currency_decimal_places: defaultCurrency?.decimal_places || 0,
         }));
 
         const res = {
           bu_code: bu.code,
           bu_name: bu.name,
+          currency_id: defaultCurrency?.id || "",
+          currency_name: defaultCurrency?.name || "",
+          currency_code: defaultCurrency?.code || "",
+          currency_symbol: defaultCurrency?.symbol || "",
+          currency_decimal_places: defaultCurrency?.decimal_places || 0,
           data: srData,
         };
         storeRequisitions.push(res);
