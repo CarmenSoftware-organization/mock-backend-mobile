@@ -151,17 +151,16 @@ export const purchaseRequestDetails: PurchaseRequestDetail[] = (() => {
   const pricelist02 = getVendorById(getUuidByName("PRICELIST_02"));
   const pricelist03 = getVendorById(getUuidByName("PRICELIST_03"));
 
-  const productPrice1 = getCalculatePriceInfo(5, 20, 1, 7, 0);
-  const productPrice2 = getCalculatePriceInfo(10, 35, 35, 7, 0);
-  const productPrice3 = getCalculatePriceInfo(8, 41, 1, 7, 0);
-  const productPrice4 = getCalculatePriceInfo(5, 100, 35, 7, 0);
-  const productPrice5 = getCalculatePriceInfo(5, 1, 1, 7, 0);
-  const productPrice6 = getCalculatePriceInfo(5, 1, 1, 7, 0);
-  const productPrice7 = getCalculatePriceInfo(5, 1, 1, 7, 0);
-  const productPrice8 = getCalculatePriceInfo(5, 1, 1, 7, 0);
-  const productPrice9 = getCalculatePriceInfo(5, 1, 1, 7, 0);
-  const productPrice10 = getCalculatePriceInfo(5, 1, 1, 7, 0);
-
+  const productPrice1 = getCalculatePriceInfo(5, 20, 1, 7, false, 0, false);
+  const productPrice2 = getCalculatePriceInfo(10, 35, 35, 7, false, 0, false);
+  const productPrice3 = getCalculatePriceInfo(8, 41, 1, 7, false, 0, false);
+  const productPrice4 = getCalculatePriceInfo(5, 100, 35, 7, false, 0, false);
+  const productPrice5 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, false);
+  const productPrice6 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, false);
+  const productPrice7 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, false);
+  const productPrice8 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, false);
+  const productPrice9 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, false);
+  const productPrice10 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, false);
 
   return [
     {
