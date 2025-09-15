@@ -19,6 +19,7 @@ import {
   CalculatePurchaseRequestDetail,
   PurchaseRequestApproval,
 } from "@/mockdata/tb_purchase_request";
+import { getCalculatePriceInfo } from "@/libs/calc";
 
 export default (app: Elysia) =>
   app
@@ -438,36 +439,39 @@ export default (app: Elysia) =>
 
         // mock simple data
         const pricelist = {
-          price: 200,
-          unit: "ชิ้น",
-          tax_rate: 7,
-          is_tax_adjustment: false,
-          discount_rate: 0,
+          price: prd.pricelist_price || 0,
+          unit: prd.pricelist_unit,
+          tax_rate: prd.tax_rate || 0,
+          is_tax_adjustment: prd.is_tax_adjustment,
+          discount_rate: prd.discount_rate || 0,
+          is_discount_adjustment: prd.is_discount_adjustment,
         };
 
-        const sub_total_price = qty * pricelist.price;
-        const discount_amount =
-          (qty * pricelist.price * pricelist.discount_rate) / 100;
-        const net_amount = qty * pricelist.price - discount_amount;
-        const tax_amount = (qty * pricelist.price * pricelist.tax_rate) / 100;
-        const total_amount = sub_total_price + tax_amount - discount_amount;
-        const base_total_amount =
-          (sub_total_price + tax_amount - discount_amount) * currency_rate;
+        // const sub_total_price = qty * pricelist.price;
+        // const discount_amount =
+        //   (qty * pricelist.price * pricelist.discount_rate) / 100;
+        // const net_amount = qty * pricelist.price - discount_amount;
+        // const tax_amount = (qty * pricelist.price * pricelist.tax_rate) / 100;
+        // const total_amount = sub_total_price + tax_amount - discount_amount;
+        // const base_total_amount =
+        //   (sub_total_price + tax_amount - discount_amount) * currency_rate;
 
-        const res = {
-          sub_total_price: sub_total_price,
-          discount_percentage: pricelist.discount_rate,
-          discount_amount: discount_amount,
+        // const res = {
+        //   sub_total_price: sub_total_price,
+        //   discount_percentage: pricelist.discount_rate,
+        //   discount_amount: discount_amount,
 
-          net_amount: net_amount,
+        //   net_amount: net_amount,
 
-          tax_percentage: pricelist.tax_rate,
-          tax_amount: tax_amount,
+        //   tax_percentage: pricelist.tax_rate,
+        //   tax_amount: tax_amount,
 
-          total_amount: total_amount,
-          base_total_amount: base_total_amount,
-          currency_rate,
-        };
+        //   total_amount: total_amount,
+        //   base_total_amount: base_total_amount,
+        //   currency_rate,
+        // };
+
+        const res = getCalculatePriceInfo(qty, pricelist.price, currency_rate, pricelist.tax_rate, pricelist.is_tax_adjustment, pricelist.discount_rate, pricelist.is_discount_adjustment);
         return { data: res };
       },
       {

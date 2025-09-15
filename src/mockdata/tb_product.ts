@@ -30,7 +30,7 @@ export interface Product {
 export const products: Product[] = [
   {
     id: getUuidByName("PRODUCT_01"),
-    sku: getUuidByName("PRODUCT_CODE_01"),
+    sku: "PRODUCT_CODE_01",
     name: "Beef Tenderloin",
     local_name: "เนื้อสันใน",
     description: null,
@@ -55,7 +55,7 @@ export const products: Product[] = [
   },
   {
     id: getUuidByName("PRODUCT_02"),
-    sku: getUuidByName("PRODUCT_CODE_02"),
+    sku: "PRODUCT_CODE_02",
     name: "Ground Beef A",
     local_name: "เนื้อบด A",
     description: null,
@@ -80,7 +80,7 @@ export const products: Product[] = [
   },
   {
     id: getUuidByName("PRODUCT_03"),
-    sku: getUuidByName("PRODUCT_CODE_03"),
+    sku: "PRODUCT_CODE_03",
     name: "Beef Tenderloin Grade A",
     local_name: "เนื้อสันในโคขุนแต่ง เกรด A",
     description: null,
@@ -105,7 +105,7 @@ export const products: Product[] = [
   },
   {
     id: getUuidByName("PRODUCT_04"),
-    sku: getUuidByName("PRODUCT_CODE_04"),
+    sku: "PRODUCT_CODE_04",
     name: "Beef Tenderloin Grade AAA",
     local_name: "เนื้อสันในโคขุนแต่ง เกรด AAA",
     description: null,
@@ -130,7 +130,7 @@ export const products: Product[] = [
   },
   {
     id: getUuidByName("PRODUCT_05"),
-    sku: getUuidByName("PRODUCT_CODE_05"),
+    sku: "PRODUCT_CODE_05",
     name: "Beef Hip Top",
     local_name: "เนื้อสะโพกโคขุน",
     description: null,
@@ -155,7 +155,7 @@ export const products: Product[] = [
   },
   {
     id: getUuidByName("PRODUCT_06"),
-    sku: getUuidByName("PRODUCT_CODE_06"),
+    sku: "PRODUCT_CODE_06",
     name: "Beef Burger 150G.",
     local_name: "เบอร์เกอร์เนื้อ 150กรัม",
     description: null,
@@ -180,7 +180,7 @@ export const products: Product[] = [
   },
   {
     id: getUuidByName("PRODUCT_07"),
-    sku: getUuidByName("PRODUCT_CODE_07"),
+    sku: "PRODUCT_CODE_07",
     name: "Ground Pork",
     local_name: "หมูบด",
     description: null,
@@ -205,7 +205,7 @@ export const products: Product[] = [
   },
   {
     id: getUuidByName("PRODUCT_08"),
-    sku: getUuidByName("PRODUCT_CODE_08"),
+    sku: "PRODUCT_CODE_08",
     name: "Pork Loin",
     local_name: "หมูสันนอก",
     description: null,
@@ -230,7 +230,7 @@ export const products: Product[] = [
   },
   {
     id: getUuidByName("PRODUCT_09"),
-    sku: getUuidByName("PRODUCT_CODE_09"),
+    sku: "PRODUCT_CODE_09",
     name: "Pork Top Round",
     local_name: "หมูสะโพก",
     description: null,
@@ -255,7 +255,7 @@ export const products: Product[] = [
   },
   {
     id: getUuidByName("PRODUCT_10"),
-    sku: getUuidByName("PRODUCT_CODE_10"),
+    sku: "PRODUCT_CODE_10",
     name: "Pork Top Round Slice",
     local_name: "หมูสะโพกหั่นชิ้น",
     description: null,
