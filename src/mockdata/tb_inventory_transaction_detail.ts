@@ -1,4 +1,4 @@
-import { generateId, getCurrentTimestamp } from "@/libs/utils";
+import { generateId, getCurrentTimestamp, getRandomInt } from "@/libs/utils";
 import { tbLocation, tbProduct, tbProductLocation } from ".";
 
 export interface InventoryTransactionDetail {
@@ -1189,6 +1189,9 @@ export const getProductOnHand = (
     // mock last count date
     const last_counted_date = new Date();
 
+    // mock on_hand_qty
+    const random_on_hand_qty = getRandomInt(0, 100);
+
     const productOnHand: ProductOnHand = {
       location_id: location.id,
       location_name: location.name,
@@ -1198,7 +1201,7 @@ export const getProductOnHand = (
       product_unit_id: product.inventory_unit_id,
       product_unit_name: product.inventory_unit_name,
       sku: product.sku,
-      on_hand_qty: on_hand_qty,
+      on_hand_qty: random_on_hand_qty,
       max_qty: productLocation.max_qty,
       min_qty: productLocation.min_qty,
       last_counted_date: last_counted_date,

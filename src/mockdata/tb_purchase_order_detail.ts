@@ -1,8 +1,19 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
+import { tbProduct, tbPurchaseOrder } from ".";
+import { getUuidByName } from "./mapping.uuid";
+import { getProductById } from "./tb_product";
+import { getUnitById } from "./tb_unit";
+import { getTaxProfileById } from "./tb_tax_profile";
+import { getVendorById } from "./tb_vendor";
+import { getCalculatePriceInfo } from "@/libs/calc";
 
 export interface PurchaseOrderDetail {
   id: string;
   purchase_order_id: string;
+  product_id: string;
+  product_name: string;
+  product_local_name: string;
+  sku: string;
   description: string | null;
   sequence_no: number;
   is_active: boolean;
@@ -47,41 +58,80 @@ export interface PurchaseOrderDetail {
   deleted_by_id: string | null;
 }
 
+const product1 = getProductById(getUuidByName("PRODUCT_01"));
+const product2 = getProductById(getUuidByName("PRODUCT_02"));
+const product3 = getProductById(getUuidByName("PRODUCT_03"));
+const product4 = getProductById(getUuidByName("PRODUCT_04"));
+const product5 = getProductById(getUuidByName("PRODUCT_05"));
+const product6 = getProductById(getUuidByName("PRODUCT_06"));
+const product7 = getProductById(getUuidByName("PRODUCT_07"));
+const product8 = getProductById(getUuidByName("PRODUCT_08"));
+const product9 = getProductById(getUuidByName("PRODUCT_09"));
+const product10 = getProductById(getUuidByName("PRODUCT_10"));
+
+const unit1 = getUnitById(getUuidByName("UNIT_01"));
+const unit2 = getUnitById(getUuidByName("UNIT_02"));
+const unit3 = getUnitById(getUuidByName("UNIT_03"));
+const unit4 = getUnitById(getUuidByName("UNIT_04"));
+const unit5 = getUnitById(getUuidByName("UNIT_05"));
+
+const taxProfile1 = getTaxProfileById(getUuidByName("TAX_PROFILE_01"));
+const taxProfile2 = getTaxProfileById(getUuidByName("TAX_PROFILE_02"));
+
+const vendor1 = getVendorById(getUuidByName("VENDOR_01"));
+const vendor2 = getVendorById(getUuidByName("VENDOR_02"));
+const vendor3 = getVendorById(getUuidByName("VENDOR_03"));
+
+const productPrice1 = getCalculatePriceInfo(5, 20, 1, 7, false, 0, false);
+const productPrice2 = getCalculatePriceInfo(10, 35, 35, 7, false, 0, false);
+const productPrice3 = getCalculatePriceInfo(8, 41, 1, 7, false, 0, false);
+const productPrice4 = getCalculatePriceInfo(5, 100, 35, 7, false, 0, false);
+const productPrice5 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, false);
+const productPrice6 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, false);
+const productPrice7 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, false);
+const productPrice8 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, false);
+const productPrice9 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, false);
+const productPrice10 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, false);
+
 export const purchaseOrderDetails: PurchaseOrderDetail[] = [
   {
-    id: "550e8400-e29b-41d4-a716-446655440001",
-    purchase_order_id: "550e8400-e29b-41d4-a716-446655440001",
+    id: getUuidByName("PURCHASE_ORDER_DETAIL_01"),
+    purchase_order_id: getUuidByName("PURCHASE_ORDER_01"),
+    product_id: product1?.id || "",
+    product_name: product1?.name || "",
+    product_local_name: product1?.local_name || "",
+    sku: product1?.sku || "",
     description: "High-performance laptop for IT department",
     sequence_no: 1,
     is_active: true,
-    order_qty: 10.0,
-    order_unit_id: "unit001",
+    order_qty: productPrice1.qty,
+    order_unit_id: unit1?.id || "",
     order_unit_conversion_factor: 1.0,
-    order_unit_name: "ชิ้น",
-    base_qty: 10.0,
-    base_unit_id: "unit001",
-    base_unit_name: "ชิ้น",
+    order_unit_name: unit1?.name || "",
+    base_qty: productPrice1.qty,
+    base_unit_id: product1?.inventory_unit_id || "",
+    base_unit_name: product1?.inventory_unit_name || "",
     is_foc: false,
-    tax_profile_id: "tax001",
-    tax_profile_name: "VAT 7%",
-    tax_rate: 7.0,
-    tax_amount: 3500.0,
-    base_tax_amount: 3500.0,
+    tax_profile_id: taxProfile1?.id || "",
+    tax_profile_name: taxProfile1?.name || "",
+    tax_rate: productPrice1.tax_rate,
+    tax_amount: productPrice1.tax_amount,
+    base_tax_amount: productPrice1.base_tax_amount,
     is_tax_adjustment: false,
-    discount_rate: 0.0,
-    discount_amount: 0.0,
-    base_discount_amount: 0.0,
+    discount_rate: productPrice1.discount_rate,
+    discount_amount: productPrice1.discount_amount,
+    base_discount_amount: productPrice1.base_discount_amount,
     is_discount_adjustment: false,
-    price: 5000.0,
-    sub_total_price: 50000.0,
-    net_amount: 50000.0,
-    total_price: 53500.0,
-    base_price: 5000.0,
-    base_sub_total_price: 50000.0,
-    base_net_amount: 50000.0,
-    base_total_price: 53500.0,
-    received_qty: 0.0,
-    cancelled_qty: 0.0,
+    price: productPrice1.price,
+    sub_total_price: productPrice1.sub_total_price,
+    net_amount: productPrice1.net_amount,
+    total_price: productPrice1.total_price,
+    base_price: productPrice1.base_price,
+    base_sub_total_price: productPrice1.base_sub_total_price,
+    base_net_amount: productPrice1.base_net_amount,
+    base_total_price: productPrice1.base_total_price,
+    received_qty: 0,
+    cancelled_qty: 0,
     history: [{ action: "created", date: "2024-01-15", user: "user1" }],
     note: "Premium laptop model",
     info: { category: "IT Equipment", brand: "Dell" },
@@ -97,37 +147,41 @@ export const purchaseOrderDetails: PurchaseOrderDetail[] = [
   {
     id: "550e8400-e29b-41d4-a716-446655440002",
     purchase_order_id: "550e8400-e29b-41d4-a716-446655440001",
+    product_id: product2?.id || "",
+    product_name: product2?.name || "",
+    product_local_name: product2?.local_name || "",
+    sku: product2?.sku || "",
     description: "Wireless mouse for laptop setup",
     sequence_no: 2,
     is_active: true,
-    order_qty: 10.0,
-    order_unit_id: "unit002",
+    order_qty: productPrice2.qty,
+    order_unit_id: unit2?.id || "",
     order_unit_conversion_factor: 1.0,
-    order_unit_name: "ชิ้น",
-    base_qty: 10.0,
-    base_unit_id: "unit002",
-    base_unit_name: "ชิ้น",
+    order_unit_name: unit2?.name || "",
+    base_qty: productPrice2.qty,
+    base_unit_id: unit2?.id || "",
+    base_unit_name: unit2?.name || "",
     is_foc: false,
-    tax_profile_id: "tax001",
-    tax_profile_name: "VAT 7%",
-    tax_rate: 7.0,
-    tax_amount: 70.0,
-    base_tax_amount: 70.0,
+    tax_profile_id: taxProfile2?.id || "",
+    tax_profile_name: taxProfile2?.name || "",
+    tax_rate: productPrice2.tax_rate,
+    tax_amount: productPrice2.tax_amount,
+    base_tax_amount: productPrice2.base_tax_amount,
     is_tax_adjustment: false,
-    discount_rate: 5.0,
-    discount_amount: 50.0,
-    base_discount_amount: 50.0,
+    discount_rate: productPrice2.discount_rate,
+    discount_amount: productPrice2.discount_amount,
+    base_discount_amount: productPrice2.base_discount_amount,
     is_discount_adjustment: false,
-    price: 100.0,
-    sub_total_price: 1000.0,
-    net_amount: 950.0,
-    total_price: 1016.5,
-    base_price: 100.0,
-    base_sub_total_price: 1000.0,
-    base_net_amount: 950.0,
-    base_total_price: 1016.5,
-    received_qty: 0.0,
-    cancelled_qty: 0.0,
+    price: productPrice2.price,
+    sub_total_price: productPrice2.sub_total_price,
+    net_amount: productPrice2.net_amount,
+    total_price: productPrice2.total_price,
+    base_price: productPrice2.base_price,
+    base_sub_total_price: productPrice2.base_sub_total_price,
+    base_net_amount: productPrice2.base_net_amount,
+    base_total_price: productPrice2.base_total_price,
+    received_qty: 0,
+    cancelled_qty: 0,
     history: [{ action: "created", date: "2024-01-15", user: "user1" }],
     note: "Wireless mouse with USB receiver",
     info: { category: "Accessories", brand: "Logitech" },
@@ -143,37 +197,41 @@ export const purchaseOrderDetails: PurchaseOrderDetail[] = [
   {
     id: "550e8400-e29b-41d4-a716-446655440003",
     purchase_order_id: "550e8400-e29b-41d4-a716-446655440002",
+    product_id: product3?.id || "",
+    product_name: product3?.name || "",
+    product_local_name: product3?.local_name || "",
+    sku: product3?.sku || "",
     description: "Smartphone for sales team",
     sequence_no: 1,
     is_active: true,
-    order_qty: 5.0,
-    order_unit_id: "unit001",
+    order_qty: productPrice3.qty,
+    order_unit_id: unit1?.id || "",
     order_unit_conversion_factor: 1.0,
-    order_unit_name: "ชิ้น",
-    base_qty: 5.0,
-    base_unit_id: "unit001",
-    base_unit_name: "ชิ้น",
+      order_unit_name: unit1?.name || "",
+    base_qty: productPrice3.qty,
+    base_unit_id: unit1?.id || "",
+    base_unit_name: unit1?.name || "",
     is_foc: false,
-    tax_profile_id: "tax001",
-    tax_profile_name: "VAT 7%",
-    tax_rate: 7.0,
-    tax_amount: 1750.0,
-    base_tax_amount: 1750.0,
+    tax_profile_id: taxProfile1?.id || "",
+    tax_profile_name: taxProfile1?.name || "",
+    tax_rate: productPrice3.tax_rate,
+    tax_amount: productPrice3.tax_amount,
+    base_tax_amount: productPrice3.base_tax_amount,
     is_tax_adjustment: false,
-    discount_rate: 0.0,
-    discount_amount: 0.0,
-    base_discount_amount: 0.0,
+    discount_rate: productPrice3.discount_rate,
+    discount_amount: productPrice3.discount_amount,
+    base_discount_amount: productPrice3.base_discount_amount,
     is_discount_adjustment: false,
-    price: 5000.0,
-    sub_total_price: 25000.0,
-    net_amount: 25000.0,
-    total_price: 26750.0,
-    base_price: 5000.0,
-    base_sub_total_price: 25000.0,
-    base_net_amount: 25000.0,
-    base_total_price: 26750.0,
-    received_qty: 0.0,
-    cancelled_qty: 0.0,
+    price: productPrice3.price,
+    sub_total_price: productPrice3.sub_total_price,
+    net_amount: productPrice3.net_amount,
+    total_price: productPrice3.total_price,
+    base_price: productPrice3.base_price,
+    base_sub_total_price: productPrice3.base_sub_total_price,
+    base_net_amount: productPrice3.base_net_amount,
+      base_total_price: productPrice3.base_total_price,
+    received_qty: 0,
+    cancelled_qty: 0,
     history: [{ action: "created", date: "2024-01-16", user: "user3" }],
     note: "Android smartphone for field sales",
     info: { category: "Mobile Devices", brand: "Samsung" },
@@ -611,4 +669,81 @@ export const searchPurchaseOrderDetailsAdvanced = (searchCriteria: {
 
     return true;
   });
+
+};
+
+export type ProductOnOrder = {
+  // location_id: string;
+  // location_name: string;
+  po_id: string;
+  po_no: string;
+  po_status: string;
+  po_date: Date;
+  po_delivery_date: Date;
+  vendor_id: string;
+  vendor_name: string;
+  order_unit_id: string;
+  order_unit_name: string;
+  product_id: string;
+  product_name: string;
+  product_local_name: string;
+  base_unit_id: string;
+  base_unit_name: string;
+  sku: string;
+  on_order_qty: number;
+};
+
+export const getProductOnOrder = (product_id: string): ProductOnOrder[] => {
+
+  // get all purchase orders bu purchase_order_id
+  const purchaseOrders = purchaseOrderDetails.filter(
+    (detail) => detail.product_id === product_id && !detail.deleted_at
+  ).map((detail) => detail.purchase_order_id);
+
+  const product = tbProduct.getProductById(product_id);
+  if (!product) {
+    return [];
+  }
+
+
+  const productOnOrders: ProductOnOrder[] = [];
+
+
+  for (const purchaseOrderId of purchaseOrders) {
+
+    const purchaseOrder = tbPurchaseOrder.getPurchaseOrderById(purchaseOrderId);
+    if (!purchaseOrder) {
+      continue;
+    }
+
+    // sum order_qty group product in product detail id by purchase_order_id
+    const on_order_qty = purchaseOrderDetails.filter(
+      (detail) => detail.product_id === product_id && detail.purchase_order_id === purchaseOrderId && !detail.deleted_at
+    ).reduce((acc, detail) => acc + detail.order_qty, 0);
+
+    const po_detail = purchaseOrderDetails.filter(
+      (detail) => detail.product_id === product_id && detail.purchase_order_id === purchaseOrderId && !detail.deleted_at
+    );
+
+    const productOnOrder: ProductOnOrder = {
+      po_id: purchaseOrder.id,
+      po_no: purchaseOrder.po_no,
+      po_status: purchaseOrder.po_status,
+      po_date: purchaseOrder.approval_date,
+      po_delivery_date: purchaseOrder.delivery_date,
+      vendor_id: purchaseOrder.vendor_id,
+      vendor_name: purchaseOrder.vendor_name,
+      order_unit_id: po_detail[0].order_unit_id,
+      order_unit_name: po_detail[0].order_unit_name,
+      product_id: product.id,
+      product_name: product.name,
+      product_local_name: product.local_name,
+      base_unit_id: product.inventory_unit_id,
+      base_unit_name: product.inventory_unit_name,
+      sku: product.sku,
+      on_order_qty: on_order_qty  || 0,
+    };
+    productOnOrders.push(productOnOrder);
+  }
+  return productOnOrders;
 };

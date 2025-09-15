@@ -2,7 +2,7 @@ import type { Elysia } from "elysia";
 import { resNotFound, resNotImplemented } from "@/libs/res.error";
 import { jwt } from "@elysiajs/jwt";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
-import { tbBusinessUnit, tbInventoryTransactionDetail, tbLocation, tbProduct } from "@/mockdata";
+import { tbBusinessUnit, tbInventoryTransactionDetail, tbLocation, tbProduct, tbPurchaseOrder, tbPurchaseOrderDetail } from "@/mockdata";
 
 export default (app: Elysia) =>
   app
@@ -74,9 +74,45 @@ export default (app: Elysia) =>
     const location = tbLocation.getLocationById(location_id);
     
 
-    const inventory = tbInventoryTransactionDetail.getProductOnHand(location_id,product_id);
-    return inventory;
-    
+    const on_hand = tbInventoryTransactionDetail.getProductOnHand(location_id,product_id);
+    return {data : on_hand};
+
+  })
+
+  .get("/api/:bu_code/product/:product_id/on-order", async (ctx) => {
+    const { bu_code, product_id } = ctx.params;
+
+    const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+    if (errorAppId) {
+      ctx.set.status = 400;
+      return errorAppId;
+    }
+
+    const { error: errorAccessToken } = await CheckHeaderHasAccessToken(
+      ctx.headers,
+      ctx.jwt
+    );
+    if (errorAccessToken) {
+      ctx.set.status = 401;
+      return errorAccessToken;
+    }
+
+    const bu = tbBusinessUnit.getBusinessUnitByCode(bu_code);
+    if (!bu) {
+      return resNotFound("Business unit not found");
+    }
+
+    const product = tbProduct.getProductById(product_id);
+    if (!product) {
+      return resNotFound("Product not found");
+    }
+
+    const location_id = ctx.query.location_id;
+
+    const location = tbLocation.getLocationById(location_id);
+
+    const on_order = tbPurchaseOrderDetail.getProductOnOrder(product_id);
+    return {data : on_order};
   })
 
   // Merged routes from /api/products/locations/:id
