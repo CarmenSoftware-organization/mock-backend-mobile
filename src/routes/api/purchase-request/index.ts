@@ -19,7 +19,7 @@ import {
   CalculatePurchaseRequestDetail,
   PurchaseRequestApproval,
 } from "@/mockdata/tb_purchase_request";
-import { getCalculatePriceInfo } from "@/libs/calc";
+import { getCalculatePriceInfo } from "@/libs/calculate.priceinfo";
 
 export default (app: Elysia) =>
   app
@@ -471,7 +471,17 @@ export default (app: Elysia) =>
         //   currency_rate,
         // };
 
-        const res = getCalculatePriceInfo(qty, pricelist.price, currency_rate, pricelist.tax_rate, pricelist.is_tax_adjustment, pricelist.discount_rate, pricelist.is_discount_adjustment);
+        const res = getCalculatePriceInfo(
+          qty,
+          pricelist.price,
+          currency_rate,
+          pricelist.tax_rate,
+          pricelist.is_tax_adjustment,
+          0,
+          pricelist.discount_rate,
+          pricelist.is_discount_adjustment,
+          0,
+        );
         return { data: res };
       },
       {
@@ -480,42 +490,44 @@ export default (app: Elysia) =>
         description: "Calculate a purchase request detail",
       }
     )
-    .get("/api/:bu_code/purchase-request/detail/:pr_detail_id/history", async(ctx) => {
-      const { bu_code, pr_detail_id } = ctx.params;
+    .get(
+      "/api/:bu_code/purchase-request/detail/:pr_detail_id/history",
+      async (ctx) => {
+        const { bu_code, pr_detail_id } = ctx.params;
 
-      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
-      if (errorAppId) {
-        ctx.set.status = 400;
-        return errorAppId;
+        const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+        if (errorAppId) {
+          ctx.set.status = 400;
+          return errorAppId;
+        }
+
+        const { error: errorAccessToken, bussiness_Units } =
+          await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+        if (errorAccessToken) {
+          ctx.set.status = 401;
+          return errorAccessToken;
+        }
+
+        const bu = bussiness_Units?.find((bu) => bu.code === bu_code);
+        if (!bu) {
+          return resNotFound("Business unit not found");
+        }
+
+        const prd =
+          tbPurchaseRequestDetail.getPurchaseRequestDetailById(pr_detail_id);
+        if (!prd) {
+          return resNotFound("Purchase request detail not found");
+        }
+
+        const history = prd.history;
+        const res = {
+          data: history,
+        };
+        return res;
+      },
+      {
+        type: "json",
+        tags: ["Application - Purchase Request"],
+        description: "Get a purchase request detail history",
       }
-      
-      const { error: errorAccessToken, bussiness_Units } =
-        await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
-      if (errorAccessToken) {
-        ctx.set.status = 401;
-        return errorAccessToken;
-      }
-      
-      const bu = bussiness_Units?.find((bu) => bu.code === bu_code);
-      if (!bu) {
-        return resNotFound("Business unit not found");
-      }
-      
-      
-      const prd =
-        tbPurchaseRequestDetail.getPurchaseRequestDetailById(pr_detail_id);
-      if (!prd) {
-        return resNotFound("Purchase request detail not found");
-      }
-      
-      
-      const history = prd.history;
-      const res = {
-        data: history,
-      };
-      return res;
-    }, {
-      type: "json",
-      tags: ["Application - Purchase Request"],
-      description: "Get a purchase request detail history",
-    });
+    );

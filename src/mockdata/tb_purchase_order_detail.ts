@@ -5,7 +5,7 @@ import { getProductById } from "./tb_product";
 import { getUnitById } from "./tb_unit";
 import { getTaxProfileById } from "./tb_tax_profile";
 import { getVendorById } from "./tb_vendor";
-import { getCalculatePriceInfo } from "@/libs/calc";
+import { getCalculatePriceInfo } from "@/libs/calculate.priceinfo";
 
 export interface PurchaseOrderDetail {
   id: string;
@@ -82,16 +82,16 @@ const vendor1 = getVendorById(getUuidByName("VENDOR_01"));
 const vendor2 = getVendorById(getUuidByName("VENDOR_02"));
 const vendor3 = getVendorById(getUuidByName("VENDOR_03"));
 
-const productPrice1 = getCalculatePriceInfo(5, 20, 1, 7, false, 0, false);
-const productPrice2 = getCalculatePriceInfo(10, 35, 35, 7, false, 0, false);
-const productPrice3 = getCalculatePriceInfo(8, 41, 1, 7, false, 0, false);
-const productPrice4 = getCalculatePriceInfo(5, 100, 35, 7, false, 0, false);
-const productPrice5 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, false);
-const productPrice6 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, false);
-const productPrice7 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, false);
-const productPrice8 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, false);
-const productPrice9 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, false);
-const productPrice10 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, false);
+const productPrice1 = getCalculatePriceInfo(5, 20, 1, 7, false, 0, 0, false, 0);
+const productPrice2 = getCalculatePriceInfo(10, 35, 35, 7, false, 0, 0, false, 0);
+const productPrice3 = getCalculatePriceInfo(8, 41, 1, 7, false, 0, 0, false, 0);
+const productPrice4 = getCalculatePriceInfo(5, 100, 35, 7, false, 0, 0, false, 0);
+const productPrice5 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, 0, false, 0);
+const productPrice6 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, 0, false, 0);
+const productPrice7 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, 0, false, 0);
+const productPrice8 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, 0, false, 0);
+const productPrice9 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, 0, false, 0);
+const productPrice10 = getCalculatePriceInfo(5, 1, 1, 7, false, 0, 0, false, 0);
 
 export const purchaseOrderDetails: PurchaseOrderDetail[] = [
   {

@@ -1,5 +1,6 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
 import { getUuidByName } from "./mapping.uuid";
+import { Currency, getCurrencyById } from "./tb_currency";
 
 export interface TaxProfile {
   id: string;
@@ -56,7 +57,7 @@ export const applicationConfigs: ApplicationConfig[] = [
     key: "system_settings",
     value: [
       {
-        id: getUuidByName("DEFAULT_CURRENCY"),
+        id: getUuidByName("CURRENCY_01"),
         name: "Default Currency",
         tax_rate: 0,
         is_active: true,
@@ -446,4 +447,14 @@ export const isActiveApplicationConfigKeyExists = (key: string): boolean => {
   return applicationConfigs.some(
     (config) => config.key === key && !config.deleted_at
   );
+};
+
+export const getDefaultCurrency = (): Currency | null => {
+  const defaultCurrency = applicationConfigs.find((config) => config.key === "system_settings")?.value.find((value) => value.name === "Default Currency")?.id;
+
+  if (!defaultCurrency) {
+    return null as Currency | null;
+  }
+
+  return getCurrencyById(defaultCurrency) || null;
 };

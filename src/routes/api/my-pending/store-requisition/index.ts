@@ -5,6 +5,7 @@ import jwt from "@elysiajs/jwt";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from '@/libs/header';
 import { tbStoreRequisition } from '@/mockdata';
 import { getRandomInt } from '@/libs/utils';
+import { getDefaultCurrency } from '@/mockdata/tb_application_config';
 
 export default (app: Elysia) =>
   app
@@ -34,6 +35,8 @@ export default (app: Elysia) =>
     try {
       let storeRequisitions: any[] = [];
 
+      const defaultCurrency = getDefaultCurrency();
+
       for (const bu of bussiness_Units) {
         if (bu_code && bu_code !== bu.code) {
           continue;
@@ -55,6 +58,11 @@ export default (app: Elysia) =>
           last_action: sr.last_action,
           created_at: sr.created_at,
           total_amount: Number(getRandomInt(50, 100000)),
+          currency_id: defaultCurrency?.id || "",
+          currency_name: defaultCurrency?.name || "",
+          currency_code: defaultCurrency?.code || "",
+          currency_symbol: defaultCurrency?.symbol || "",
+          currency_decimal_places: defaultCurrency?.decimal_places || 0,
         }));
 
         const res = {

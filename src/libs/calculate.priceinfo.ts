@@ -4,16 +4,18 @@ export function getCalculatePriceInfo(
   currency_rate: number = 1,
   tax_rate: number = 7,
   is_tax_adjustment: boolean = false,
+  tax_amount_adjustment: number = 0,
   discount_rate: number = 0,
-  is_discount_adjustment: boolean = false
+  is_discount_adjustment: boolean = false,
+  discount_amount_adjustment: number = 0
 ) {
   const sub_total_price = qty * price;
   const base_sub_total_price = sub_total_price * currency_rate;
-  const discount_amount = (qty * price * discount_rate) / 100;
+  const discount_amount = is_discount_adjustment ? discount_amount_adjustment : (qty * price * discount_rate) / 100;
   const base_discount_amount = discount_amount * currency_rate;
   const net_amount = qty * price - discount_amount;
   const base_net_amount = net_amount * currency_rate;
-  const tax_amount = (qty * price * tax_rate) / 100;
+  const tax_amount = is_tax_adjustment ? tax_amount_adjustment : (qty * price * tax_rate) / 100;
   const base_tax_amount = tax_amount * currency_rate;
   const total_price = sub_total_price + tax_amount - discount_amount;
   const base_total_price =
