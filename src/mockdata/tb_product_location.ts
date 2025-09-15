@@ -7,10 +7,10 @@ export interface ProductLocation {
   product_name: string;
   location_id: string;
   location_name: string;
-  min_qty: string;
-  max_qty: string;
-  re_order_qty: string;
-  par_qty: string;
+  min_qty: number;
+  max_qty: number;
+  re_order_qty: number;
+  par_qty: number;
   note: string | null;
   info: any;
   dimension: any;
@@ -30,10 +30,10 @@ export const productLocations: ProductLocation[] = [
     product_name: "Beef Tenderloin",
     location_id: getUuidByName("LOCATION_01"),
     location_name: "Main Warehouse",
-    min_qty: "10.00",
-    max_qty: "100.00",
-    re_order_qty: "20.00",
-    par_qty: "45.00",
+    min_qty: 10.00,
+    max_qty: 100.00,
+    re_order_qty: 20.00,
+    par_qty: 45.00,
     note: "Main warehouse location",
     info: { zone: "A1", shelf: "S1" },
     dimension: { department: "Warehouse", region: "Central" },
@@ -51,10 +51,10 @@ export const productLocations: ProductLocation[] = [
     product_name: "Ground Beef A",
     location_id: getUuidByName("LOCATION_01"),
     location_name: "Main Warehouse",
-    min_qty: "5.00",
-    max_qty: "50.00",
-    re_order_qty: "10.00",
-    par_qty: "15.00",
+    min_qty: 5.00,
+    max_qty: 50.00,
+    re_order_qty: 10.00,
+    par_qty: 15.00,
     note: "Branch office stock",
     info: { zone: "B1", shelf: "S2" },
     dimension: { department: "Warehouse", region: "North" },
@@ -72,10 +72,10 @@ export const productLocations: ProductLocation[] = [
     product_name: "Beef Tenderloin Grade A",
     location_id: getUuidByName("LOCATION_01"),
     location_name: "Main Warehouse",
-    min_qty: "20.00",
-    max_qty: "200.00",
-    re_order_qty: "40.00",
-    par_qty: "35.00",
+    min_qty: 20.00,
+    max_qty: 200.00,
+    re_order_qty: 40.00,
+    par_qty: 35.00,
     note: "Retail store inventory",
     info: { zone: "C1", shelf: "S3" },
     dimension: { department: "Warehouse", region: "South" },
@@ -93,10 +93,10 @@ export const productLocations: ProductLocation[] = [
     product_name: "Beef Tenderloin Grade AAA",
     location_id: getUuidByName("LOCATION_01"),
     location_name: "Main Warehouse",
-    min_qty: "15.00",
-    max_qty: "150.00",
-    re_order_qty: "30.00",
-    par_qty: "25.00",
+    min_qty: 15.00,
+    max_qty: 150.00,
+    re_order_qty: 30.00,
+    par_qty: 25.00,
     note: "Discontinued location",
     info: { zone: "A2", shelf: "S4" },
     dimension: { department: "Warehouse", region: "Central" },
@@ -114,10 +114,10 @@ export const productLocations: ProductLocation[] = [
     product_name: "Beef Tenderloin Grade BBB",
     location_id: getUuidByName("LOCATION_01"),
     location_name: "Main Warehouse",
-    min_qty: "15.00",
-    max_qty: "150.00",
-    re_order_qty: "30.00",
-    par_qty: "25.00",
+    min_qty: 15.00,
+    max_qty: 150.00,
+    re_order_qty: 30.00,
+    par_qty: 25.00,
     note: "Discontinued location",
     info: { zone: "A2", shelf: "S4" },
     dimension: { department: "Warehouse", region: "Central" },
@@ -135,10 +135,10 @@ export const productLocations: ProductLocation[] = [
     product_name: "Beef Tenderloin Grade CCC",
     location_id: getUuidByName("LOCATION_01"),
     location_name: "Main Warehouse",
-    min_qty: "15.00",
-    max_qty: "150.00",
-    re_order_qty: "30.00",
-    par_qty: "25.00",
+    min_qty: 15.00,
+    max_qty: 150.00,
+    re_order_qty: 30.00,
+    par_qty: 25.00,
     note: "Discontinued location",
     info: { zone: "A2", shelf: "S4" },
     dimension: { department: "Warehouse", region: "Central" },
@@ -156,10 +156,10 @@ export const productLocations: ProductLocation[] = [
     product_name: "Beef Tenderloin Grade DDD",
     location_id: getUuidByName("LOCATION_01"),
     location_name: "Main Warehouse",
-    min_qty: "15.00",
-    max_qty: "150.00",
-    re_order_qty: "30.00",
-    par_qty: "25.00",
+    min_qty: 15.00,
+    max_qty: 150.00,
+    re_order_qty: 30.00,
+    par_qty: 25.00,
     note: "Discontinued location",
     info: { zone: "A2", shelf: "S4" },
     dimension: { department: "Warehouse", region: "Central" },
@@ -177,10 +177,10 @@ export const productLocations: ProductLocation[] = [
     product_name: "Beef Tenderloin Grade EEE",
     location_id: getUuidByName("LOCATION_01"),
     location_name: "Main Warehouse",
-    min_qty: "15.00",
-    max_qty: "150.00",
-    re_order_qty: "30.00",
-    par_qty: "25.00",
+    min_qty: 15.00,
+    max_qty: 150.00,
+    re_order_qty: 30.00,
+    par_qty: 25.00,
     note: "Discontinued location",
     info: { zone: "A2", shelf: "S4" },
     dimension: { department: "Warehouse", region: "Central" },
@@ -198,10 +198,10 @@ export const productLocations: ProductLocation[] = [
     product_name: "Beef Tenderloin Grade FFF",
     location_id: getUuidByName("LOCATION_01"),
     location_name: "Main Warehouse",
-    min_qty: "15.00",
-    max_qty: "150.00",
-    re_order_qty: "30.00",
-    par_qty: "25.00",
+    min_qty: 15.00,
+    max_qty: 150.00,
+    re_order_qty: 30.00,
+    par_qty: 25.00,
     note: "Discontinued location",
     info: { zone: "A2", shelf: "S4" },
     dimension: { department: "Warehouse", region: "Central" },
@@ -219,10 +219,10 @@ export const productLocations: ProductLocation[] = [
     product_name: "Beef Tenderloin Grade GGG",
     location_id: getUuidByName("LOCATION_01"),
     location_name: "Main Warehouse",
-    min_qty: "15.00",
-    max_qty: "150.00",
-    re_order_qty: "30.00",
-    par_qty: "25.00",
+    min_qty: 15.00,
+    max_qty: 150.00,
+    re_order_qty: 30.00,
+    par_qty: 25.00,
     note: "Discontinued location",
     info: { zone: "A2", shelf: "S4" },
     dimension: { department: "Warehouse", region: "Central" },
@@ -240,10 +240,10 @@ export const productLocations: ProductLocation[] = [
     product_name: "Beef Tenderloin Grade HHH",
     location_id: getUuidByName("LOCATION_02"),
     location_name: "Branch Office",
-    min_qty: "15.00",
-    max_qty: "150.00",
-    re_order_qty: "30.00",
-    par_qty: "25.00",
+    min_qty: 15.00,
+    max_qty: 150.00,
+    re_order_qty: 30.00,
+    par_qty: 25.00,
     note: "Discontinued location",
     info: { zone: "A2", shelf: "S4" },
     dimension: { department: "Warehouse", region: "Central" },
@@ -261,10 +261,10 @@ export const productLocations: ProductLocation[] = [
     product_name: "Ground Beef A Grade HHH",
     location_id: getUuidByName("LOCATION_02"),
     location_name: "Branch Office",
-    min_qty: "15.00",
-    max_qty: "150.00",
-    re_order_qty: "30.00",
-    par_qty: "25.00",
+    min_qty: 15.00,
+    max_qty: 150.00,
+    re_order_qty: 30.00,
+    par_qty: 25.00,
     note: "Discontinued location",
     info: { zone: "A2", shelf: "S4" },
     dimension: { department: "Warehouse", region: "Central" },
@@ -282,10 +282,10 @@ export const productLocations: ProductLocation[] = [
     product_name: "Beef Tenderloin Grade HHH",
     location_id: getUuidByName("LOCATION_02"),
     location_name: "Branch Office",
-    min_qty: "15.00",
-    max_qty: "150.00",
-    re_order_qty: "30.00",
-    par_qty: "25.00",
+    min_qty: 15.00,
+    max_qty: 150.00,
+    re_order_qty: 30.00,
+    par_qty: 25.00,
     note: "Discontinued location",
     info: { zone: "A2", shelf: "S4" },
     dimension: { department: "Warehouse", region: "Central" },
@@ -303,10 +303,10 @@ export const productLocations: ProductLocation[] = [
     product_name: "Beef Tenderloin Grade HHH",
     location_id: getUuidByName("LOCATION_02"),
     location_name: "Branch Office",
-    min_qty: "15.00",
-    max_qty: "150.00",
-    re_order_qty: "30.00",
-    par_qty: "25.00",
+    min_qty: 15.00,
+    max_qty: 150.00,
+    re_order_qty: 30.00,
+    par_qty: 25.00,
     note: "Discontinued location",
     info: { zone: "A2", shelf: "S4" },
     dimension: { department: "Warehouse", region: "Central" },
@@ -324,10 +324,10 @@ export const productLocations: ProductLocation[] = [
     product_name: "Beef Tenderloin Grade HHH",
     location_id: getUuidByName("LOCATION_02"),
     location_name: "Branch Office",
-    min_qty: "15.00",
-    max_qty: "150.00",
-    re_order_qty: "30.00",
-    par_qty: "25.00",
+    min_qty: 15.00,
+    max_qty: 150.00,
+    re_order_qty: 30.00,
+    par_qty: 25.00,
     note: "Discontinued location",
     info: { zone: "A2", shelf: "S4" },
     dimension: { department: "Warehouse", region: "Central" },
@@ -345,10 +345,10 @@ export const productLocations: ProductLocation[] = [
     product_name: "Beef Tenderloin Grade HHH",
     location_id: getUuidByName("LOCATION_02"),
     location_name: "Branch Office",
-    min_qty: "15.00",
-    max_qty: "150.00",
-    re_order_qty: "30.00",
-    par_qty: "25.00",
+    min_qty: 15.00,
+    max_qty: 150.00,
+    re_order_qty: 30.00,
+    par_qty: 25.00,
     note: "Discontinued location",
     info: { zone: "A2", shelf: "S4" },
     dimension: { department: "Warehouse", region: "Central" },
@@ -366,10 +366,10 @@ export const productLocations: ProductLocation[] = [
     product_name: "Beef Tenderloin Grade HHH",
     location_id: getUuidByName("LOCATION_02"),
     location_name: "Branch Office",
-    min_qty: "15.00",
-    max_qty: "150.00",
-    re_order_qty: "30.00",
-    par_qty: "25.00",
+    min_qty: 15.00,
+    max_qty: 150.00,
+    re_order_qty: 30.00,
+    par_qty: 25.00,
     note: "Discontinued location",
     info: { zone: "A2", shelf: "S4" },
     dimension: { department: "Warehouse", region: "Central" },
@@ -387,10 +387,10 @@ export const productLocations: ProductLocation[] = [
     product_name: "Beef Tenderloin Grade HHH",
     location_id: getUuidByName("LOCATION_02"),
     location_name: "Branch Office",
-    min_qty: "15.00",
-    max_qty: "150.00",
-    re_order_qty: "30.00",
-    par_qty: "25.00",
+    min_qty: 15.00,
+    max_qty: 150.00,
+    re_order_qty: 30.00,
+    par_qty: 25.00,
     note: "Discontinued location",
     info: { zone: "A2", shelf: "S4" },
     dimension: { department: "Warehouse", region: "Central" },
@@ -408,10 +408,10 @@ export const productLocations: ProductLocation[] = [
     product_name: "Beef Tenderloin Grade HHH",
     location_id: getUuidByName("LOCATION_02"),
     location_name: "Branch Office",
-    min_qty: "15.00",
-    max_qty: "150.00",
-    re_order_qty: "30.00",
-    par_qty: "25.00",
+    min_qty: 15.00,
+    max_qty: 150.00,
+    re_order_qty: 30.00,
+    par_qty: 25.00,
     note: "Discontinued location",
     info: { zone: "A2", shelf: "S4" },
     dimension: { department: "Warehouse", region: "Central" },
@@ -429,10 +429,10 @@ export const productLocations: ProductLocation[] = [
     product_name: "Beef Tenderloin Grade HHH",
     location_id: getUuidByName("LOCATION_02"),
     location_name: "Branch Office",
-    min_qty: "15.00",
-    max_qty: "150.00",
-    re_order_qty: "30.00",
-    par_qty: "25.00",
+    min_qty: 15.00,
+    max_qty: 150.00,
+    re_order_qty: 30.00,
+    par_qty: 25.00,
     note: "Discontinued location",
     info: { zone: "A2", shelf: "S4" },
     dimension: { department: "Warehouse", region: "Central" },
@@ -507,8 +507,8 @@ export const getProductLocationByProductAndLocation = (
 export const getProductLocationsBelowReorderQty = (): ProductLocation[] => {
   return productLocations.filter(
     (productLocation) =>
-      parseFloat(productLocation.par_qty) <=
-      parseFloat(productLocation.re_order_qty)
+      productLocation.par_qty <=
+      productLocation.re_order_qty
   );
 };
 
@@ -516,7 +516,7 @@ export const getProductLocationsBelowReorderQty = (): ProductLocation[] => {
 export const getProductLocationsBelowMinQty = (): ProductLocation[] => {
   return productLocations.filter(
     (productLocation) =>
-      parseFloat(productLocation.par_qty) < parseFloat(productLocation.min_qty)
+      productLocation.par_qty < productLocation.min_qty
   );
 };
 
@@ -524,7 +524,7 @@ export const getProductLocationsBelowMinQty = (): ProductLocation[] => {
 export const getProductLocationsAboveMaxQty = (): ProductLocation[] => {
   return productLocations.filter(
     (productLocation) =>
-      parseFloat(productLocation.par_qty) > parseFloat(productLocation.max_qty)
+      productLocation.par_qty > productLocation.max_qty
   );
 };
 
@@ -534,8 +534,8 @@ export const getProductLocationsByParQtyRange = (
   maxQty: string
 ): ProductLocation[] => {
   return productLocations.filter((productLocation) => {
-    const parQty = parseFloat(productLocation.par_qty);
-    return parQty >= parseFloat(minQty) && parQty <= parseFloat(maxQty);
+    const parQty = productLocation.par_qty;
+    return parQty >= minQty && parQty <= maxQty;
   });
 };
 
@@ -588,9 +588,9 @@ export const updateProductLocation = (
 // UPDATE - อัปเดต ProductLocation quantity levels
 export const updateProductLocationQtyLevels = (
   id: string,
-  minQty: string,
-  maxQty: string,
-  reorderQty: string
+  minQty: number,
+  maxQty: number,
+  reorderQty: number
 ): ProductLocation | null => {
   return updateProductLocation(id, {
     min_qty: minQty,
@@ -602,7 +602,7 @@ export const updateProductLocationQtyLevels = (
 // UPDATE - อัปเดต ProductLocation par quantity
 export const updateProductLocationParQty = (
   id: string,
-  parQty: string
+  parQty: number
 ): ProductLocation | null => {
   return updateProductLocation(id, { par_qty: parQty });
 };
@@ -717,8 +717,8 @@ export const deleteProductLocationsBelowMinQty = (
 
   productLocations.forEach((productLocation) => {
     if (
-      parseFloat(productLocation.par_qty) <
-        parseFloat(productLocation.min_qty) &&
+      productLocation.par_qty <
+        productLocation.min_qty &&
       !productLocation.deleted_at
     ) {
       productLocation.deleted_at = getCurrentTimestamp();
@@ -744,7 +744,7 @@ export const getProductLocationCount = (): number => {
 export const getProductLocationCountBelowMinQty = (): number => {
   return productLocations.filter(
     (productLocation) =>
-      parseFloat(productLocation.par_qty) < parseFloat(productLocation.min_qty)
+      productLocation.par_qty < productLocation.min_qty
   ).length;
 };
 
@@ -752,7 +752,7 @@ export const getProductLocationCountBelowMinQty = (): number => {
 export const getProductLocationCountAboveMaxQty = (): number => {
   return productLocations.filter(
     (productLocation) =>
-      parseFloat(productLocation.par_qty) > parseFloat(productLocation.max_qty)
+      productLocation.par_qty > productLocation.max_qty
   ).length;
 };
 
@@ -805,10 +805,10 @@ export const restoreProductLocation = (id: string): boolean => {
 export const searchProductLocationsAdvanced = (searchCriteria: {
   product_id?: string;
   location_id?: string;
-  min_qty?: string;
-  max_qty?: string;
-  re_order_qty?: string;
-  par_qty?: string;
+  min_qty?: number;
+  max_qty?: number;
+  re_order_qty?: number;
+  par_qty?: number;
   has_note?: boolean;
   below_reorder_qty?: boolean;
   below_min_qty?: boolean;
@@ -867,8 +867,8 @@ export const searchProductLocationsAdvanced = (searchCriteria: {
 
     if (searchCriteria.below_reorder_qty !== undefined) {
       const belowReorderQty =
-        parseFloat(productLocation.par_qty) <=
-        parseFloat(productLocation.re_order_qty);
+        productLocation.par_qty <=
+        productLocation.re_order_qty;
       if (belowReorderQty !== searchCriteria.below_reorder_qty) {
         return false;
       }
@@ -876,8 +876,8 @@ export const searchProductLocationsAdvanced = (searchCriteria: {
 
     if (searchCriteria.below_min_qty !== undefined) {
       const belowMinQty =
-        parseFloat(productLocation.par_qty) <
-        parseFloat(productLocation.min_qty);
+        productLocation.par_qty <
+        productLocation.min_qty;
       if (belowMinQty !== searchCriteria.below_min_qty) {
         return false;
       }
@@ -885,8 +885,8 @@ export const searchProductLocationsAdvanced = (searchCriteria: {
 
     if (searchCriteria.above_max_qty !== undefined) {
       const aboveMaxQty =
-        parseFloat(productLocation.par_qty) >
-        parseFloat(productLocation.max_qty);
+        productLocation.par_qty >
+        productLocation.max_qty;
       if (aboveMaxQty !== searchCriteria.above_max_qty) {
         return false;
       }

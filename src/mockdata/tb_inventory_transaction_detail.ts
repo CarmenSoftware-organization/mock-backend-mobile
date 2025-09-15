@@ -1,4 +1,5 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
+import { tbLocation, tbProduct, tbProductLocation } from ".";
 
 export interface InventoryTransactionDetail {
   id: string;
@@ -1130,4 +1131,79 @@ export const calculateAverageCost = (
 
   const averageCost = totalCostNum / qtyNum;
   return averageCost.toFixed(2);
+};
+
+type ProductOnHand = {
+  location_id: string | null;
+  location_name: string;
+  product_id: string;
+  product_name: string;
+  product_local_name: string;
+  product_unit_id: string;
+  product_unit_name: string;
+  sku: string;
+  on_hand_qty: number;
+  max_qty: number;
+  min_qty: number;
+  last_counted_date: Date;
+};
+
+export const getProductOnHand = (
+  location_id: string,
+  product_id: string
+): ProductOnHand[] => {
+  const data = inventoryTransactionDetails.filter(
+    (detail) =>
+      detail.location_id === location_id && detail.product_id === product_id
+  );
+
+  const product = tbProduct.getProductById(product_id);
+  if (!product) {
+    return [];
+  }
+
+  const productOnHands: ProductOnHand[] = [];
+
+  // get all locations
+  const locations = tbLocation.getAllLocations();
+  for (const location of locations) {
+    const on_hand_qty = data
+      .filter((detail) => detail.location_id === location.id)
+      .reduce((acc, detail) => acc + parseFloat(detail.qty), 0);
+
+    if (location_id) {
+      if (location.id !== location_id) {
+        continue;
+      }
+    }
+
+    const productLocation =
+      tbProductLocation.getProductLocationByProductAndLocation(
+        product_id,
+        location.id
+      );
+
+    if (!productLocation) {
+      continue;
+    }
+    // mock last count date
+    const last_counted_date = new Date();
+
+    const productOnHand: ProductOnHand = {
+      location_id: location.id,
+      location_name: location.name,
+      product_id: product_id,
+      product_name: product.name,
+      product_local_name: product.local_name,
+      product_unit_id: product.inventory_unit_id,
+      product_unit_name: product.inventory_unit_name,
+      sku: product.sku,
+      on_hand_qty: on_hand_qty,
+      max_qty: productLocation.max_qty,
+      min_qty: productLocation.min_qty,
+      last_counted_date: last_counted_date,
+    };
+    productOnHands.push(productOnHand);
+  }
+  return productOnHands;
 };
