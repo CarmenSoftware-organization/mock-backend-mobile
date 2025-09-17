@@ -147,22 +147,26 @@ export default (app: Elysia) =>
        const body_detail = {
         po_id: po.id,
         po_no: po.po_no,
+        currency_id: po.currency_id,
+        currency_name: po.currency_name,
+        currency_code: po.currency_code,
+        exchange_rate: po.exchange_rate,
         purchase_order_detail_id: po_detail.id,
         sequence_no: po_detail.sequence_no,
         product_id: po_detail.product_id,
         product_name: po_detail.product_name,
         product_local_name: po_detail.product_local_name,
         sku: po_detail.sku,
-        order_qty: po_detail.order_qty,
+        // order_qty: po_detail.order_qty,
         order_unit_id: po_detail.order_unit_id,
         order_unit_name: po_detail.order_unit_name,
         order_unit_conversion_factor: po_detail.order_unit_conversion_factor,
-        order_base_qty: order_base_qty,
-        received_qty: po_detail.received_qty,
-        received_unit_id: inventory_unit?.id,
-        received_unit_name: inventory_unit?.name,
-        received_unit_conversion_factor: 1,
-        received_base_qty: po_detail.received_qty * 1,
+        // order_base_qty: order_base_qty,
+        // received_qty: po_detail.received_qty,
+        // received_unit_id: inventory_unit?.id,
+        // received_unit_name: inventory_unit?.name,
+        // received_unit_conversion_factor: 1,
+        // received_base_qty: po_detail.received_qty * 1,
         foc_qty: 0,
         foc_unit_id: "",
         foc_unit_name: "",
@@ -183,6 +187,6 @@ export default (app: Elysia) =>
       }
 
       return {
-        data: data,
+        data: data.sort((a, b) => a.sequence_no - b.sequence_no),
       };
     });

@@ -25,6 +25,7 @@ export interface PurchaseOrder {
   vendor_name: string;
   currency_id: string;
   currency_name: string;
+  currency_code: string;
   exchange_rate: number;
   approval_date: Date;
   email: string | null;
@@ -79,6 +80,7 @@ export const purchaseOrders: PurchaseOrder[] = [
     vendor_name: vendor1?.name || "",
     currency_id: currency1?.id || "",
     currency_name: currency1?.name || "",
+    currency_code: currency1?.code || "",
     exchange_rate: currency1?.exchange_rate || 1.00,
     approval_date: new Date("2024-01-16"),
     email: "purchase@techsolutions.com",
@@ -123,6 +125,7 @@ export const purchaseOrders: PurchaseOrder[] = [
     vendor_name: vendor2?.name || "",
     currency_id: currency2?.id || "",
     currency_name: currency2?.name || "",
+    currency_code: currency2?.code || "",
     exchange_rate: currency2?.exchange_rate || 1.00,
     approval_date: new Date("2024-01-16"),
     email: "orders@mobileworld.com",
@@ -167,6 +170,7 @@ export const purchaseOrders: PurchaseOrder[] = [
     vendor_name: vendor3?.name || "",
     currency_id: currency1?.id || "",
     currency_name: currency1?.name || "",
+    currency_code: currency1?.code || "",
     exchange_rate: currency1?.exchange_rate || 1.00,
     approval_date: new Date("2024-01-18"),
     email: "orders@officesupplies.com",
