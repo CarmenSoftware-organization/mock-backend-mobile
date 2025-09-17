@@ -502,3 +502,10 @@ export const getCurrentPhysicalCounts = (currentDate?: string): PhysicalCount[] 
 export const clearAllPhysicalCounts = (): void => {
   physicalCounts.length = 0;
 };
+
+
+export const getPhysicalCountsOnCounting = (): PhysicalCount | null => {
+  return physicalCounts.find(count =>
+    count.status === "counting" && !count.deleted_at
+  ) || null;
+};

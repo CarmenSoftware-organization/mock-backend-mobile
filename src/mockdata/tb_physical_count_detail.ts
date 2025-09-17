@@ -1,6 +1,7 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
 import { getUuidByName } from "./mapping.uuid";
 import { getLocationById } from "./tb_location";
+import { tbPhysicalCount } from ".";
 
 export interface PhysicalCountDetail {
   id: string;
@@ -197,9 +198,22 @@ export const getPhysicalCountDetailById = (id: string): PhysicalCountDetail | nu
 
 // READ - อ่าน PhysicalCountDetail ตาม physical_count_id
 export const getPhysicalCountDetailsByPhysicalCountId = (physicalCountId: string): PhysicalCountDetail[] => {
-  return physicalCountsDetails.filter(detail =>
+  
+  
+  const physicalCount = tbPhysicalCount.getPhysicalCountById(physicalCountId);
+  if (!physicalCount) {
+    return [];
+  }
+
+  const details = physicalCountsDetails.filter(detail =>
     detail.physical_count_id === physicalCountId && !detail.deleted_at
   );
+
+  if (physicalCount.include_location_not_count === false) {
+    return details.filter(detail => detail.physical_count_type === "yes");
+  }
+
+  return details;
 };
 
 // READ - อ่าน PhysicalCountDetail ตาม location_id

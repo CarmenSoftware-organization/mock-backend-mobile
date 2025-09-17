@@ -60,6 +60,7 @@ export const applyGeneratedRoutes = (app: Elysia) => {
   app.use(physicalCountRoutes);
   app.use(spotCheckRoutes);
   app.use(vendorsRoutes);
+  app.use(physicalCountRoutes);
   return app;
 };
 
