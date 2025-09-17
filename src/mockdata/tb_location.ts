@@ -5,7 +5,7 @@ import { tbBusinessUnit } from ".";
 export interface Location {
   id: string;
   name: string;
-  location_type: "inventory" | "non_inventory";
+  location_type: "inventory" | "consignment" | "direct";
   description: string | null;
   delivery_point_id: string;
   delivery_point_name: string;
@@ -216,9 +216,7 @@ export const locations: Location[] = [
 ];
 
 // CREATE - สร้าง Location ใหม่
-export const createLocation = (
-  locationData: Omit<Location, "id" | "created_at" | "updated_at">
-): Location => {
+export const createLocation = (locationData: Omit<Location, "id" | "created_at" | "updated_at">): Location => {
   const newLocation: Location = {
     ...locationData,
     id: generateId(),
@@ -242,16 +240,12 @@ export const getLocationById = (id: string): Location | undefined => {
 
 // READ - อ่าน Location ตาม name
 export const getLocationByName = (name: string): Location[] => {
-  return locations.filter((location) =>
-    location.name.toLowerCase().includes(name.toLowerCase())
-  );
+  return locations.filter((location) => location.name.toLowerCase().includes(name.toLowerCase()));
 };
 
 // READ - อ่าน Location ตาม location_type
 export const getLocationsByType = (locationType: string): Location[] => {
-  return locations.filter(
-    (location) => location.location_type === locationType
-  );
+  return locations.filter((location) => location.location_type === locationType);
 };
 
 // READ - อ่าน Location ตาม business_unit_code
@@ -260,12 +254,8 @@ export const getLocationsByBusinessUnitCode = (businessUnitCode: string): Locati
 };
 
 // READ - อ่าน Location ตาม delivery_point_id
-export const getLocationsByDeliveryPoint = (
-  deliveryPointId: string
-): Location[] => {
-  return locations.filter(
-    (location) => location.delivery_point_id === deliveryPointId
-  );
+export const getLocationsByDeliveryPoint = (deliveryPointId: string): Location[] => {
+  return locations.filter((location) => location.delivery_point_id === deliveryPointId);
 };
 
 // READ - อ่าน Location ที่ active
@@ -304,18 +294,12 @@ export const updateLocation = (
 };
 
 // UPDATE - อัปเดต Location status
-export const updateLocationStatus = (
-  id: string,
-  isActive: boolean
-): Location | null => {
+export const updateLocationStatus = (id: string, isActive: boolean): Location | null => {
   return updateLocation(id, { is_active: isActive });
 };
 
 // UPDATE - อัปเดต Location physical count type
-export const updateLocationPhysicalCountType = (
-  id: string,
-  physicalCountType: "yes" | "no"
-): Location | null => {
+export const updateLocationPhysicalCountType = (id: string, physicalCountType: "yes" | "no"): Location | null => {
   return updateLocation(id, { physical_count_type: physicalCountType });
 };
 
@@ -361,17 +345,11 @@ export const hardDeleteLocation = (id: string): boolean => {
 };
 
 // DELETE - ลบ Location ตาม delivery_point_id
-export const deleteLocationsByDeliveryPoint = (
-  deliveryPointId: string,
-  deletedById: string
-): number => {
+export const deleteLocationsByDeliveryPoint = (deliveryPointId: string, deletedById: string): number => {
   let deletedCount = 0;
 
   locations.forEach((location) => {
-    if (
-      location.delivery_point_id === deliveryPointId &&
-      !location.deleted_at
-    ) {
+    if (location.delivery_point_id === deliveryPointId && !location.deleted_at) {
       location.deleted_at = getCurrentTimestamp();
       location.deleted_by_id = deletedById;
       deletedCount++;
@@ -382,10 +360,7 @@ export const deleteLocationsByDeliveryPoint = (
 };
 
 // DELETE - ลบ Location ตาม location_type
-export const deleteLocationsByType = (
-  locationType: string,
-  deletedById: string
-): number => {
+export const deleteLocationsByType = (locationType: string, deletedById: string): number => {
   let deletedCount = 0;
 
   locations.forEach((location) => {
@@ -423,38 +398,23 @@ export const searchLocations = (searchCriteria: {
   is_active?: boolean;
 }): Location[] => {
   return locations.filter((location) => {
-    if (
-      searchCriteria.name &&
-      !location.name.toLowerCase().includes(searchCriteria.name.toLowerCase())
-    ) {
+    if (searchCriteria.name && !location.name.toLowerCase().includes(searchCriteria.name.toLowerCase())) {
       return false;
     }
 
-    if (
-      searchCriteria.location_type &&
-      location.location_type !== searchCriteria.location_type
-    ) {
+    if (searchCriteria.location_type && location.location_type !== searchCriteria.location_type) {
       return false;
     }
 
-    if (
-      searchCriteria.delivery_point_id &&
-      location.delivery_point_id !== searchCriteria.delivery_point_id
-    ) {
+    if (searchCriteria.delivery_point_id && location.delivery_point_id !== searchCriteria.delivery_point_id) {
       return false;
     }
 
-    if (
-      searchCriteria.physical_count_type &&
-      location.physical_count_type !== searchCriteria.physical_count_type
-    ) {
+    if (searchCriteria.physical_count_type && location.physical_count_type !== searchCriteria.physical_count_type) {
       return false;
     }
 
-    if (
-      searchCriteria.is_active !== undefined &&
-      location.is_active !== searchCriteria.is_active
-    ) {
+    if (searchCriteria.is_active !== undefined && location.is_active !== searchCriteria.is_active) {
       return false;
     }
 

@@ -5,6 +5,7 @@ import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
 import { getRandomInt } from "@/libs/utils";
 import {
   tbGoodReceivedNote,
+  tbGoodReceivedNoteDetail,
   tbProduct,
   tbPurchaseOrder,
   tbPurchaseOrderDetail,
@@ -362,4 +363,44 @@ export default (app: Elysia) =>
       return {
         data: data.sort((a, b) => a.sequence_no - b.sequence_no),
       };
+    })
+    
+    .get("/api/:bu_code/good-received-note/:id", async (ctx) => {
+      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+      if (errorAppId) {
+        ctx.set.status = 400;
+        return errorAppId;
+      }
+
+      const { error: errorAccessToken, bussiness_Units } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+      if (errorAccessToken) {
+        ctx.set.status = 401;
+        return errorAccessToken;
+      }
+      
+      const bu = bussiness_Units.find((bu) => bu.code === ctx.params.bu_code);
+      if (!bu) {
+        return resNotFound("Business unit not found");
+      }
+
+      const goodReceivedNote = tbGoodReceivedNote.getGoodReceivedNoteById(ctx.params.id);
+      if (!goodReceivedNote) {
+        return resNotFound("Good received note not found");
+      }
+
+      const goodReceivedNoteDetails = tbGoodReceivedNoteDetail.getGoodReceivedNoteDetailsByGoodReceivedNoteId(ctx.params.id);
+      if (!goodReceivedNoteDetails) {
+        return resNotFound("Good received note details not found");
+      }
+
+      return {
+        data: goodReceivedNote,
+        details: goodReceivedNoteDetails,
+      };
+    }, {
+      detail: {
+        tags: ["good-received-note"],
+        summary: "Get good received note by id",
+        description: "Get good received note by id",
+      },
     });

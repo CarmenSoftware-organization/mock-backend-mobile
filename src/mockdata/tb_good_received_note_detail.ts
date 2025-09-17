@@ -1194,3 +1194,12 @@ export const calculateBaseTotalAmount = (
   const total = basePriceNum * baseQtyNum;
   return total.toFixed(2);
 };
+
+
+export const getGoodReceivedNoteDetailsByGoodReceivedNoteId = (
+  goodReceivedNoteId: string
+): GoodReceivedNoteDetail[] => {
+  return goodReceivedNoteDetails.filter(
+    (detail) => detail.good_received_note_id === goodReceivedNoteId
+  );
+};
