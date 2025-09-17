@@ -56,7 +56,7 @@ export const goodReceivedNotes: GoodReceivedNote[] = [
     invoice_no: "INV-2024-001",
     invoice_date: "2024-01-15",
     description: "Laptop computers delivery",
-    doc_status: "completed",
+    doc_status: "draft",
     doc_type: "purchase",
     vendor_id: "550e8400-e29b-41d4-a716-446655440001",
     vendor_name: "Dell Technologies",
@@ -108,7 +108,7 @@ export const goodReceivedNotes: GoodReceivedNote[] = [
     invoice_no: "INV-2024-002",
     invoice_date: "2024-01-16",
     description: "Office furniture delivery",
-    doc_status: "submitted",
+    doc_status: "draft",
     doc_type: "purchase",
     vendor_id: "550e8400-e29b-41d4-a716-446655440002",
     vendor_name: "Office Supplies Co.",
@@ -651,4 +651,9 @@ export const searchGoodReceivedNotesAdvanced = (searchCriteria: {
 
     return true;
   });
+};
+
+
+export const getDraftGoodReceivedNotes = (): GoodReceivedNote[] => {
+  return goodReceivedNotes.filter((grn) => grn.doc_status === "draft");
 };
