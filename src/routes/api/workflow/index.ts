@@ -24,7 +24,7 @@ export default (app: Elysia) =>
         return errorAppId;
       }
 
-      const { error: errorAccessToken } = await CheckHeaderHasAccessToken(
+      const { error: errorAccessToken, userProfile, currentUser } = await CheckHeaderHasAccessToken(
         ctx.headers,
         ctx.jwt
       );
@@ -43,8 +43,10 @@ export default (app: Elysia) =>
         return resNotFound("Purchase request not found");
       }
 
+      const stage_role = currentUser?.pr_stage_role ?? "view_only";
+
       return {
-        stage_role: "approve",
+        stage_role: stage_role,
       };
     })
 
@@ -95,7 +97,7 @@ export default (app: Elysia) =>
         return errorAppId;
       }
 
-      const { error: errorAccessToken } = await CheckHeaderHasAccessToken(
+      const { error: errorAccessToken, currentUser } = await CheckHeaderHasAccessToken(
         ctx.headers,
         ctx.jwt
       );
@@ -114,8 +116,10 @@ export default (app: Elysia) =>
         return resNotFound("Store requisition not found");
       }
 
+      const stage_role = currentUser?.sr_stage_role ?? "view_only";
+
       return {
-        stage_role: "issue",
+        stage_role: stage_role,
       };
     })
 

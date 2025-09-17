@@ -13,6 +13,12 @@ export interface User {
   created_by_id: string | null;
   updated_at: string;
   updated_by_id: string | null;
+
+  //sr stage_role
+  sr_stage_role: "approve" | "issue" | "view_only";
+
+  //pr stage_role
+  pr_stage_role: "approve" | "purchase" | "view_only";
 }
 
 export const users: User[] = [
@@ -28,6 +34,8 @@ export const users: User[] = [
     created_by_id: getUuidByName("USER_ADMIN"),
     updated_at: "2025-07-29T01:37:27.818Z",
     updated_by_id: null,
+    sr_stage_role: "approve",
+    pr_stage_role: "approve",
   },
   {
     id: getUuidByName("USER_SYSTEM_ADMIN"),
@@ -41,6 +49,8 @@ export const users: User[] = [
     created_by_id: getUuidByName("USER_ADMIN"),
     updated_at: "2025-07-29T01:37:27.156Z",
     updated_by_id: null,
+    sr_stage_role: "approve",
+    pr_stage_role: "approve",
   },
   {
     id: getUuidByName("USER_01"),
@@ -54,6 +64,8 @@ export const users: User[] = [
     created_by_id: getUuidByName("USER_ADMIN"),
     updated_at: "2025-07-29T01:37:28.036Z",
     updated_by_id: null,
+    sr_stage_role: "approve",
+    pr_stage_role: "approve",
   },
   {
     id: getUuidByName("USER_02"),
@@ -67,6 +79,8 @@ export const users: User[] = [
     created_by_id: getUuidByName("USER_ADMIN"),
     updated_at: "2025-07-29T01:37:28.268Z",
     updated_by_id: null,
+    sr_stage_role: "issue",
+    pr_stage_role: "approve",
   },
   {
     id: getUuidByName("USER_03"),
@@ -80,6 +94,8 @@ export const users: User[] = [
     created_by_id: getUuidByName("USER_ADMIN"),
     updated_at: "2025-07-29T01:37:28.503Z",
     updated_by_id: null,
+    sr_stage_role: "view_only",
+    pr_stage_role: "purchase",
   },
   {
     id: getUuidByName("USER_04"),
@@ -93,6 +109,8 @@ export const users: User[] = [
     created_by_id: getUuidByName("USER_ADMIN"),
     updated_at: "2025-07-29T01:37:28.756Z",
     updated_by_id: null,
+    sr_stage_role: "approve",
+    pr_stage_role: "approve",
   },
   {
     id: getUuidByName("USER_05"),
@@ -106,6 +124,8 @@ export const users: User[] = [
     created_by_id: getUuidByName("USER_ADMIN"),
     updated_at: "2025-07-29T01:37:28.990Z",
     updated_by_id: null,
+    sr_stage_role: "view_only",
+    pr_stage_role: "view_only",
   },
   {
     id: getUuidByName("USER_06"),
@@ -119,6 +139,8 @@ export const users: User[] = [
     created_by_id: getUuidByName("USER_ADMIN"),
     updated_at: "2025-07-30T19:59:55.626Z",
     updated_by_id: null,
+    sr_stage_role: "view_only",
+    pr_stage_role: "view_only",
   },
   {
     id: getUuidByName("USER_07"),
@@ -132,6 +154,8 @@ export const users: User[] = [
     created_by_id: getUuidByName("USER_ADMIN"),
     updated_at: "2025-07-29T01:37:27.540Z",
     updated_by_id: null,
+    sr_stage_role: "view_only",
+    pr_stage_role: "view_only",
   },
 ];
 

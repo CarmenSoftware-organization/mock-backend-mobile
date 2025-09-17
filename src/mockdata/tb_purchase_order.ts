@@ -1,4 +1,7 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
+import { getUuidByName } from "./mapping.uuid";
+import { getVendorById } from "./tb_vendor";
+import { getCurrencyById } from "./tb_currency";
 
 export interface PurchaseOrder {
   id: string;
@@ -7,17 +10,17 @@ export interface PurchaseOrder {
   description: string | null;
   order_date: Date;
   delivery_date: Date;
-  workflow_id: string;
-  workflow_name: string;
-  workflow_history: any;
-  workflow_current_stage: string | null;
-  workflow_previous_stage: string | null;
-  workflow_next_stage: string | null;
-  user_action: any;
-  last_action: "submit" | "approve" | "reject" | "complete";
-  last_action_at_date: Date;
-  last_action_by_id: string | null;
-  last_action_by_name: string;
+  // workflow_id: string;
+  // workflow_name: string;
+  // workflow_history: any;
+  // workflow_current_stage: string | null;
+  // workflow_previous_stage: string | null;
+  // workflow_next_stage: string | null;
+  // user_action: any;
+  // last_action: "submit" | "approve" | "reject" | "complete";
+  // last_action_at_date: Date;
+  // last_action_by_id: string | null;
+  // last_action_by_name: string;
   vendor_id: string;
   vendor_name: string;
   currency_id: string;
@@ -45,30 +48,38 @@ export interface PurchaseOrder {
   deleted_by_id: string | null;
 }
 
+const vendor1 = getVendorById(getUuidByName("VENDOR_01"));
+const vendor2 = getVendorById(getUuidByName("VENDOR_02"));
+const vendor3 = getVendorById(getUuidByName("VENDOR_03"));
+
+const currency1 = getCurrencyById(getUuidByName("CURRENCY_01"));
+const currency2 = getCurrencyById(getUuidByName("CURRENCY_02"));
+
+
 export const purchaseOrders: PurchaseOrder[] = [
   {
-    id: "550e8400-e29b-41d4-a716-446655440001",
+    id: getUuidByName("PURCHASE_ORDER_01"),
     po_no: "PO-2024-001",
     po_status: "sent",
     description: "Monthly laptop order for IT department",
     order_date: new Date("2024-01-15"),
     delivery_date: new Date("2024-01-25"),
-    workflow_id: "wf001",
-    workflow_name: "Purchase Order Approval",
-    workflow_history: [{ stage: "draft", date: "2024-01-15", user: "user1" }],
-    workflow_current_stage: "sent",
-    workflow_previous_stage: "submitted",
-    workflow_next_stage: "completed",
-    user_action: { action: "approve", comment: "Approved for purchase" },
-    last_action: "approve",
-    last_action_at_date: new Date("2024-01-16"),
-    last_action_by_id: "user2",
-    last_action_by_name: "John Manager",
-    vendor_id: "550e8400-e29b-41d4-a716-446655440001",
-    vendor_name: "Tech Solutions Co.",
-    currency_id: "550e8400-e29b-41d4-a716-446655440003",
-    currency_name: "THB",
-    exchange_rate: 1.00,
+    // workflow_id: "wf001",
+    // workflow_name: "Purchase Order Approval",
+    // workflow_history: [{ stage: "draft", date: "2024-01-15", user: "user1" }],
+    // workflow_current_stage: "sent",
+    // workflow_previous_stage: "submitted",
+    // workflow_next_stage: "completed",
+    // user_action: { action: "approve", comment: "Approved for purchase" },
+    // last_action: "approve",
+    // last_action_at_date: new Date("2024-01-16"),
+    // last_action_by_id: "user2",
+    // last_action_by_name: "John Manager",
+    vendor_id: vendor1?.id || "",
+    vendor_name: vendor1?.name || "",
+    currency_id: currency1?.id || "",
+    currency_name: currency1?.name || "",
+    exchange_rate: currency1?.exchange_rate || 1.00,
     approval_date: new Date("2024-01-16"),
     email: "purchase@techsolutions.com",
     buyer_id: "buyer1",
@@ -91,28 +102,28 @@ export const purchaseOrders: PurchaseOrder[] = [
     deleted_by_id: null,
   },
   {
-    id: "550e8400-e29b-41d4-a716-446655440002",
+    id: getUuidByName("PURCHASE_ORDER_02"),
     po_no: "PO-2024-002",
     po_status: "sent",
     description: "Smartphone inventory restock",
     order_date: new Date("2024-01-16"),
     delivery_date: new Date("2024-01-22"),
-    workflow_id: "wf001",
-    workflow_name: "Purchase Order Approval",
-    workflow_history: [{ stage: "draft", date: "2024-01-16", user: "user3" }],
-    workflow_current_stage: "sent",
-    workflow_previous_stage: "draft",
-    workflow_next_stage: "sent",
-    user_action: { action: "submit", comment: "Submitted for approval" },
-    last_action: "submit",
-    last_action_at_date: new Date("2024-01-16"),
-    last_action_by_id: "user3",
-    last_action_by_name: "Bob Buyer",
-    vendor_id: "550e8400-e29b-41d4-a716-446655440002",
-    vendor_name: "Mobile World Ltd.",
-    currency_id: "550e8400-e29b-41d4-a716-446655440003",
-    currency_name: "THB",
-    exchange_rate: 1.00,
+    // workflow_id: "wf001",
+    // workflow_name: "Purchase Order Approval",
+    // workflow_history: [{ stage: "draft", date: "2024-01-16", user: "user3" }],
+    // workflow_current_stage: "sent",
+    // workflow_previous_stage: "draft",
+    // workflow_next_stage: "sent",
+    // user_action: { action: "submit", comment: "Submitted for approval" },
+    // last_action: "submit",
+    // last_action_at_date: new Date("2024-01-16"),
+    // last_action_by_id: "user3",
+    // last_action_by_name: "Bob Buyer",
+    vendor_id: vendor2?.id || "",
+    vendor_name: vendor2?.name || "",
+    currency_id: currency2?.id || "",
+    currency_name: currency2?.name || "",
+    exchange_rate: currency2?.exchange_rate || 1.00,
     approval_date: new Date("2024-01-16"),
     email: "orders@mobileworld.com",
     buyer_id: "buyer2",
@@ -135,28 +146,28 @@ export const purchaseOrders: PurchaseOrder[] = [
     deleted_by_id: null,
   },
   {
-    id: "550e8400-e29b-41d4-a716-446655440003",
+    id: getUuidByName("PURCHASE_ORDER_03"),
     po_no: "PO-2024-003",
     po_status: "sent",
     description: "Office supplies order",
     order_date: new Date("2024-01-17"),
     delivery_date: new Date("2024-01-20"),
-    workflow_id: "wf001",
-    workflow_name: "Purchase Order Approval",
-    workflow_history: [{ stage: "draft", date: "2024-01-17", user: "user4" }],
-    workflow_current_stage: "sent",
-    workflow_previous_stage: "submitted",
-    workflow_next_stage: null,
-    user_action: { action: "reject", comment: "Budget exceeded" },
-    last_action: "reject",
-    last_action_at_date: new Date("2024-01-18"),
-    last_action_by_id: "user5",
-    last_action_by_name: "Mary Manager",
-    vendor_id: "550e8400-e29b-41d4-a716-446655440003",
-    vendor_name: "Office Supplies Co.",
-    currency_id: "550e8400-e29b-41d4-a716-446655440003",
-    currency_name: "THB",
-    exchange_rate: 1.00,
+    // workflow_id: "wf001",
+    // workflow_name: "Purchase Order Approval",
+    // workflow_history: [{ stage: "draft", date: "2024-01-17", user: "user4" }],
+    // workflow_current_stage: "sent",
+    // workflow_previous_stage: "submitted",
+    // workflow_next_stage: null,
+    // user_action: { action: "reject", comment: "Budget exceeded" },
+    // last_action: "reject",
+    // last_action_at_date: new Date("2024-01-18"),
+    // last_action_by_id: "user5",
+    // last_action_by_name: "Mary Manager",
+    vendor_id: vendor3?.id || "",
+    vendor_name: vendor3?.name || "",
+    currency_id: currency1?.id || "",
+    currency_name: currency1?.name || "",
+    exchange_rate: currency1?.exchange_rate || 1.00,
     approval_date: new Date("2024-01-18"),
     email: "orders@officesupplies.com",
     buyer_id: "buyer3",
@@ -433,34 +444,34 @@ export const updatePurchaseOrderActiveStatus = (
   return updatePurchaseOrder(id, { is_active: isActive });
 };
 
-// UPDATE - อัปเดต PurchaseOrder workflow stage
-export const updatePurchaseOrderWorkflowStage = (
-  id: string,
-  currentStage: string,
-  previousStage: string,
-  nextStage: string
-): PurchaseOrder | null => {
-  return updatePurchaseOrder(id, {
-    workflow_current_stage: currentStage,
-    workflow_previous_stage: previousStage,
-    workflow_next_stage: nextStage,
-  });
-};
+// // UPDATE - อัปเดต PurchaseOrder workflow stage
+// export const updatePurchaseOrderWorkflowStage = (
+//   id: string,
+//   currentStage: string,
+//   previousStage: string,
+//   nextStage: string
+// ): PurchaseOrder | null => {
+//   return updatePurchaseOrder(id, {
+//     workflow_current_stage: currentStage,
+//     workflow_previous_stage: previousStage,
+//     workflow_next_stage: nextStage,
+//   });
+// };
 
-// UPDATE - อัปเดต PurchaseOrder last action
-export const updatePurchaseOrderLastAction = (
-  id: string,
-  lastAction: PurchaseOrder["last_action"],
-  lastActionById: string,
-  lastActionByName: string
-): PurchaseOrder | null => {
-  return updatePurchaseOrder(id, {
-    last_action: lastAction,
-    last_action_by_id: lastActionById,
-    last_action_by_name: lastActionByName,
-    last_action_at_date: new Date(getCurrentTimestamp()),
-  });
-};
+// // UPDATE - อัปเดต PurchaseOrder last action
+// export const updatePurchaseOrderLastAction = (
+//   id: string,
+//   lastAction: PurchaseOrder["last_action"],
+//   lastActionById: string,
+//   lastActionByName: string
+// ): PurchaseOrder | null => {
+//   return updatePurchaseOrder(id, {
+//     last_action: lastAction,
+//     last_action_by_id: lastActionById,
+//     last_action_by_name: lastActionByName,
+//     last_action_at_date: new Date(getCurrentTimestamp()),
+//   });
+// };
 
 // DELETE - ลบ PurchaseOrder (soft delete)
 export const deletePurchaseOrder = (
@@ -707,4 +718,10 @@ export const searchPurchaseOrdersAdvanced = (searchCriteria: {
 
     return true;
   });
+};
+
+
+export const getPurchaseOrderByPoId = (poId: string): PurchaseOrder | null => {
+  const po = purchaseOrders.find((po) => po.id === poId && !po.deleted_at);
+  return po || null;
 };

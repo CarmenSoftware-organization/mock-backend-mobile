@@ -3,7 +3,8 @@
     "allow": [
       "Bash(grep:*)",
       "Bash(bun run:*)",
-      "Bash(sed:*)"
+      "Bash(sed:*)",
+      "Bash(curl:*)"
     ],
     "deny": [],
     "ask": []

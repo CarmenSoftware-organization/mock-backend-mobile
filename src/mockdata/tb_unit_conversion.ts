@@ -1,8 +1,6 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
 import { getUuidByName } from "./mapping.uuid";
 import { getUnitById } from "./tb_unit";
-import { getProductById } from "./tb_product";
-import { tbProduct, tbUnit } from ".";
 
 export interface UnitConversion {
   id: string;
@@ -28,29 +26,17 @@ export interface UnitConversion {
   deleted_by_id: string | null;
 }
 
-const unit01 = getUnitById(getUuidByName("UNIT_01"));
-const unit02 = getUnitById(getUuidByName("UNIT_02"));
-const unit03 = getUnitById(getUuidByName("UNIT_03"));
-const unit04 = getUnitById(getUuidByName("UNIT_04"));
-const unit05 = getUnitById(getUuidByName("UNIT_05"));
-
-const product01 = getProductById(getUuidByName("PRODUCT_01"));
-const product02 = getProductById(getUuidByName("PRODUCT_02"));
-const product03 = getProductById(getUuidByName("PRODUCT_03"));
-const product04 = getProductById(getUuidByName("PRODUCT_04"));
-const product05 = getProductById(getUuidByName("PRODUCT_05"));
-
-// Sample data
+// Sample data - using hardcoded IDs to avoid circular dependency
 export const unitConversions: UnitConversion[] = [
   {
     id: getUuidByName("UNIT_CONVERSION_01"),
     product_id: getUuidByName("PRODUCT_01"),
     unit_type: "ingredient_unit",
-    from_unit_id: unit01?.id || "",
-    from_unit_name: unit01?.name || "",
+    from_unit_id: getUuidByName("UNIT_01"),
+    from_unit_name: "กิโลกรัม",
     from_unit_qty: "1.00000",
-    to_unit_id: unit02?.id || "",
-    to_unit_name: unit02?.name || "",
+    to_unit_id: getUuidByName("UNIT_02"),
+    to_unit_name: "กรัม",
     to_unit_qty: "5.00000",
     is_default: false,
     description: null,
@@ -67,13 +53,13 @@ export const unitConversions: UnitConversion[] = [
   },
   {
     id: getUuidByName("UNIT_CONVERSION_02"),
-    product_id: product01?.id || "",
+    product_id: getUuidByName("PRODUCT_01"),
     unit_type: "order_unit",
-    from_unit_id: unit01?.id || "",
-    from_unit_name: unit01?.name || "",
+    from_unit_id: getUuidByName("UNIT_01"),
+    from_unit_name: "กิโลกรัม",
     from_unit_qty: "1.00000",
-    to_unit_id: unit03?.id || "",
-    to_unit_name: unit03?.name || "",
+    to_unit_id: getUuidByName("UNIT_03"),
+    to_unit_name: "ลิตร",
     to_unit_qty: "12.00000",
     is_default: true,
     description: null,
@@ -90,13 +76,13 @@ export const unitConversions: UnitConversion[] = [
   },
   {
     id: getUuidByName("UNIT_CONVERSION_03"),
-    product_id: product01?.id || "",
+    product_id: getUuidByName("PRODUCT_01"),
     unit_type: "ingredient_unit",
-    from_unit_id: unit01?.id || "",
-    from_unit_name: unit01?.name || "",
+    from_unit_id: getUuidByName("UNIT_01"),
+    from_unit_name: "กิโลกรัม",
     from_unit_qty: "1.00000",
-    to_unit_id: unit04?.id || "",
-    to_unit_name: unit04?.name || "",
+    to_unit_id: getUuidByName("UNIT_04"),
+    to_unit_name: "หีบ",
     to_unit_qty: "10.00000",
     is_default: true,
     description: null,
@@ -114,13 +100,13 @@ export const unitConversions: UnitConversion[] = [
 
   {
     id: getUuidByName("UNIT_CONVERSION_04"),
-    product_id: product02?.id || "",
+    product_id: getUuidByName("PRODUCT_02"),
     unit_type: "order_unit",
-    from_unit_id: unit02?.id || "",
-    from_unit_name: unit02?.name || "",
+    from_unit_id: getUuidByName("UNIT_02"),
+    from_unit_name: "กรัม",
     from_unit_qty: "1.00000",
-    to_unit_id: unit03?.id || "",
-    to_unit_name: unit03?.name || "",
+    to_unit_id: getUuidByName("UNIT_03"),
+    to_unit_name: "ลิตร",
     to_unit_qty: "12.00000",
     is_default: true,
     description: null,
@@ -137,13 +123,13 @@ export const unitConversions: UnitConversion[] = [
   },
   {
     id: getUuidByName("UNIT_CONVERSION_05"),
-    product_id: product02?.id || "",
+    product_id: getUuidByName("PRODUCT_02"),
     unit_type: "ingredient_unit",
-    from_unit_id: unit01?.id || "",
-    from_unit_name: unit01?.name || "",
+    from_unit_id: getUuidByName("UNIT_01"),
+    from_unit_name: "กิโลกรัม",
     from_unit_qty: "1.00000",
-    to_unit_id: unit03?.id || "",
-    to_unit_name: unit03?.name || "",
+    to_unit_id: getUuidByName("UNIT_03"),
+    to_unit_name: "ลิตร",
     to_unit_qty: "10.00000",
     is_default: true,
     description: null,
@@ -160,13 +146,13 @@ export const unitConversions: UnitConversion[] = [
   },
   {
     id: getUuidByName("UNIT_CONVERSION_06"),
-    product_id: product02?.id || "",
+    product_id: getUuidByName("PRODUCT_02"),
     unit_type: "order_unit",
-    from_unit_id: unit01?.id || "",
-    from_unit_name: unit01?.name || "",
+    from_unit_id: getUuidByName("UNIT_01"),
+    from_unit_name: "กิโลกรัม",
     from_unit_qty: "1.00000",
-    to_unit_id: unit05?.id || "",
-    to_unit_name: unit05?.name || "",
+    to_unit_id: getUuidByName("UNIT_05"),
+    to_unit_name: "ขวด",
     to_unit_qty: "10.00000",
     is_default: true,
     description: null,
@@ -185,10 +171,7 @@ export const unitConversions: UnitConversion[] = [
 
 // CREATE - สร้าง UnitConversion ใหม่
 export const createUnitConversion = (
-  data: Omit<
-    UnitConversion,
-    "id" | "created_at" | "created_by_id" | "updated_at" | "updated_by_id"
-  >
+  data: Omit<UnitConversion, "id" | "created_at" | "created_by_id" | "updated_at" | "updated_by_id">
 ): UnitConversion => {
   const newConversion: UnitConversion = {
     ...data,
@@ -213,56 +196,33 @@ export const getUnitConversionById = (id: string): UnitConversion | null => {
   return conversion || null;
 };
 
-export const getUnitConversionsByProduct = (
-  productId: string
-): UnitConversion[] => {
-  return unitConversions.filter(
-    (conversion) =>
-      conversion.product_id === productId && !conversion.deleted_at
-  );
+export const getUnitConversionsByProduct = (productId: string): UnitConversion[] => {
+  return unitConversions.filter((conversion) => conversion.product_id === productId && !conversion.deleted_at);
 };
 
 export const getUnitConversionsByType = (
   unitType: "ingredient_unit" | "order_unit" | "inventory_unit" | "other"
 ): UnitConversion[] => {
-  return unitConversions.filter(
-    (conversion) => conversion.unit_type === unitType && !conversion.deleted_at
-  );
+  return unitConversions.filter((conversion) => conversion.unit_type === unitType && !conversion.deleted_at);
 };
 
-export const getUnitConversionsByFromUnit = (
-  fromUnitId: string
-): UnitConversion[] => {
-  return unitConversions.filter(
-    (conversion) =>
-      conversion.from_unit_id === fromUnitId && !conversion.deleted_at
-  );
+export const getUnitConversionsByFromUnit = (fromUnitId: string): UnitConversion[] => {
+  return unitConversions.filter((conversion) => conversion.from_unit_id === fromUnitId && !conversion.deleted_at);
 };
 
-export const getUnitConversionsByToUnit = (
-  toUnitId: string
-): UnitConversion[] => {
-  return unitConversions.filter(
-    (conversion) => conversion.to_unit_id === toUnitId && !conversion.deleted_at
-  );
+export const getUnitConversionsByToUnit = (toUnitId: string): UnitConversion[] => {
+  return unitConversions.filter((conversion) => conversion.to_unit_id === toUnitId && !conversion.deleted_at);
 };
 
 export const getDefaultUnitConversions = (): UnitConversion[] => {
-  return unitConversions.filter(
-    (conversion) => conversion.is_default && !conversion.deleted_at
-  );
+  return unitConversions.filter((conversion) => conversion.is_default && !conversion.deleted_at);
 };
 
 export const getActiveUnitConversions = (): UnitConversion[] => {
-  return unitConversions.filter(
-    (conversion) => conversion.is_active && !conversion.deleted_at
-  );
+  return unitConversions.filter((conversion) => conversion.is_active && !conversion.deleted_at);
 };
 
-export const getUnitConversionsByDateRange = (
-  startDate: string,
-  endDate: string
-): UnitConversion[] => {
+export const getUnitConversionsByDateRange = (startDate: string, endDate: string): UnitConversion[] => {
   return unitConversions.filter((conversion) => {
     const createdDate = new Date(conversion.created_at);
     const start = new Date(startDate);
@@ -276,9 +236,7 @@ export const updateUnitConversion = (
   id: string,
   data: Partial<Omit<UnitConversion, "id" | "created_at" | "created_by_id">>
 ): UnitConversion | null => {
-  const index = unitConversions.findIndex(
-    (conversion) => conversion.id === id && !conversion.deleted_at
-  );
+  const index = unitConversions.findIndex((conversion) => conversion.id === id && !conversion.deleted_at);
 
   if (index === -1) {
     return null;
@@ -295,27 +253,17 @@ export const updateUnitConversion = (
 };
 
 // UPDATE - อัปเดต UnitConversion status
-export const updateUnitConversionStatus = (
-  id: string,
-  isActive: boolean
-): UnitConversion | null => {
+export const updateUnitConversionStatus = (id: string, isActive: boolean): UnitConversion | null => {
   return updateUnitConversion(id, { is_active: isActive });
 };
 
 // UPDATE - อัปเดต UnitConversion default status
-export const updateUnitConversionDefault = (
-  id: string,
-  isDefault: boolean
-): UnitConversion | null => {
+export const updateUnitConversionDefault = (id: string, isDefault: boolean): UnitConversion | null => {
   return updateUnitConversion(id, { is_default: isDefault });
 };
 
 // UPDATE - อัปเดต UnitConversion quantities
-export const updateUnitConversionQuantities = (
-  id: string,
-  fromQty: string,
-  toQty: string
-): UnitConversion | null => {
+export const updateUnitConversionQuantities = (id: string, fromQty: string, toQty: string): UnitConversion | null => {
   return updateUnitConversion(id, {
     from_unit_qty: fromQty,
     to_unit_qty: toQty,
@@ -323,34 +271,22 @@ export const updateUnitConversionQuantities = (
 };
 
 // UPDATE - อัปเดต UnitConversion note
-export const updateUnitConversionNote = (
-  id: string,
-  note: string
-): UnitConversion | null => {
+export const updateUnitConversionNote = (id: string, note: string): UnitConversion | null => {
   return updateUnitConversion(id, { note });
 };
 
 // UPDATE - อัปเดต UnitConversion info
-export const updateUnitConversionInfo = (
-  id: string,
-  info: any
-): UnitConversion | null => {
+export const updateUnitConversionInfo = (id: string, info: any): UnitConversion | null => {
   return updateUnitConversion(id, { info });
 };
 
 // UPDATE - อัปเดต UnitConversion dimension
-export const updateUnitConversionDimension = (
-  id: string,
-  dimension: any
-): UnitConversion | null => {
+export const updateUnitConversionDimension = (id: string, dimension: any): UnitConversion | null => {
   return updateUnitConversion(id, { dimension });
 };
 
 // DELETE - Soft delete UnitConversion
-export const softDeleteUnitConversion = (
-  id: string,
-  deletedById: string
-): UnitConversion | null => {
+export const softDeleteUnitConversion = (id: string, deletedById: string): UnitConversion | null => {
   const conversion = getUnitConversionById(id);
   if (!conversion) return null;
 
@@ -375,10 +311,7 @@ export const hardDeleteUnitConversion = (id: string): boolean => {
 };
 
 // DELETE - ลบ UnitConversion ตาม product
-export const deleteUnitConversionsByProduct = (
-  productId: string,
-  deletedById: string
-): boolean => {
+export const deleteUnitConversionsByProduct = (productId: string, deletedById: string): boolean => {
   const conversions = getUnitConversionsByProduct(productId);
   let deletedCount = 0;
 
@@ -426,10 +359,7 @@ export const searchUnitConversions = (criteria: {
       return false;
     }
 
-    if (
-      criteria.from_unit_id &&
-      conversion.from_unit_id !== criteria.from_unit_id
-    ) {
+    if (criteria.from_unit_id && conversion.from_unit_id !== criteria.from_unit_id) {
       return false;
     }
 
@@ -437,26 +367,18 @@ export const searchUnitConversions = (criteria: {
       return false;
     }
 
-    if (
-      criteria.is_default !== undefined &&
-      conversion.is_default !== criteria.is_default
-    ) {
+    if (criteria.is_default !== undefined && conversion.is_default !== criteria.is_default) {
       return false;
     }
 
-    if (
-      criteria.is_active !== undefined &&
-      conversion.is_active !== criteria.is_active
-    ) {
+    if (criteria.is_active !== undefined && conversion.is_active !== criteria.is_active) {
       return false;
     }
 
     if (criteria.start_date || criteria.end_date) {
       const createdDate = new Date(conversion.created_at);
-      if (criteria.start_date && createdDate < new Date(criteria.start_date))
-        return false;
-      if (criteria.end_date && createdDate > new Date(criteria.end_date))
-        return false;
+      if (criteria.start_date && createdDate < new Date(criteria.start_date)) return false;
+      if (criteria.end_date && createdDate > new Date(criteria.end_date)) return false;
     }
 
     return true;
@@ -469,37 +391,25 @@ export const getUnitConversionCount = (): number => {
 };
 
 export const getUnitConversionCountByProduct = (productId: string): number => {
-  return unitConversions.filter(
-    (conversion) =>
-      conversion.product_id === productId && !conversion.deleted_at
-  ).length;
+  return unitConversions.filter((conversion) => conversion.product_id === productId && !conversion.deleted_at).length;
 };
 
 export const getUnitConversionCountByType = (
   unitType: "ingredient_unit" | "order_unit" | "inventory_unit" | "other"
 ): number => {
-  return unitConversions.filter(
-    (conversion) => conversion.unit_type === unitType && !conversion.deleted_at
-  ).length;
+  return unitConversions.filter((conversion) => conversion.unit_type === unitType && !conversion.deleted_at).length;
 };
 
 export const getDefaultUnitConversionCount = (): number => {
-  return unitConversions.filter(
-    (conversion) => conversion.is_default && !conversion.deleted_at
-  ).length;
+  return unitConversions.filter((conversion) => conversion.is_default && !conversion.deleted_at).length;
 };
 
 export const isUnitConversionExists = (id: string): boolean => {
-  return unitConversions.some(
-    (conversion) => conversion.id === id && !conversion.deleted_at
-  );
+  return unitConversions.some((conversion) => conversion.id === id && !conversion.deleted_at);
 };
 
 export const hasUnitConversionsByProduct = (productId: string): boolean => {
-  return unitConversions.some(
-    (conversion) =>
-      conversion.product_id === productId && !conversion.deleted_at
-  );
+  return unitConversions.some((conversion) => conversion.product_id === productId && !conversion.deleted_at);
 };
 
 export const hasDefaultUnitConversion = (
@@ -526,46 +436,92 @@ export type ResponseUnitConversion = {
 };
 
 export const getAvailableUnitByProductId = (productId: string): ResponseUnitConversion[] => {
-
-  const inventoryUnit = tbProduct.getProductById(productId);
+  // Lazy load product function to avoid circular dependency
+  const { getProductById: getProductByIdFn } = require("./tb_product");
+  const inventoryUnit = getProductByIdFn(productId);
 
   if (!inventoryUnit) {
     throw new Error("Inventory unit not found");
   }
 
-  const defaultUnit = tbUnit.getUnitById(inventoryUnit.inventory_unit_id);
+  const defaultUnit = getUnitById(inventoryUnit.inventory_unit_id);
 
   if (!defaultUnit) {
     throw new Error("Default unit not found");
   }
 
-  const orderUnit = unitConversions.filter(
-    (conversion) => conversion.product_id === productId && !conversion.deleted_at && conversion.unit_type === "order_unit"
-  ).map((conversion) => ({
-    id: conversion.from_unit_id,
-    name: conversion.from_unit_name,
-    conversion: parseFloat(conversion.from_unit_qty),
-  }));
-  
-  const ingredientUnit = unitConversions.filter(
-    (conversion) => conversion.product_id === productId && !conversion.deleted_at && conversion.unit_type === "ingredient_unit"
-  ).map((conversion) => ({
-    id: conversion.to_unit_id,
-    name: conversion.to_unit_name,
-    conversion: 1 / parseFloat(conversion.to_unit_qty),
-  }));
+  const orderUnit = unitConversions
+    .filter(
+      (conversion) =>
+        conversion.product_id === productId && !conversion.deleted_at && conversion.unit_type === "order_unit"
+    )
+    .map((conversion) => ({
+      id: conversion.from_unit_id,
+      name: conversion.from_unit_name,
+      conversion: parseFloat(conversion.from_unit_qty),
+      // unit_type: "order_unit",
+    }));
 
-  const availableUnit = [...orderUnit, ...ingredientUnit, {
-    id: defaultUnit.id,
-    name: defaultUnit.name,
-    conversion: 1,
-  }];
+  const ingredientUnit = unitConversions
+    .filter(
+      (conversion) =>
+        conversion.product_id === productId && !conversion.deleted_at && conversion.unit_type === "ingredient_unit"
+    )
+    .map((conversion) => ({
+      id: conversion.to_unit_id,
+      name: conversion.to_unit_name,
+      conversion: 1 / parseFloat(conversion.to_unit_qty),
+      // unit_type: "ingredient_unit",
+    }));
+
+  const availableUnit = [
+    ...orderUnit,
+    ...ingredientUnit,
+    {
+      id: defaultUnit.id,
+      name: defaultUnit.name,
+      conversion: 1,
+      // unit_type: "inventory_unit",
+    },
+  ];
 
   // remove duplicate
-  const uniqueAvailableUnit = availableUnit.filter((unit, index, self) =>
-    index === self.findIndex((t) => t.id === unit.id)
+  const uniqueAvailableUnit = availableUnit.filter(
+    (unit, index, self) => index === self.findIndex((t) => t.id === unit.id)
   );
 
   return uniqueAvailableUnit;
+};
 
+
+export const getIngredientUnitByProductId = (productId: string): ResponseUnitConversion[] => {
+  const ingredientUnit = unitConversions
+    .filter(
+      (conversion) =>
+        conversion.product_id === productId && !conversion.deleted_at && conversion.unit_type === "ingredient_unit"
+    )
+    .map((conversion) => ({
+      id: conversion.to_unit_id,
+      name: conversion.to_unit_name,
+      conversion: 1 / parseFloat(conversion.to_unit_qty),
+      // unit_type: "ingredient_unit",
+    }));
+
+  return ingredientUnit;
+};
+
+export const getOrderUnitByProductId = (productId: string): ResponseUnitConversion[] => {
+  const orderUnit = unitConversions
+    .filter(
+      (conversion) =>
+        conversion.product_id === productId && !conversion.deleted_at && conversion.unit_type === "order_unit"
+    )
+    .map((conversion) => ({
+      id: conversion.from_unit_id,
+      name: conversion.from_unit_name,
+      conversion: parseFloat(conversion.from_unit_qty),
+      // unit_type: "order_unit",
+    }));
+
+  return orderUnit;
 };

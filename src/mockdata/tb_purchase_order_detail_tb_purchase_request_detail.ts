@@ -1,4 +1,5 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
+import { getUuidByName } from "./mapping.uuid";
 
 export interface PurchaseOrderDetailPurchaseRequestDetail {
   id: string;
@@ -10,6 +11,8 @@ export interface PurchaseOrderDetailPurchaseRequestDetail {
   pr_detail_base_qty: string;
   pr_detail_base_unit_id: string;
   pr_detail_base_unit_name: string;
+  pr_detail_remaining_qty: string;
+  pr_detail_unit_conversion_factor: number;
   created_at: string;
   created_by_id: string;
   updated_at: string | null;
@@ -21,51 +24,57 @@ export interface PurchaseOrderDetailPurchaseRequestDetail {
 export const purchaseOrderDetailPurchaseRequestDetails: PurchaseOrderDetailPurchaseRequestDetail[] =
   [
     {
-      id: "pod-prd-001",
-      po_detail_id: "po-detail-001",
-      pr_detail_id: "pr-detail-001",
-      pr_detail_order_unit_id: "unit-001",
+      id: getUuidByName("PURCHASE_ORDER_DETAIL_PURCHASE_REQUEST_DETAIL_01"),
+      po_detail_id: getUuidByName("PURCHASE_ORDER_DETAIL_01"),
+      pr_detail_id: getUuidByName("PURCHASE_REQUEST_DETAIL_01"),
+      pr_detail_order_unit_id: getUuidByName("UNIT_01"),
       pr_detail_order_unit_name: "ชิ้น",
-      pr_detail_qty: "100",
-      pr_detail_base_qty: "100",
-      pr_detail_base_unit_id: "unit-001",
+      pr_detail_qty: "100.00000",
+      pr_detail_base_qty: "100.00000",
+      pr_detail_base_unit_id: getUuidByName("UNIT_01"),
       pr_detail_base_unit_name: "ชิ้น",
+      pr_detail_remaining_qty: "100.00000",
+      pr_detail_unit_conversion_factor: 1,
       created_at: "2024-01-15T10:00:00Z",
-      created_by_id: "user-001",
+      created_by_id: getUuidByName("USER_01"),
       updated_at: null,
       updated_by_id: null,
       deleted_at: null,
       deleted_by_id: null,
     },
     {
-      id: "pod-prd-002",
-      po_detail_id: "po-detail-002",
-      pr_detail_id: "pr-detail-002",
-      pr_detail_order_unit_id: "unit-002",
+        id: getUuidByName("PURCHASE_ORDER_DETAIL_PURCHASE_REQUEST_DETAIL_02"),
+      po_detail_id: getUuidByName("PURCHASE_ORDER_DETAIL_01"),
+      pr_detail_id: getUuidByName("PURCHASE_REQUEST_DETAIL_02"),
+      pr_detail_order_unit_id: getUuidByName("UNIT_02"),
       pr_detail_order_unit_name: "กล่อง",
-      pr_detail_qty: "50",
-      pr_detail_base_qty: "500",
-      pr_detail_base_unit_id: "unit-003",
+      pr_detail_qty: "50.00000",
+      pr_detail_base_qty: "500.00000",
+      pr_detail_base_unit_id: getUuidByName("UNIT_03"),
       pr_detail_base_unit_name: "ชิ้น",
+      pr_detail_remaining_qty: "50.00000",
+      pr_detail_unit_conversion_factor: 1,
       created_at: "2024-01-16T11:00:00Z",
-      created_by_id: "user-002",
+      created_by_id: getUuidByName("USER_02"),
       updated_at: null,
       updated_by_id: null,
       deleted_at: null,
       deleted_by_id: null,
     },
     {
-      id: "pod-prd-003",
-      po_detail_id: "po-detail-003",
+      id: getUuidByName("PURCHASE_ORDER_DETAIL_PURCHASE_REQUEST_DETAIL_03"),
+      po_detail_id: getUuidByName("PURCHASE_ORDER_DETAIL_01"),
       pr_detail_id: "pr-detail-003",
-      pr_detail_order_unit_id: "unit-004",
+      pr_detail_order_unit_id: getUuidByName("UNIT_04"),
       pr_detail_order_unit_name: "เมตร",
-      pr_detail_qty: "200",
-      pr_detail_base_qty: "20000",
-      pr_detail_base_unit_id: "unit-005",
+      pr_detail_qty: "200.00000",
+      pr_detail_base_qty: "20000.00000",
+      pr_detail_base_unit_id: getUuidByName("UNIT_05"),
       pr_detail_base_unit_name: "เซนติเมตร",
+      pr_detail_remaining_qty: "200.00000",
+      pr_detail_unit_conversion_factor: 1,
       created_at: "2024-01-17T12:00:00Z",
-      created_by_id: "user-003",
+      created_by_id: getUuidByName("USER_03"),
       updated_at: null,
       updated_by_id: null,
       deleted_at: null,

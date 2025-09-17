@@ -1,5 +1,6 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
 import { getUuidByName } from "./mapping.uuid";
+import { unitConversions } from "./tb_unit_conversion";
 
 export interface Product {
   id: string;
@@ -589,3 +590,18 @@ export const isProductBarcodeExists = (barcode: string): boolean => {
 export const isProductSKUExists = (sku: string): boolean => {
   return products.some((product) => product.sku === sku);
 };
+
+export const getInventoryQtyByOrderQtyByProductId = (productId: string, orderQty: number, orderUnitId: string): number => {
+  const product = products.find((product) => product.id === productId);
+  if (!product) {
+    return 0;
+  }
+
+  const orderUnit = unitConversions.find((unit) => unit.id === orderUnitId && product.id === unit.product_id && unit.unit_type === "order_unit");
+  if (!orderUnit) {
+    return 0;
+  }
+
+  return orderQty * parseFloat(orderUnit.from_unit_qty);
+};
+
