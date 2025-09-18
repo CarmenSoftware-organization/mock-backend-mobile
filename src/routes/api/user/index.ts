@@ -17,6 +17,7 @@ import {
   tbDepartment,
 } from "@/mockdata";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
+import { PARAM_X_APP_ID } from "@mockdata/const";
 
 export default (app: Elysia) =>
   app
@@ -46,6 +47,42 @@ export default (app: Elysia) =>
           message: error instanceof Error ? error.message : "Unknown error",
           timestamp: new Date().toISOString(),
         };
+      }
+    }, {
+      detail: {
+        tags: ["user"],
+        summary: "Get all users",
+        description: "Retrieve all users in the system",
+        parameters: [PARAM_X_APP_ID],
+        responses: {
+          200: {
+            description: "List of users",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    success: { type: "boolean", example: true },
+                    data: {
+                      type: "array",
+                      items: {
+                        type: "object",
+                        properties: {
+                          id: { type: "string", example: "550e8400-e29b-41d4-a716-446655440001" },
+                          email: { type: "string", example: "user@example.com" },
+                          username: { type: "string", example: "john.doe" },
+                          is_active: { type: "boolean", example: true }
+                        }
+                      }
+                    },
+                    message: { type: "string", example: "Users retrieved successfully" },
+                    timestamp: { type: "string", example: "2024-01-01T00:00:00.000Z" }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     })
 
@@ -149,9 +186,82 @@ export default (app: Elysia) =>
       {
         detail: {
           tags: ["user"],
-          summary: "current user profile",
-          description: "Get current user profile",
-        },
+          summary: "Get current user profile",
+          description: "Retrieve the profile information for the authenticated user",
+          parameters: [
+            PARAM_X_APP_ID,
+            {
+              name: "Authorization",
+              in: "header",
+              required: true,
+              description: "Bearer JWT access token",
+              schema: {
+                type: "string",
+                example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+              }
+            }
+          ],
+          responses: {
+            200: {
+              description: "User profile information",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      id: { type: "string", example: "550e8400-e29b-41d4-a716-446655440001" },
+                      email: { type: "string", example: "user@example.com" },
+                      user_info: {
+                        type: "object",
+                        properties: {
+                          firstname: { type: "string", example: "John" },
+                          middlename: { type: "string", example: "" },
+                          lastname: { type: "string", example: "Doe" }
+                        }
+                      },
+                      business_unit: {
+                        type: "array",
+                        items: {
+                          type: "object",
+                          properties: {
+                            code: { type: "string", example: "BU001" },
+                            name: { type: "string", example: "Main Business Unit" },
+                            alias_name: { type: "string", example: "Main" },
+                            is_default: { type: "boolean", example: true },
+                            department: {
+                              type: "object",
+                              properties: {
+                                id: { type: "string", example: "550e8400-e29b-41d4-a716-446655440002" },
+                                name: { type: "string", example: "IT Department" },
+                                is_hod: { type: "boolean", example: false }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            400: {
+              description: "Bad request",
+              content: {
+                "application/json": {
+                  example: { message: "Invalid header 'x-app-id'" }
+                }
+              }
+            },
+            401: {
+              description: "Unauthorized",
+              content: {
+                "application/json": {
+                  example: { message: "Unauthorized" }
+                }
+              }
+            }
+          }
+        }
       }
     )
 
@@ -197,5 +307,79 @@ export default (app: Elysia) =>
           message: error instanceof Error ? error.message : "Unknown error",
           timestamp: new Date().toISOString(),
         };
+      }
+    }, {
+      detail: {
+        tags: ["user"],
+        summary: "Get user by ID",
+        description: "Retrieve a specific user by their ID",
+        parameters: [
+          PARAM_X_APP_ID,
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            description: "User ID",
+            schema: {
+              type: "string",
+              example: "550e8400-e29b-41d4-a716-446655440001"
+            }
+          }
+        ],
+        responses: {
+          200: {
+            description: "User information",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    success: { type: "boolean", example: true },
+                    data: {
+                      type: "object",
+                      properties: {
+                        user: {
+                          type: "object",
+                          properties: {
+                            id: { type: "string", example: "550e8400-e29b-41d4-a716-446655440001" },
+                            email: { type: "string", example: "user@example.com" },
+                            username: { type: "string", example: "john.doe" },
+                            is_active: { type: "boolean", example: true }
+                          }
+                        },
+                        userProfile: {
+                          type: "object",
+                          properties: {
+                            id: { type: "string", example: "550e8400-e29b-41d4-a716-446655440001" },
+                            email: { type: "string", example: "user@example.com" },
+                            username: { type: "string", example: "john.doe" }
+                          }
+                        }
+                      }
+                    },
+                    message: { type: "string", example: "User retrieved successfully" },
+                    timestamp: { type: "string", example: "2024-01-01T00:00:00.000Z" }
+                  }
+                }
+              }
+            }
+          },
+          404: {
+            description: "User not found",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    success: { type: "boolean", example: false },
+                    error: { type: "string", example: "User not found" },
+                    message: { type: "string", example: "User with ID 123 not found" },
+                    timestamp: { type: "string", example: "2024-01-01T00:00:00.000Z" }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     });

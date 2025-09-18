@@ -1,10 +1,64 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
 import { getUuidByName } from "./mapping.uuid";
 
+export enum enum_activity_action {
+  view,
+  create,
+  update,
+  delete,
+  login,
+  logout,
+  approve,
+  reject,
+  cancel,
+  void,
+  print,
+  email,
+  other,
+  upload,
+  download,
+  export,
+  import,
+  copy,
+  move,
+  rename,
+  save,
+}
+
+export enum enum_activity_entity_type {
+  user,
+  business_unit,
+  product,
+  location,
+  department,
+  unit,
+  currency,
+  exchange_rate,
+  menu,
+  delivery_point,
+  purchase_request,
+  purchase_request_item,
+  purchase_order,
+  purchase_order_item,
+  good_received_note,
+  good_received_note_item,
+  inventory_transaction,
+  inventory_adjustment,
+  store_requisition,
+  store_requisition_item,
+  stock_in,
+  stock_out,
+  stock_adjustment,
+  stock_transfer,
+  stock_count,
+  stock_take,
+  stock_take_item,
+  other,
+}
 export interface Activity {
   id: string;
-  action: string;
-  entity_type: string;
+  action: enum_activity_action;
+  entity_type: enum_activity_entity_type;
   entity_id: string;
   actor_id: string;
   meta_data: any;
@@ -20,8 +74,8 @@ export interface Activity {
 export const activities: Activity[] = [
   {
     id: getUuidByName("ACTIVITY_01"),
-    action: "CREATE",
-    entity_type: "USER",
+    action: enum_activity_action.create,
+    entity_type: enum_activity_entity_type.user,
     entity_id: "user_001",
     actor_id: getUuidByName("USER_01"),
     meta_data: { source: "web" },
@@ -35,24 +89,23 @@ export const activities: Activity[] = [
   },
   {
     id: getUuidByName("ACTIVITY_02"),
-    action: "UPDATE",
-    entity_type: "PRODUCT",
+    action: enum_activity_action.update,
+    entity_type: enum_activity_entity_type.product,
     entity_id: "prod_001",
     actor_id: getUuidByName("USER_02"),
     meta_data: { reason: "price_update" },
     old_data: { price: 100.0 },
     new_data: { price: 120.0 },
     ip_address: "192.168.1.101",
-    user_agent:
-      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+    user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
     description: "อัปเดตราคาสินค้า: 100.00 -> 120.00",
     created_at: "2024-01-15T14:20:00Z",
     created_by_id: getUuidByName("USER_ADMIN"),
   },
   {
     id: getUuidByName("ACTIVITY_03"),
-    action: "DELETE",
-    entity_type: "ORDER",
+    action: enum_activity_action.delete,
+    entity_type: enum_activity_entity_type.purchase_order,
     entity_id: "order_001",
     actor_id: getUuidByName("USER_03"),
     meta_data: { reason: "cancelled" },
@@ -67,9 +120,7 @@ export const activities: Activity[] = [
 ];
 
 // CREATE - สร้าง Activity ใหม่
-export const createActivity = (
-  activityData: Omit<Activity, "id" | "created_at">
-): Activity => {
+export const createActivity = (activityData: Omit<Activity, "id" | "created_at">): Activity => {
   const newActivity: Activity = {
     ...activityData,
     id: generateId(),
@@ -91,7 +142,7 @@ export const getActivityById = (id: string): Activity | undefined => {
 };
 
 // READ - อ่าน Activity ตาม entity_type
-export const getActivitiesByEntityType = (entityType: string): Activity[] => {
+export const getActivitiesByEntityType = (entityType: enum_activity_entity_type): Activity[] => {
   return activities.filter((activity) => activity.entity_type === entityType);
 };
 
@@ -106,15 +157,12 @@ export const getActivitiesByActorId = (actorId: string): Activity[] => {
 };
 
 // READ - อ่าน Activity ตาม action
-export const getActivitiesByAction = (action: string): Activity[] => {
+export const getActivitiesByAction = (action: enum_activity_action): Activity[] => {
   return activities.filter((activity) => activity.action === action);
 };
 
 // READ - อ่าน Activity ตามช่วงเวลา
-export const getActivitiesByDateRange = (
-  startDate: string,
-  endDate: string
-): Activity[] => {
+export const getActivitiesByDateRange = (startDate: string, endDate: string): Activity[] => {
   const start = new Date(startDate);
   const end = new Date(endDate);
 
@@ -158,9 +206,7 @@ export const deleteActivity = (id: string): boolean => {
 // DELETE - ลบ Activity ตาม entity_id
 export const deleteActivitiesByEntityId = (entityId: string): number => {
   const initialLength = activities.length;
-  const filteredActivities = activities.filter(
-    (activity) => activity.entity_id !== entityId
-  );
+  const filteredActivities = activities.filter((activity) => activity.entity_id !== entityId);
   const deletedCount = initialLength - filteredActivities.length;
 
   // แทนที่ array เดิม
@@ -171,11 +217,9 @@ export const deleteActivitiesByEntityId = (entityId: string): number => {
 };
 
 // DELETE - ลบ Activity ตาม entity_type
-export const deleteActivitiesByEntityType = (entityType: string): number => {
+export const deleteActivitiesByEntityType = (entityType: enum_activity_entity_type): number => {
   const initialLength = activities.length;
-  const filteredActivities = activities.filter(
-    (activity) => activity.entity_type !== entityType
-  );
+  const filteredActivities = activities.filter((activity) => activity.entity_type !== entityType);
   const deletedCount = initialLength - filteredActivities.length;
 
   // แทนที่ array เดิม
@@ -197,8 +241,8 @@ export const getActivityCount = (): number => {
 
 // Utility function สำหรับค้นหา Activity แบบ advanced search
 export const searchActivities = (searchCriteria: {
-  action?: string;
-  entity_type?: string;
+  action?: enum_activity_action;
+  entity_type?: enum_activity_entity_type;
   entity_id?: string;
   actor_id?: string;
   description?: string;
@@ -212,35 +256,24 @@ export const searchActivities = (searchCriteria: {
     }
 
     // ตรวจสอบ entity_type
-    if (
-      searchCriteria.entity_type &&
-      activity.entity_type !== searchCriteria.entity_type
-    ) {
+    if (searchCriteria.entity_type && activity.entity_type !== searchCriteria.entity_type) {
       return false;
     }
 
     // ตรวจสอบ entity_id
-    if (
-      searchCriteria.entity_id &&
-      activity.entity_id !== searchCriteria.entity_id
-    ) {
+    if (searchCriteria.entity_id && activity.entity_id !== searchCriteria.entity_id) {
       return false;
     }
 
     // ตรวจสอบ actor_id
-    if (
-      searchCriteria.actor_id &&
-      activity.actor_id !== searchCriteria.actor_id
-    ) {
+    if (searchCriteria.actor_id && activity.actor_id !== searchCriteria.actor_id) {
       return false;
     }
 
     // ตรวจสอบ description (ค้นหาแบบ partial match)
     if (
       searchCriteria.description &&
-      !activity.description
-        .toLowerCase()
-        .includes(searchCriteria.description.toLowerCase())
+      !activity.description.toLowerCase().includes(searchCriteria.description.toLowerCase())
     ) {
       return false;
     }

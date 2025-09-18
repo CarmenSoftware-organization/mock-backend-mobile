@@ -86,7 +86,140 @@ export default (app: Elysia) =>
         }
         return result;
       },
-      { loginEndpointDetail }
+      {
+        body: "loginDto",
+        response: {
+          200: t.Object({
+            access_token: t.String(),
+            refresh_token: t.String(),
+          }),
+          400: t.Object({
+            message: t.String({
+              default: `Invalid header '${PARAM_X_APP_ID.name}'`,
+            }),
+          }),
+          401: t.Object({
+            message: t.String({ default: "Invalid login credentials" }),
+          }),
+          500: t.Object({
+            message: t.String({ default: "Internal Server Error" }),
+          }),
+        },
+        detail: {
+          tags: ["auth"],
+          summary: "Login",
+          description: `Authenticate user with email and password to receive access and refresh tokens. Requires '${PARAM_X_APP_ID.name}' header with value '${PARAM_X_APP_ID.schema.example}'`,
+          parameters: [PARAM_X_APP_ID],
+          requestBody: {
+            description: "Login credentials",
+            required: true,
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    email: {
+                      type: "string",
+                      format: "email",
+                      description: "User email address",
+                    },
+                    password: {
+                      type: "string",
+                      description: "User password",
+                    },
+                  },
+                  required: ["email", "password"],
+                },
+              },
+            },
+          },
+          responses: {
+            200: {
+              description: "Login successful",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      access_token: {
+                        type: "string",
+                        description: "JWT access token",
+                      },
+                      refresh_token: {
+                        type: "string",
+                        description: "JWT refresh token",
+                      },
+                    },
+                  },
+                  example: {
+                    access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                    refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                  },
+                },
+              },
+            },
+            400: {
+              description: "Bad request - Missing or invalid headers",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      message: { type: "string" },
+                    },
+                  },
+                  examples: {
+                    MissingAppId: {
+                      summary: `Missing ${PARAM_X_APP_ID.name} header`,
+                      value: {
+                        message: `Invalid header '${PARAM_X_APP_ID.name}'`,
+                      },
+                    },
+                    InvalidAppId: {
+                      summary: `Invalid ${PARAM_X_APP_ID.name} value`,
+                      value: {
+                        message: `Invalid header '${PARAM_X_APP_ID.name}' should be '${PARAM_X_APP_ID.schema.example}'`,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            401: {
+              description: "Invalid credentials",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      message: { type: "string" },
+                    },
+                  },
+                  example: {
+                    message: "Invalid login credentials",
+                  },
+                },
+              },
+            },
+            500: {
+              description: "Internal server error",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      message: { type: "string" },
+                    },
+                  },
+                  example: {
+                    message: "Internal Server Error",
+                  },
+                },
+              },
+            },
+          },
+        },
+      }
     )
 
     .get(
@@ -216,18 +349,190 @@ export default (app: Elysia) =>
 
       ctx.set.status = 501;
       return resNotImplemented;
+    }, {
+      detail: {
+        tags: ["auth"],
+        summary: "Register new user",
+        description: "Register a new user account (Not implemented)",
+        parameters: [PARAM_X_APP_ID],
+        requestBody: {
+          description: "User registration data",
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  email: {
+                    type: "string",
+                    format: "email",
+                    description: "User email address",
+                    example: "user@example.com"
+                  },
+                  password: {
+                    type: "string",
+                    description: "User password",
+                    example: "securePassword123"
+                  },
+                  first_name: {
+                    type: "string",
+                    description: "User first name",
+                    example: "สมชาย"
+                  },
+                  last_name: {
+                    type: "string",
+                    description: "User last name",
+                    example: "ใจดี"
+                  }
+                },
+                required: ["email", "password", "first_name", "last_name"]
+              }
+            }
+          }
+        },
+        responses: {
+          400: {
+            description: "Bad request",
+            content: {
+              "application/json": {
+                example: {
+                  message: "Invalid header 'x-app-id'"
+                }
+              }
+            }
+          },
+          501: {
+            description: "Not implemented",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    message: { type: "string" }
+                  }
+                },
+                example: {
+                  message: "Not implemented"
+                }
+              }
+            }
+          }
+        }
+      }
     })
 
     // Invite User
     .post("/api/auth/invite-user", (ctx) => {
       ctx.set.status = 501;
       return resNotImplemented;
+    }, {
+      detail: {
+        tags: ["auth"],
+        summary: "Invite user",
+        description: "Send invitation to a user to join the system (Not implemented)",
+        requestBody: {
+          description: "User invitation data",
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  email: {
+                    type: "string",
+                    format: "email",
+                    description: "Email address to invite",
+                    example: "newuser@example.com"
+                  },
+                  role: {
+                    type: "string",
+                    description: "Role to assign to the invited user",
+                    example: "user"
+                  },
+                  business_unit_code: {
+                    type: "string",
+                    description: "Business unit to associate with",
+                    example: "BU001"
+                  }
+                },
+                required: ["email", "role"]
+              }
+            }
+          }
+        },
+        responses: {
+          501: {
+            description: "Not implemented",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    message: { type: "string" }
+                  }
+                },
+                example: {
+                  message: "Not implemented"
+                }
+              }
+            }
+          }
+        }
+      }
     })
 
     // Register Confirm
     .post("/api/auth/register-confirm", (ctx) => {
       ctx.set.status = 501;
       return resNotImplemented;
+    }, {
+      detail: {
+        tags: ["auth"],
+        summary: "Confirm user registration",
+        description: "Confirm user registration with verification token (Not implemented)",
+        requestBody: {
+          description: "Registration confirmation data",
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  token: {
+                    type: "string",
+                    description: "Verification token sent via email",
+                    example: "abc123def456ghi789"
+                  },
+                  password: {
+                    type: "string",
+                    description: "User password",
+                    example: "securePassword123"
+                  }
+                },
+                required: ["token", "password"]
+              }
+            }
+          }
+        },
+        responses: {
+          501: {
+            description: "Not implemented",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    message: { type: "string" }
+                  }
+                },
+                example: {
+                  message: "Not implemented"
+                }
+              }
+            }
+          }
+        }
+      }
     })
 
     // Refresh Token
@@ -256,7 +561,39 @@ export default (app: Elysia) =>
         }
       },
       {
-        refreshTokenEndpointDetail,
+        body: "refreshTokenDto",
+        response: {
+          200: t.Object({
+            access_token: t.String(),
+            refresh_token: t.String(),
+          }),
+        },
+        detail: {
+          tags: ["auth"],
+          summary: "Refresh Token",
+          description: "Refresh access token",
+          parameters: [PARAM_X_APP_ID],
+        },
+        requestBody: {
+          description: "Refresh token",
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  refresh_token: {
+                    type: "string",
+                    description: "Refresh token",
+                  },
+                },
+              },
+            },
+          },
+          example: {
+            refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+          },
+        },
       }
     )
 
@@ -264,6 +601,53 @@ export default (app: Elysia) =>
     .post("/api/auth/forgot-password", (ctx) => {
       ctx.set.status = 501;
       return resNotImplemented;
+    }, {
+      detail: {
+        tags: ["auth"],
+        summary: "Forgot password",
+        description: "Request password reset for a user account (Not implemented)",
+        requestBody: {
+          description: "Forgot password request data",
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  email: {
+                    type: "string",
+                    format: "email",
+                    description: "Email address of the account",
+                    example: "user@example.com"
+                  }
+                },
+                required: ["email"]
+              },
+              example: {
+                email: "user@example.com"
+              }
+            }
+          }
+        },
+        responses: {
+          501: {
+            description: "Not implemented",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    message: { type: "string" }
+                  }
+                },
+                example: {
+                  message: "Not implemented"
+                }
+              }
+            }
+          }
+        }
+      }
     });
 
 // Login function implementation
@@ -329,174 +713,3 @@ async function refreshToken(refresh_token: string, jwt: any) {
     refresh_token: await jwt.sign({ id, email, type: "refresh" }),
   };
 }
-
-const loginEndpointDetail = {
-  body: "loginDto",
-  response: {
-    200: t.Object({
-      access_token: t.String(),
-      refresh_token: t.String(),
-    }),
-    400: t.Object({
-      message: t.String({
-        default: `Invalid header '${PARAM_X_APP_ID.name}'`,
-      }),
-    }),
-    401: t.Object({
-      message: t.String({ default: "Invalid login credentials" }),
-    }),
-    500: t.Object({
-      message: t.String({ default: "Internal Server Error" }),
-    }),
-  },
-  detail: {
-    tags: ["auth"],
-    summary: "Login",
-    description: `Authenticate user with email and password to receive access and refresh tokens. Requires '${PARAM_X_APP_ID.name}' header with value '${PARAM_X_APP_ID.schema.example}'`,
-    parameters: [PARAM_X_APP_ID],
-    requestBody: {
-      description: "Login credentials",
-      required: true,
-      content: {
-        "application/json": {
-          schema: {
-            type: "object",
-            properties: {
-              email: {
-                type: "string",
-                format: "email",
-                description: "User email address",
-              },
-              password: {
-                type: "string",
-                description: "User password",
-              },
-            },
-            required: ["email", "password"],
-          },
-        },
-      },
-    },
-    responses: {
-      200: {
-        description: "Login successful",
-        content: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                access_token: {
-                  type: "string",
-                  description: "JWT access token",
-                },
-                refresh_token: {
-                  type: "string",
-                  description: "JWT refresh token",
-                },
-              },
-            },
-            example: {
-              access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-              refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-            },
-          },
-        },
-      },
-      400: {
-        description: "Bad request - Missing or invalid headers",
-        content: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                message: { type: "string" },
-              },
-            },
-            examples: {
-              MissingAppId: {
-                summary: `Missing ${PARAM_X_APP_ID.name} header`,
-                value: {
-                  message: `Invalid header '${PARAM_X_APP_ID.name}'`,
-                },
-              },
-              InvalidAppId: {
-                summary: `Invalid ${PARAM_X_APP_ID.name} value`,
-                value: {
-                  message: `Invalid header '${PARAM_X_APP_ID.name}' should be '${PARAM_X_APP_ID.schema.example}'`,
-                },
-              },
-            },
-          },
-        },
-      },
-      401: {
-        description: "Invalid credentials",
-        content: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                message: { type: "string" },
-              },
-            },
-            example: {
-              message: "Invalid login credentials",
-            },
-          },
-        },
-      },
-      500: {
-        description: "Internal server error",
-        content: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                message: { type: "string" },
-              },
-            },
-            example: {
-              message: "Internal Server Error",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-const refreshTokenEndpointDetail = {
-  body: "refreshTokenDto",
-  response: {
-    200: t.Object({
-      access_token: t.String(),
-      refresh_token: t.String(),
-    }),
-  },
-  detail: {
-    tags: ["auth"],
-    summary: "Refresh Token",
-    description: "Refresh access token",
-    parameters: [PARAM_X_APP_ID],
-  },
-  requestBody: {
-    description: "Refresh token",
-    required: true,
-    content: {
-      "application/json": {
-        schema: {
-          type: "object",
-          properties: {
-            refresh_token: {
-              type: "string",
-              description: "Refresh token",
-            },
-          },
-        },
-      },
-    },
-    example: {
-      refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    },
-  },
-};
