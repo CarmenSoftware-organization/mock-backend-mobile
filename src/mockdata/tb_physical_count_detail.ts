@@ -11,7 +11,7 @@ export interface PhysicalCountDetail {
   location_type: "inventory" | "consignment" | "direct";
   description: string | null;
   physical_count_type: "yes" | "no"
-  status: "Pending" | "Counting" | "Counted";
+  status: "pending" | "in_progress" | "completed";
   start_count_at: Date | null;
   end_count_at: Date | null;
   product_counted: number;
@@ -19,7 +19,7 @@ export interface PhysicalCountDetail {
   created_at: Date;
   created_by_id: string;
   updated_at: Date | null;
-  updated_by_id: string | null; 
+  updated_by_id: string | null;
 }
 
 const location1 = getLocationById(getUuidByName("LOCATION_01"));
@@ -42,7 +42,7 @@ export const physicalCountsDetails: PhysicalCountDetail[] = [
     location_type: "inventory",
     description: "Physical count detail for location 1",
     physical_count_type: "yes",
-    status: "Pending",
+    status: "pending",
     start_count_at: null,
     end_count_at: null,
     product_counted: 0,
@@ -60,7 +60,7 @@ export const physicalCountsDetails: PhysicalCountDetail[] = [
     location_type: "inventory",
     description: "Physical count detail for location 2",
     physical_count_type: "yes",
-    status: "Counting",
+    status: "in_progress",
     start_count_at: new Date(getCurrentTimestamp()),
     end_count_at: null,
     product_counted: 20,
@@ -78,10 +78,10 @@ export const physicalCountsDetails: PhysicalCountDetail[] = [
     location_type: "consignment",
     description: "Physical count detail for location 3",
     physical_count_type: "yes",
-    status: "Counted",
+    status: "completed",
     start_count_at: new Date(getCurrentTimestamp()),
-      end_count_at: new Date(getCurrentTimestamp()),
-      product_counted: 89,
+    end_count_at: new Date(getCurrentTimestamp()),
+    product_counted: 89,
     product_total: 89,
     created_at: new Date(getCurrentTimestamp()),
     created_by_id: getUuidByName("USER_01"),
@@ -96,7 +96,7 @@ export const physicalCountsDetails: PhysicalCountDetail[] = [
     location_type: "inventory",
     description: "Physical count detail for location 4",
     physical_count_type: "yes",
-    status: "Pending",
+    status: "pending",
     start_count_at: null,
     end_count_at: null,
     product_counted: 0,
@@ -114,7 +114,7 @@ export const physicalCountsDetails: PhysicalCountDetail[] = [
     location_type: "inventory",
     description: "Physical count detail for location 5",
     physical_count_type: "yes",
-    status: "Pending",
+    status: "pending",
     start_count_at: null,
     end_count_at: null,
     product_counted: 0,
@@ -132,7 +132,7 @@ export const physicalCountsDetails: PhysicalCountDetail[] = [
     location_type: "consignment",
     description: "Physical count detail for location 6",
     physical_count_type: "yes",
-    status: "Pending",
+    status: "pending",
     start_count_at: null,
     end_count_at: null,
     product_counted: 0,
@@ -150,7 +150,7 @@ export const physicalCountsDetails: PhysicalCountDetail[] = [
     location_type: "inventory",
     description: "Physical count detail for location 7",
     physical_count_type: "yes",
-    status: "Counted",
+    status: "completed",
     start_count_at: new Date(getCurrentTimestamp()),
     end_count_at: new Date(getCurrentTimestamp()),
     product_counted: 89,
@@ -168,7 +168,7 @@ export const physicalCountsDetails: PhysicalCountDetail[] = [
     location_type: "consignment",
     description: "Physical count detail for location 8",
     physical_count_type: "yes",
-    status: "Counted",
+    status: "completed",
     start_count_at: new Date(getCurrentTimestamp()),
     end_count_at: new Date(getCurrentTimestamp()),
     product_counted: 89,
@@ -216,15 +216,15 @@ export const getPhysicalCountDetailById = (id: string): PhysicalCountDetail | nu
 
 // READ - อ่าน PhysicalCountDetail ตาม physical_count_id
 export const getPhysicalCountDetailsByPhysicalCountId = (physicalCountId: string): PhysicalCountDetail[] => {
-  
-  
+
+
   const physicalCount = tbPhysicalCount.getPhysicalCountById(physicalCountId);
   if (!physicalCount) {
     return [];
   }
 
   const details = physicalCountsDetails.filter(detail =>
-    detail.physical_count_id === physicalCountId 
+    detail.physical_count_id === physicalCountId
   );
 
   if (physicalCount.include_location_not_count === false) {
@@ -237,35 +237,35 @@ export const getPhysicalCountDetailsByPhysicalCountId = (physicalCountId: string
 // READ - อ่าน PhysicalCountDetail ตาม location_id
 export const getPhysicalCountDetailsByLocationId = (locationId: string): PhysicalCountDetail[] => {
   return physicalCountsDetails.filter(detail =>
-    detail.location_id === locationId 
+    detail.location_id === locationId
   );
 };
 
 // READ - อ่าน PhysicalCountDetail ตาม location_type
 export const getPhysicalCountDetailsByLocationType = (locationType: "inventory" | "consignment" | "direct"): PhysicalCountDetail[] => {
   return physicalCountsDetails.filter(detail =>
-    detail.location_type === locationType 
+    detail.location_type === locationType
   );
 };
 
 // READ - อ่าน PhysicalCountDetail ตาม status
 export const getPhysicalCountDetailsByStatus = (status: "Pending" | "Counting" | "Counted"): PhysicalCountDetail[] => {
   return physicalCountsDetails.filter(detail =>
-    detail.status === status 
+    detail.status === status
   );
 };
 
 // READ - อ่าน PhysicalCountDetail ตาม created_by_id
 export const getPhysicalCountDetailsByCreatedBy = (createdById: string): PhysicalCountDetail[] => {
   return physicalCountsDetails.filter(detail =>
-    detail.created_by_id === createdById 
+    detail.created_by_id === createdById
   );
 };
 
 // READ - อ่าน PhysicalCountDetail ตาม updated_by_id
 export const getPhysicalCountDetailsByUpdatedBy = (updatedById: string): PhysicalCountDetail[] => {
   return physicalCountsDetails.filter(detail =>
-    detail.updated_by_id === updatedById 
+    detail.updated_by_id === updatedById
   );
 };
 
@@ -284,7 +284,7 @@ export const updatePhysicalCountDetail = (
   id: string,
   data: Partial<Omit<PhysicalCountDetail, "id" | "created_at" | "created_by_id">>
 ): PhysicalCountDetail | null => {
-  const index = physicalCountsDetails.findIndex(detail => detail.id === id );
+  const index = physicalCountsDetails.findIndex(detail => detail.id === id);
 
   if (index === -1) {
     return null;
@@ -425,29 +425,29 @@ export const getPhysicalCountDetailCountByPhysicalCountId = (physicalCountId: st
 
 export const getPhysicalCountDetailCountByStatus = (status: "Pending" | "Counting" | "Counted"): number => {
   return physicalCountsDetails.filter(detail =>
-    detail.status === status 
+    detail.status === status
   ).length;
 };
 
 export const getPhysicalCountDetailCountByLocationType = (locationType: "inventory" | "consignment" | "direct"): number => {
   return physicalCountsDetails.filter(detail =>
-    detail.location_type === locationType 
+    detail.location_type === locationType
   ).length;
 };
 
 export const isPhysicalCountDetailExists = (id: string): boolean => {
-  return physicalCountsDetails.some(detail => detail.id === id );
+  return physicalCountsDetails.some(detail => detail.id === id);
 };
 
 export const hasPhysicalCountDetailsForPhysicalCount = (physicalCountId: string): boolean => {
   return physicalCountsDetails.some(detail =>
-    detail.physical_count_id === physicalCountId 
+    detail.physical_count_id === physicalCountId
   );
 };
 
 export const hasPhysicalCountDetailsForLocation = (locationId: string): boolean => {
   return physicalCountsDetails.some(detail =>
-    detail.location_id === locationId 
+    detail.location_id === locationId
   );
 };
 
