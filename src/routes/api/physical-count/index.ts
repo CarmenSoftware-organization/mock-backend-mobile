@@ -37,16 +37,6 @@ export default (app: Elysia) =>
         }
 
         try {
-          const { bu_code } = ctx.query;
-
-          if (!bu_code) {
-            return resBadRequest("Business unit code is required");
-          }
-
-          const bu = bussiness_Units.find((bu) => bu.code === bu_code);
-          if (!bu) {
-            return resNotFound("Business unit not found");
-          }
 
           // mock random data
           const res = { pending: getRandomInt(0, 20) };

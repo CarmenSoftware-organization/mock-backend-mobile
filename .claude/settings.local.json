@@ -4,7 +4,10 @@
       "Bash(grep:*)",
       "Bash(bun run:*)",
       "Bash(sed:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(git add:*)",
+      "Bash(git rebase:*)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []
