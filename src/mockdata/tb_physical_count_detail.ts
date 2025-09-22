@@ -249,7 +249,7 @@ export const getPhysicalCountDetailsByLocationType = (locationType: "inventory" 
 };
 
 // READ - อ่าน PhysicalCountDetail ตาม status
-export const getPhysicalCountDetailsByStatus = (status: "Pending" | "Counting" | "Counted"): PhysicalCountDetail[] => {
+export const getPhysicalCountDetailsByStatus = (status: "pending" | "in_progress" | "completed"): PhysicalCountDetail[] => {
   return physicalCountsDetails.filter(detail =>
     detail.status === status
   );
@@ -302,7 +302,7 @@ export const updatePhysicalCountDetail = (
 // UPDATE - อัปเดต status ของ PhysicalCountDetail
 export const updatePhysicalCountDetailStatus = (
   id: string,
-  status: "Pending" | "Counting" | "Counted",
+  status: "pending" | "in_progress" | "completed",
   updatedById: string
 ): PhysicalCountDetail | null => {
   return updatePhysicalCountDetail(id, { status, updated_by_id: updatedById });
@@ -366,7 +366,7 @@ export const searchPhysicalCountDetails = (criteria: {
   location_id?: string;
   location_name?: string;
   location_type?: "inventory" | "consignment" | "direct";
-  status?: "Pending" | "Counting" | "Counted";
+  status?: "pending" | "in_progress" | "completed";
   created_by_id?: string;
   updated_by_id?: string;
   start_date?: string;
@@ -423,7 +423,7 @@ export const getPhysicalCountDetailCountByPhysicalCountId = (physicalCountId: st
   ).length;
 };
 
-export const getPhysicalCountDetailCountByStatus = (status: "Pending" | "Counting" | "Counted"): number => {
+export const getPhysicalCountDetailCountByStatus = (status: "pending" | "in_progress" | "completed"): number => {
   return physicalCountsDetails.filter(detail =>
     detail.status === status
   ).length;
