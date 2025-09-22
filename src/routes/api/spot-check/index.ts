@@ -7,7 +7,7 @@ import {
 } from "@/libs/res.error";
 import jwt from "@elysiajs/jwt";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
-import { tbStoreRequisition } from "@/mockdata";
+import { tbSpotCheck } from "@/mockdata";
 import { getRandomInt } from "@/libs/utils";
 
 export default (app: Elysia) =>
@@ -56,4 +56,41 @@ export default (app: Elysia) =>
           description: "Get my pending spot checks",
         },
       }
-    );
+    )
+
+    .get("/api/:bu_code/spot-check", async (ctx) => {
+      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+      if (errorAppId) {
+        ctx.set.status = 400;
+        return errorAppId;
+      }
+
+      const { error: errorAccessToken, bussiness_Units } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+      if (errorAccessToken) {
+        ctx.set.status = 401;
+        return errorAccessToken;
+      }
+
+      const bu = bussiness_Units.find((bu) => bu.code === ctx.params.bu_code);
+      if (!bu) {
+        return resNotFound("Business unit not found");
+      }
+
+      const include_not_count = ctx.query.include_not_count === "true";
+      
+      // get all details
+      const spotChecks = tbSpotCheck.getSpotCheck(include_not_count);
+      if (!spotChecks || spotChecks.length === 0) {
+        // return resNotFound("Physical count details not found");
+      }
+
+      return {
+        details: spotChecks,
+      };
+    }, {
+      detail: {
+        tags: ["spot-check"],
+        summary: "Get all spot checks",
+        description: "Get all spot checks",
+      },
+    });

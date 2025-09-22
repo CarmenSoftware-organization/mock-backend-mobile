@@ -80,3 +80,4 @@ export * as tbUserPermission from "./temp_tb_user_permission";
 export * as tbTaxProfile from "./tb_tax_profile";
 export * as tbPhysicalCount from "./tb_physical_count";
 export * as tbPhysicalCountDetail from "./tb_physical_count_detail";
+export * as tbSpotCheck from "./tb_spot_check";

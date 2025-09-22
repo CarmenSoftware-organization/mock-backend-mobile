@@ -76,6 +76,8 @@ export default (app: Elysia) =>
         return resNotFound("Business unit not found");
       }
 
+      const include_not_count = ctx.query.include_not_count === "true";
+
 
       const physicalCounts = tbPhysicalCount.getPhysicalCountsOnCounting();
       if (!physicalCounts) {
@@ -84,7 +86,7 @@ export default (app: Elysia) =>
 
 
       // get all details
-      const physicalCountDetails = tbPhysicalCountDetail.getPhysicalCountDetailsByPhysicalCountId(physicalCounts.id);
+      const physicalCountDetails = tbPhysicalCountDetail.getPhysicalCountDetailsByPhysicalCountId(physicalCounts.id, include_not_count);
       if (!physicalCountDetails || physicalCountDetails.length === 0) {
         // return resNotFound("Physical count details not found");
       }
