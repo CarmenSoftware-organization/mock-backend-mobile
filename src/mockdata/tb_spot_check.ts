@@ -482,8 +482,3 @@ export const getSpotCheck = (include_not_count: boolean): SpotCheck[] => {
     return spotChecks.filter(detail => detail.physical_count_type === "yes");
   }
 };
-
-
-export const getSpotCheckById = (id : string) : SpotCheck[] => {
-  
-}
