@@ -7,7 +7,7 @@ import {
 } from "@/libs/res.error";
 import jwt from "@elysiajs/jwt";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
-import { tbSpotCheck } from "@/mockdata";
+import { tbSpotCheck, tbSpotCheckDetail } from "@/mockdata";
 import { getRandomInt } from "@/libs/utils";
 import { createSpotCheck, CreateSpotCheckDTO } from "@/mockdata/tb_spot_check";
 import {
@@ -379,6 +379,46 @@ export default (app: Elysia) =>
         tags: ["spot-check-detail"],
         summary: "Get all spot check details",
         description: "Get all spot check details across all spot checks",
+      },
+    })
+    
+    .get("/api/:bu_code/spot-check/:spot_check_id", async (ctx) => {
+      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+      if (errorAppId) {
+        ctx.set.status = 400;
+        return errorAppId;
+      }
+
+      const { error: errorAccessToken, bussiness_Units } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+      if (errorAccessToken) {
+        ctx.set.status = 401;
+        return errorAccessToken;
+      }
+
+      const {bu_code, spot_check_id} = ctx.params;
+
+      const bu = bussiness_Units.find((bu) => bu.code === ctx.params.bu_code);
+      if (!bu) {
+        return resNotFound("Business unit not found");
+      }
+
+      try {
+        const spotcheck = tbSpotCheckDetail.getSpotcheckById(spot_check_id);
+        if (!spotcheck) {
+          return resNotFound("Spot check not found");
+        }
+
+        return {data: spotcheck};
+      } catch (error) {
+        return resInternalServerError(
+          error instanceof Error ? error.message : "Unknown error"
+        );
+      }
+    }, {
+      detail: {
+        tags: ["spot-check"],
+        summary: "Get spot check by ID with details",
+        description: "Get a specific spot check by its ID along with its details",
       },
     });
 

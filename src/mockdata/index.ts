@@ -81,3 +81,4 @@ export * as tbTaxProfile from "./tb_tax_profile";
 export * as tbPhysicalCount from "./tb_physical_count";
 export * as tbPhysicalCountDetail from "./tb_physical_count_detail";
 export * as tbSpotCheck from "./tb_spot_check";
+export * as tbSpotCheckDetail from "./tb_spot_check_detail";

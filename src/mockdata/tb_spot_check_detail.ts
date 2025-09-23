@@ -236,3 +236,15 @@ export const getNextSequenceNumber = (spotCheckId: string): number => {
   return maxSequence + 1;
 };
 
+export const getSpotcheckById = (id: string) => {
+
+  const spotChecks = tbSpotCheck.getSpotCheckById(id);
+  const details = spotChecksDetails.filter(spotcheck => spotcheck.spot_check_id === id);
+
+  const res = {
+    ...spotChecks,
+    details: details,
+  }
+
+  return res;
+}
