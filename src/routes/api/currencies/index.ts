@@ -22,13 +22,13 @@ export default (app: Elysia) =>
        ctx.set.status = 400;
        return errorAppId;
      }
-     const { error: errorAccessToken, bussiness_Units } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+     const { error: errorAccessToken, businessUnits } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
      if (errorAccessToken) {
        ctx.set.status = 401;
        return errorAccessToken;
      }
 
-     const bu = bussiness_Units?.find((bu) => bu.code === bu_code);
+     const bu = businessUnits?.find((bu) => bu.code === bu_code);
      if (!bu) {
        return resNotFound("Business unit not found");
      }

@@ -358,7 +358,7 @@ export default (app: Elysia) =>
         const {
           error: errorAccessToken,
           userProfile,
-          bussiness_Units,
+          businessUnits,
         } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
         if (errorAccessToken) {
           ctx.set.status = 401;
@@ -366,7 +366,7 @@ export default (app: Elysia) =>
         }
 
         try {
-          const bu = bussiness_Units?.find((bu) => bu.code === bu_code);
+          const bu = businessUnits?.find((bu) => bu.code === bu_code);
           if (!bu) {
             return resNotFound("Business unit not found");
           }
@@ -412,14 +412,14 @@ export default (app: Elysia) =>
           return errorAppId;
         }
 
-        const { error: errorAccessToken, bussiness_Units } =
+        const { error: errorAccessToken, businessUnits } =
           await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
         if (errorAccessToken) {
           ctx.set.status = 401;
           return errorAccessToken;
         }
 
-        const bu = bussiness_Units?.find((bu) => bu.code === bu_code);
+        const bu = businessUnits?.find((bu) => bu.code === bu_code);
         if (!bu) {
           return resNotFound("Business unit not found");
         }
@@ -501,14 +501,14 @@ export default (app: Elysia) =>
           return errorAppId;
         }
 
-        const { error: errorAccessToken, bussiness_Units } =
+        const { error: errorAccessToken, businessUnits } =
           await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
         if (errorAccessToken) {
           ctx.set.status = 401;
           return errorAccessToken;
         }
 
-        const bu = bussiness_Units?.find((bu) => bu.code === bu_code);
+        const bu = businessUnits?.find((bu) => bu.code === bu_code);
         if (!bu) {
           return resNotFound("Business unit not found");
         }

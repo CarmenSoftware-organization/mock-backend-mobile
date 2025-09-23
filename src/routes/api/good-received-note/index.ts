@@ -34,7 +34,7 @@ export default (app: Elysia) =>
           return errorAppId;
         }
 
-        const { error: errorAccessToken, bussiness_Units } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+        const { error: errorAccessToken, businessUnits } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
         if (errorAccessToken) {
           ctx.set.status = 401;
           return errorAccessToken;
@@ -68,7 +68,7 @@ export default (app: Elysia) =>
           return errorAppId;
         }
 
-        const { error: errorAccessToken, bussiness_Units } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+        const { error: errorAccessToken, businessUnits } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
         if (errorAccessToken) {
           ctx.set.status = 401;
           return errorAccessToken;
@@ -81,7 +81,7 @@ export default (app: Elysia) =>
             return resBadRequest("Business unit code is required");
           }
 
-          const bu = bussiness_Units.find((bu) => bu.code === bu_code);
+          const bu = businessUnits.find((bu) => bu.code === bu_code);
           if (!bu) {
             return resNotFound("Business unit not found");
           }
@@ -110,7 +110,7 @@ export default (app: Elysia) =>
         return errorAppId;
       }
 
-      const { error: errorAccessToken, bussiness_Units } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+      const { error: errorAccessToken, businessUnits } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
       if (errorAccessToken) {
         ctx.set.status = 401;
         return errorAccessToken;
@@ -125,7 +125,7 @@ export default (app: Elysia) =>
       const po_no = extracted_qr_code[1];
 
       //response list of po by qr_code
-      const bu = bussiness_Units.find((bu) => bu.code === bu_code);
+      const bu = businessUnits.find((bu) => bu.code === bu_code);
       if (!bu) {
         return resNotFound("Business unit not found");
       }
@@ -240,14 +240,14 @@ export default (app: Elysia) =>
         return errorAppId;
       }
 
-      const { error: errorAccessToken, bussiness_Units } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+      const { error: errorAccessToken, businessUnits } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
       if (errorAccessToken) {
         ctx.set.status = 401;
         return errorAccessToken;
       }
 
       //response list of po by qr_code
-      const bu = bussiness_Units.find((bu) => bu.code === bu_code);
+      const bu = businessUnits.find((bu) => bu.code === bu_code);
       if (!bu) {
         return resNotFound("Business unit not found");
       }
@@ -360,13 +360,13 @@ export default (app: Elysia) =>
         return errorAppId;
       }
 
-      const { error: errorAccessToken, bussiness_Units } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+      const { error: errorAccessToken, businessUnits } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
       if (errorAccessToken) {
         ctx.set.status = 401;
         return errorAccessToken;
       }
       
-      const bu = bussiness_Units.find((bu) => bu.code === ctx.params.bu_code);
+      const bu = businessUnits.find((bu) => bu.code === ctx.params.bu_code);
       if (!bu) {
         return resNotFound("Business unit not found");
       }

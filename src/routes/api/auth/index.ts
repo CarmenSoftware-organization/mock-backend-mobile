@@ -239,7 +239,7 @@ export default (app: Elysia) =>
           jwtUser,
           currentUser,
           userProfile,
-          bussiness_Units,
+          businessUnits,
         } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
         if (errorAccessToken) {
           ctx.set.status = 401;
@@ -249,7 +249,7 @@ export default (app: Elysia) =>
         let res = {};
 
         try {
-          const cBusiness_unit = bussiness_Units
+          const cBusiness_unit = businessUnits
             .map((bu: any) => {
               // สร้าง permissions array ในรูปแบบ string เช่น "pr.view", "po.view" ฯลฯ
               const permissionNames: string[] = tbUserPermission

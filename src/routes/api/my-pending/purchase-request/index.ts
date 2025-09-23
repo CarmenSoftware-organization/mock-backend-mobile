@@ -30,7 +30,7 @@ export default (app: Elysia) =>
           jwtUser,
           currentUser,
           userProfile,
-          bussiness_Units,
+          businessUnits,
         } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
         if (errorAccessToken) {
           ctx.set.status = 401;
@@ -42,7 +42,7 @@ export default (app: Elysia) =>
         try {
           let purchaseRequests: any[] = [];
 
-          for (const bu of bussiness_Units) {
+          for (const bu of businessUnits) {
             if (bu_code && bu_code !== bu.code) {
               continue;
             }

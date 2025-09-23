@@ -24,7 +24,7 @@ export default (app: Elysia) =>
       return errorAppId;
     }
 
-    const { error: errorAccessToken, bussiness_Units } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+    const { error: errorAccessToken, businessUnits } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
     if (errorAccessToken) {
       ctx.set.status = 401;
       return errorAccessToken;
@@ -36,7 +36,7 @@ export default (app: Elysia) =>
       let storeRequisitions: any[] = [];
 
 
-      for (const bu of bussiness_Units) {
+      for (const bu of businessUnits) {
         if (bu_code && bu_code !== bu.code) {
           continue;
         }
