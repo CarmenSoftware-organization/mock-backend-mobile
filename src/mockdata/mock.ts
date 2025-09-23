@@ -1,29 +1,30 @@
 import { tbUser } from ".";
 import { getUuidByName } from "./mapping.uuid";
+import type { User } from "./tb_user";
 
-const user01 = tbUser.users.find((user) => user.id === getUuidByName("USER_01"));
-const user02 = tbUser.users.find((user) => user.id === getUuidByName("USER_02"));
-const user03 = tbUser.users.find((user) => user.id === getUuidByName("USER_03"));
-const user04 = tbUser.users.find((user) => user.id === getUuidByName("USER_04"));
-const user05 = tbUser.users.find((user) => user.id === getUuidByName("USER_05"));
-const user06 = tbUser.users.find((user) => user.id === getUuidByName("USER_06"));
-const user07 = tbUser.users.find((user) => user.id === getUuidByName("USER_07"));
-const user08 = tbUser.users.find((user) => user.id === getUuidByName("USER_08"));
-const user09 = tbUser.users.find((user) => user.id === getUuidByName("USER_09"));
-const user10 = tbUser.users.find((user) => user.id === getUuidByName("USER_10"));
+type UserKeys = "user01" | "user02" | "user03" | "user04" | "user05" | "user06" | "user07" | "user08" | "user09" | "user10";
 
-// export all mock
+function createUserLookup(): Record<UserKeys, User | undefined> {
+  const userNames: string[] = ["USER_01", "USER_02", "USER_03", "USER_04", "USER_05", "USER_06", "USER_07", "USER_08", "USER_09", "USER_10"];
+  const userKeys: UserKeys[] = ["user01", "user02", "user03", "user04", "user05", "user06", "user07", "user08", "user09", "user10"];
+
+  const userMap = new Map<string, User>();
+  tbUser.users.forEach(user => userMap.set(user.id, user));
+
+  return userKeys.reduce((acc, key, index) => {
+    const userNameKey = userNames[index];
+    if (!userNameKey) return acc;
+
+    const uuid = getUuidByName(userNameKey);
+    if (uuid) {
+      acc[key] = userMap.get(uuid);
+    }
+    return acc;
+  }, {} as Record<UserKeys, User | undefined>);
+}
+
+const users = createUserLookup();
+
 export const mock = {
-  users: {
-    user01,
-    user02,
-    user03,
-    user04,
-    user05,
-    user06,
-    user07,
-    user08,
-    user09,
-    user10,
-  },
+  users,
 };
