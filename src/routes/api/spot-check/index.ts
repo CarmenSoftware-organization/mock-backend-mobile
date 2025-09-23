@@ -33,8 +33,7 @@ export default (app: Elysia) =>
       })
     )
 
-    .get(
-      "/api/spot-check/pending",
+    .get("/api/spot-check/pending",
       async (ctx) => {
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
@@ -107,7 +106,6 @@ export default (app: Elysia) =>
         description: "Get all spot checks",
       },
     })
-
 
     .post("/api/:bu_code/spot-check", async (ctx) => {
 

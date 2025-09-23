@@ -1,177 +1,300 @@
-import { generateId, getCurrentTimestamp } from "@/libs/utils";
+import { generateId, getCurrentTimestamp, getRandomInt } from "@/libs/utils";
 import { getUuidByName } from "./mapping.uuid";
+import { getLocationById } from "./tb_location";
+import { tbPhysicalCountPeriod } from ".";
 
 export interface PhysicalCount {
   id: string;
-  counting_period_from_date: string;
-  counting_period_to_date: string;
-  status: "draft" | "counting" | "completed";
-    // description: string | null;
-    // note: string | null;
-    // info: any;
-    // doc_version: string;
-  created_at: string;
+  physical_count_period_id: string;
+  location_id: string;
+  location_name: string;
+  location_type: "inventory" | "consignment" | "direct";
+  description: string | null;
+  physical_count_type: "yes" | "no"
+  status: "pending" | "in_progress" | "completed";
+  start_count_at: Date | null;
+  end_count_at: Date | null;
+  product_counted: number;
+  product_total: number;
+  created_at: Date;
   created_by_id: string;
-  updated_at: string;
+  updated_at: Date | null;
   updated_by_id: string | null;
-  deleted_at: string | null;
-  deleted_by_id: string | null;
 }
+
+const location1 = getLocationById(getUuidByName("LOCATION_01"));
+const location2 = getLocationById(getUuidByName("LOCATION_02"));
+const location3 = getLocationById(getUuidByName("LOCATION_03"));
+const location4 = getLocationById(getUuidByName("LOCATION_04"));
+const location5 = getLocationById(getUuidByName("LOCATION_05"));
+const location6 = getLocationById(getUuidByName("LOCATION_06"));
+const location7 = getLocationById(getUuidByName("LOCATION_07"));
+const location8 = getLocationById(getUuidByName("LOCATION_08"));
+const location9 = getLocationById(getUuidByName("LOCATION_09"));
+const location10 = getLocationById(getUuidByName("LOCATION_10"));
 
 export const physicalCounts: PhysicalCount[] = [
   {
     id: getUuidByName("PHYSICAL_COUNT_01"),
-    counting_period_from_date: "2024-01-01T00:00:00.000Z",
-    counting_period_to_date: "2024-01-31T23:59:59.999Z",
-    status: "counting",
-    // description: "Physical count for January 2024",
-    // note: "Comprehensive physical count for all locations",
-    // info: { category: "inventory", type: "monthly", priority: "high" },
-    // doc_version: "1.0",
-    created_at: "2024-01-01T00:00:00.000Z",
+    physical_count_period_id: getUuidByName("PHYSICAL_COUNT_PERIOD_01"),
+    location_id: location1?.id || "",
+    location_name: location1?.name || "",
+    location_type: location1?.location_type || "inventory",
+    description: "Physical count for location 1",
+    physical_count_type: "yes",
+    status: "pending",
+    start_count_at: null,
+    end_count_at: null,
+    product_counted: 0,
+    product_total: getRandomInt(100, 1000),
+    created_at: new Date(getCurrentTimestamp()),
     created_by_id: getUuidByName("USER_01"),
-    updated_at: "2024-01-15T08:30:00.000Z",
-    updated_by_id: getUuidByName("USER_02"),
-    deleted_at: null,
-    deleted_by_id: null,
+    updated_at: new Date(getCurrentTimestamp()),
+    updated_by_id: getUuidByName("USER_01"),
   },
   {
     id: getUuidByName("PHYSICAL_COUNT_02"),
-    counting_period_from_date: "2024-02-01T00:00:00.000Z",
-    counting_period_to_date: "2024-02-29T23:59:59.999Z",
-    status: "draft",
-    // description: "Physical count for February 2024",
-    //  note: "Including locations that are not counted regularly",
-    //  info: { category: "inventory", type: "monthly", priority: "medium" },
-    // doc_version: "1.0",
-    created_at: "2024-02-01T00:00:00.000Z",
-    created_by_id: getUuidByName("USER_02"),
-    updated_at: "2024-02-01T00:00:00.000Z",
+    physical_count_period_id: getUuidByName("PHYSICAL_COUNT_PERIOD_01"),
+    location_id: location2?.id || "",
+    location_name: location2?.name || "",
+    location_type: location2?.location_type || "inventory",
+    description: "Physical count detail for location 2",
+    physical_count_type: "yes",
+    status: "in_progress",
+    start_count_at: new Date(getCurrentTimestamp()),
+    end_count_at: null,
+    product_counted: 20,
+    product_total: getRandomInt(100, 1000),
+    created_at: new Date(getCurrentTimestamp()),
+    created_by_id: getUuidByName("USER_01"),
+    updated_at: new Date(getCurrentTimestamp()),
     updated_by_id: getUuidByName("USER_02"),
-    deleted_at: null,
-    deleted_by_id: null,
   },
   {
     id: getUuidByName("PHYSICAL_COUNT_03"),
-    counting_period_from_date: "2024-03-01T00:00:00.000Z",
-    counting_period_to_date: "2024-03-31T23:59:59.999Z",
+    physical_count_period_id: getUuidByName("PHYSICAL_COUNT_PERIOD_01"),
+    location_id: location3?.id || "",
+    location_name: location3?.name || "",
+    location_type: location3?.location_type || "consignment",
+    description: "Physical count detail for location 3",
+    physical_count_type: "yes",
     status: "completed",
-    // description: "Physical count for March 2024",
-    // note: "Completed physical count with reconciliation",
-    // info: { category: "inventory", type: "monthly", priority: "high" },
-    // doc_version: "1.1",
-    created_at: "2024-03-01T00:00:00.000Z",
+    start_count_at: new Date(getCurrentTimestamp()),
+    end_count_at: new Date(getCurrentTimestamp()),
+    product_counted: 89,
+    product_total: 89,
+    created_at: new Date(getCurrentTimestamp()),
+    created_by_id: getUuidByName("USER_01"),
+    updated_at: new Date(getCurrentTimestamp()),
+    updated_by_id: getUuidByName("USER_03"),
+  },
+  {
+    id: getUuidByName("PHYSICAL_COUNT_04"),
+    physical_count_period_id: getUuidByName("PHYSICAL_COUNT_PERIOD_01"),
+    location_id: location4?.id || "",
+    location_name: location4?.name || "",
+    location_type: location4?.location_type || "inventory",
+    description: "Physical count detail for location 4",
+    physical_count_type: "yes",
+    status: "pending",
+    start_count_at: null,
+    end_count_at: null,
+    product_counted: 0,
+    product_total: getRandomInt(100, 1000),
+    created_at: new Date(getCurrentTimestamp()),
+    created_by_id: getUuidByName("USER_02"),
+    updated_at: new Date(getCurrentTimestamp()),
+    updated_by_id: getUuidByName("USER_02"),
+  },
+  {
+    id: getUuidByName("PHYSICAL_COUNT_05"),
+    physical_count_period_id: getUuidByName("PHYSICAL_COUNT_PERIOD_01"),
+    location_id: location5?.id || "",
+    location_name: location5?.name || "",
+    location_type: location5?.location_type || "inventory",
+    description: "Physical count detail for location 5",
+    physical_count_type: "no",
+    status: "pending",
+    start_count_at: null,
+    end_count_at: null,
+    product_counted: 0,
+    product_total: getRandomInt(100, 1000),
+    created_at: new Date(getCurrentTimestamp()),
+    created_by_id: getUuidByName("USER_02"),
+    updated_at: new Date(getCurrentTimestamp()),
+    updated_by_id: getUuidByName("USER_03"),
+  },
+  {
+    id: getUuidByName("PHYSICAL_COUNT_06"),
+    physical_count_period_id: getUuidByName("PHYSICAL_COUNT_PERIOD_01"),
+    location_id: location6?.id || "",
+    location_name: location6?.name || "",
+    location_type: location6?.location_type || "consignment",
+    description: "Physical count detail for location 6",
+    physical_count_type: "no",
+    status: "pending",
+    start_count_at: null,
+    end_count_at: null,
+    product_counted: 0,
+    product_total: getRandomInt(100, 1000),
+    created_at: new Date(getCurrentTimestamp()),
+    created_by_id: getUuidByName("USER_02"),
+    updated_at: new Date(getCurrentTimestamp()),
+    updated_by_id: getUuidByName("USER_02"),
+  },
+  {
+    id: getUuidByName("PHYSICAL_COUNT_07"),
+    physical_count_period_id: getUuidByName("PHYSICAL_COUNT_PERIOD_01"),
+    location_id: location7?.id || "",
+    location_name: location7?.name || "",
+    location_type: location7?.location_type || "inventory",
+    description: "Physical count detail for location 7",
+    physical_count_type: "no",
+    status: "completed",
+    start_count_at: new Date(getCurrentTimestamp()),
+    end_count_at: new Date(getCurrentTimestamp()),
+    product_counted: 89,
+    product_total: 89,
+    created_at: new Date(getCurrentTimestamp()),
     created_by_id: getUuidByName("USER_03"),
-    updated_at: "2024-03-31T23:59:00.000Z",
+    updated_at: new Date(getCurrentTimestamp()),
     updated_by_id: getUuidByName("USER_01"),
-    deleted_at: null,
-    deleted_by_id: null,
+  },
+  {
+    id: getUuidByName("PHYSICAL_COUNT_08"),
+    physical_count_period_id: getUuidByName("PHYSICAL_COUNT_PERIOD_01"),
+    location_id: location8?.id || "",
+    location_name: location8?.name || "",
+    location_type: location8?.location_type || "consignment",
+    description: "Physical count detail for location 8",
+    physical_count_type: "no",
+    status: "completed",
+    start_count_at: new Date(getCurrentTimestamp()),
+    end_count_at: new Date(getCurrentTimestamp()),
+    product_counted: 89,
+    product_total: 89,
+    created_at: new Date(getCurrentTimestamp()),
+    created_by_id: getUuidByName("USER_03"),
+    updated_at: new Date(getCurrentTimestamp()),
+    updated_by_id: getUuidByName("USER_01"),
   },
 ];
 
-// CREATE - สร้าง PhysicalCount ใหม่
+// CREATE - สร้าง PhysicalCountDetail ใหม่
 export const createPhysicalCount = (
   data: Omit<PhysicalCount, "id" | "created_at" | "updated_at">
 ): PhysicalCount => {
-  const newPhysicalCount: PhysicalCount = {
+  const newDetail: PhysicalCount = {
     ...data,
     id: generateId(),
-    created_at: getCurrentTimestamp(),
-    updated_at: getCurrentTimestamp(),
+    created_at: new Date(getCurrentTimestamp()),
+    updated_at: new Date(getCurrentTimestamp()),
   };
 
-  physicalCounts.push(newPhysicalCount);
-  return newPhysicalCount;
+  physicalCounts.push(newDetail);
+  return newDetail;
 };
 
-// CREATE - สร้าง PhysicalCount พร้อมค่าเริ่มต้น
-export const createPhysicalCountWithDefaults = (
-  fromDate: string,
-  toDate: string,
-  createdById: string,
-  // description?: string
-): PhysicalCount => {
-  return createPhysicalCount({
-    counting_period_from_date: fromDate,
-    counting_period_to_date: toDate,
-    status: "draft",
-    // description: description || null,
-    // note: null,
-    // info: null,
-    // doc_version: "1.0",
-    created_by_id: createdById,
-    updated_by_id: createdById,
-    deleted_at: null,
-    deleted_by_id: null,
-  });
-};
-
-// READ - อ่าน PhysicalCount ทั้งหมด
-export const getAllPhysicalCounts = (): PhysicalCount[] => {
-  return physicalCounts.filter(count => !count.deleted_at);
-};
-
-// READ - อ่าน PhysicalCount ตาม ID
-export const getPhysicalCountById = (id: string): PhysicalCount | null => {
-  const count = physicalCounts.find(c => c.id === id && !c.deleted_at);
-  return count || null;
-};
-
-// READ - อ่าน PhysicalCount ตาม created_by_id
-export const getPhysicalCountsByCreatedBy = (createdById: string): PhysicalCount[] => {
-  return physicalCounts.filter(count =>
-    count.created_by_id === createdById && !count.deleted_at
-  );
-};
-
-// READ - อ่าน PhysicalCount ตาม updated_by_id
-export const getPhysicalCountsByUpdatedBy = (updatedById: string): PhysicalCount[] => {
-  return physicalCounts.filter(count =>
-    count.updated_by_id === updatedById && !count.deleted_at
-  );
-};
-
-// READ - อ่าน PhysicalCount ตาม status
-export const getPhysicalCountsByStatus = (status: "draft" | "counting" | "completed"): PhysicalCount[] => {
-  return physicalCounts.filter(count =>
-    count.status === status && !count.deleted_at
-  );
-};
-
-// READ - อ่าน PhysicalCount ตามช่วงวันที่นับ
-export const getPhysicalCountsByCountingPeriod = (
-  fromDate: string,
-  toDate: string
+// CREATE - สร้าง PhysicalCountDetail หลายรายการ
+export const createMultiplePhysicalCounts = (
+  details: Omit<PhysicalCount, "id" | "created_at" | "updated_at">[]
 ): PhysicalCount[] => {
-  return physicalCounts.filter(count => {
-    if (count.deleted_at) return false;
-    const countFromDate = new Date(count.counting_period_from_date);
-    const countToDate = new Date(count.counting_period_to_date);
-    const searchFromDate = new Date(fromDate);
-    const searchToDate = new Date(toDate);
-
-    // Check if counting periods overlap
-    return countFromDate <= searchToDate && countToDate >= searchFromDate;
-  });
+  const newDetails = details.map(detail => createPhysicalCount(detail));
+  return newDetails;
 };
 
-// READ - อ่าน PhysicalCount ตามช่วงวันที่สร้าง
+// READ - อ่าน PhysicalCountDetail ทั้งหมด
+export const getAllPhysicalCounts = (): PhysicalCount[] => {
+  return physicalCounts;
+};
+
+// READ - อ่าน PhysicalCountDetail ตาม ID
+export const getPhysicalCountById = (id: string): PhysicalCount | null => {
+  const detail = physicalCounts.find(d => d.id === id);
+  return detail || null;
+};
+
+// READ - อ่าน PhysicalCountDetail ตาม physical_count_id
+export const getPhysicalCountsByPhysicalCountId = (physicalCountId: string, include_not_count: boolean): PhysicalCount[] => {
+
+  const physicalCount = tbPhysicalCountPeriod.getPhysicalCountPeriodById(physicalCountId);
+  if (!physicalCount) {
+    return [];
+  }
+
+
+  const details = physicalCounts.filter(detail =>
+    detail.physical_count_period_id === physicalCountId
+  );
+    
+  let res = details;
+
+  if (include_not_count) {
+    res = details;
+  } else {
+    res = details.filter(detail => detail.physical_count_type === "yes");
+  }
+  return res;
+};
+
+// READ - อ่าน PhysicalCountDetail ตาม location_id
+export const getPhysicalCountsByLocationId = (locationId: string, include_not_count: boolean): PhysicalCount[] => {
+  
+  const details = physicalCounts.filter(detail =>
+    detail.location_id === locationId
+  );
+
+  if (include_not_count) {
+    return details;
+  } else {
+    return details.filter(detail => detail.physical_count_type === "yes");
+  }
+};
+
+// READ - อ่าน PhysicalCountDetail ตาม location_type
+export const getPhysicalCountsByLocationType = (locationType: "inventory" | "consignment" | "direct"): PhysicalCount[] => {
+  return physicalCounts.filter(detail =>
+    detail.location_type === locationType
+  );
+};
+
+// READ - อ่าน PhysicalCountDetail ตาม status
+export const getPhysicalCountsByStatus = (status: "pending" | "in_progress" | "completed"): PhysicalCount[] => {
+  return physicalCounts.filter(detail =>
+    detail.status === status
+  );
+};
+
+// READ - อ่าน PhysicalCountDetail ตาม created_by_id
+export const getPhysicalCountsByCreatedBy = (createdById: string): PhysicalCount[] => {
+  return physicalCounts.filter(detail =>
+    detail.created_by_id === createdById
+  );
+};
+
+// READ - อ่าน PhysicalCountDetail ตาม updated_by_id
+export const getPhysicalCountsByUpdatedBy = (updatedById: string): PhysicalCount[] => {
+  return physicalCounts.filter(detail =>
+    detail.updated_by_id === updatedById
+  );
+};
+
+// READ - อ่าน PhysicalCountDetail ตามช่วงวันที่สร้าง
 export const getPhysicalCountsByDateRange = (startDate: string, endDate: string): PhysicalCount[] => {
-  return physicalCounts.filter(count => {
-    if (count.deleted_at) return false;
-    const createdDate = new Date(count.created_at);
+  return physicalCounts.filter(detail => {
+    const createdDate = new Date(detail.created_at);
     const start = new Date(startDate);
     const end = new Date(endDate);
     return createdDate >= start && createdDate <= end;
   });
 };
 
-// UPDATE - อัปเดต PhysicalCount
+// UPDATE - อัปเดต PhysicalCountDetail
 export const updatePhysicalCount = (
   id: string,
   data: Partial<Omit<PhysicalCount, "id" | "created_at" | "created_by_id">>
 ): PhysicalCount | null => {
-  const index = physicalCounts.findIndex(count => count.id === id && !count.deleted_at);
+  const index = physicalCounts.findIndex(detail => detail.id === id);
 
   if (index === -1) {
     return null;
@@ -180,90 +303,63 @@ export const updatePhysicalCount = (
   physicalCounts[index] = {
     ...physicalCounts[index],
     ...data,
-    updated_at: getCurrentTimestamp(),
+    updated_at: new Date(getCurrentTimestamp()),
   };
 
   return physicalCounts[index];
 };
 
-// UPDATE - อัปเดต counting period ของ PhysicalCount
-export const updatePhysicalCountPeriod = (
-  id: string,
-  fromDate: string,
-  toDate: string,
-  updatedById: string
-): PhysicalCount | null => {
-  return updatePhysicalCount(id, {
-    counting_period_from_date: fromDate,
-    counting_period_to_date: toDate,
-    updated_by_id: updatedById
-  });
-};
-
-// UPDATE - อัปเดต status ของ PhysicalCount
+// UPDATE - อัปเดต status ของ PhysicalCountDetail
 export const updatePhysicalCountStatus = (
   id: string,
-  status: "draft" | "counting" | "completed",
+  status: "pending" | "in_progress" | "completed",
+  updatedById: string
+): PhysicalCount | null => {
+  return updatePhysicalCount(id, { status, updated_by_id: updatedById });
+};
+
+// UPDATE - อัปเดต location ของ PhysicalCountDetail
+export const updatePhysicalCountLocation = (
+  id: string,
+  locationId: string,
+  locationName: string,
   updatedById: string
 ): PhysicalCount | null => {
   return updatePhysicalCount(id, {
-    status: status,
+    location_id: locationId,
+    location_name: locationName,
     updated_by_id: updatedById
   });
 };
 
-// UPDATE - อัปเดต description
-export const updatePhysicalCountDescription = (
+// UPDATE - อัปเดต location_type ของ PhysicalCountDetail
+export const updatePhysicalCountLocationType = (
   id: string,
-  description: string,
+  locationType: "inventory" | "consignment" | "direct",
   updatedById: string
 ): PhysicalCount | null => {
-  return updatePhysicalCount(id, { updated_by_id: updatedById });
+  return updatePhysicalCount(id, { location_type: locationType, updated_by_id: updatedById });
 };
 
-// UPDATE - อัปเดต note
-export const updatePhysicalCountNote = (
-  id: string,
-  note: string,
-  updatedById: string
-): PhysicalCount | null => {
-  return updatePhysicalCount(id, { updated_by_id: updatedById });
+// UPDATE - อัปเดต PhysicalCountDetail หลายรายการ
+export const updateMultiplePhysicalCounts = (
+  updates: { id: string; data: Partial<Omit<PhysicalCount, "id" | "created_at" | "created_by_id">> }[]
+): PhysicalCount[] => {
+  const updatedDetails: PhysicalCount[] = [];
+
+  updates.forEach(update => {
+    const updatedDetail = updatePhysicalCount(update.id, update.data);
+    if (updatedDetail) {
+      updatedDetails.push(updatedDetail);
+    }
+  });
+
+  return updatedDetails;
 };
 
-// UPDATE - อัปเดต info
-export const updatePhysicalCountInfo = (
-  id: string,
-  info: any,
-  updatedById: string
-): PhysicalCount | null => {
-  return updatePhysicalCount(id, { updated_by_id: updatedById });
-};
-
-// UPDATE - อัปเดต doc_version
-export const updatePhysicalCountDocVersion = (
-  id: string,
-  docVersion: string,
-  updatedById: string
-): PhysicalCount | null => {
-  return updatePhysicalCount(id, { updated_by_id: updatedById });
-};
-
-// DELETE - Soft delete PhysicalCount
-export const softDeletePhysicalCount = (id: string, deletedById: string): PhysicalCount | null => {
-  const count = getPhysicalCountById(id);
-  if (!count) return null;
-
-  count.deleted_at = getCurrentTimestamp();
-  count.deleted_by_id = deletedById;
-  count.updated_at = getCurrentTimestamp();
-  count.updated_by_id = deletedById;
-
-  return count;
-};
-
-// DELETE - Hard delete PhysicalCount
+// DELETE - Hard delete PhysicalCountDetail
 export const hardDeletePhysicalCount = (id: string): boolean => {
-  const index = physicalCounts.findIndex(count => count.id === id);
+  const index = physicalCounts.findIndex(detail => detail.id === id);
 
   if (index === -1) {
     return false;
@@ -273,118 +369,51 @@ export const hardDeletePhysicalCount = (id: string): boolean => {
   return true;
 };
 
-// DELETE - ลบ PhysicalCount หลายรายการ
-export const deleteMultiplePhysicalCounts = (
-  ids: string[],
-  deletedById: string
-): PhysicalCount[] => {
-  const deletedCounts: PhysicalCount[] = [];
 
-  ids.forEach(id => {
-    const deletedCount = softDeletePhysicalCount(id, deletedById);
-    if (deletedCount) {
-      deletedCounts.push(deletedCount);
-    }
-  });
-
-  return deletedCounts;
-};
-
-// DELETE - ลบ PhysicalCount ตาม status
-export const deletePhysicalCountsByStatus = (
-  status: "draft" | "counting" | "completed",
-  deletedById: string
-): boolean => {
-  const counts = getPhysicalCountsByStatus(status);
-  let deletedCount = 0;
-
-  counts.forEach(count => {
-    if (softDeletePhysicalCount(count.id, deletedById)) {
-      deletedCount++;
-    }
-  });
-
-  return deletedCount > 0;
-};
-
-// DELETE - ลบ PhysicalCount ตาม created_by_id
-export const deletePhysicalCountsByCreatedBy = (
-  createdById: string,
-  deletedById: string
-): boolean => {
-  const counts = getPhysicalCountsByCreatedBy(createdById);
-  let deletedCount = 0;
-
-  counts.forEach(count => {
-    if (softDeletePhysicalCount(count.id, deletedById)) {
-      deletedCount++;
-    }
-  });
-
-  return deletedCount > 0;
-};
-
-// RESTORE - กู้คืน PhysicalCount ที่ถูก soft delete
-export const restorePhysicalCount = (id: string): PhysicalCount | null => {
-  const count = physicalCounts.find(c => c.id === id);
-  if (!count || !count.deleted_at) return null;
-
-  count.deleted_at = null;
-  count.deleted_by_id = null;
-  count.updated_at = getCurrentTimestamp();
-
-  return count;
-};
-
-// ADVANCED SEARCH - ค้นหา PhysicalCount แบบขั้นสูง
+// ADVANCED SEARCH - ค้นหา PhysicalCountDetail แบบขั้นสูง
 export const searchPhysicalCounts = (criteria: {
-  status?: "draft" | "counting" | "completed";
-  // description?: string;
-  // note?: string;
-  // doc_version?: string;
+  physical_count_id?: string;
+  location_id?: string;
+  location_name?: string;
+  location_type?: "inventory" | "consignment" | "direct";
+  status?: "pending" | "in_progress" | "completed";
   created_by_id?: string;
   updated_by_id?: string;
-  counting_period_from?: string;
-  counting_period_to?: string;
   start_date?: string;
   end_date?: string;
 }): PhysicalCount[] => {
-  return physicalCounts.filter(count => {
-    if (count.deleted_at) return false;
+  return physicalCounts.filter(detail => {
 
-    if (criteria.status && count.status !== criteria.status) {
+    if (criteria.physical_count_id && detail.physical_count_period_id !== criteria.physical_count_id) {
       return false;
     }
 
-    if (criteria.status && count.status !== criteria.status) {
+    if (criteria.location_id && detail.location_id !== criteria.location_id) {
       return false;
     }
 
-    if (criteria.created_by_id && count.created_by_id !== criteria.created_by_id) {
+    if (criteria.location_name && !detail.location_name.toLowerCase().includes(criteria.location_name.toLowerCase())) {
       return false;
     }
 
-    if (criteria.updated_by_id && count.updated_by_id !== criteria.updated_by_id) {
+    if (criteria.location_type && detail.location_type !== criteria.location_type) {
       return false;
     }
 
-    if (criteria.counting_period_from || criteria.counting_period_to) {
-      const countFromDate = new Date(count.counting_period_from_date);
-      const countToDate = new Date(count.counting_period_to_date);
+    if (criteria.status && detail.status !== criteria.status) {
+      return false;
+    }
 
-      if (criteria.counting_period_from) {
-        const searchFromDate = new Date(criteria.counting_period_from);
-        if (countFromDate < searchFromDate) return false;
-      }
+    if (criteria.created_by_id && detail.created_by_id !== criteria.created_by_id) {
+      return false;
+    }
 
-      if (criteria.counting_period_to) {
-        const searchToDate = new Date(criteria.counting_period_to);
-        if (countToDate > searchToDate) return false;
-      }
+    if (criteria.updated_by_id && detail.updated_by_id !== criteria.updated_by_id) {
+      return false;
     }
 
     if (criteria.start_date || criteria.end_date) {
-      const createdDate = new Date(count.created_at);
+      const createdDate = new Date(detail.created_at);
       if (criteria.start_date && createdDate < new Date(criteria.start_date)) return false;
       if (criteria.end_date && createdDate > new Date(criteria.end_date)) return false;
     }
@@ -395,67 +424,43 @@ export const searchPhysicalCounts = (criteria: {
 
 // UTILITY FUNCTIONS - ฟังก์ชันเสริม
 export const getPhysicalCountCount = (): number => {
-  return physicalCounts.filter(count => !count.deleted_at).length;
+  return physicalCounts.length;
 };
 
-export const getPhysicalCountCountByIncludeLocationNotCount = (includeLocationNotCount: boolean): number => {
-  return physicalCounts.filter(count =>
-    count.status === status && !count.deleted_at
+export const getPhysicalCountCountByPhysicalCountId = (physicalCountId: string): number => {
+  return physicalCounts.filter(detail =>
+    detail.physical_count_period_id === physicalCountId
   ).length;
 };
 
-export const getPhysicalCountCountByStatus = (status: "draft" | "counting" | "completed"): number => {
-    return physicalCounts.filter(count =>
-    count.status === status && !count.deleted_at
+export const getPhysicalCountCountByStatus = (status: "pending" | "in_progress" | "completed"): number => {
+  return physicalCounts.filter(detail =>
+    detail.status === status
+  ).length;
+};
+
+export const getPhysicalCountCountByLocationType = (locationType: "inventory" | "consignment" | "direct"): number => {
+  return physicalCounts.filter(detail =>
+    detail.location_type === locationType
   ).length;
 };
 
 export const isPhysicalCountExists = (id: string): boolean => {
-  return physicalCounts.some(count => count.id === id && !count.deleted_at);
+  return physicalCounts.some(detail => detail.id === id);
 };
 
-export const hasPhysicalCountsByCreatedBy = (createdById: string): boolean => {
-  return physicalCounts.some(count =>
-    count.created_by_id === createdById && !count.deleted_at
+export const hasPhysicalCountsForPhysicalCount = (physicalCountId: string): boolean => {
+  return physicalCounts.some(detail =>
+    detail.physical_count_period_id === physicalCountId
   );
 };
 
-export const hasPhysicalCountsByStatus = (status: "draft" | "counting" | "completed"): boolean => {
-  return physicalCounts.some(count =>
-    count.status === status && !count.deleted_at
+export const hasPhysicalCountsForLocation = (locationId: string): boolean => {
+  return physicalCounts.some(detail =>
+    detail.location_id === locationId
   );
-};
-
-export const getActivePhysicalCounts = (): PhysicalCount[] => {
-  return physicalCounts.filter(count =>
-    (count.status === "counting" || count.status === "draft") && !count.deleted_at
-  );
-};
-
-export const getCompletedPhysicalCounts = (): PhysicalCount[] => {
-  return physicalCounts.filter(count =>
-    count.status === "completed" && !count.deleted_at
-  );
-};
-
-export const getCurrentPhysicalCounts = (currentDate?: string): PhysicalCount[] => {
-  const now = currentDate ? new Date(currentDate) : new Date();
-
-  return physicalCounts.filter(count => {
-    if (count.deleted_at) return false;
-    const fromDate = new Date(count.counting_period_from_date);
-    const toDate = new Date(count.counting_period_to_date);
-    return fromDate <= now && now <= toDate;
-  });
 };
 
 export const clearAllPhysicalCounts = (): void => {
   physicalCounts.length = 0;
-};
-
-
-export const getPhysicalCountsOnCounting = (): PhysicalCount | null => {
-  return physicalCounts.find(count =>
-    count.status === "counting" && !count.deleted_at
-  ) || null;
 };

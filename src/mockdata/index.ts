@@ -78,6 +78,7 @@ export * as tbUserTbBusinessUnit from "./tb_user_tb_business_unit";
 export * as tbPermission from "./tb_permission";
 export * as tbUserPermission from "./temp_tb_user_permission";
 export * as tbTaxProfile from "./tb_tax_profile";
+export * as tbPhysicalCountPeriod from "./tb_physical_count_period";
 export * as tbPhysicalCount from "./tb_physical_count";
 export * as tbPhysicalCountDetail from "./tb_physical_count_detail";
 export * as tbSpotCheck from "./tb_spot_check";
