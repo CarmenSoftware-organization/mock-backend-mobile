@@ -1,1 +1,1 @@
-export * from "./defaultroot.html";
+export { defaultRootHtml } from "./defaultroot.html";
