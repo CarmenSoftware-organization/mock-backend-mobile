@@ -1,4 +1,4 @@
-import type { Elysia } from "elysia";
+import { t, type Elysia } from "elysia";
 import {
   resBadRequest,
   resInternalServerError,
@@ -9,6 +9,17 @@ import jwt from "@elysiajs/jwt";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
 import { tbSpotCheck } from "@/mockdata";
 import { getRandomInt } from "@/libs/utils";
+import { createSpotCheck, CreateSpotCheckDTO } from "@/mockdata/tb_spot_check";
+import {
+  getAllSpotCheckDetails,
+  getSpotCheckDetailById,
+  getSpotCheckDetailsBySpotCheckId,
+  createSpotCheckDetail,
+  updateSpotCheckDetail,
+  deleteSpotCheckDetail,
+  getNextSequenceNumber,
+  type SpotCheckDetail,
+} from "@/mockdata/tb_spot_check_detail";
 
 export default (app: Elysia) =>
   app
@@ -77,7 +88,7 @@ export default (app: Elysia) =>
       }
 
       const include_not_count = ctx.query.include_not_count === "true";
-      
+
       // get all details
       const spotChecks = tbSpotCheck.getSpotCheck(include_not_count);
       if (!spotChecks || spotChecks.length === 0) {
@@ -93,4 +104,281 @@ export default (app: Elysia) =>
         summary: "Get all spot checks",
         description: "Get all spot checks",
       },
+    })
+
+
+    .post("/api/:bu_code/spot-check", async (ctx) => {
+
+      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+      if (errorAppId) {
+        ctx.set.status = 400;
+        return errorAppId;
+      }
+
+      const { error: errorAccessToken, bussiness_Units } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+      if (errorAccessToken) {
+        ctx.set.status = 401;
+        return errorAccessToken;
+      }
+
+      const bu = bussiness_Units.find((bu) => bu.code === ctx.params.bu_code);
+      if (!bu) {
+        return resNotFound("Business unit not found");
+      }
+
+      const { location_id, method, items_total, items } = ctx.body as CreateSpotCheckDTO;
+
+      const res = tbSpotCheck.createSpotCheck(method, location_id, items_total);
+      // response spotchecking details
+      return {id: res.id};
+
+    }, {
+      detail: {
+        tags: ["spot-check"],
+        summary: "Create spot check",
+        description: "Create spot check",
+      },
+    })
+
+    .get("/api/:bu_code/spot-check/:spot_check_id/details", async (ctx) => {
+      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+      if (errorAppId) {
+        ctx.set.status = 400;
+        return errorAppId;
+      }
+
+      const { error: errorAccessToken, bussiness_Units } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+      if (errorAccessToken) {
+        ctx.set.status = 401;
+        return errorAccessToken;
+      }
+
+      const bu = bussiness_Units.find((bu) => bu.code === ctx.params.bu_code);
+      if (!bu) {
+        return resNotFound("Business unit not found");
+      }
+
+      try {
+        const details = getSpotCheckDetailsBySpotCheckId(ctx.params.spot_check_id);
+        return { data: details };
+      } catch (error) {
+        return resInternalServerError(
+          error instanceof Error ? error.message : "Unknown error"
+        );
+      }
+    }, {
+      detail: {
+        tags: ["spot-check-detail"],
+        summary: "Get spot check details by spot check ID",
+        description: "Get all details for a specific spot check",
+      },
+    })
+
+    .get("/api/:bu_code/spot-check/detail/:detail_id", async (ctx) => {
+      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+      if (errorAppId) {
+        ctx.set.status = 400;
+        return errorAppId;
+      }
+
+      const { error: errorAccessToken, bussiness_Units } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+      if (errorAccessToken) {
+        ctx.set.status = 401;
+        return errorAccessToken;
+      }
+
+      const bu = bussiness_Units.find((bu) => bu.code === ctx.params.bu_code);
+      if (!bu) {
+        return resNotFound("Business unit not found");
+      }
+
+      try {
+        const detail = getSpotCheckDetailById(ctx.params.detail_id);
+        if (!detail) {
+          return resNotFound("Spot check detail not found");
+        }
+        return { data: detail };
+      } catch (error) {
+        return resInternalServerError(
+          error instanceof Error ? error.message : "Unknown error"
+        );
+      }
+    }, {
+      detail: {
+        tags: ["spot-check-detail"],
+        summary: "Get spot check detail by ID",
+        description: "Get a specific spot check detail by its ID",
+      },
+    })
+
+    .post("/api/:bu_code/spot-check/:spot_check_id/details", async (ctx) => {
+      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+      if (errorAppId) {
+        ctx.set.status = 400;
+        return errorAppId;
+      }
+
+      const { error: errorAccessToken, bussiness_Units, currentUser } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+      if (errorAccessToken) {
+        ctx.set.status = 401;
+        return errorAccessToken;
+      }
+
+      const bu = bussiness_Units.find((bu) => bu.code === ctx.params.bu_code);
+      if (!bu) {
+        return resNotFound("Business unit not found");
+      }
+
+      try {
+        const { product_id, product_name, sku, actual_count } = ctx.body as {
+          product_id: string;
+          product_name: string;
+          sku: string;
+          actual_count: number;
+        };
+
+        const nextSequence = getNextSequenceNumber(ctx.params.spot_check_id);
+
+        const newDetail = createSpotCheckDetail({
+          spot_check_id: ctx.params.spot_check_id,
+          sequence_no: nextSequence,
+          product_id,
+          product_name,
+          sku,
+          actual_count,
+          created_by_id: currentUser?.id || "",
+          updated_by_id: currentUser?.id || "",
+        });
+
+        return { data: newDetail };
+      } catch (error) {
+        return resInternalServerError(
+          error instanceof Error ? error.message : "Unknown error"
+        );
+      }
+    }, {
+      detail: {
+        tags: ["spot-check-detail"],
+        summary: "Create spot check detail",
+        description: "Add a new detail item to a spot check",
+      },
+    })
+
+    .patch("/api/:bu_code/spot-check/detail/:detail_id", async (ctx) => {
+      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+      if (errorAppId) {
+        ctx.set.status = 400;
+        return errorAppId;
+      }
+
+      const { error: errorAccessToken, bussiness_Units, currentUser } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+      if (errorAccessToken) {
+        ctx.set.status = 401;
+        return errorAccessToken;
+      }
+
+      const bu = bussiness_Units.find((bu) => bu.code === ctx.params.bu_code);
+      if (!bu) {
+        return resNotFound("Business unit not found");
+      }
+
+      try {
+        const updateData = ctx.body as Partial<Pick<SpotCheckDetail, 'product_id' | 'product_name' | 'sku' | 'actual_count' | 'sequence_no'>>;
+
+        const updatedDetail = updateSpotCheckDetail(
+          ctx.params.detail_id,
+          updateData,
+          currentUser?.id || ""
+        );
+
+        if (!updatedDetail) {
+          return resNotFound("Spot check detail not found");
+        }
+
+        return { data: updatedDetail };
+      } catch (error) {
+        return resInternalServerError(
+          error instanceof Error ? error.message : "Unknown error"
+        );
+      }
+    }, {
+      detail: {
+        tags: ["spot-check-detail"],
+        summary: "Update spot check detail",
+        description: "Update an existing spot check detail",
+      },
+    })
+
+    .delete("/api/:bu_code/spot-check/detail/:detail_id", async (ctx) => {
+      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+      if (errorAppId) {
+        ctx.set.status = 400;
+        return errorAppId;
+      }
+
+      const { error: errorAccessToken, bussiness_Units } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+      if (errorAccessToken) {
+        ctx.set.status = 401;
+        return errorAccessToken;
+      }
+
+      const bu = bussiness_Units.find((bu) => bu.code === ctx.params.bu_code);
+      if (!bu) {
+        return resNotFound("Business unit not found");
+      }
+
+      try {
+        const deleted = deleteSpotCheckDetail(ctx.params.detail_id);
+
+        if (!deleted) {
+          return resNotFound("Spot check detail not found");
+        }
+
+        return { message: "Spot check detail deleted successfully" };
+      } catch (error) {
+        return resInternalServerError(
+          error instanceof Error ? error.message : "Unknown error"
+        );
+      }
+    }, {
+      detail: {
+        tags: ["spot-check-detail"],
+        summary: "Delete spot check detail",
+        description: "Delete a spot check detail by ID",
+      },
+    })
+
+    .get("/api/:bu_code/spot-check-details", async (ctx) => {
+      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+      if (errorAppId) {
+        ctx.set.status = 400;
+        return errorAppId;
+      }
+
+      const { error: errorAccessToken, bussiness_Units } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+      if (errorAccessToken) {
+        ctx.set.status = 401;
+        return errorAccessToken;
+      }
+
+      const bu = bussiness_Units.find((bu) => bu.code === ctx.params.bu_code);
+      if (!bu) {
+        return resNotFound("Business unit not found");
+      }
+
+      try {
+        const allDetails = getAllSpotCheckDetails();
+        return { data: allDetails };
+      } catch (error) {
+        return resInternalServerError(
+          error instanceof Error ? error.message : "Unknown error"
+        );
+      }
+    }, {
+      detail: {
+        tags: ["spot-check-detail"],
+        summary: "Get all spot check details",
+        description: "Get all spot check details across all spot checks",
+      },
     });
+

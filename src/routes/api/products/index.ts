@@ -3,7 +3,7 @@ import { t } from "elysia";
 import { resNotFound, resNotImplemented } from "@/libs/res.error";
 import { jwt } from "@elysiajs/jwt";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
-import { tbBusinessUnit, tbInventoryTransactionDetail, tbLocation, tbProduct, tbPurchaseOrder, tbPurchaseOrderDetail, tbUnitConversion } from "@/mockdata";
+import { tbBusinessUnit, tbInventoryTransactionDetail, tbLocation, tbProduct, tbProductLocation, tbPurchaseOrder, tbPurchaseOrderDetail, tbUnitConversion } from "@/mockdata";
 import { PARAM_X_APP_ID } from "@mockdata/const";
 
 export default (app: Elysia) =>
@@ -473,8 +473,26 @@ export default (app: Elysia) =>
   })
 
   // Merged routes from /api/products/locations/:id
-  .get("/api/products/locations/:id", ({ params, query, body, headers }) => {
-    return Response.json(resNotImplemented, { status: 501 });
+  .get("/api/:bu_code/products/locations/:id", async (ctx) => {
+    const {error: errorAppId} = CheckHeaderHasAppId(ctx.headers);
+    if (errorAppId) {
+      return errorAppId;
+    }
+
+    const {error: errorAccessToken} = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+    if (errorAccessToken) {
+      return errorAccessToken;
+    }
+
+    const {bu_code, id} = ctx.params;
+
+    const bu = tbBusinessUnit.getBusinessUnitByCode(bu_code);
+    if (!bu) {
+      return resNotFound("Business unit not found");
+    }
+
+    const products = tbProductLocation.getProductsByLocation(id);
+    return products;
   }, {
     detail: {
       tags: ["products"],

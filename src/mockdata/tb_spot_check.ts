@@ -22,6 +22,18 @@ export interface SpotCheck {
   updated_by_id: string | null;
 }
 
+export interface ProductId {
+  id: string;
+}
+
+export interface CreateSpotCheckDTO {
+  location_id: string;
+  method: "random" | "high_value" | "manual";
+  items_total: number;
+  min_value? : number;
+  items? : [{id: string}]
+}
+
 const location1 = getLocationById(getUuidByName("LOCATION_01"));
 const location2 = getLocationById(getUuidByName("LOCATION_02"));
 const location3 = getLocationById(getUuidByName("LOCATION_03"));
@@ -33,7 +45,7 @@ const location8 = getLocationById(getUuidByName("LOCATION_08"));
 const location9 = getLocationById(getUuidByName("LOCATION_09"));
 const location10 = getLocationById(getUuidByName("LOCATION_10"));
 
-export const physicalCountsDetails: SpotCheck[] = [
+export const spotChecks: SpotCheck[] = [
   {
     id: getUuidByName("SPOT_CHECK_01"),
     location_id: location1?.id || "",
@@ -182,35 +194,42 @@ export const physicalCountsDetails: SpotCheck[] = [
 
 // CREATE - สร้าง SpotCheck ใหม่
 export const createSpotCheck = (
-  data: Omit<SpotCheck, "id" | "created_at" | "updated_at">
+  method: "random" | "high_value" | "manual",
+  location_id: string,
+  items_total: number,
+  items?: {id: string}[]
 ): SpotCheck => {
   const newDetail: SpotCheck = {
-    ...data,
-    id: generateId(),
+    id: getUuidByName("SPOT_CHECK_01"),
+    method,
+    location_id,
+    location_name : getLocationById(location_id)?.name || "",
+    location_type : getLocationById(location_id)?.location_type || "inventory",
+    description : "Spot check for location " + location_id,
+    physical_count_type : "yes",
+    status : "in_progress",
+    start_count_at : new Date(getCurrentTimestamp()),
+    end_count_at : null,
+    product_counted : 0,
+    product_total : items_total,
+    created_by_id : getUuidByName("USER_01"),
+    updated_by_id : getUuidByName("USER_01"),
     created_at: new Date(getCurrentTimestamp()),
     updated_at: new Date(getCurrentTimestamp()),
   };
 
-  physicalCountsDetails.push(newDetail);
+  spotChecks.push(newDetail);
   return newDetail;
-};
-
-// CREATE - สร้าง SpotCheck หลายรายการ
-export const createMultipleSpotChecks = (
-  details: Omit<SpotCheck, "id" | "created_at" | "updated_at">[]
-): SpotCheck[] => {
-  const newDetails = details.map(detail => createSpotCheck(detail));
-  return newDetails;
 };
 
 // READ - อ่าน SpotCheck ทั้งหมด
 export const getAllSpotChecks = (): SpotCheck[] => {
-  return physicalCountsDetails;
+  return spotChecks;
 };
 
 // READ - อ่าน SpotCheck ตาม ID
 export const getSpotCheckById = (id: string): SpotCheck | null => {
-  const detail = physicalCountsDetails.find(d => d.id === id);
+  const detail = spotChecks.find(d => d.id === id);
   return detail || null;
 };
 
@@ -223,7 +242,7 @@ export const getSpotChecksByPhysicalCountId = (id: string): SpotCheck[] => {
     return [];
   }
 
-  const details = physicalCountsDetails.filter(detail =>
+  const details = spotChecks.filter(detail =>
     detail.id === id
   );  
 
@@ -236,42 +255,42 @@ export const getSpotChecksByPhysicalCountId = (id: string): SpotCheck[] => {
 
 // READ - อ่าน SpotCheck ตาม location_id
 export const getSpotChecksByLocationId = (locationId: string): SpotCheck[] => {
-  return physicalCountsDetails.filter(detail =>
+  return spotChecks.filter(detail =>
     detail.location_id === locationId
   );
 };
 
 // READ - อ่าน SpotCheck ตาม location_type
 export const getSpotChecksByLocationType = (locationType: "inventory" | "consignment" | "direct"): SpotCheck[] => {
-  return physicalCountsDetails.filter(detail =>
+  return spotChecks.filter(detail =>
     detail.location_type === locationType
   );
 };
 
 // READ - อ่าน SpotCheck ตาม status
 export const getSpotChecksByStatus = (status: "pending" | "in_progress" | "reviewing" | "completed"): SpotCheck[] => {
-  return physicalCountsDetails.filter(detail =>
+  return spotChecks.filter(detail =>
     detail.status === status
   );
 };
 
 // READ - อ่าน SpotCheck ตาม created_by_id
 export const getSpotChecksByCreatedBy = (createdById: string): SpotCheck[] => {
-  return physicalCountsDetails.filter(detail =>
+  return spotChecks.filter(detail =>
     detail.created_by_id === createdById
   );
 };
 
 // READ - อ่าน SpotCheck ตาม updated_by_id
 export const getSpotChecksByUpdatedBy = (updatedById: string): SpotCheck[] => {
-  return physicalCountsDetails.filter(detail =>
+  return spotChecks.filter(detail =>
     detail.updated_by_id === updatedById
   );
 };
 
 // READ - อ่าน SpotCheck ตามช่วงวันที่สร้าง
 export const getSpotChecksByDateRange = (startDate: string, endDate: string): SpotCheck[] => {
-  return physicalCountsDetails.filter(detail => {
+  return spotChecks.filter(detail => {
     const createdDate = new Date(detail.created_at);
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -284,19 +303,19 @@ export const updateSpotCheck = (
   id: string,
   data: Partial<Omit<SpotCheck, "id" | "created_at" | "created_by_id">>
 ): SpotCheck | null => {
-  const index = physicalCountsDetails.findIndex(detail => detail.id === id);
+  const index = spotChecks.findIndex(detail => detail.id === id);
 
   if (index === -1) {
     return null;
   }
 
-  physicalCountsDetails[index] = {
-    ...physicalCountsDetails[index],
+  spotChecks[index] = {
+    ...spotChecks[index],
     ...data,
     updated_at: new Date(getCurrentTimestamp()),
   };
 
-  return physicalCountsDetails[index];
+  return spotChecks[index];
 };
 
 // UPDATE - อัปเดต status ของ SpotCheck
@@ -349,13 +368,13 @@ export const updateMultipleSpotChecks = (
 
 // DELETE - Hard delete SpotCheck
 export const hardDeleteSpotCheck = (id: string): boolean => {
-  const index = physicalCountsDetails.findIndex(detail => detail.id === id);
+  const index = spotChecks.findIndex(detail => detail.id === id);
 
   if (index === -1) {
     return false;
   }
 
-  physicalCountsDetails.splice(index, 1);
+  spotChecks.splice(index, 1);
   return true;
 };
 
@@ -372,7 +391,7 @@ export const searchSpotChecks = (criteria: {
   start_date?: string;
   end_date?: string;
 }): SpotCheck[] => {
-  return physicalCountsDetails.filter(detail => {
+  return spotChecks.filter(detail => {
 
     if (criteria.id && detail.id !== criteria.id) {
         return false;
@@ -414,52 +433,57 @@ export const searchSpotChecks = (criteria: {
 
 // UTILITY FUNCTIONS - ฟังก์ชันเสริม
 export const getSpotCheckCount = (): number => {
-  return physicalCountsDetails.length;
+  return spotChecks.length;
 };
 
 export const getSpotCheckCountByPhysicalCountId = (physicalCountId: string): number => {
-  return physicalCountsDetails.filter(detail =>
+  return spotChecks.filter(detail =>
     detail.id === physicalCountId
   ).length;
 };
 
 export const getSpotCheckCountByStatus = (status: "pending" | "in_progress" | "reviewing" | "completed"): number => {
-  return physicalCountsDetails.filter(detail =>
+  return spotChecks.filter(detail =>
     detail.status === status
   ).length;
 };
 
 export const getSpotCheckCountByLocationType = (locationType: "inventory" | "consignment" | "direct"): number => {
-  return physicalCountsDetails.filter(detail =>
+  return spotChecks.filter(detail =>
     detail.location_type === locationType
   ).length;
 };
 
 export const isSpotCheckExists = (id: string): boolean => {
-  return physicalCountsDetails.some(detail => detail.id === id);
+  return spotChecks.some(detail => detail.id === id);
 };
 
 export const hasSpotChecksForPhysicalCount = (physicalCountId: string): boolean => {
-  return physicalCountsDetails.some(detail =>
+  return spotChecks.some(detail =>
     detail.id === physicalCountId
   );
 };
 
 export const hasSpotChecksForLocation = (locationId: string): boolean => {
-  return physicalCountsDetails.some(detail =>
+  return spotChecks.some(detail =>
     detail.location_id === locationId
   );
 };
 
 export const clearAllSpotChecks = (): void => {
-  physicalCountsDetails.length = 0;
+  spotChecks.length = 0;
 };
 
 
 export const getSpotCheck = (include_not_count: boolean): SpotCheck[] => {
   if (include_not_count) {
-    return physicalCountsDetails;
+    return spotChecks;
   } else {
-    return physicalCountsDetails.filter(detail => detail.physical_count_type === "yes");
+    return spotChecks.filter(detail => detail.physical_count_type === "yes");
   }
 };
+
+
+export const getSpotCheckById = (id : string) : SpotCheck[] => {
+  
+}

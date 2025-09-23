@@ -1,5 +1,6 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
 import { getUuidByName } from "./mapping.uuid";
+import { getProductById, Product, products } from "./tb_product";
 
 export interface ProductLocation {
   id: string;
@@ -894,4 +895,23 @@ export const searchProductLocationsAdvanced = (searchCriteria: {
 
     return true;
   });
+};
+
+
+export const getProductsByLocation = (locationId: string):  {id: string, sku: string, name: string, local_name: string}[] => {
+  const productIds = productLocations.filter((productLocation) => productLocation.location_id === locationId).map((productLocation) => productLocation.product_id);
+
+  const products = productIds.map((productId) => getProductById(productId)).filter((product) => product !== undefined)
+  
+  // let res: {id: string, sku: string, name: string, local_name: string}[] = [];
+  // products.forEach((item) => {
+  //   res.push({
+  //     id : item.id,
+  //     sku : item.sku,
+  //     name : item.name,
+  //     local_name: item.local_name,
+  //   })
+  // });
+
+  return products;
 };
