@@ -19,7 +19,9 @@ import {
   deleteSpotCheckDetail,
   getNextSequenceNumber,
   type SpotCheckDetail,
+  SpotCheckUpdateDTO,
 } from "@/mockdata/tb_spot_check_detail";
+import { number } from "zod";
 
 export default (app: Elysia) =>
   app
@@ -130,7 +132,7 @@ export default (app: Elysia) =>
 
       const res = tbSpotCheck.createSpotCheck(method, location_id, items_total);
       // response spotchecking details
-      return {id: res.id};
+      return { id: res.id };
 
     }, {
       detail: {
@@ -230,11 +232,11 @@ export default (app: Elysia) =>
       }
 
       try {
-        const { product_id, product_name, sku, actual_count } = ctx.body as {
+        const { product_id, product_name, sku, actual_qty } = ctx.body as {
           product_id: string;
           product_name: string;
           sku: string;
-          actual_count: number;
+          actual_qty: number;
         };
 
         const nextSequence = getNextSequenceNumber(ctx.params.spot_check_id);
@@ -245,7 +247,7 @@ export default (app: Elysia) =>
           product_id,
           product_name,
           sku,
-          actual_count,
+          actual_qty,
           created_by_id: currentUser?.id || "",
           updated_by_id: currentUser?.id || "",
         });
@@ -283,7 +285,7 @@ export default (app: Elysia) =>
       }
 
       try {
-        const updateData = ctx.body as Partial<Pick<SpotCheckDetail, 'product_id' | 'product_name' | 'sku' | 'actual_count' | 'sequence_no'>>;
+        const updateData = ctx.body as Partial<Pick<SpotCheckDetail, 'product_id' | 'product_name' | 'sku' | 'actual_qty' | 'sequence_no'>>;
 
         const updatedDetail = updateSpotCheckDetail(
           ctx.params.detail_id,
@@ -381,7 +383,7 @@ export default (app: Elysia) =>
         description: "Get all spot check details across all spot checks",
       },
     })
-    
+
     .get("/api/:bu_code/spot-check/:spot_check_id", async (ctx) => {
       const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
       if (errorAppId) {
@@ -395,7 +397,7 @@ export default (app: Elysia) =>
         return errorAccessToken;
       }
 
-      const {bu_code, spot_check_id} = ctx.params;
+      const { bu_code, spot_check_id } = ctx.params;
 
       const bu = bussiness_Units.find((bu) => bu.code === ctx.params.bu_code);
       if (!bu) {
@@ -408,7 +410,7 @@ export default (app: Elysia) =>
           return resNotFound("Spot check not found");
         }
 
-        return {data: spotcheck};
+        return { data: spotcheck };
       } catch (error) {
         return resInternalServerError(
           error instanceof Error ? error.message : "Unknown error"
@@ -420,5 +422,182 @@ export default (app: Elysia) =>
         summary: "Get spot check by ID with details",
         description: "Get a specific spot check by its ID along with its details",
       },
-    });
+    })
 
+    .patch("/api/:bu_code/spot-check/:spot_check_id/save", async (ctx) => {
+      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+      if (errorAppId) {
+        ctx.set.status = 400;
+        return errorAppId;
+      }
+
+      const { error: errorAccessToken, bussiness_Units, currentUser } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+      if (errorAccessToken) {
+        ctx.set.status = 401;
+        return errorAccessToken;
+      }
+
+      const bu = bussiness_Units.find((bu) => bu.code === ctx.params.bu_code);
+      if (!bu) {
+        return resNotFound("Business unit not found");
+      }
+
+      const items = ctx.body as SpotCheckUpdateDTO;
+
+      try {
+        // update each item
+        items.items.forEach(item => {
+          // find existing detail by product_id and spot_check_id
+          const existingDetails = getSpotCheckDetailsBySpotCheckId(ctx.params.spot_check_id);
+          const existingDetail = existingDetails.find(detail => detail.product_id === item.product_id);
+          if (existingDetail) {
+            // update existing detail
+            updateSpotCheckDetail(existingDetail.id, {
+              actual_qty: item.actual_qty
+            }, currentUser?.id || "");
+          } else {
+            // create new detail
+            const nextSequence = getNextSequenceNumber(ctx.params.spot_check_id);
+            createSpotCheckDetail({
+              spot_check_id: ctx.params.spot_check_id,
+              sequence_no: nextSequence,
+              product_id: item.product_id,
+              product_name: "", // In real scenario, fetch product name by product_id
+              sku: "", // In real scenario, fetch SKU by product_id
+              actual_qty: item.actual_qty,
+              created_by_id: currentUser?.id || "",
+              updated_by_id: currentUser?.id || "",
+            });
+          }
+
+        });
+
+        console.log("Updated spot check items:", items);
+
+        return { id: ctx.params.spot_check_id };
+      } catch (error) {
+        return resInternalServerError(
+          error instanceof Error ? error.message : "Unknown error"
+        );
+      }
+    }, {
+      detail: {
+        tags: ["spot-check"],
+        summary: "Save spot check",
+        description: "Save changes to a specific spot check",
+      },
+    })
+
+    .patch("/api/:bu_code/spot-check/:spot_check_id/review", async (ctx) => {
+      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+      if (errorAppId) {
+        ctx.set.status = 400;
+        return errorAppId;
+      }
+
+      const { error: errorAccessToken, bussiness_Units, currentUser } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+      if (errorAccessToken) {
+        ctx.set.status = 401;
+        return errorAccessToken;
+      }
+
+      const bu = bussiness_Units.find((bu) => bu.code === ctx.params.bu_code);
+      if (!bu) {
+        return resNotFound("Business unit not found");
+      }
+
+      const items = ctx.body as SpotCheckUpdateDTO;
+
+      let res: any[] = [];
+
+      try {
+        // update each item
+        items.items.forEach(item => {
+          // find existing detail by product_id and spot_check_id
+          const existingDetails = getSpotCheckDetailsBySpotCheckId(ctx.params.spot_check_id);
+          const existingDetail = existingDetails.find(detail => detail.product_id === item.product_id);
+          if (existingDetail) {
+            // update existing detail
+            const update_item =
+              updateSpotCheckDetail(existingDetail.id, {
+                actual_qty: item.actual_qty,
+                submitted_qty: Number(existingDetail.on_hand_qty ?? 0) - item.actual_qty, // mark as submitted
+              }, currentUser?.id || "");
+
+            const { spot_check_id, created_at, created_by_id, updated_at, updated_by_id, ...data } = update_item as any;
+
+            res.push(data);
+          } else {
+            // create new detail
+            const nextSequence = getNextSequenceNumber(ctx.params.spot_check_id);
+
+            const new_item = createSpotCheckDetail({
+              spot_check_id: ctx.params.spot_check_id,
+              sequence_no: nextSequence,
+              product_id: item.product_id,
+              product_name: "", // In real scenario, fetch product name by product_id
+              sku: "", // In real scenario, fetch SKU by product_id
+              actual_qty: item.actual_qty,
+              submitted_qty: getRandomInt(100, 1000) - item.actual_qty,
+              created_by_id: currentUser?.id || "",
+              updated_by_id: currentUser?.id || "",
+            });
+
+            const { spot_check_id, created_at, created_by_id, updated_at, updated_by_id, ...data } = new_item as any;
+            res.push(data);
+          }
+
+        });
+
+        console.log("Updated spot check items:", res as any);
+
+        return { data: res };
+      } catch (error) {
+        return resInternalServerError(
+          error instanceof Error ? error.message : "Unknown error"
+        );
+      }
+    }, {
+      detail: {
+        tags: ["spot-check"],
+        summary: "Review spot check",
+        description: "Submit a specific spot check for review",
+      },
+    })
+
+    .patch("/api/:bu_code/spot-check/:spot_check_id/submit", async (ctx) => {
+      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+      if (errorAppId) {
+        ctx.set.status = 400;
+        return errorAppId;
+      }
+
+      const { error: errorAccessToken, bussiness_Units, currentUser } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+      if (errorAccessToken) {
+        ctx.set.status = 401;
+        return errorAccessToken;
+      }
+
+      const bu = bussiness_Units.find((bu) => bu.code === ctx.params.bu_code);
+      if (!bu) {
+        return resNotFound("Business unit not found");
+      }
+
+      try {
+        // In real scenario, update spot check status to 'completed'
+        console.log(`Spot check ${ctx.params.spot_check_id} marked as completed by user ${currentUser?.id}`);
+
+        return { id: ctx.params.spot_check_id };
+      } catch (error) {
+        return resInternalServerError(
+          error instanceof Error ? error.message : "Unknown error"
+        );
+      }
+    }, {
+      detail: {
+        tags: ["spot-check"],
+        summary: "Complete spot check",
+        description: "Mark a specific spot check as completed",
+      },
+    })
+  ;
