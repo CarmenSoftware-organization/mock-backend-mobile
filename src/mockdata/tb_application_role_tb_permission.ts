@@ -58,6 +58,86 @@ export const applicationRolePermissions: ApplicationRolePermission[] = [
   },
 ];
 
+// Optimized indexing system for better performance
+const rolePermissionIndexes = {
+  byId: new Map<string, ApplicationRolePermission>(),
+  byRoleId: new Map<string, ApplicationRolePermission[]>(),
+  byPermissionId: new Map<string, ApplicationRolePermission[]>(),
+  byCreatedBy: new Map<string, ApplicationRolePermission[]>(),
+  byUpdatedBy: new Map<string, ApplicationRolePermission[]>(),
+  rolePermissionPairs: new Set<string>(), // For O(1) hasRolePermission checks
+  permissionsByRole: new Map<string, Set<string>>(), // Role -> Set of permissions
+  rolesByPermission: new Map<string, Set<string>>(), // Permission -> Set of roles
+};
+
+// Helper function to create role-permission pair key
+const createRolePermissionKey = (roleId: string, permissionId: string): string =>
+  `${roleId}:${permissionId}`;
+
+// Helper function to rebuild indexes
+const rebuildRolePermissionIndexes = (): void => {
+  // Clear existing indexes
+  rolePermissionIndexes.byId.clear();
+  rolePermissionIndexes.byRoleId.clear();
+  rolePermissionIndexes.byPermissionId.clear();
+  rolePermissionIndexes.byCreatedBy.clear();
+  rolePermissionIndexes.byUpdatedBy.clear();
+  rolePermissionIndexes.rolePermissionPairs.clear();
+  rolePermissionIndexes.permissionsByRole.clear();
+  rolePermissionIndexes.rolesByPermission.clear();
+
+  // Rebuild indexes
+  for (const permission of applicationRolePermissions) {
+    // Index by ID
+    rolePermissionIndexes.byId.set(permission.id, permission);
+
+    // Index by role ID
+    if (!rolePermissionIndexes.byRoleId.has(permission.application_role_id)) {
+      rolePermissionIndexes.byRoleId.set(permission.application_role_id, []);
+    }
+    rolePermissionIndexes.byRoleId.get(permission.application_role_id)!.push(permission);
+
+    // Index by permission ID
+    if (!rolePermissionIndexes.byPermissionId.has(permission.permission_id)) {
+      rolePermissionIndexes.byPermissionId.set(permission.permission_id, []);
+    }
+    rolePermissionIndexes.byPermissionId.get(permission.permission_id)!.push(permission);
+
+    // Index by created_by_id
+    if (!rolePermissionIndexes.byCreatedBy.has(permission.created_by_id)) {
+      rolePermissionIndexes.byCreatedBy.set(permission.created_by_id, []);
+    }
+    rolePermissionIndexes.byCreatedBy.get(permission.created_by_id)!.push(permission);
+
+    // Index by updated_by_id
+    if (permission.updated_by_id) {
+      if (!rolePermissionIndexes.byUpdatedBy.has(permission.updated_by_id)) {
+        rolePermissionIndexes.byUpdatedBy.set(permission.updated_by_id, []);
+      }
+      rolePermissionIndexes.byUpdatedBy.get(permission.updated_by_id)!.push(permission);
+    }
+
+    // Index role-permission pairs
+    const pairKey = createRolePermissionKey(permission.application_role_id, permission.permission_id);
+    rolePermissionIndexes.rolePermissionPairs.add(pairKey);
+
+    // Index permissions by role
+    if (!rolePermissionIndexes.permissionsByRole.has(permission.application_role_id)) {
+      rolePermissionIndexes.permissionsByRole.set(permission.application_role_id, new Set());
+    }
+    rolePermissionIndexes.permissionsByRole.get(permission.application_role_id)!.add(permission.permission_id);
+
+    // Index roles by permission
+    if (!rolePermissionIndexes.rolesByPermission.has(permission.permission_id)) {
+      rolePermissionIndexes.rolesByPermission.set(permission.permission_id, new Set());
+    }
+    rolePermissionIndexes.rolesByPermission.get(permission.permission_id)!.add(permission.application_role_id);
+  }
+};
+
+// Initialize indexes
+rebuildRolePermissionIndexes();
+
 // CREATE - สร้าง ApplicationRolePermission ใหม่
 export const createApplicationRolePermission = (
   permissionData: Omit<
@@ -65,6 +145,22 @@ export const createApplicationRolePermission = (
     "id" | "created_at" | "updated_at"
   >
 ): ApplicationRolePermission => {
+  // Validate required fields
+  if (!permissionData.application_role_id?.trim()) {
+    throw new Error("Application role ID is required");
+  }
+  if (!permissionData.permission_id?.trim()) {
+    throw new Error("Permission ID is required");
+  }
+  if (!permissionData.created_by_id?.trim()) {
+    throw new Error("Created by ID is required");
+  }
+
+  // Check for duplicate role-permission pair
+  if (hasRolePermission(permissionData.application_role_id, permissionData.permission_id)) {
+    throw new Error(`Role '${permissionData.application_role_id}' already has permission '${permissionData.permission_id}'`);
+  }
+
   const newPermission: ApplicationRolePermission = {
     ...permissionData,
     id: generateId(),
@@ -73,6 +169,7 @@ export const createApplicationRolePermission = (
   };
 
   applicationRolePermissions.push(newPermission);
+  rebuildRolePermissionIndexes(); // Rebuild indexes after adding new permission
   return newPermission;
 };
 
@@ -82,73 +179,68 @@ export const getAllApplicationRolePermissions =
     return [...applicationRolePermissions];
   };
 
-// READ - อ่าน ApplicationRolePermission ตาม ID
+// READ - อ่าน ApplicationRolePermission ตาม ID (O(1) lookup)
 export const getApplicationRolePermissionById = (
   id: string
 ): ApplicationRolePermission | undefined => {
-  return applicationRolePermissions.find((permission) => permission.id === id);
+  if (!id?.trim()) return undefined;
+  return rolePermissionIndexes.byId.get(id);
 };
 
-// READ - อ่าน ApplicationRolePermission ตาม application_role_id
+// READ - อ่าน ApplicationRolePermission ตาม application_role_id (O(1) lookup)
 export const getApplicationRolePermissionsByRoleId = (
   roleId: string
 ): ApplicationRolePermission[] => {
-  return applicationRolePermissions.filter(
-    (permission) => permission.application_role_id === roleId
-  );
+  if (!roleId?.trim()) return [];
+  return [...(rolePermissionIndexes.byRoleId.get(roleId) ?? [])];
 };
 
-// READ - อ่าน ApplicationRolePermission ตาม permission_id
+// READ - อ่าน ApplicationRolePermission ตาม permission_id (O(1) lookup)
 export const getApplicationRolePermissionsByPermissionId = (
   permissionId: string
 ): ApplicationRolePermission[] => {
-  return applicationRolePermissions.filter(
-    (permission) => permission.permission_id === permissionId
-  );
+  if (!permissionId?.trim()) return [];
+  return [...(rolePermissionIndexes.byPermissionId.get(permissionId) ?? [])];
 };
 
-// READ - อ่าน ApplicationRolePermission ตาม created_by_id
+// READ - อ่าน ApplicationRolePermission ตาม created_by_id (O(1) lookup)
 export const getApplicationRolePermissionsByCreatedBy = (
   createdById: string
 ): ApplicationRolePermission[] => {
-  return applicationRolePermissions.filter(
-    (permission) => permission.created_by_id === createdById
-  );
+  if (!createdById?.trim()) return [];
+  return [...(rolePermissionIndexes.byCreatedBy.get(createdById) ?? [])];
 };
 
-// READ - อ่าน ApplicationRolePermission ตาม updated_by_id
+// READ - อ่าน ApplicationRolePermission ตาม updated_by_id (O(1) lookup)
 export const getApplicationRolePermissionsByUpdatedBy = (
   updatedById: string
 ): ApplicationRolePermission[] => {
-  return applicationRolePermissions.filter(
-    (permission) => permission.updated_by_id === updatedById
-  );
+  if (!updatedById?.trim()) return [];
+  return [...(rolePermissionIndexes.byUpdatedBy.get(updatedById) ?? [])];
 };
 
-// READ - ตรวจสอบว่า role มี permission หรือไม่
+// READ - ตรวจสอบว่า role มี permission หรือไม่ (O(1) lookup)
 export const hasRolePermission = (
   roleId: string,
   permissionId: string
 ): boolean => {
-  return applicationRolePermissions.some(
-    (permission) =>
-      permission.application_role_id === roleId &&
-      permission.permission_id === permissionId
-  );
+  if (!roleId?.trim() || !permissionId?.trim()) return false;
+  const pairKey = createRolePermissionKey(roleId, permissionId);
+  return rolePermissionIndexes.rolePermissionPairs.has(pairKey);
 };
 
-// READ - อ่าน permissions ทั้งหมดของ role
+// READ - อ่าน permissions ทั้งหมดของ role (O(1) lookup)
 export const getPermissionsByRoleId = (roleId: string): string[] => {
-  return applicationRolePermissions
-    .filter((permission) => permission.application_role_id === roleId)
-    .map((permission) => permission.permission_id);
+  if (!roleId?.trim()) return [];
+  const permissionSet = rolePermissionIndexes.permissionsByRole.get(roleId);
+  return permissionSet ? [...permissionSet] : [];
 };
 
-// READ - อ่าน roles ทั้งหมดที่มี permission
+// READ - อ่าน roles ทั้งหมดที่มี permission (O(1) lookup)
 export const getRolesByPermissionId = (permissionId: string): string[] => {
-  return applicationRolePermissions
-    .filter((permission) => permission.permission_id === permissionId)
-    .map((permission) => permission.application_role_id);
+  if (!permissionId?.trim()) return [];
+  const roleSet = rolePermissionIndexes.rolesByPermission.get(permissionId);
+  return roleSet ? [...roleSet] : [];
 };
 
 // UPDATE - อัปเดต ApplicationRolePermission
@@ -159,12 +251,31 @@ export const updateApplicationRolePermission = (
   >,
   updatedById: string
 ): ApplicationRolePermission | null => {
+  if (!id?.trim() || !updatedById?.trim()) {
+    return null;
+  }
+
   const index = applicationRolePermissions.findIndex(
     (permission) => permission.id === id
   );
 
   if (index === -1) {
     return null;
+  }
+
+  const currentPermission = applicationRolePermissions[index];
+
+  // Check for duplicate if role_id or permission_id is being updated
+  if ((updateData.application_role_id || updateData.permission_id)) {
+    const newRoleId = updateData.application_role_id || currentPermission.application_role_id;
+    const newPermissionId = updateData.permission_id || currentPermission.permission_id;
+
+    // Only check if the combination is actually changing
+    if (newRoleId !== currentPermission.application_role_id || newPermissionId !== currentPermission.permission_id) {
+      if (hasRolePermission(newRoleId, newPermissionId)) {
+        throw new Error(`Role '${newRoleId}' already has permission '${newPermissionId}'`);
+      }
+    }
   }
 
   applicationRolePermissions[index] = {
@@ -174,6 +285,7 @@ export const updateApplicationRolePermission = (
     updated_by_id: updatedById,
   };
 
+  rebuildRolePermissionIndexes(); // Rebuild indexes after update
   return applicationRolePermissions[index];
 };
 
@@ -234,6 +346,10 @@ export const updateApplicationRolePermissionByRoleAndPermission = (
 
 // DELETE - ลบ ApplicationRolePermission
 export const deleteApplicationRolePermission = (id: string): boolean => {
+  if (!id?.trim()) {
+    return false;
+  }
+
   const index = applicationRolePermissions.findIndex(
     (permission) => permission.id === id
   );
@@ -243,6 +359,7 @@ export const deleteApplicationRolePermission = (id: string): boolean => {
   }
 
   applicationRolePermissions.splice(index, 1);
+  rebuildRolePermissionIndexes(); // Rebuild indexes after deletion
   return true;
 };
 
@@ -250,15 +367,22 @@ export const deleteApplicationRolePermission = (id: string): boolean => {
 export const deleteApplicationRolePermissionsByRoleId = (
   roleId: string
 ): number => {
+  if (!roleId?.trim()) {
+    return 0;
+  }
+
   const initialLength = applicationRolePermissions.length;
   const filteredPermissions = applicationRolePermissions.filter(
     (permission) => permission.application_role_id !== roleId
   );
   const deletedCount = initialLength - filteredPermissions.length;
 
-  // แทนที่ array เดิม
-  applicationRolePermissions.length = 0;
-  applicationRolePermissions.push(...filteredPermissions);
+  if (deletedCount > 0) {
+    // แทนที่ array เดิม
+    applicationRolePermissions.length = 0;
+    applicationRolePermissions.push(...filteredPermissions);
+    rebuildRolePermissionIndexes(); // Rebuild indexes after bulk deletion
+  }
 
   return deletedCount;
 };
@@ -267,15 +391,22 @@ export const deleteApplicationRolePermissionsByRoleId = (
 export const deleteApplicationRolePermissionsByPermissionId = (
   permissionId: string
 ): number => {
+  if (!permissionId?.trim()) {
+    return 0;
+  }
+
   const initialLength = applicationRolePermissions.length;
   const filteredPermissions = applicationRolePermissions.filter(
     (permission) => permission.permission_id !== permissionId
   );
   const deletedCount = initialLength - filteredPermissions.length;
 
-  // แทนที่ array เดิม
-  applicationRolePermissions.length = 0;
-  applicationRolePermissions.push(...filteredPermissions);
+  if (deletedCount > 0) {
+    // แทนที่ array เดิม
+    applicationRolePermissions.length = 0;
+    applicationRolePermissions.push(...filteredPermissions);
+    rebuildRolePermissionIndexes(); // Rebuild indexes after bulk deletion
+  }
 
   return deletedCount;
 };
@@ -285,6 +416,10 @@ export const deleteApplicationRolePermissionByRoleAndPermission = (
   roleId: string,
   permissionId: string
 ): boolean => {
+  if (!roleId?.trim() || !permissionId?.trim()) {
+    return false;
+  }
+
   const index = applicationRolePermissions.findIndex(
     (permission) =>
       permission.application_role_id === roleId &&
@@ -296,52 +431,80 @@ export const deleteApplicationRolePermissionByRoleAndPermission = (
   }
 
   applicationRolePermissions.splice(index, 1);
+  rebuildRolePermissionIndexes(); // Rebuild indexes after deletion
   return true;
 };
 
-// BULK OPERATIONS - เพิ่ม permissions หลายตัวให้กับ role
+// BULK OPERATIONS - เพิ่ม permissions หลายตัวให้กับ role (Optimized)
 export const addPermissionsToRole = (
   roleId: string,
   permissionIds: string[],
   createdById: string
 ): ApplicationRolePermission[] => {
+  if (!roleId?.trim() || !createdById?.trim() || !Array.isArray(permissionIds)) {
+    return [];
+  }
+
   const newPermissions: ApplicationRolePermission[] = [];
+  const uniquePermissionIds = [...new Set(permissionIds.filter(id => id?.trim()))];
 
-  permissionIds.forEach((permissionId) => {
-    // ตรวจสอบว่า permission นี้มีอยู่แล้วหรือไม่
-    const exists = applicationRolePermissions.some(
-      (p) =>
-        p.application_role_id === roleId && p.permission_id === permissionId
-    );
+  // Batch create permissions to avoid multiple index rebuilds
+  const permissionsToAdd: ApplicationRolePermission[] = [];
 
-    if (!exists) {
-      const newPermission = createApplicationRolePermission({
+  uniquePermissionIds.forEach((permissionId) => {
+    // Use optimized O(1) check
+    if (!hasRolePermission(roleId, permissionId)) {
+      const newPermission: ApplicationRolePermission = {
+        id: generateId(),
         application_role_id: roleId,
         permission_id: permissionId,
         created_by_id: createdById,
         updated_by_id: null,
-      });
+        created_at: getCurrentTimestamp(),
+        updated_at: getCurrentTimestamp(),
+      };
+      permissionsToAdd.push(newPermission);
       newPermissions.push(newPermission);
     }
   });
 
+  if (permissionsToAdd.length > 0) {
+    applicationRolePermissions.push(...permissionsToAdd);
+    rebuildRolePermissionIndexes(); // Single index rebuild for all additions
+  }
+
   return newPermissions;
 };
 
-// BULK OPERATIONS - ลบ permissions หลายตัวออกจาก role
+// BULK OPERATIONS - ลบ permissions หลายตัวออกจาก role (Optimized)
 export const removePermissionsFromRole = (
   roleId: string,
   permissionIds: string[]
 ): number => {
-  let deletedCount = 0;
+  if (!roleId?.trim() || !Array.isArray(permissionIds)) {
+    return 0;
+  }
 
-  permissionIds.forEach((permissionId) => {
-    const deleted = deleteApplicationRolePermissionByRoleAndPermission(
-      roleId,
-      permissionId
-    );
-    if (deleted) deletedCount++;
-  });
+  const uniquePermissionIds = [...new Set(permissionIds.filter(id => id?.trim()))];
+  const initialLength = applicationRolePermissions.length;
+
+  // Batch remove permissions to avoid multiple index rebuilds
+  const filteredPermissions = applicationRolePermissions.filter(
+    (permission) => {
+      if (permission.application_role_id === roleId) {
+        return !uniquePermissionIds.includes(permission.permission_id);
+      }
+      return true;
+    }
+  );
+
+  const deletedCount = initialLength - filteredPermissions.length;
+
+  if (deletedCount > 0) {
+    applicationRolePermissions.length = 0;
+    applicationRolePermissions.push(...filteredPermissions);
+    rebuildRolePermissionIndexes(); // Single index rebuild for all deletions
+  }
 
   return deletedCount;
 };
@@ -362,6 +525,7 @@ export const updateRolePermissions = (
 // Utility function สำหรับล้างข้อมูลทั้งหมด (ใช้สำหรับ testing)
 export const clearAllApplicationRolePermissions = (): void => {
   applicationRolePermissions.length = 0;
+  rebuildRolePermissionIndexes(); // Rebuild indexes after clearing all data
 };
 
 // Utility function สำหรับนับจำนวน ApplicationRolePermission
@@ -369,18 +533,18 @@ export const getApplicationRolePermissionCount = (): number => {
   return applicationRolePermissions.length;
 };
 
-// Utility function สำหรับนับจำนวน permissions ของ role
+// Utility function สำหรับนับจำนวน permissions ของ role (O(1) lookup)
 export const getPermissionCountByRoleId = (roleId: string): number => {
-  return applicationRolePermissions.filter(
-    (permission) => permission.application_role_id === roleId
-  ).length;
+  if (!roleId?.trim()) return 0;
+  const permissions = rolePermissionIndexes.permissionsByRole.get(roleId);
+  return permissions ? permissions.size : 0;
 };
 
-// Utility function สำหรับนับจำนวน roles ที่มี permission
+// Utility function สำหรับนับจำนวน roles ที่มี permission (O(1) lookup)
 export const getRoleCountByPermissionId = (permissionId: string): number => {
-  return applicationRolePermissions.filter(
-    (permission) => permission.permission_id === permissionId
-  ).length;
+  if (!permissionId?.trim()) return 0;
+  const roles = rolePermissionIndexes.rolesByPermission.get(permissionId);
+  return roles ? roles.size : 0;
 };
 
 // Utility function สำหรับค้นหา ApplicationRolePermission แบบ advanced search
@@ -448,45 +612,46 @@ export const searchApplicationRolePermissions = (searchCriteria: {
   });
 };
 
-// Utility function สำหรับตรวจสอบ permission ซ้ำ
+// Utility function สำหรับตรวจสอบ permission ซ้ำ (O(1) lookup)
 export const isApplicationRolePermissionExists = (
   roleId: string,
   permissionId: string
 ): boolean => {
-  return applicationRolePermissions.some(
-    (permission) =>
-      permission.application_role_id === roleId &&
-      permission.permission_id === permissionId
-  );
+  return hasRolePermission(roleId, permissionId); // Use optimized function
 };
 
-// Utility function สำหรับตรวจสอบ role_id ซ้ำ
+// Utility function สำหรับตรวจสอบ role_id ซ้ำ (O(1) lookup)
 export const isApplicationRoleExists = (roleId: string): boolean => {
-  return applicationRolePermissions.some(
-    (permission) => permission.application_role_id === roleId
-  );
+  if (!roleId?.trim()) return false;
+  return rolePermissionIndexes.byRoleId.has(roleId);
 };
 
-// Utility function สำหรับตรวจสอบ permission_id ซ้ำ
+// Utility function สำหรับตรวจสอบ permission_id ซ้ำ (O(1) lookup)
 export const isPermissionExists = (permissionId: string): boolean => {
-  return applicationRolePermissions.some(
-    (permission) => permission.permission_id === permissionId
-  );
+  if (!permissionId?.trim()) return false;
+  return rolePermissionIndexes.byPermissionId.has(permissionId);
 };
 
 // Utility function สำหรับลบ ApplicationRolePermission ทั้งหมดของ role (hard delete)
 export const hardDeleteApplicationRolePermissionsByRoleId = (
   roleId: string
 ): number => {
+  if (!roleId?.trim()) {
+    return 0;
+  }
+
   const initialLength = applicationRolePermissions.length;
   const filteredPermissions = applicationRolePermissions.filter(
     (permission) => permission.application_role_id !== roleId
   );
   const deletedCount = initialLength - filteredPermissions.length;
 
-  // แทนที่ array เดิม
-  applicationRolePermissions.length = 0;
-  applicationRolePermissions.push(...filteredPermissions);
+  if (deletedCount > 0) {
+    // แทนที่ array เดิม
+    applicationRolePermissions.length = 0;
+    applicationRolePermissions.push(...filteredPermissions);
+    rebuildRolePermissionIndexes(); // Rebuild indexes after hard delete
+  }
 
   return deletedCount;
 };
@@ -495,15 +660,22 @@ export const hardDeleteApplicationRolePermissionsByRoleId = (
 export const hardDeleteApplicationRolePermissionsByPermissionId = (
   permissionId: string
 ): number => {
+  if (!permissionId?.trim()) {
+    return 0;
+  }
+
   const initialLength = applicationRolePermissions.length;
   const filteredPermissions = applicationRolePermissions.filter(
     (permission) => permission.permission_id !== permissionId
   );
   const deletedCount = initialLength - filteredPermissions.length;
 
-  // แทนที่ array เดิม
-  applicationRolePermissions.length = 0;
-  applicationRolePermissions.push(...filteredPermissions);
+  if (deletedCount > 0) {
+    // แทนที่ array เดิม
+    applicationRolePermissions.length = 0;
+    applicationRolePermissions.push(...filteredPermissions);
+    rebuildRolePermissionIndexes(); // Rebuild indexes after hard delete
+  }
 
   return deletedCount;
 };

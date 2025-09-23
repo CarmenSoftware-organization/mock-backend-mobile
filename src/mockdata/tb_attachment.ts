@@ -1,22 +1,79 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
 
+/**
+ * Additional information stored with attachment
+ */
+export interface AttachmentInfo {
+  category?: string;
+  pages?: number;
+  resolution?: string;
+  [key: string]: unknown;
+}
+
+/**
+ * Main attachment interface representing file attachments in the system
+ */
 export interface Attachment {
+  /** Unique identifier for the attachment */
   id: string;
+  /** S3 storage token for file access */
   s3_token: string;
+  /** S3 folder/bucket path */
   s3_folder: string;
+  /** Name of the file without extension */
   file_name: string;
+  /** File extension (pdf, jpg, etc.) */
   file_ext: string;
+  /** MIME type of the file */
   file_type: string;
+  /** File size in bytes */
   file_size: number;
+  /** Complete URL to access the file */
   file_url: string;
-  info: any;
+  /** Additional metadata about the file */
+  info: AttachmentInfo;
+  /** Document version number */
   doc_version: string;
+  /** ISO timestamp when created */
   created_at: string;
+  /** ID of user who created the attachment */
   created_by_id: string;
+  /** ISO timestamp when last updated */
   updated_at: string;
+  /** ID of user who last updated the attachment */
   updated_by_id: string;
+  /** ISO timestamp when soft deleted (null if not deleted) */
   deleted_at: string | null;
+  /** ID of user who deleted the attachment (null if not deleted) */
   deleted_by_id: string | null;
+}
+
+/** Data required to create a new attachment */
+export type CreateAttachmentData = Omit<Attachment, "id" | "created_at" | "updated_at">;
+
+/** Data that can be updated on an attachment */
+export type UpdateAttachmentData = Partial<Omit<Attachment, "id" | "created_at" | "created_by_id">>;
+
+/**
+ * Search criteria for finding attachments
+ */
+export interface AttachmentSearchCriteria {
+  /** Search in file names (case insensitive) */
+  file_name?: string;
+  /** Exact S3 folder match */
+  s3_folder?: string;
+  /** Exact file extension match */
+  file_ext?: string;
+  /** Exact file type/MIME type match */
+  file_type?: string;
+  /** Exact document version match */
+  doc_version?: string;
+  /** Minimum file size in bytes */
+  min_file_size?: number;
+  /** Maximum file size in bytes */
+  max_file_size?: number;
+  /** Whether to include soft deleted attachments */
+  include_deleted?: boolean;
 }
 
 export const attachments: Attachment[] = [
@@ -77,10 +134,19 @@ export const attachments: Attachment[] = [
   },
 ];
 
-// CREATE - สร้าง Attachment ใหม่
+/**
+ * Creates a new attachment record
+ * @param attachmentData - Data for the new attachment
+ * @returns The created attachment
+ * @throws Error if S3 token already exists
+ */
 export const createAttachment = (
-  attachmentData: Omit<Attachment, "id" | "created_at" | "updated_at">
+  attachmentData: CreateAttachmentData
 ): Attachment => {
+  if (isAttachmentS3TokenExists(attachmentData.s3_token)) {
+    throw new Error(`S3 token '${attachmentData.s3_token}' already exists`);
+  }
+
   const newAttachment: Attachment = {
     ...attachmentData,
     id: generateId(),
@@ -92,73 +158,120 @@ export const createAttachment = (
   return newAttachment;
 };
 
-// READ - อ่าน Attachment ทั้งหมด
-export const getAllAttachments = (): Attachment[] => {
-  return [...attachments];
+/**
+ * Retrieves all attachments
+ * @param includeDeleted - Whether to include soft deleted attachments
+ * @returns Array of attachments
+ */
+export const getAllAttachments = (includeDeleted = false): Attachment[] => {
+  return includeDeleted
+    ? [...attachments]
+    : attachments.filter(attachment => !attachment.deleted_at);
 };
 
-// READ - อ่าน Attachment ตาม ID
-export const getAttachmentById = (id: string): Attachment | undefined => {
-  return attachments.find((attachment) => attachment.id === id);
+/**
+ * Retrieves an attachment by its ID
+ * @param id - The attachment ID
+ * @param includeDeleted - Whether to include soft deleted attachments
+ * @returns The attachment or undefined if not found
+ */
+export const getAttachmentById = (id: string, includeDeleted = false): Attachment | undefined => {
+  const attachment = attachments.find((attachment) => attachment.id === id);
+  return (includeDeleted || !attachment?.deleted_at) ? attachment : undefined;
 };
 
-// READ - อ่าน Attachment ตาม s3_token
 export const getAttachmentByS3Token = (
-  s3Token: string
+  s3Token: string,
+  includeDeleted = false
 ): Attachment | undefined => {
-  return attachments.find((attachment) => attachment.s3_token === s3Token);
+  const attachment = attachments.find((attachment) => attachment.s3_token === s3Token);
+  return (includeDeleted || !attachment?.deleted_at) ? attachment : undefined;
 };
 
-// READ - อ่าน Attachment ตาม file_name
-export const getAttachmentByFileName = (fileName: string): Attachment[] => {
-  return attachments.filter((attachment) =>
-    attachment.file_name.toLowerCase().includes(fileName.toLowerCase())
-  );
-};
-
-// READ - อ่าน Attachment ตาม s3_folder
-export const getAttachmentsByS3Folder = (s3Folder: string): Attachment[] => {
-  return attachments.filter((attachment) => attachment.s3_folder === s3Folder);
-};
-
-// READ - อ่าน Attachment ตาม file_ext
-export const getAttachmentsByFileExt = (fileExt: string): Attachment[] => {
-  return attachments.filter((attachment) => attachment.file_ext === fileExt);
-};
-
-// READ - อ่าน Attachment ตาม file_type
-export const getAttachmentsByFileType = (fileType: string): Attachment[] => {
-  return attachments.filter((attachment) => attachment.file_type === fileType);
-};
-
-// READ - อ่าน Attachment ที่มีขนาดไฟล์มากกว่า
-export const getAttachmentsByMinFileSize = (minSize: number): Attachment[] => {
-  return attachments.filter((attachment) => attachment.file_size >= minSize);
-};
-
-// READ - อ่าน Attachment ที่มีขนาดไฟล์น้อยกว่า
-export const getAttachmentsByMaxFileSize = (maxSize: number): Attachment[] => {
-  return attachments.filter((attachment) => attachment.file_size <= maxSize);
-};
-
-// READ - อ่าน Attachment ตาม doc_version
-export const getAttachmentsByDocVersion = (
-  docVersion: string
+export const getAttachmentsByFileName = (
+  fileName: string,
+  includeDeleted = false
 ): Attachment[] => {
-  return attachments.filter(
-    (attachment) => attachment.doc_version === docVersion
-  );
+  return attachments.filter((attachment) => {
+    const matchesName = attachment.file_name.toLowerCase().includes(fileName.toLowerCase());
+    return matchesName && (includeDeleted || !attachment.deleted_at);
+  });
 };
 
-// UPDATE - อัปเดต Attachment
+export const getAttachmentsByS3Folder = (
+  s3Folder: string,
+  includeDeleted = false
+): Attachment[] => {
+  return attachments.filter((attachment) => {
+    const matchesFolder = attachment.s3_folder === s3Folder;
+    return matchesFolder && (includeDeleted || !attachment.deleted_at);
+  });
+};
+
+export const getAttachmentsByFileExt = (
+  fileExt: string,
+  includeDeleted = false
+): Attachment[] => {
+  return attachments.filter((attachment) => {
+    const matchesExt = attachment.file_ext === fileExt;
+    return matchesExt && (includeDeleted || !attachment.deleted_at);
+  });
+};
+
+export const getAttachmentsByFileType = (
+  fileType: string,
+  includeDeleted = false
+): Attachment[] => {
+  return attachments.filter((attachment) => {
+    const matchesType = attachment.file_type === fileType;
+    return matchesType && (includeDeleted || !attachment.deleted_at);
+  });
+};
+
+export const getAttachmentsByFileSize = (
+  minSize?: number,
+  maxSize?: number,
+  includeDeleted = false
+): Attachment[] => {
+  return attachments.filter((attachment) => {
+    const withinSizeRange =
+      (!minSize || attachment.file_size >= minSize) &&
+      (!maxSize || attachment.file_size <= maxSize);
+    return withinSizeRange && (includeDeleted || !attachment.deleted_at);
+  });
+};
+
+export const getAttachmentsByDocVersion = (
+  docVersion: string,
+  includeDeleted = false
+): Attachment[] => {
+  return attachments.filter((attachment) => {
+    const matchesVersion = attachment.doc_version === docVersion;
+    return matchesVersion && (includeDeleted || !attachment.deleted_at);
+  });
+};
+
+/**
+ * Updates an existing attachment
+ * @param id - The attachment ID to update
+ * @param updateData - Data to update
+ * @returns The updated attachment or null if not found/deleted
+ * @throws Error if trying to update S3 token to one that already exists
+ */
 export const updateAttachment = (
   id: string,
-  updateData: Partial<Omit<Attachment, "id" | "created_at" | "created_by_id">>
+  updateData: UpdateAttachmentData
 ): Attachment | null => {
   const index = attachments.findIndex((attachment) => attachment.id === id);
 
-  if (index === -1) {
+  if (index === -1 || attachments[index].deleted_at) {
     return null;
+  }
+
+  if (updateData.s3_token && updateData.s3_token !== attachments[index].s3_token) {
+    if (isAttachmentS3TokenExists(updateData.s3_token)) {
+      throw new Error(`S3 token '${updateData.s3_token}' already exists`);
+    }
   }
 
   attachments[index] = {
@@ -170,7 +283,6 @@ export const updateAttachment = (
   return attachments[index];
 };
 
-// UPDATE - อัปเดต Attachment file name
 export const updateAttachmentFileName = (
   id: string,
   fileName: string
@@ -178,7 +290,6 @@ export const updateAttachmentFileName = (
   return updateAttachment(id, { file_name: fileName });
 };
 
-// UPDATE - อัปเดต Attachment file URL
 export const updateAttachmentFileUrl = (
   id: string,
   fileUrl: string
@@ -186,15 +297,13 @@ export const updateAttachmentFileUrl = (
   return updateAttachment(id, { file_url: fileUrl });
 };
 
-// UPDATE - อัปเดต Attachment info
 export const updateAttachmentInfo = (
   id: string,
-  info: any
+  info: AttachmentInfo
 ): Attachment | null => {
   return updateAttachment(id, { info });
 };
 
-// UPDATE - อัปเดต Attachment doc version
 export const updateAttachmentDocVersion = (
   id: string,
   docVersion: string
@@ -202,11 +311,16 @@ export const updateAttachmentDocVersion = (
   return updateAttachment(id, { doc_version: docVersion });
 };
 
-// DELETE - ลบ Attachment (soft delete)
+/**
+ * Soft deletes an attachment
+ * @param id - The attachment ID to delete
+ * @param deletedById - ID of the user performing the deletion
+ * @returns True if deleted successfully, false if not found or already deleted
+ */
 export const deleteAttachment = (id: string, deletedById: string): boolean => {
   const index = attachments.findIndex((attachment) => attachment.id === id);
 
-  if (index === -1) {
+  if (index === -1 || attachments[index].deleted_at) {
     return false;
   }
 
@@ -219,7 +333,6 @@ export const deleteAttachment = (id: string, deletedById: string): boolean => {
   return true;
 };
 
-// DELETE - ลบ Attachment แบบถาวร
 export const hardDeleteAttachment = (id: string): boolean => {
   const index = attachments.findIndex((attachment) => attachment.id === id);
 
@@ -228,6 +341,23 @@ export const hardDeleteAttachment = (id: string): boolean => {
   }
 
   attachments.splice(index, 1);
+  return true;
+};
+
+export const restoreAttachment = (id: string): boolean => {
+  const index = attachments.findIndex((attachment) => attachment.id === id);
+
+  if (index === -1 || !attachments[index].deleted_at) {
+    return false;
+  }
+
+  attachments[index] = {
+    ...attachments[index],
+    deleted_at: null,
+    deleted_by_id: null,
+    updated_at: getCurrentTimestamp(),
+  };
+
   return true;
 };
 
@@ -278,108 +408,138 @@ export const deleteAttachmentsByFileExt = (
   return deletedCount;
 };
 
-// Utility function สำหรับล้างข้อมูลทั้งหมด (ใช้สำหรับ testing)
+/**
+ * Clears all attachment data (primarily for testing)
+ * @warning This permanently removes all data
+ */
 export const clearAllAttachments = (): void => {
   attachments.length = 0;
 };
 
-// Utility function สำหรับนับจำนวน Attachment
-export const getAttachmentCount = (): number => {
-  return attachments.length;
+export const getAttachmentCount = (includeDeleted = false): number => {
+  return includeDeleted
+    ? attachments.length
+    : attachments.filter(attachment => !attachment.deleted_at).length;
 };
 
-// Utility function สำหรับนับจำนวน Attachment ตาม s3_folder
-export const getAttachmentCountByS3Folder = (s3Folder: string): number => {
-  return attachments.filter((attachment) => attachment.s3_folder === s3Folder)
-    .length;
-};
-
-// Utility function สำหรับนับจำนวน Attachment ตาม file_ext
-export const getAttachmentCountByFileExt = (fileExt: string): number => {
-  return attachments.filter((attachment) => attachment.file_ext === fileExt)
-    .length;
-};
-
-// Utility function สำหรับคำนวณขนาดไฟล์รวม
-export const getTotalFileSize = (): number => {
-  return attachments.reduce(
-    (total, attachment) => total + attachment.file_size,
-    0
-  );
-};
-
-// Utility function สำหรับค้นหา Attachment แบบ advanced search
-export const searchAttachments = (searchCriteria: {
-  file_name?: string;
-  s3_folder?: string;
-  file_ext?: string;
-  file_type?: string;
-  doc_version?: string;
-  min_file_size?: number;
-  max_file_size?: number;
-}): Attachment[] => {
+export const getAttachmentCountByS3Folder = (
+  s3Folder: string,
+  includeDeleted = false
+): number => {
   return attachments.filter((attachment) => {
-    if (
-      searchCriteria.file_name &&
-      !attachment.file_name
-        .toLowerCase()
-        .includes(searchCriteria.file_name.toLowerCase())
-    ) {
+    const matchesFolder = attachment.s3_folder === s3Folder;
+    return matchesFolder && (includeDeleted || !attachment.deleted_at);
+  }).length;
+};
+
+export const getAttachmentCountByFileExt = (
+  fileExt: string,
+  includeDeleted = false
+): number => {
+  return attachments.filter((attachment) => {
+    const matchesExt = attachment.file_ext === fileExt;
+    return matchesExt && (includeDeleted || !attachment.deleted_at);
+  }).length;
+};
+
+export const getTotalFileSize = (includeDeleted = false): number => {
+  return attachments
+    .filter(attachment => includeDeleted || !attachment.deleted_at)
+    .reduce((total, attachment) => total + attachment.file_size, 0);
+};
+
+export const getFileSizeByCategory = (includeDeleted = false): Record<string, number> => {
+  const sizeByCategory: Record<string, number> = {};
+
+  attachments
+    .filter(attachment => includeDeleted || !attachment.deleted_at)
+    .forEach(attachment => {
+      const category = attachment.info.category || 'unknown';
+      sizeByCategory[category] = (sizeByCategory[category] || 0) + attachment.file_size;
+    });
+
+  return sizeByCategory;
+};
+
+/**
+ * Advanced search for attachments with multiple criteria
+ * @param searchCriteria - Search parameters
+ * @returns Array of attachments matching all criteria
+ */
+export const searchAttachments = (searchCriteria: AttachmentSearchCriteria): Attachment[] => {
+  return attachments.filter((attachment) => {
+    if (!searchCriteria.include_deleted && attachment.deleted_at) {
       return false;
     }
 
-    if (
-      searchCriteria.s3_folder &&
-      attachment.s3_folder !== searchCriteria.s3_folder
-    ) {
-      return false;
-    }
+    const checks = [
+      !searchCriteria.file_name ||
+        attachment.file_name.toLowerCase().includes(searchCriteria.file_name.toLowerCase()),
+      !searchCriteria.s3_folder ||
+        attachment.s3_folder === searchCriteria.s3_folder,
+      !searchCriteria.file_ext ||
+        attachment.file_ext === searchCriteria.file_ext,
+      !searchCriteria.file_type ||
+        attachment.file_type === searchCriteria.file_type,
+      !searchCriteria.doc_version ||
+        attachment.doc_version === searchCriteria.doc_version,
+      !searchCriteria.min_file_size ||
+        attachment.file_size >= searchCriteria.min_file_size,
+      !searchCriteria.max_file_size ||
+        attachment.file_size <= searchCriteria.max_file_size,
+    ];
 
-    if (
-      searchCriteria.file_ext &&
-      attachment.file_ext !== searchCriteria.file_ext
-    ) {
-      return false;
-    }
-
-    if (
-      searchCriteria.file_type &&
-      attachment.file_type !== searchCriteria.file_type
-    ) {
-      return false;
-    }
-
-    if (
-      searchCriteria.doc_version &&
-      attachment.doc_version !== searchCriteria.doc_version
-    ) {
-      return false;
-    }
-
-    if (
-      searchCriteria.min_file_size &&
-      attachment.file_size < searchCriteria.min_file_size
-    ) {
-      return false;
-    }
-
-    if (
-      searchCriteria.max_file_size &&
-      attachment.file_size > searchCriteria.max_file_size
-    ) {
-      return false;
-    }
-
-    return true;
+    return checks.every(Boolean);
   });
 };
 
-// Utility function สำหรับตรวจสอบ s3_token ซ้ำ
-export const isAttachmentS3TokenExists = (s3Token: string): boolean => {
-  return attachments.some((attachment) => attachment.s3_token === s3Token);
+export const isAttachmentS3TokenExists = (s3Token: string, excludeId?: string): boolean => {
+  return attachments.some((attachment) =>
+    attachment.s3_token === s3Token &&
+    attachment.id !== excludeId &&
+    !attachment.deleted_at
+  );
 };
 
-// Utility function สำหรับตรวจสอบ file_name ซ้ำ
-export const isAttachmentFileNameExists = (fileName: string): boolean => {
-  return attachments.some((attachment) => attachment.file_name === fileName);
+export const isAttachmentFileNameExists = (
+  fileName: string,
+  s3Folder?: string,
+  excludeId?: string
+): boolean => {
+  return attachments.some((attachment) =>
+    attachment.file_name === fileName &&
+    (!s3Folder || attachment.s3_folder === s3Folder) &&
+    attachment.id !== excludeId &&
+    !attachment.deleted_at
+  );
+};
+
+export const getAttachmentsByDateRange = (
+  startDate: string,
+  endDate: string,
+  includeDeleted = false
+): Attachment[] => {
+  return attachments.filter((attachment) => {
+    const createdAt = new Date(attachment.created_at);
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const withinRange = createdAt >= start && createdAt <= end;
+    return withinRange && (includeDeleted || !attachment.deleted_at);
+  });
+};
+
+export const getUniqueS3Folders = (includeDeleted = false): string[] => {
+  const folders = new Set<string>();
+  attachments
+    .filter(attachment => includeDeleted || !attachment.deleted_at)
+    .forEach(attachment => folders.add(attachment.s3_folder));
+  return Array.from(folders).sort();
+};
+
+export const getUniqueFileExtensions = (includeDeleted = false): string[] => {
+  const extensions = new Set<string>();
+  attachments
+    .filter(attachment => includeDeleted || !attachment.deleted_at)
+    .forEach(attachment => extensions.add(attachment.file_ext));
+  return Array.from(extensions).sort();
 };

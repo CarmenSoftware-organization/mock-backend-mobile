@@ -73,11 +73,11 @@ export interface Activity {
 
 export const activities: Activity[] = [
   {
-    id: getUuidByName("ACTIVITY_01"),
+    id: getUuidByName("ACTIVITY_01")!,
     action: enum_activity_action.create,
     entity_type: enum_activity_entity_type.user,
     entity_id: "user_001",
-    actor_id: getUuidByName("USER_01"),
+    actor_id: getUuidByName("USER_01")!,
     meta_data: { source: "web" },
     old_data: null,
     new_data: { username: "john.doe", email: "john@example.com" },
@@ -85,14 +85,14 @@ export const activities: Activity[] = [
     user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
     description: "สร้างผู้ใช้ใหม่: john.doe",
     created_at: "2024-01-15T10:30:00Z",
-    created_by_id: getUuidByName("USER_ADMIN"),
+    created_by_id: getUuidByName("USER_ADMIN")!,
   },
   {
-    id: getUuidByName("ACTIVITY_02"),
+    id: getUuidByName("ACTIVITY_02")!,
     action: enum_activity_action.update,
     entity_type: enum_activity_entity_type.product,
     entity_id: "prod_001",
-    actor_id: getUuidByName("USER_02"),
+    actor_id: getUuidByName("USER_02")!,
     meta_data: { reason: "price_update" },
     old_data: { price: 100.0 },
     new_data: { price: 120.0 },
@@ -100,14 +100,14 @@ export const activities: Activity[] = [
     user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
     description: "อัปเดตราคาสินค้า: 100.00 -> 120.00",
     created_at: "2024-01-15T14:20:00Z",
-    created_by_id: getUuidByName("USER_ADMIN"),
+    created_by_id: getUuidByName("USER_ADMIN")!,
   },
   {
-    id: getUuidByName("ACTIVITY_03"),
+    id: getUuidByName("ACTIVITY_03")!,
     action: enum_activity_action.delete,
     entity_type: enum_activity_entity_type.purchase_order,
     entity_id: "order_001",
-    actor_id: getUuidByName("USER_03"),
+    actor_id: getUuidByName("USER_03")!,
     meta_data: { reason: "cancelled" },
     old_data: { status: "pending", total: 500.0 },
     new_data: null,
@@ -115,7 +115,7 @@ export const activities: Activity[] = [
     user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
     description: "ยกเลิกคำสั่งซื้อ: order_001",
     created_at: "2024-01-15T16:45:00Z",
-    created_by_id: getUuidByName("USER_ADMIN"),
+    created_by_id: getUuidByName("USER_ADMIN")!,
   },
 ];
 
@@ -128,6 +128,7 @@ export const createActivity = (activityData: Omit<Activity, "id" | "created_at">
   };
 
   activities.push(newActivity);
+  rebuildIndexes(); // Rebuild indexes after adding new activity
   return newActivity;
 };
 
@@ -136,29 +137,81 @@ export const getAllActivities = (): Activity[] => {
   return [...activities];
 };
 
-// READ - อ่าน Activity ตาม ID
+// Optimized indexing for better performance
+const activityIndexes = {
+  byId: new Map<string, Activity>(),
+  byEntityType: new Map<enum_activity_entity_type, Activity[]>(),
+  byEntityId: new Map<string, Activity[]>(),
+  byActorId: new Map<string, Activity[]>(),
+  byAction: new Map<enum_activity_action, Activity[]>(),
+};
+
+// Helper function to rebuild indexes
+const rebuildIndexes = (): void => {
+  // Clear existing indexes
+  activityIndexes.byId.clear();
+  activityIndexes.byEntityType.clear();
+  activityIndexes.byEntityId.clear();
+  activityIndexes.byActorId.clear();
+  activityIndexes.byAction.clear();
+
+  // Rebuild indexes
+  for (const activity of activities) {
+    // Index by ID
+    activityIndexes.byId.set(activity.id, activity);
+
+    // Index by entity_type
+    if (!activityIndexes.byEntityType.has(activity.entity_type)) {
+      activityIndexes.byEntityType.set(activity.entity_type, []);
+    }
+    activityIndexes.byEntityType.get(activity.entity_type)!.push(activity);
+
+    // Index by entity_id
+    if (!activityIndexes.byEntityId.has(activity.entity_id)) {
+      activityIndexes.byEntityId.set(activity.entity_id, []);
+    }
+    activityIndexes.byEntityId.get(activity.entity_id)!.push(activity);
+
+    // Index by actor_id
+    if (!activityIndexes.byActorId.has(activity.actor_id)) {
+      activityIndexes.byActorId.set(activity.actor_id, []);
+    }
+    activityIndexes.byActorId.get(activity.actor_id)!.push(activity);
+
+    // Index by action
+    if (!activityIndexes.byAction.has(activity.action)) {
+      activityIndexes.byAction.set(activity.action, []);
+    }
+    activityIndexes.byAction.get(activity.action)!.push(activity);
+  }
+};
+
+// Initialize indexes
+rebuildIndexes();
+
+// READ - อ่าน Activity ตาม ID (O(1) lookup)
 export const getActivityById = (id: string): Activity | undefined => {
-  return activities.find((activity) => activity.id === id);
+  return activityIndexes.byId.get(id);
 };
 
-// READ - อ่าน Activity ตาม entity_type
+// READ - อ่าน Activity ตาม entity_type (O(1) lookup)
 export const getActivitiesByEntityType = (entityType: enum_activity_entity_type): Activity[] => {
-  return activities.filter((activity) => activity.entity_type === entityType);
+  return [...(activityIndexes.byEntityType.get(entityType) ?? [])];
 };
 
-// READ - อ่าน Activity ตาม entity_id
+// READ - อ่าน Activity ตาม entity_id (O(1) lookup)
 export const getActivitiesByEntityId = (entityId: string): Activity[] => {
-  return activities.filter((activity) => activity.entity_id === entityId);
+  return [...(activityIndexes.byEntityId.get(entityId) ?? [])];
 };
 
-// READ - อ่าน Activity ตาม actor_id
+// READ - อ่าน Activity ตาม actor_id (O(1) lookup)
 export const getActivitiesByActorId = (actorId: string): Activity[] => {
-  return activities.filter((activity) => activity.actor_id === actorId);
+  return [...(activityIndexes.byActorId.get(actorId) ?? [])];
 };
 
-// READ - อ่าน Activity ตาม action
+// READ - อ่าน Activity ตาม action (O(1) lookup)
 export const getActivitiesByAction = (action: enum_activity_action): Activity[] => {
-  return activities.filter((activity) => activity.action === action);
+  return [...(activityIndexes.byAction.get(action) ?? [])];
 };
 
 // READ - อ่าน Activity ตามช่วงเวลา
@@ -177,6 +230,10 @@ export const updateActivity = (
   id: string,
   updateData: Partial<Omit<Activity, "id" | "created_at" | "created_by_id">>
 ): Activity | null => {
+  if (!id?.trim()) {
+    return null;
+  }
+
   const index = activities.findIndex((activity) => activity.id === id);
 
   if (index === -1) {
@@ -188,11 +245,16 @@ export const updateActivity = (
     ...updateData,
   };
 
+  rebuildIndexes(); // Rebuild indexes after update
   return activities[index];
 };
 
 // DELETE - ลบ Activity
 export const deleteActivity = (id: string): boolean => {
+  if (!id?.trim()) {
+    return false;
+  }
+
   const index = activities.findIndex((activity) => activity.id === id);
 
   if (index === -1) {
@@ -200,18 +262,26 @@ export const deleteActivity = (id: string): boolean => {
   }
 
   activities.splice(index, 1);
+  rebuildIndexes(); // Rebuild indexes after deletion
   return true;
 };
 
 // DELETE - ลบ Activity ตาม entity_id
 export const deleteActivitiesByEntityId = (entityId: string): number => {
+  if (!entityId?.trim()) {
+    return 0;
+  }
+
   const initialLength = activities.length;
   const filteredActivities = activities.filter((activity) => activity.entity_id !== entityId);
   const deletedCount = initialLength - filteredActivities.length;
 
-  // แทนที่ array เดิม
-  activities.length = 0;
-  activities.push(...filteredActivities);
+  if (deletedCount > 0) {
+    // แทนที่ array เดิม
+    activities.length = 0;
+    activities.push(...filteredActivities);
+    rebuildIndexes(); // Rebuild indexes after bulk deletion
+  }
 
   return deletedCount;
 };
@@ -222,9 +292,12 @@ export const deleteActivitiesByEntityType = (entityType: enum_activity_entity_ty
   const filteredActivities = activities.filter((activity) => activity.entity_type !== entityType);
   const deletedCount = initialLength - filteredActivities.length;
 
-  // แทนที่ array เดิม
-  activities.length = 0;
-  activities.push(...filteredActivities);
+  if (deletedCount > 0) {
+    // แทนที่ array เดิม
+    activities.length = 0;
+    activities.push(...filteredActivities);
+    rebuildIndexes(); // Rebuild indexes after bulk deletion
+  }
 
   return deletedCount;
 };
@@ -232,6 +305,7 @@ export const deleteActivitiesByEntityType = (entityType: enum_activity_entity_ty
 // Utility function สำหรับล้างข้อมูลทั้งหมด (ใช้สำหรับ testing)
 export const clearAllActivities = (): void => {
   activities.length = 0;
+  rebuildIndexes(); // Rebuild indexes after clearing all data
 };
 
 // Utility function สำหรับนับจำนวน Activity

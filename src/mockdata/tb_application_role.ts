@@ -44,10 +44,91 @@ export const applicationRoles: ApplicationRole[] = [
   },
 ];
 
+// Optimized indexing system for better performance
+const applicationRoleIndexes = {
+  byId: new Map<string, ApplicationRole>(),
+  byName: new Map<string, ApplicationRole>(),
+  byBusinessUnitId: new Map<string, ApplicationRole[]>(),
+  byCreatedBy: new Map<string, ApplicationRole[]>(),
+  byUpdatedBy: new Map<string, ApplicationRole[]>(),
+  withDescription: new Set<ApplicationRole>(),
+  withoutDescription: new Set<ApplicationRole>(),
+  nameExists: new Set<string>(),
+};
+
+// Helper function to rebuild indexes
+const rebuildApplicationRoleIndexes = (): void => {
+  // Clear existing indexes
+  applicationRoleIndexes.byId.clear();
+  applicationRoleIndexes.byName.clear();
+  applicationRoleIndexes.byBusinessUnitId.clear();
+  applicationRoleIndexes.byCreatedBy.clear();
+  applicationRoleIndexes.byUpdatedBy.clear();
+  applicationRoleIndexes.withDescription.clear();
+  applicationRoleIndexes.withoutDescription.clear();
+  applicationRoleIndexes.nameExists.clear();
+
+  // Rebuild indexes
+  for (const role of applicationRoles) {
+    // Index by ID
+    applicationRoleIndexes.byId.set(role.id, role);
+
+    // Index by name (case-insensitive for lookups, but preserve original case)
+    applicationRoleIndexes.byName.set(role.name.toLowerCase(), role);
+    applicationRoleIndexes.nameExists.add(role.name.toLowerCase());
+
+    // Index by business unit ID
+    if (!applicationRoleIndexes.byBusinessUnitId.has(role.business_unit_id)) {
+      applicationRoleIndexes.byBusinessUnitId.set(role.business_unit_id, []);
+    }
+    applicationRoleIndexes.byBusinessUnitId.get(role.business_unit_id)!.push(role);
+
+    // Index by created_by_id
+    if (!applicationRoleIndexes.byCreatedBy.has(role.created_by_id)) {
+      applicationRoleIndexes.byCreatedBy.set(role.created_by_id, []);
+    }
+    applicationRoleIndexes.byCreatedBy.get(role.created_by_id)!.push(role);
+
+    // Index by updated_by_id
+    if (role.updated_by_id) {
+      if (!applicationRoleIndexes.byUpdatedBy.has(role.updated_by_id)) {
+        applicationRoleIndexes.byUpdatedBy.set(role.updated_by_id, []);
+      }
+      applicationRoleIndexes.byUpdatedBy.get(role.updated_by_id)!.push(role);
+    }
+
+    // Index by description presence
+    if (role.description !== null) {
+      applicationRoleIndexes.withDescription.add(role);
+    } else {
+      applicationRoleIndexes.withoutDescription.add(role);
+    }
+  }
+};
+
+// Initialize indexes
+rebuildApplicationRoleIndexes();
+
 // CREATE - สร้าง ApplicationRole ใหม่
 export const createApplicationRole = (
   applicationRoleData: Omit<ApplicationRole, "id" | "created_at" | "updated_at">
 ): ApplicationRole => {
+  // Validate required fields
+  if (!applicationRoleData.name?.trim()) {
+    throw new Error("Role name is required");
+  }
+  if (!applicationRoleData.business_unit_id?.trim()) {
+    throw new Error("Business unit ID is required");
+  }
+  if (!applicationRoleData.created_by_id?.trim()) {
+    throw new Error("Created by ID is required");
+  }
+
+  // Check for duplicate name (case-insensitive)
+  if (isApplicationRoleNameExists(applicationRoleData.name)) {
+    throw new Error(`Role name '${applicationRoleData.name}' already exists`);
+  }
+
   const newApplicationRole: ApplicationRole = {
     ...applicationRoleData,
     id: generateId(),
@@ -56,6 +137,7 @@ export const createApplicationRole = (
   };
 
   applicationRoles.push(newApplicationRole);
+  rebuildApplicationRoleIndexes(); // Rebuild indexes after adding new role
   return newApplicationRole;
 };
 
@@ -64,41 +146,55 @@ export const getAllApplicationRoles = (): ApplicationRole[] => {
   return [...applicationRoles];
 };
 
-// READ - อ่าน ApplicationRole ตาม ID
+// READ - อ่าน ApplicationRole ตาม ID (O(1) lookup)
 export const getApplicationRoleById = (
   id: string
 ): ApplicationRole | undefined => {
-  return applicationRoles.find((applicationRole) => applicationRole.id === id);
+  if (!id?.trim()) return undefined;
+  return applicationRoleIndexes.byId.get(id);
 };
 
-// READ - อ่าน ApplicationRole ตาม name
+// READ - อ่าน ApplicationRole ตาม name (Optimized)
 export const getApplicationRoleByName = (name: string): ApplicationRole[] => {
-  return applicationRoles.filter((applicationRole) =>
-    applicationRole.name.toLowerCase().includes(name.toLowerCase())
-  );
+  if (!name?.trim()) return [];
+
+  const searchTerm = name.toLowerCase();
+  const results: ApplicationRole[] = [];
+
+  // Check for exact match first (O(1))
+  const exactMatch = applicationRoleIndexes.byName.get(searchTerm);
+  if (exactMatch) {
+    results.push(exactMatch);
+  }
+
+  // For partial matches, we still need to search but with early termination
+  if (results.length === 0) {
+    for (const role of applicationRoles) {
+      if (role.name.toLowerCase().includes(searchTerm)) {
+        results.push(role);
+      }
+    }
+  }
+
+  return results;
 };
 
-// READ - อ่าน ApplicationRole ตาม business_unit_id
+// READ - อ่าน ApplicationRole ตาม business_unit_id (O(1) lookup)
 export const getApplicationRolesByBusinessUnit = (
   businessUnitId: string
 ): ApplicationRole[] => {
-  return applicationRoles.filter(
-    (applicationRole) => applicationRole.business_unit_id === businessUnitId
-  );
+  if (!businessUnitId?.trim()) return [];
+  return [...(applicationRoleIndexes.byBusinessUnitId.get(businessUnitId) ?? [])];
 };
 
-// READ - ApplicationRole ที่มี description
+// READ - ApplicationRole ที่มี description (O(1) lookup)
 export const getApplicationRolesWithDescription = (): ApplicationRole[] => {
-  return applicationRoles.filter(
-    (applicationRole) => applicationRole.description !== null
-  );
+  return [...applicationRoleIndexes.withDescription];
 };
 
-// READ - ApplicationRole ที่ไม่มี description
+// READ - ApplicationRole ที่ไม่มี description (O(1) lookup)
 export const getApplicationRolesWithoutDescription = (): ApplicationRole[] => {
-  return applicationRoles.filter(
-    (applicationRole) => applicationRole.description === null
-  );
+  return [...applicationRoleIndexes.withoutDescription];
 };
 
 // UPDATE - อัปเดต ApplicationRole
@@ -108,6 +204,10 @@ export const updateApplicationRole = (
     Omit<ApplicationRole, "id" | "created_at" | "created_by_id">
   >
 ): ApplicationRole | null => {
+  if (!id?.trim()) {
+    return null;
+  }
+
   const index = applicationRoles.findIndex(
     (applicationRole) => applicationRole.id === id
   );
@@ -116,12 +216,22 @@ export const updateApplicationRole = (
     return null;
   }
 
+  const currentRole = applicationRoles[index];
+
+  // Check for duplicate name if name is being updated
+  if (updateData.name && updateData.name.trim()) {
+    if (updateData.name !== currentRole.name && isApplicationRoleNameExists(updateData.name)) {
+      throw new Error(`Role name '${updateData.name}' already exists`);
+    }
+  }
+
   applicationRoles[index] = {
     ...applicationRoles[index],
     ...updateData,
     updated_at: getCurrentTimestamp(),
   };
 
+  rebuildApplicationRoleIndexes(); // Rebuild indexes after update
   return applicationRoles[index];
 };
 
@@ -151,6 +261,10 @@ export const updateApplicationRoleBusinessUnit = (
 
 // DELETE - ลบ ApplicationRole
 export const deleteApplicationRole = (id: string): boolean => {
+  if (!id?.trim()) {
+    return false;
+  }
+
   const index = applicationRoles.findIndex(
     (applicationRole) => applicationRole.id === id
   );
@@ -160,6 +274,7 @@ export const deleteApplicationRole = (id: string): boolean => {
   }
 
   applicationRoles.splice(index, 1);
+  rebuildApplicationRoleIndexes(); // Rebuild indexes after deletion
   return true;
 };
 
@@ -175,14 +290,21 @@ export const deleteApplicationRoleByName = (name: string): boolean => {
 export const deleteApplicationRolesByBusinessUnit = (
   businessUnitId: string
 ): number => {
+  if (!businessUnitId?.trim()) {
+    return 0;
+  }
+
   const initialLength = applicationRoles.length;
   const filteredApplicationRoles = applicationRoles.filter(
     (applicationRole) => applicationRole.business_unit_id !== businessUnitId
   );
   const deletedCount = initialLength - filteredApplicationRoles.length;
 
-  applicationRoles.length = 0;
-  applicationRoles.push(...filteredApplicationRoles);
+  if (deletedCount > 0) {
+    applicationRoles.length = 0;
+    applicationRoles.push(...filteredApplicationRoles);
+    rebuildApplicationRoleIndexes(); // Rebuild indexes after bulk deletion
+  }
 
   return deletedCount;
 };
@@ -190,6 +312,7 @@ export const deleteApplicationRolesByBusinessUnit = (
 // Utility function สำหรับล้างข้อมูลทั้งหมด (ใช้สำหรับ testing)
 export const clearAllApplicationRoles = (): void => {
   applicationRoles.length = 0;
+  rebuildApplicationRoleIndexes(); // Rebuild indexes after clearing all data
 };
 
 // Utility function สำหรับนับจำนวน ApplicationRole
@@ -197,13 +320,13 @@ export const getApplicationRoleCount = (): number => {
   return applicationRoles.length;
 };
 
-// Utility function สำหรับนับจำนวน ApplicationRole ตาม business_unit_id
+// Utility function สำหรับนับจำนวน ApplicationRole ตาม business_unit_id (O(1) lookup)
 export const getApplicationRoleCountByBusinessUnit = (
   businessUnitId: string
 ): number => {
-  return applicationRoles.filter(
-    (applicationRole) => applicationRole.business_unit_id === businessUnitId
-  ).length;
+  if (!businessUnitId?.trim()) return 0;
+  const roles = applicationRoleIndexes.byBusinessUnitId.get(businessUnitId);
+  return roles ? roles.length : 0;
 };
 
 // Utility function สำหรับค้นหา ApplicationRole แบบ advanced search
@@ -251,25 +374,21 @@ export const searchApplicationRoles = (searchCriteria: {
   });
 };
 
-// Utility function สำหรับตรวจสอบ name ซ้ำ
+// Utility function สำหรับตรวจสอบ name ซ้ำ (O(1) lookup)
 export const isApplicationRoleNameExists = (name: string): boolean => {
-  return applicationRoles.some(
-    (applicationRole) => applicationRole.name === name
-  );
+  if (!name?.trim()) return false;
+  return applicationRoleIndexes.nameExists.has(name.toLowerCase());
 };
 
-// Utility function สำหรับตรวจสอบ ApplicationRole ที่มี description
+// Utility function สำหรับตรวจสอบ ApplicationRole ที่มี description (O(1) lookup)
 export const hasApplicationRolesWithDescription = (): boolean => {
-  return applicationRoles.some(
-    (applicationRole) => applicationRole.description !== null
-  );
+  return applicationRoleIndexes.withDescription.size > 0;
 };
 
-// Utility function สำหรับตรวจสอบ ApplicationRole ตาม business unit
+// Utility function สำหรับตรวจสอบ ApplicationRole ตาม business unit (O(1) lookup)
 export const hasApplicationRolesByBusinessUnit = (
   businessUnitId: string
 ): boolean => {
-  return applicationRoles.some(
-    (applicationRole) => applicationRole.business_unit_id === businessUnitId
-  );
+  if (!businessUnitId?.trim()) return false;
+  return applicationRoleIndexes.byBusinessUnitId.has(businessUnitId);
 };

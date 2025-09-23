@@ -23,50 +23,50 @@ export interface ApplicationConfig {
 
 export const applicationConfigs: ApplicationConfig[] = [
   {
-    id: getUuidByName("APPLICATION_CONFIG_01"),
+    id: getUuidByName("APPLICATION_CONFIG_01")!,
     key: "tax_profile",
     value: [
       {
-        id: getUuidByName("TAX_PROFILE_01"),
+        id: getUuidByName("TAX_PROFILE_01")!,
         name: "VAT 7%",
         tax_rate: 7,
         is_active: true,
       },
       {
-        id: getUuidByName("TAX_PROFILE_02"),
+        id: getUuidByName("TAX_PROFILE_02")!,
         name: "VAT 10%",
         tax_rate: 10,
         is_active: true,
       },
       {
-        id: getUuidByName("TAX_PROFILE_03"),
+        id: getUuidByName("TAX_PROFILE_03")!,
         name: "None",
         tax_rate: 0,
         is_active: true,
       },
     ],
     created_at:  "2025-07-29T01:05:32.815Z",
-    created_by_id: getUuidByName("USER_ADMIN"),
+    created_by_id: getUuidByName("USER_ADMIN")!,
     updated_at: "2025-07-29T01:05:32.815Z",
-    updated_by_id: getUuidByName("USER_ADMIN"),
+    updated_by_id: getUuidByName("USER_ADMIN")!,
     deleted_at: null,
     deleted_by_id: null,
   },
   {
-    id: getUuidByName("APPLICATION_CONFIG_02"),
+    id: getUuidByName("APPLICATION_CONFIG_02")!,
     key: "system_settings",
     value: [
       {
-        id: getUuidByName("CURRENCY_01"),
+        id: getUuidByName("CURRENCY_01")!,
         name: "Default Currency",
         tax_rate: 0,
         is_active: true,
       },
     ],
     created_at: "2025-07-29T02:15:45.123Z",
-    created_by_id: getUuidByName("USER_ADMIN"),
+    created_by_id: getUuidByName("USER_ADMIN")!,
     updated_at: "2025-07-29T02:15:45.123Z",
-    updated_by_id: getUuidByName("USER_ADMIN"),
+    updated_by_id: getUuidByName("USER_ADMIN")!,
     deleted_at: null,
     deleted_by_id: null,
   },
@@ -76,6 +76,16 @@ export const applicationConfigs: ApplicationConfig[] = [
 export const createApplicationConfig = (
   configData: Omit<ApplicationConfig, "id" | "created_at" | "updated_at">
 ): ApplicationConfig => {
+  // Validate required fields
+  if (!configData.key?.trim()) {
+    throw new Error("Config key is required");
+  }
+
+  // Check for duplicate key
+  if (isActiveApplicationConfigKeyExists(configData.key)) {
+    throw new Error(`Config key '${configData.key}' already exists`);
+  }
+
   const newConfig: ApplicationConfig = {
     ...configData,
     id: generateId(),
@@ -84,54 +94,111 @@ export const createApplicationConfig = (
   };
 
   applicationConfigs.push(newConfig);
+  rebuildConfigIndexes(); // Rebuild indexes after adding new config
   return newConfig;
 };
+
+// Optimized indexing for better performance
+const configIndexes = {
+  byId: new Map<string, ApplicationConfig>(),
+  byKey: new Map<string, ApplicationConfig>(),
+  byCreatedBy: new Map<string, ApplicationConfig[]>(),
+  byUpdatedBy: new Map<string, ApplicationConfig[]>(),
+  active: new Set<ApplicationConfig>(),
+  deleted: new Set<ApplicationConfig>(),
+};
+
+// Helper function to rebuild indexes
+const rebuildConfigIndexes = (): void => {
+  // Clear existing indexes
+  configIndexes.byId.clear();
+  configIndexes.byKey.clear();
+  configIndexes.byCreatedBy.clear();
+  configIndexes.byUpdatedBy.clear();
+  configIndexes.active.clear();
+  configIndexes.deleted.clear();
+
+  // Rebuild indexes
+  for (const config of applicationConfigs) {
+    // Index by ID
+    configIndexes.byId.set(config.id, config);
+
+    // Index by key
+    configIndexes.byKey.set(config.key, config);
+
+    // Index by created_by_id
+    if (config.created_by_id) {
+      if (!configIndexes.byCreatedBy.has(config.created_by_id)) {
+        configIndexes.byCreatedBy.set(config.created_by_id, []);
+      }
+      configIndexes.byCreatedBy.get(config.created_by_id)!.push(config);
+    }
+
+    // Index by updated_by_id
+    if (config.updated_by_id) {
+      if (!configIndexes.byUpdatedBy.has(config.updated_by_id)) {
+        configIndexes.byUpdatedBy.set(config.updated_by_id, []);
+      }
+      configIndexes.byUpdatedBy.get(config.updated_by_id)!.push(config);
+    }
+
+    // Index by deletion status
+    if (config.deleted_at) {
+      configIndexes.deleted.add(config);
+    } else {
+      configIndexes.active.add(config);
+    }
+  }
+};
+
+// Initialize indexes
+rebuildConfigIndexes();
 
 // READ - อ่าน ApplicationConfig ทั้งหมด
 export const getAllApplicationConfigs = (): ApplicationConfig[] => {
   return [...applicationConfigs];
 };
 
-// READ - อ่าน ApplicationConfig ตาม ID
+// READ - อ่าน ApplicationConfig ตาม ID (O(1) lookup)
 export const getApplicationConfigById = (
   id: string
 ): ApplicationConfig | undefined => {
-  return applicationConfigs.find((config) => config.id === id);
+  if (!id?.trim()) return undefined;
+  return configIndexes.byId.get(id);
 };
 
-// READ - อ่าน ApplicationConfig ตาม key
+// READ - อ่าน ApplicationConfig ตาม key (O(1) lookup)
 export const getApplicationConfigByKey = (
   key: string
 ): ApplicationConfig | undefined => {
-  return applicationConfigs.find((config) => config.key === key);
+  if (!key?.trim()) return undefined;
+  return configIndexes.byKey.get(key);
 };
 
-// READ - อ่าน ApplicationConfig ที่ไม่ถูกลบ
+// READ - อ่าน ApplicationConfig ที่ไม่ถูกลบ (O(1) lookup)
 export const getActiveApplicationConfigs = (): ApplicationConfig[] => {
-  return applicationConfigs.filter((config) => !config.deleted_at);
+  return [...configIndexes.active];
 };
 
-// READ - อ่าน ApplicationConfig ที่ถูกลบ
+// READ - อ่าน ApplicationConfig ที่ถูกลบ (O(1) lookup)
 export const getDeletedApplicationConfigs = (): ApplicationConfig[] => {
-  return applicationConfigs.filter((config) => config.deleted_at);
+  return [...configIndexes.deleted];
 };
 
-// READ - อ่าน ApplicationConfig ตาม created_by_id
+// READ - อ่าน ApplicationConfig ตาม created_by_id (O(1) lookup)
 export const getApplicationConfigsByCreatedBy = (
   createdById: string
 ): ApplicationConfig[] => {
-  return applicationConfigs.filter(
-    (config) => config.created_by_id === createdById
-  );
+  if (!createdById?.trim()) return [];
+  return [...(configIndexes.byCreatedBy.get(createdById) ?? [])];
 };
 
-// READ - อ่าน ApplicationConfig ตาม updated_by_id
+// READ - อ่าน ApplicationConfig ตาม updated_by_id (O(1) lookup)
 export const getApplicationConfigsByUpdatedBy = (
   updatedById: string
 ): ApplicationConfig[] => {
-  return applicationConfigs.filter(
-    (config) => config.updated_by_id === updatedById
-  );
+  if (!updatedById?.trim()) return [];
+  return [...(configIndexes.byUpdatedBy.get(updatedById) ?? [])];
 };
 
 // UPDATE - อัปเดต ApplicationConfig
@@ -142,6 +209,18 @@ export const updateApplicationConfig = (
   >,
   updatedById: string
 ): ApplicationConfig | null => {
+  if (!id?.trim() || !updatedById?.trim()) {
+    return null;
+  }
+
+  // Check for duplicate key if key is being updated
+  if (updateData.key && updateData.key.trim()) {
+    const existingConfig = getApplicationConfigByKey(updateData.key);
+    if (existingConfig && existingConfig.id !== id) {
+      throw new Error(`Config key '${updateData.key}' already exists`);
+    }
+  }
+
   const index = applicationConfigs.findIndex((config) => config.id === id);
 
   if (index === -1) {
@@ -155,6 +234,7 @@ export const updateApplicationConfig = (
     updated_by_id: updatedById,
   };
 
+  rebuildConfigIndexes(); // Rebuild indexes after update
   return applicationConfigs[index];
 };
 
@@ -241,6 +321,10 @@ export const deleteApplicationConfig = (
   id: string,
   deletedById: string
 ): boolean => {
+  if (!id?.trim() || !deletedById?.trim()) {
+    return false;
+  }
+
   const index = applicationConfigs.findIndex((config) => config.id === id);
 
   if (index === -1) {
@@ -253,11 +337,16 @@ export const deleteApplicationConfig = (
     deleted_by_id: deletedById,
   };
 
+  rebuildConfigIndexes(); // Rebuild indexes after soft delete
   return true;
 };
 
 // DELETE - ลบ ApplicationConfig แบบถาวร
 export const hardDeleteApplicationConfig = (id: string): boolean => {
+  if (!id?.trim()) {
+    return false;
+  }
+
   const index = applicationConfigs.findIndex((config) => config.id === id);
 
   if (index === -1) {
@@ -265,6 +354,7 @@ export const hardDeleteApplicationConfig = (id: string): boolean => {
   }
 
   applicationConfigs.splice(index, 1);
+  rebuildConfigIndexes(); // Rebuild indexes after hard delete
   return true;
 };
 
@@ -284,10 +374,20 @@ export const restoreApplicationConfig = (
   id: string,
   restoredById: string
 ): ApplicationConfig | null => {
+  if (!id?.trim() || !restoredById?.trim()) {
+    return null;
+  }
+
   const index = applicationConfigs.findIndex((config) => config.id === id);
 
   if (index === -1) {
     return null;
+  }
+
+  // Check for duplicate key when restoring
+  const config = applicationConfigs[index];
+  if (isActiveApplicationConfigKeyExists(config.key)) {
+    throw new Error(`Config key '${config.key}' already exists. Cannot restore.`);
   }
 
   applicationConfigs[index] = {
@@ -298,12 +398,14 @@ export const restoreApplicationConfig = (
     updated_by_id: restoredById,
   };
 
+  rebuildConfigIndexes(); // Rebuild indexes after restore
   return applicationConfigs[index];
 };
 
 // Utility function สำหรับล้างข้อมูลทั้งหมด (ใช้สำหรับ testing)
 export const clearAllApplicationConfigs = (): void => {
   applicationConfigs.length = 0;
+  rebuildConfigIndexes(); // Rebuild indexes after clearing all data
 };
 
 // Utility function สำหรับนับจำนวน ApplicationConfig
@@ -449,7 +551,7 @@ export const isActiveApplicationConfigKeyExists = (key: string): boolean => {
   );
 };
 
-export const getDefaultCurrencyByBusinessUnitId = (bu_id: string): Currency | null => {
+export const getDefaultCurrencyByBusinessUnitId = (_bu_id: string): Currency | null => {
   const defaultCurrency = applicationConfigs.find((config) => config.key === "system_settings")?.value.find((value) => value.name === "Default Currency")?.id;
 
   if (!defaultCurrency) {
