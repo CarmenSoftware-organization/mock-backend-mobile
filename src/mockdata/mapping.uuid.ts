@@ -305,6 +305,20 @@ const UUID_MAPPING = {
   PURCHASE_REQUEST_05: "pr5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a",
 
   /**
+   * Purchase request details
+   */
+  PURCHASE_REQUEST_DETAIL_01: "prd1a2b3-4d5e-6f7a-8b9c-0d1e2f3a4b5c",
+  PURCHASE_REQUEST_DETAIL_02: "prd2b3c4-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+  PURCHASE_REQUEST_DETAIL_03: "prd3c4d5-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+  PURCHASE_REQUEST_DETAIL_04: "prd4d5e6-7a8b-9c0d-1e2f-3a4b5c6d7e8f",
+  PURCHASE_REQUEST_DETAIL_05: "prd5e6f7-8b9c-0d1e-2f3a-4b5c6d7e8f9a",
+  PURCHASE_REQUEST_DETAIL_06: "prd6f7a8-9b0d-1e2f-3a4b-5c6d7e8f9a0b",
+  PURCHASE_REQUEST_DETAIL_07: "prd7a8b9-0c1d-2e3f-4a5b-6d7e8f9a0b1c",
+  PURCHASE_REQUEST_DETAIL_08: "prd8b9c0-1d2e-3f4a-5b6c-7e8f9a0b1c2d",
+  PURCHASE_REQUEST_DETAIL_09: "prd9c0d1-2e3f-4a5b-6c7d-8f9a0b1c2d3e",
+  PURCHASE_REQUEST_DETAIL_10: "prd0d1e2-3f4a-5b6c-7d8e-9a0b1c2d3e4f",
+
+  /**
    * Purchase orders
    */
   PURCHASE_ORDER_01: "po1a2b3c-4d5e-6f7a-8b9c-0d1e2f3a4b5c",
@@ -312,6 +326,20 @@ const UUID_MAPPING = {
   PURCHASE_ORDER_03: "po3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
   PURCHASE_ORDER_04: "po4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f",
   PURCHASE_ORDER_05: "po5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a",
+
+  /**
+   * Purchase order details
+   */
+  PURCHASE_ORDER_DETAIL_01: "pod1a2b3-4d5e-6f7a-8b9c-0d1e2f3a4b5c",
+  PURCHASE_ORDER_DETAIL_02: "pod2b3c4-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+  PURCHASE_ORDER_DETAIL_03: "pod3c4d5-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+  PURCHASE_ORDER_DETAIL_04: "pod4d5e6-7a8b-9c0d-1e2f-3a4b5c6d7e8f",
+  PURCHASE_ORDER_DETAIL_05: "pod5e6f7-8b9c-0d1e-2f3a-4b5c6d7e8f9a",
+  PURCHASE_ORDER_DETAIL_06: "pod6f7a8-9b0d-1e2f-3a4b-5c6d7e8f9a0b",
+  PURCHASE_ORDER_DETAIL_07: "pod7a8b9-0c1d-2e3f-4a5b-6d7e8f9a0b1c",
+  PURCHASE_ORDER_DETAIL_08: "pod8b9c0-1d2e-3f4a-5b6c-7e8f9a0b1c2d",
+  PURCHASE_ORDER_DETAIL_09: "pod9c0d1-2e3f-4a5b-6c7d-8f9a0b1c2d3e",
+  PURCHASE_ORDER_DETAIL_10: "pod0d1e2-3f4a-5b6c-7d8e-9a0b1c2d3e4f",
 
   /**
    * Store requisitions

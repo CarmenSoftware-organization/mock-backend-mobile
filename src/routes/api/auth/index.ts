@@ -27,6 +27,11 @@ export default (app: Elysia) =>
           description: "User password",
         }),
       }),
+      refreshTokenDto: t.Object({
+        refresh_token: t.String({
+          description: "Refresh token for obtaining new access token",
+        }),
+      }),
     })
 
     .use(

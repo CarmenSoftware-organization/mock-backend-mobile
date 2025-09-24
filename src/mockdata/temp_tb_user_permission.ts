@@ -77,7 +77,7 @@ const userPermissions_user1: UserPermission[] = [
   {
     id: getUuidByName("USER_PERMISSION_06"),
     user_id: getUuidByName("USER_01"),
-    permission_id: tbPermission.permissions[5].id,
+    permission_id: tbPermission.permissions[5]?.id || tbPermission.permissions[0]?.id || "",
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: getUuidByName("USER_SYSTEM_ADMIN"),
     updated_at: "2024-01-15T10:30:00Z",
@@ -179,7 +179,7 @@ const userPermissions_user2: UserPermission[] = [
   {
     id: getUuidByName("USER_PERMISSION_16"),
     user_id: getUuidByName("USER_02"),
-    permission_id: tbPermission.permissions[5].id,
+    permission_id: tbPermission.permissions[5]?.id || tbPermission.permissions[0]?.id || "",
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: getUuidByName("USER_SYSTEM_ADMIN"),
     updated_at: "2024-01-15T10:30:00Z",
@@ -281,7 +281,7 @@ const userPermissions_user3: UserPermission[] = [
   {
     id: getUuidByName("USER_PERMISSION_25"),
     user_id: getUuidByName("USER_03"),
-    permission_id: tbPermission.permissions[5].id,
+    permission_id: tbPermission.permissions[5]?.id || tbPermission.permissions[0]?.id || "",
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: getUuidByName("USER_SYSTEM_ADMIN"),
     updated_at: "2024-01-15T10:30:00Z",
@@ -383,7 +383,7 @@ const userPermissions_user4: UserPermission[] = [
   {
     id: getUuidByName("USER_PERMISSION_34"),
     user_id: getUuidByName("USER_04"),
-    permission_id: tbPermission.permissions[5].id,
+    permission_id: tbPermission.permissions[5]?.id || tbPermission.permissions[0]?.id || "",
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: getUuidByName("USER_SYSTEM_ADMIN"),
     updated_at: "2024-01-15T10:30:00Z",
@@ -485,7 +485,7 @@ const userPermissions_user5: UserPermission[] = [
   {
     id: getUuidByName("USER_PERMISSION_43"),
     user_id: getUuidByName("USER_05"),
-    permission_id: tbPermission.permissions[5].id,
+    permission_id: tbPermission.permissions[5]?.id || tbPermission.permissions[0]?.id || "",
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: getUuidByName("USER_SYSTEM_ADMIN"),
     updated_at: "2024-01-15T10:30:00Z",
@@ -587,7 +587,7 @@ const userPermissions_user6: UserPermission[] = [
   {
     id: getUuidByName("USER_PERMISSION_52"),
     user_id: getUuidByName("USER_06"),
-    permission_id: tbPermission.permissions[5].id,
+    permission_id: tbPermission.permissions[5]?.id || tbPermission.permissions[0]?.id || "",
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: getUuidByName("USER_SYSTEM_ADMIN"),
     updated_at: "2024-01-15T10:30:00Z",
