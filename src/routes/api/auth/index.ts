@@ -314,26 +314,30 @@ export default (app: Elysia) =>
     )
 
     // Logout
-    .post(
-      "/api/auth/logout",
-      async (ctx) => {
-        const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
-        if (errorAppId) {
-          ctx.set.status = 400;
-          return errorAppId;
-        }
+    .post("/api/auth/logout", async (ctx) => {
+      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+      if (errorAppId) {
+        ctx.set.status = 400;
+        return errorAppId;
+      }
 
-        const { error: errorAccessToken, jwtUser } =
-          await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
-        if (errorAccessToken) {
-          ctx.set.status = 401;
-          return errorAccessToken;
-        }
+      const { error: errorAccessToken, jwtUser } =
+        await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+      if (errorAccessToken) {
+        ctx.set.status = 401;
+        return errorAccessToken;
+      }
 
-        const fn = await logout(jwtUser.id, ctx.jwt);
-        ctx.set.status = fn.status;
-        return fn;
-      },
+      const jwt = ctx.jwt;
+      if (!jwtUser || !jwtUser.id) {
+        ctx.set.status = 401;
+        return resUnauthorized("Invalid access token");
+      }
+
+      const fn = await logout(jwtUser.id, jwt);
+      ctx.set.status = fn.status;
+      return fn;
+    },
       {
         detail: {
           tags: ["auth"],
@@ -541,32 +545,31 @@ export default (app: Elysia) =>
     })
 
     // Refresh Token
-    .post(
-      "/api/auth/refresh-token",
-      async (ctx) => {
-        const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
-        if (errorAppId) {
-          ctx.set.status = 400;
-          return errorAppId;
-        }
+    .post("/api/auth/refresh-token", async (ctx) => {
 
-        try {
-          const getRefreshToken = ctx.request.body as unknown as {
-            refresh_token: string;
-          };
-          const { access_token, refresh_token } = await refreshToken(
-            getRefreshToken.refresh_token,
-            ctx.jwt
-          );
-          return { access_token, refresh_token };
-        } catch (error) {
-          return resInternalServerError(
-            error instanceof Error ? error.message : "Unknown error"
-          );
-        }
-      },
+      console.log("Refresh token request body:", ctx.body);
+      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+      if (errorAppId) {
+        ctx.set.status = 400;
+        return errorAppId;
+      }
+
+      try {
+        const getRefreshToken = ctx.body as {
+          refresh_token: string;
+        };
+        const { access_token, refresh_token } = await refreshToken(
+          getRefreshToken.refresh_token,
+          ctx.jwt
+        );
+        return { access_token, refresh_token };
+      } catch (error) {
+        return resInternalServerError(
+          error instanceof Error ? error.message : "Unknown error"
+        );
+      }
+    },
       {
-        body: "refreshTokenDto",
         response: {
           200: t.Object({
             access_token: t.String(),
@@ -578,26 +581,6 @@ export default (app: Elysia) =>
           summary: "Refresh Token",
           description: "Refresh access token",
           parameters: [PARAM_X_APP_ID],
-        },
-        requestBody: {
-          description: "Refresh token",
-          required: true,
-          content: {
-            "application/json": {
-              schema: {
-                type: "object",
-                properties: {
-                  refresh_token: {
-                    type: "string",
-                    description: "Refresh token",
-                  },
-                },
-              },
-            },
-          },
-          example: {
-            refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-          },
         },
       }
     )
