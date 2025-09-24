@@ -9,6 +9,7 @@ import {
 import { CheckHeaderHasAccessToken } from "@/libs/header";
 import { CheckHeaderHasAppId } from "@/libs/header";
 import { StoreRequisitionApproval } from "@/mockdata/tb_store_requisition";
+import { PARAM_X_APP_ID, PARAM_AUTHORIZATION } from "@mockdata/const";
 
 export default (app: Elysia) =>
   app

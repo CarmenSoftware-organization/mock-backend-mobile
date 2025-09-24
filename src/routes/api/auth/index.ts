@@ -570,6 +570,7 @@ export default (app: Elysia) =>
       }
     },
       {
+        body: "refreshTokenDto",
         response: {
           200: t.Object({
             access_token: t.String(),
@@ -579,8 +580,76 @@ export default (app: Elysia) =>
         detail: {
           tags: ["auth"],
           summary: "Refresh Token",
-          description: "Refresh access token",
+          description: "Refresh access token using a valid refresh token",
           parameters: [PARAM_X_APP_ID],
+          requestBody: {
+            description: "Refresh token data",
+            required: true,
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    refresh_token: {
+                      type: "string",
+                      description: "Valid refresh token",
+                      example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    }
+                  },
+                  required: ["refresh_token"]
+                },
+                example: {
+                  refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU1MGU4NDAwLWUyOWItNDFkNC1hNzE2LTQ0NjY1NTQ0MDAwMSIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzEyODU3MDAwfQ.example"
+                }
+              }
+            }
+          },
+          responses: {
+            200: {
+              description: "Token refresh successful",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      access_token: {
+                        type: "string",
+                        description: "New JWT access token"
+                      },
+                      refresh_token: {
+                        type: "string",
+                        description: "New JWT refresh token"
+                      }
+                    }
+                  },
+                  example: {
+                    access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                    refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  }
+                }
+              }
+            },
+            400: {
+              description: "Bad request",
+              content: {
+                "application/json": {
+                  example: {
+                    message: "Invalid header 'x-app-id'"
+                  }
+                }
+              }
+            },
+            500: {
+              description: "Internal server error",
+              content: {
+                "application/json": {
+                  example: {
+                    message: "Internal Server Error"
+                  }
+                }
+              }
+            }
+          }
         },
       }
     )

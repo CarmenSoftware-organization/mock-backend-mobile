@@ -23,16 +23,52 @@ const app = new Elysia()
         },
         tags: [
           {
+            name: "Mock",
+            description: "Mock data endpoints for development and testing",
+          },
+          {
             name: "auth",
-            description: "Authentication API",
+            description: "Authentication and authorization endpoints",
           },
           {
             name: "user",
-            description: "User API",
+            description: "User management and profile endpoints",
+          },
+          {
+            name: "products",
+            description: "Product management, inventory, and catalog endpoints",
+          },
+          {
+            name: "purchase",
+            description: "Purchase orders, requests, and procurement endpoints",
+          },
+          {
+            name: "inventory",
+            description: "Inventory management, physical count, and spot check endpoints",
+          },
+          {
+            name: "locations",
+            description: "Location and warehouse management endpoints",
+          },
+          {
+            name: "vendors",
+            description: "Vendor and supplier management endpoints",
+          },
+          {
+            name: "business",
+            description: "Business unit, department, and organizational endpoints",
+          },
+          {
+            name: "finance",
+            description: "Financial management, credit terms, and currency endpoints",
+          },
+          {
+            name: "workflow",
+            description: "Workflow and approval process management endpoints",
           },
           {
             name: "System",
-            description: "System API",
+            description: "System administration and configuration endpoints",
           }
         ],
         components: {
