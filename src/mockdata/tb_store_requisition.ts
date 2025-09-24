@@ -4,7 +4,7 @@ import { getUuidByName } from "./mapping.uuid";
 export interface StoreRequisitionApproval {
   state_role: "create" | "approve" | "issue" | "view_only";
   destination?: string;
-  body: StoreRequisitionApprovalItem[];
+  details: StoreRequisitionApprovalItem[];
 }
 export interface StoreRequisitionApprovalItem {
   id: string;

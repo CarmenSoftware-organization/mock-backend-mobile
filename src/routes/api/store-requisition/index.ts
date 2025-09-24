@@ -110,6 +110,7 @@ export default (app: Elysia) =>
           return resNotFound("Business unit not found");
         }
 
+        try{
         const storeRequisition = tbStoreRequisition.getStoreRequisitionById(id);
         if (!storeRequisition) {
           return resNotFound("Store requisition not found");
@@ -124,7 +125,7 @@ export default (app: Elysia) =>
           return resBadRequest("Invalid state role");
         }
 
-        for (const item of body.body) {
+        for (const item of body.details) {
           const storeRequisitionDetail =
             tbStoreRequisitionDetail.getStoreRequisitionDetailById(item.id);
           if (!storeRequisitionDetail) {
@@ -135,9 +136,11 @@ export default (app: Elysia) =>
         }
 
         return { data: storeRequisition.id };
+        } catch (error) {
+          return resErrorWithData("Internal server error", error);
+        }
       },
       {
-        type: "json",
         tags: ["Application - Store Requisition"],
         description: "Approve a store requisition",
       }

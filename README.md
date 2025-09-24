@@ -49,11 +49,11 @@ bun install
 bun run dev
 ```
 
-Your server will be running at [http://localhost:3000](http://localhost:3000)
+Your server will be running at [http://localhost:4000](http://localhost:4000)
 
 ### 4. View API Documentation
 
-Visit [http://localhost:3000/swagger](http://localhost:3000/swagger) for interactive API documentation.
+Visit [http://localhost:4000/swagger](http://localhost:4000/swagger) for interactive API documentation.
 
 ## 🏗️ Project Structure
 
@@ -155,7 +155,7 @@ docker build -t mock-backend-mobile .
 ### Run Container
 
 ```bash
-docker run -p 3000:3000 mock-backend-mobile
+docker run -p 4000:4000 mock-backend-mobile
 ```
 
 ### Docker Compose
@@ -166,10 +166,10 @@ services:
   mock-backend:
     build: .
     ports:
-      - "3000:3000"
+      - "4000:4000"
     environment:
       - NODE_ENV=production
-      - PORT=3000
+      - PORT=4000
 ```
 
 ## ☁️ Deployment
@@ -185,7 +185,8 @@ This project is configured for automatic deployment on Render:
 ### Environment Variables
 
 - `NODE_ENV`: Environment (development/production)
-- `PORT`: Server port (default: 3000)
+- `PORT`: Server port (default: 4000)
+- `JWT_SECRET`: JWT signing secret (defaults to "secret" for development)
 
 ## 🔧 Development
 
@@ -336,4 +337,4 @@ If you encounter any issues or have questions:
 Made with ❤️ using [Elysia](https://elysiajs.com/) + [Bun](https://bun.sh/)
 
 **Version**: 1.0.50
-**Last Updated**: December 2024
+**Last Updated**: January 2025

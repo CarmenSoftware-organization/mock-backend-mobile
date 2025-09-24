@@ -770,8 +770,7 @@ export default (app: Elysia) =>
       }
     })
 
-    .patch(
-      "/api/:bu_code/purchase-request/:id/approve",
+    .patch("/api/:bu_code/purchase-request/:id/approve",
       async (ctx) => {
         const { bu_code, id } = ctx.params;
 
@@ -790,39 +789,46 @@ export default (app: Elysia) =>
           return errorAccessToken;
         }
 
-        const bu = tbBusinessUnit.getBusinessUnitByCode(bu_code);
-        if (!bu) {
-          return resNotFound("Business unit not found");
-        }
+        try {
 
-        const purchaseRequest = tbPurchaseRequest.getPurchaseRequestById(id);
-        if (!purchaseRequest) {
-          return resNotFound("Purchase request not found");
-        }
-
-        const body = (await ctx.body) as PurchaseRequestApproval | undefined;
-        if (!body) {
-          return resBadRequest("Invalid body");
-        }
-
-        if (body.state_role !== "approve") {
-          return resBadRequest("Invalid state role");
-        }
-
-        for (const item of body.body) {
-          const purchaseRequestDetail =
-            tbPurchaseRequestDetail.getPurchaseRequestDetailById(item.id);
-          if (!purchaseRequestDetail) {
-            return resNotFound(
-              "Purchase request detail " + item.id + " not found"
-            );
+          const bu = tbBusinessUnit.getBusinessUnitByCode(bu_code);
+          if (!bu) {
+            return resNotFound("Business unit not found");
           }
-        }
 
-        return { data: purchaseRequest.id };
+          console.log(ctx);
+
+          const purchaseRequest = tbPurchaseRequest.getPurchaseRequestById(id);
+          if (!purchaseRequest) {
+            return resNotFound("Purchase request not found");
+          }
+
+          const body = (await ctx.body) as PurchaseRequestApproval | undefined;
+          if (!body) {
+            return resBadRequest("Invalid body");
+          }
+
+          if (body.state_role !== "approve") {
+            return resBadRequest("Invalid state role");
+          }
+
+
+          for (const item of body.details) {
+            const purchaseRequestDetail =
+              tbPurchaseRequestDetail.getPurchaseRequestDetailById(item.id);
+            if (!purchaseRequestDetail) {
+              return resNotFound(
+                "Purchase request detail " + item.id + " not found"
+              );
+            }
+          }
+
+          return { data: purchaseRequest.id };
+        } catch (error) {
+          return resErrorWithData("Internal server error", error);
+        }
       },
       {
-        body: "PurchaseRequestApproval",
         detail: {
           tags: ["purchase-requests"],
           summary: "Approve purchase request",
@@ -852,62 +858,6 @@ export default (app: Elysia) =>
               }
             }
           ],
-          requestBody: {
-            description: "ข้อมูลการอนุมัติใบขอซื้อ",
-            required: true,
-            content: {
-              "application/json": {
-                schema: {
-                  type: "object",
-                  properties: {
-                    state_role: {
-                      type: "string",
-                      enum: ["approve"],
-                      description: "บทบาทการดำเนินการ",
-                      example: "approve"
-                    },
-                    body: {
-                      type: "array",
-                      description: "รายการสินค้าที่ต้องการอนุมัติ",
-                      items: {
-                        type: "object",
-                        properties: {
-                          id: {
-                            type: "string",
-                            description: "รหัสรายการสินค้า",
-                            example: "550e8400-e29b-41d4-a716-446655440003"
-                          },
-                          state_status: {
-                            type: "string",
-                            enum: ["approve"],
-                            description: "สถานะการอนุมัติ",
-                            example: "approve"
-                          },
-                          state_message: {
-                            type: "string",
-                            description: "ข้อความการอนุมัติ",
-                            example: "อนุมัติตามที่ขอ"
-                          },
-                          approved_qty: {
-                            type: "number",
-                            description: "จำนวนที่อนุมัติ",
-                            example: 10.5
-                          },
-                          approved_unit_id: {
-                            type: "string",
-                            description: "รหัสหน่วยที่อนุมัติ",
-                            example: "550e8400-e29b-41d4-a716-446655440005"
-                          }
-                        },
-                        required: ["id", "state_status"]
-                      }
-                    }
-                  },
-                  required: ["state_role", "body"]
-                }
-              }
-            }
-          },
           responses: {
             200: {
               description: "อนุมัติใบขอซื้อสำเร็จ",
@@ -1008,21 +958,23 @@ export default (app: Elysia) =>
           return resNotFound("Business unit not found");
         }
 
+        try {
         const purchaseRequest = tbPurchaseRequest.getPurchaseRequestById(id);
         if (!purchaseRequest) {
           return resNotFound("Purchase request not found");
         }
 
-        const body = (await ctx.body) as PurchaseRequestApproval | undefined;
-        if (!body) {
+        const data = (await ctx.body) as PurchaseRequestApproval | undefined;
+        if (!data) {
           return resBadRequest("Invalid body");
         }
 
-        if (body.state_role !== "approve") {
+        if (data.state_role !== "approve") {
           return resBadRequest("Invalid state role");
         }
 
-        for (const item of body.body) {
+
+        for (const item of data.details) {
           const purchaseRequestDetail =
             tbPurchaseRequestDetail.getPurchaseRequestDetailById(item.id);
           if (!purchaseRequestDetail) {
@@ -1041,9 +993,12 @@ export default (app: Elysia) =>
         }
 
         return { data: purchaseRequest.id };
+
+        } catch (error) {
+          return resErrorWithData("Internal server error", error);
+        }
       },
       {
-        body: "PurchaseRequestApproval",
         detail: {
           tags: ["purchase-requests"],
           summary: "Reject purchase request",
@@ -1200,8 +1155,7 @@ export default (app: Elysia) =>
       }
     )
 
-    .patch(
-      "/api/:bu_code/purchase-request/:id/review",
+    .patch("/api/:bu_code/purchase-request/:id/review",
       async (ctx) => {
         const { bu_code, id } = ctx.params;
 
@@ -1225,6 +1179,8 @@ export default (app: Elysia) =>
           return resNotFound("Business unit not found");
         }
 
+        try {
+
         const purchaseRequest = tbPurchaseRequest.getPurchaseRequestById(id);
         if (!purchaseRequest) {
           return resNotFound("Purchase request not found");
@@ -1244,7 +1200,7 @@ export default (app: Elysia) =>
           return resBadRequest("Destination is required");
         }
 
-        for (const item of body.body) {
+        for (const item of body.details) {
           const purchaseRequestDetail =
             tbPurchaseRequestDetail.getPurchaseRequestDetailById(item.id);
           if (!purchaseRequestDetail) {
@@ -1255,9 +1211,12 @@ export default (app: Elysia) =>
         }
 
         return { data: purchaseRequest.id };
+
+        } catch (error) {
+          return resErrorWithData("Internal server error", error);
+        }
       },
       {
-        body: "PurchaseRequestApproval",
         detail: {
           tags: ["purchase-requests"],
           summary: "Review purchase request",
@@ -1412,52 +1371,96 @@ export default (app: Elysia) =>
         }
       }
     )
-    .patch("/api/:bu_code/purchase-request/:id/save", (ctx) => {
-      return Response.json(resNotImplemented, { status: 501 });
-    }, {
-      detail: {
-        tags: ["purchase-requests"],
-        summary: "Save purchase request as draft",
-        description: "บันทึกใบขอซื้อเป็นแบบร่าง (Not implemented)",
-        parameters: [
-          PARAM_X_APP_ID,
-          PARAM_AUTHORIZATION,
-          {
-            name: "bu_code",
-            in: "path",
-            required: true,
-            description: "รหัสหน่วยธุรกิจ",
-            schema: {
-              type: "string",
-              example: "BU_001"
-            }
-          },
-          {
-            name: "id",
-            in: "path",
-            required: true,
-            description: "รหัสใบขอซื้อ",
-            schema: {
-              type: "string",
-              format: "uuid",
-              example: "550e8400-e29b-41d4-a716-446655440001"
+    .patch("/api/:bu_code/purchase-request/:id/save",
+      async (ctx) => {
+        const { bu_code, id } = ctx.params;
+
+        const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+        if (errorAppId) {
+          ctx.set.status = 400;
+          return errorAppId;
+        }
+
+        const { error: errorAccessToken } = await CheckHeaderHasAccessToken(
+          ctx.headers,
+          ctx.jwt
+        );
+        if (errorAccessToken) {
+          ctx.set.status = 401;
+          return errorAccessToken;
+        }
+
+        try {
+
+          const bu = tbBusinessUnit.getBusinessUnitByCode(bu_code);
+          if (!bu) {
+            return resNotFound("Business unit not found");
+          }
+
+          console.log(ctx);
+
+          const purchaseRequest = tbPurchaseRequest.getPurchaseRequestById(id);
+          if (!purchaseRequest) {
+            return resNotFound("Purchase request not found");
+          }
+
+          const body = (await ctx.body) as PurchaseRequestApproval | undefined;
+          if (!body) {
+            return resBadRequest("Invalid body");
+          }
+
+          if (body.state_role !== "approve") {
+            return resBadRequest("Invalid state role");
+          }
+
+
+          for (const item of body.details) {
+            const purchaseRequestDetail =
+              tbPurchaseRequestDetail.getPurchaseRequestDetailById(item.id);
+            if (!purchaseRequestDetail) {
+              return resNotFound(
+                "Purchase request detail " + item.id + " not found"
+              );
             }
           }
-        ],
-        responses: {
-          501: {
-            description: "ยังไม่ได้พัฒนาฟีเจอร์นี้",
-            content: {
-              "application/json": {
-                example: {
-                  message: "Not implemented"
-                }
+
+          return { data: purchaseRequest.id };
+        } catch (error) {
+          return resErrorWithData("Internal server error", error);
+        }
+      },
+      {
+        detail: {
+          tags: ["purchase-requests"],
+          summary: "Save purchase request as draft",
+          description: "บันทึกใบขอซื้อเป็นแบบร่าง (Not implemented)",
+          parameters: [
+            PARAM_X_APP_ID,
+            PARAM_AUTHORIZATION,
+            {
+              name: "bu_code",
+              in: "path",
+              required: true,
+              description: "รหัสหน่วยธุรกิจ",
+              schema: {
+                type: "string",
+                example: "BU_001"
+              }
+            },
+            {
+              name: "id",
+              in: "path",
+              required: true,
+              description: "รหัสใบขอซื้อ",
+              schema: {
+                type: "string",
+                format: "uuid",
+                example: "550e8400-e29b-41d4-a716-446655440001"
               }
             }
-          }
+          ],
         }
-      }
-    })
+      })
     .get("/api/:bu_code/purchase-request/status/:status", (ctx) => {
       return Response.json(resNotImplemented, { status: 501 });
     })

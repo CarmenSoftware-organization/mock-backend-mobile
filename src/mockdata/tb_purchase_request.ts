@@ -9,7 +9,7 @@ export interface CalculatePurchaseRequestDetail {
 export interface PurchaseRequestApproval {
   state_role: "approve" | "create" | "purchase" | "view_only";
   destination?: string;
-  body: PurchaseRequestApprovalItem[];
+  details: PurchaseRequestApprovalItem[];
 }
 export interface PurchaseRequestApprovalItem {
   id: string;
@@ -61,8 +61,8 @@ export const purchaseRequests: PurchaseRequest[] = (() => {
   const workflow2 = getWorkflowById(getUuidByName("WORKFLOW_02"));
   return [
   {
-    id: getUuidByName("PURCHASE_REQUEST_01"),
-    bu_code: getUuidByName("BU_CODE_01"),
+    id: getUuidByName("PURCHASE_REQUEST_01") ?? "",
+    bu_code: getUuidByName("BU_CODE_01") ?? "",
     pr_no: "PR-2024-001",
     pr_date: "2024-01-15",
     description: "IT equipment request for new employees",
@@ -94,8 +94,8 @@ export const purchaseRequests: PurchaseRequest[] = (() => {
     deleted_by_id: null,
   },
   {
-    id: getUuidByName("PURCHASE_REQUEST_02"),
-    bu_code: getUuidByName("BU_CODE_01"),
+    id: getUuidByName("PURCHASE_REQUEST_02") ?? "",
+    bu_code: getUuidByName("BU_CODE_01") ?? "",
     pr_no: "PR-2024-002",
     pr_date: "2024-01-16",
     description: "Office supplies for admin team",
@@ -127,8 +127,8 @@ export const purchaseRequests: PurchaseRequest[] = (() => {
     deleted_by_id: null,
   },
   {
-    id: getUuidByName("PURCHASE_REQUEST_03"),
-    bu_code: getUuidByName("BU_CODE_01"),
+    id: getUuidByName("PURCHASE_REQUEST_03") ?? "",
+    bu_code: getUuidByName("BU_CODE_01") ?? "",
     pr_no: "PR-2024-003",
     pr_date: "2024-01-17",
     description: "Marketing materials for campaign",
@@ -160,8 +160,8 @@ export const purchaseRequests: PurchaseRequest[] = (() => {
     deleted_by_id: null,
   },
   {
-    id: getUuidByName("PURCHASE_REQUEST_04"),
-    bu_code: getUuidByName("BU_CODE_01"),
+    id: getUuidByName("PURCHASE_REQUEST_04") ?? "",
+    bu_code: getUuidByName("BU_CODE_01") ?? "",
     pr_no: "PR-2024-004",
     pr_date: "2024-01-18",
     description: "Marketing materials for campaign",
@@ -193,8 +193,8 @@ export const purchaseRequests: PurchaseRequest[] = (() => {
     deleted_by_id: null,
   },
   {
-    id: getUuidByName("PURCHASE_REQUEST_05"),
-    bu_code: getUuidByName("BU_CODE_01"),
+    id: getUuidByName("PURCHASE_REQUEST_05") ?? "",
+    bu_code: getUuidByName("BU_CODE_01") ?? "",
     pr_no: "PR-2024-005",
     pr_date: "2024-01-19",
     description: "Marketing materials for campaign",
@@ -226,8 +226,8 @@ export const purchaseRequests: PurchaseRequest[] = (() => {
     deleted_by_id: null,
   },
   {
-    id: getUuidByName("PURCHASE_REQUEST_06"),
-    bu_code: getUuidByName("BU_CODE_02"),
+    id: getUuidByName("PURCHASE_REQUEST_06") ?? "",
+    bu_code: getUuidByName("BU_CODE_02") ?? "",
     pr_no: "PR-2024-004",
     pr_date: "2024-01-18",
     description: "Marketing materials for campaign",
@@ -259,8 +259,8 @@ export const purchaseRequests: PurchaseRequest[] = (() => {
     deleted_by_id: null,
   },
   {
-    id: getUuidByName("PURCHASE_REQUEST_07"),
-    bu_code: getUuidByName("BU_CODE_02"),
+    id: getUuidByName("PURCHASE_REQUEST_07") ?? "",
+    bu_code: getUuidByName("BU_CODE_02") ?? "",
     pr_no: "PR-2024-005",
     pr_date: "2024-01-19",
     description: "Marketing materials for campaign",

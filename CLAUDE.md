@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+**Project**: Mock Backend Mobile
+**Version**: 1.0.50
+**Last Updated**: January 2025
+
 ## Development Commands
 
 ### Core Commands
@@ -44,6 +48,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Configures CORS, Bearer token auth, and JWT
 - Default port: 4000 (configurable via PORT env var)
 - Serves Swagger docs at `/swagger`
+- Integrated with Sentry for error monitoring
 
 **Route Architecture**: `src/routes/index.ts`
 - Central route aggregator that applies all route modules
