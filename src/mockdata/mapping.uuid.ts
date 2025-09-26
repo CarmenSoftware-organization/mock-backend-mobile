@@ -640,6 +640,35 @@ const UUID_MAPPING = {
   CURRENCY_ISO_09: "iso9c0d1-2e3f-4a5b-6c7d-8f9a0b1c2d3e",
   CURRENCY_ISO_10: "iso0d1e2-3f4a-5b6c-7d8e-9a0b1c2d3e4f",
 
+  /**
+   * Price lists
+   */
+  PRICE_LIST_01: "pl1a2b3c-4d5e-6f7a-8b9c-0d1e2f3a4b5c",
+  PRICE_LIST_02: "pl2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+  PRICE_LIST_03: "pl3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+  PRICE_LIST_04: "pl4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f",
+  PRICE_LIST_05: "pl5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a",
+  PRICE_LIST_06: "pl6f7a8b-9b0d-1e2f-3a4b-5c6d7e8f9a0b",
+  PRICE_LIST_07: "pl7a8b9c-0c1d-2e3f-4a5b-6d7e8f9a0b1c",
+  PRICE_LIST_08: "pl8b9c0d-1d2e-3f4a-5b6c-7e8f9a0b1c2d",
+  PRICE_LIST_09: "pl9c0d1e-2e3f-4a5b-6c7d-8f9a0b1c2d3e",
+  PRICE_LIST_10: "pl0d1e2f-3f4a-5b6c-7d8e-9a0b1c2d3e4f",
+
+  /**
+   * Price list details
+   */
+  PRICE_LIST_DETAIL_01: "pld1a2b3-4d5e-6f7a-8b9c-0d1e2f3a4b5c",
+  PRICE_LIST_DETAIL_02: "pld2b3c4-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+  PRICE_LIST_DETAIL_03: "pld3c4d5-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+  PRICE_LIST_DETAIL_04: "pld4d5e6-7a8b-9c0d-1e2f-3a4b5c6d7e8f",
+  PRICE_LIST_DETAIL_05: "pld5e6f7-8b9c- 0d1e-2f3a-4b5c6d7e8f9a",  
+  PRICE_LIST_DETAIL_06: "pld6f7a8-9b0d-1e2f-3a4b-5c6d7e8f9a0b",
+  PRICE_LIST_DETAIL_07: "pld7a8b9-0c1d-2e3f-4a5b-6d7e8f9a0b1c",
+  PRICE_LIST_DETAIL_08: "pld8b9c0-1d2e-3f4a-5b6c-7e8f9a0b1c2d",
+  PRICE_LIST_DETAIL_09: "pld9c0d1-2e3f-4a5b-6c7d-8f9a0b1c2d3e",
+  PRICE_LIST_DETAIL_10: "pld0d1e2-3f4a-5b6c-7d8e-9a0b1c2d3e4f",
+
+
   // =============================================================================
   // SYSTEM CONFIGURATION & WORKFLOW
   // =============================================================================
@@ -697,7 +726,7 @@ const UUID_MAPPING = {
  * @param name - The mapping key name
  * @returns The corresponding UUID or undefined if not found
  */
-export const getUuidByName = (name: string): string | undefined => {
+export const getUuidByName = (name: string): string => {
   return UUID_MAPPING[name as keyof typeof UUID_MAPPING];
 };
 

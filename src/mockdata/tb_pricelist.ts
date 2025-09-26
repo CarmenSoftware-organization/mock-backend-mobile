@@ -1,4 +1,6 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
+import { getUuidByName } from "./mapping.uuid";
+import { getVendorById } from "./tb_vendor";
 
 export interface Pricelist {
   id: string;
@@ -25,13 +27,19 @@ export interface Pricelist {
   url_token: string;
 }
 
+const vendor_01 = getVendorById(getUuidByName("VENDOR_01"));
+const vendor_02 = getVendorById(getUuidByName("VENDOR_02"));
+const vendor_03 = getVendorById(getUuidByName("VENDOR_03"));
+const vendor_04 = getVendorById(getUuidByName("VENDOR_04"));
+
+
 export const pricelists: Pricelist[] = [
   {
-    id: "550e8400-e29b-41d4-a716-446655440001",
+    id: getUuidByName("PRICE_LIST_01"),
     pricelist_no: "PL-001",
     name: "Standard Retail",
-    vendor_id: "550e8400-e29b-41d4-a716-446655440010",
-    vendor_name: "General Supplier",
+    vendor_id: vendor_01?.id || "550e8400-e29b-41d4-a716-446655440010",
+    vendor_name: vendor_01?.name || "Default Vendor",
     from_date: "2024-01-01",
     to_date: "2024-12-31",
     is_active: true,
@@ -54,11 +62,11 @@ export const pricelists: Pricelist[] = [
     url_token: "std-retail-2024",
   },
   {
-    id: "550e8400-e29b-41d4-a716-446655440002",
+    id: getUuidByName("PRICE_LIST_02")  ,
     pricelist_no: "PL-002",
     name: "Wholesale",
-    vendor_id: "550e8400-e29b-41d4-a716-446655440011",
-    vendor_name: "Bulk Supplier",
+    vendor_id: vendor_02?.id || "550e8400-e29b-41d4-a716-446655440011",
+    vendor_name: vendor_02?.name || "Default Vendor 2",
     from_date: "2024-01-01",
     to_date: "2024-12-31",
     is_active: true,
@@ -81,11 +89,11 @@ export const pricelists: Pricelist[] = [
     url_token: "wholesale-2024",
   },
   {
-    id: "550e8400-e29b-41d4-a716-446655440003",
+    id: getUuidByName("PRICE_LIST_03"),
     pricelist_no: "PL-003",
     name: "VIP Customer",
-    vendor_id: "550e8400-e29b-41d4-a716-446655440012",
-    vendor_name: "Premium Supplier",
+    vendor_id: vendor_03?.id || "550e8400-e29b-41d4-a716-446655440012",
+    vendor_name: vendor_03?.name || "Default Vendor 3",
     from_date: "2024-01-01",
     to_date: "2024-12-31",
     is_active: true,
@@ -108,11 +116,11 @@ export const pricelists: Pricelist[] = [
     url_token: "vip-customer-2024",
   },
   {
-    id: "550e8400-e29b-41d4-a716-446655440004",
+    id: getUuidByName("PRICE_LIST_04"),
     pricelist_no: "PL-004",
     name: "Promotional",
-    vendor_id: "550e8400-e29b-41d4-a716-446655440013",
-    vendor_name: "Promo Supplier",
+    vendor_id: vendor_04?.id || "550e8400-e29b-41d4-a716-446655440013",
+    vendor_name: vendor_04?.name || "Default Vendor 4",
     from_date: "2024-06-01",
     to_date: "2024-06-30",
     is_active: false,
@@ -133,7 +141,7 @@ export const pricelists: Pricelist[] = [
     currency_id: "550e8400-e29b-41d4-a716-446655440003",
     currency_name: "THB",
     url_token: "promo-summer-2024",
-  },
+  }
 ];
 
 // CREATE - สร้าง Pricelist ใหม่
