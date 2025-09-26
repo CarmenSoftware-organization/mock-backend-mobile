@@ -107,11 +107,274 @@ const businessUnit3: BusinessUnit =   {
   alias_name: "CC",
 };
 
+const businessUnit4: BusinessUnit = {
+  id: getUuidByName("BUSINESS_UNIT_04"),
+  cluster_id: getUuidByName("CLUSTER_02"),
+  code: getUuidByName("BU_CODE_04"),
+  name: "BU-CARMEN-NORTH",
+  description: "Northern Region Business Unit",
+  is_hq: false,
+  is_active: true,
+  db_connection: {
+    host: "north.blueledgers.com",
+    port: 6432,
+    schema: "N01",
+    database: "postgres",
+    password: "north123",
+    provider: "postgresql",
+    username: "developer",
+  },
+  config: {
+    timezone: "Asia/Bangkok",
+    currency: "THB",
+    language: "th-TH",
+    region: "north"
+  },
+  created_at: "2025-07-29T02:15:00.000Z",
+  created_by_id: getUuidByName("USER_ADMIN"),
+  updated_at: "2025-07-29T02:15:00.000Z",
+  updated_by_id: getUuidByName("USER_ADMIN"),
+  info: {
+    region_code: "NORTH",
+    manager: "Somchai Jaidee",
+    phone: "053-123-456",
+    email: "north@carmen.com"
+  },
+  alias_name: "NT",
+};
+
+const businessUnit5: BusinessUnit = {
+  id: getUuidByName("BUSINESS_UNIT_05"),
+  cluster_id: getUuidByName("CLUSTER_02"),
+  code: getUuidByName("BU_CODE_05"),
+  name: "BU-CARMEN-SOUTH",
+  description: "Southern Region Business Unit",
+  is_hq: false,
+  is_active: true,
+  db_connection: {
+    host: "south.blueledgers.com",
+    port: 6432,
+    schema: "S01",
+    database: "postgres",
+    password: "south123",
+    provider: "postgresql",
+    username: "developer",
+  },
+  config: {
+    timezone: "Asia/Bangkok",
+    currency: "THB",
+    language: "th-TH",
+    region: "south"
+  },
+  created_at: "2025-07-29T02:20:00.000Z",
+  created_by_id: getUuidByName("USER_ADMIN"),
+  updated_at: "2025-07-29T02:20:00.000Z",
+  updated_by_id: getUuidByName("USER_ADMIN"),
+  info: {
+    region_code: "SOUTH",
+    manager: "Somporn Nakprasert",
+    phone: "074-123-456",
+    email: "south@carmen.com"
+  },
+  alias_name: "ST",
+};
+
+const businessUnit6: BusinessUnit = {
+  id: getUuidByName("BUSINESS_UNIT_06"),
+  cluster_id: getUuidByName("CLUSTER_03"),
+  code: getUuidByName("BU_CODE_06"),
+  name: "BU-CARMEN-CENTRAL",
+  description: "Central Region Business Unit",
+  is_hq: false,
+  is_active: true,
+  db_connection: {
+    host: "central.blueledgers.com",
+    port: 6432,
+    schema: "C01",
+    database: "postgres",
+    password: "central123",
+    provider: "postgresql",
+    username: "developer",
+  },
+  config: {
+    timezone: "Asia/Bangkok",
+    currency: "THB",
+    language: "th-TH",
+    region: "central"
+  },
+  created_at: "2025-07-29T02:25:00.000Z",
+  created_by_id: getUuidByName("USER_ADMIN"),
+  updated_at: "2025-07-29T02:25:00.000Z",
+  updated_by_id: getUuidByName("USER_ADMIN"),
+  info: {
+    region_code: "CENTRAL",
+    manager: "Prakit Wongsawat",
+    phone: "02-987-654",
+    email: "central@carmen.com"
+  },
+  alias_name: "CT",
+};
+
+const businessUnit7: BusinessUnit = {
+  id: getUuidByName("BUSINESS_UNIT_07"),
+  cluster_id: getUuidByName("CLUSTER_03"),
+  code: getUuidByName("BU_CODE_07"),
+  name: "BU-CARMEN-EAST",
+  description: "Eastern Region Business Unit",
+  is_hq: false,
+  is_active: true,
+  db_connection: {
+    host: "east.blueledgers.com",
+    port: 6432,
+    schema: "E01",
+    database: "postgres",
+    password: "east123",
+    provider: "postgresql",
+    username: "developer",
+  },
+  config: {
+    timezone: "Asia/Bangkok",
+    currency: "THB",
+    language: "th-TH",
+    region: "east"
+  },
+  created_at: "2025-07-29T02:30:00.000Z",
+  created_by_id: getUuidByName("USER_ADMIN"),
+  updated_at: "2025-07-29T02:30:00.000Z",
+  updated_by_id: getUuidByName("USER_ADMIN"),
+  info: {
+    region_code: "EAST",
+    manager: "Wanlop Sirikit",
+    phone: "038-234-567",
+    email: "east@carmen.com"
+  },
+  alias_name: "ET",
+};
+
+const businessUnit8: BusinessUnit = {
+  id: getUuidByName("BUSINESS_UNIT_08"),
+  cluster_id: getUuidByName("CLUSTER_04"),
+  code: getUuidByName("BU_CODE_08"),
+  name: "BU-CARMEN-WEST",
+  description: "Western Region Business Unit",
+  is_hq: false,
+  is_active: true,
+  db_connection: {
+    host: "west.blueledgers.com",
+    port: 6432,
+    schema: "W01",
+    database: "postgres",
+    password: "west123",
+    provider: "postgresql",
+    username: "developer",
+  },
+  config: {
+    timezone: "Asia/Bangkok",
+    currency: "THB",
+    language: "th-TH",
+    region: "west"
+  },
+  created_at: "2025-07-29T02:35:00.000Z",
+  created_by_id: getUuidByName("USER_ADMIN"),
+  updated_at: "2025-07-29T02:35:00.000Z",
+  updated_by_id: getUuidByName("USER_ADMIN"),
+  info: {
+    region_code: "WEST",
+    manager: "Malee Thongsuk",
+    phone: "032-345-678",
+    email: "west@carmen.com"
+  },
+  alias_name: "WT",
+};
+
+const businessUnit9: BusinessUnit = {
+  id: getUuidByName("BUSINESS_UNIT_09"),
+  cluster_id: getUuidByName("CLUSTER_04"),
+  code: getUuidByName("BU_CODE_09"),
+  name: "BU-CARMEN-LOGISTICS",
+  description: "Logistics and Distribution Center",
+  is_hq: false,
+  is_active: true,
+  db_connection: {
+    host: "logistics.blueledgers.com",
+    port: 6432,
+    schema: "L01",
+    database: "postgres",
+    password: "logistics123",
+    provider: "postgresql",
+    username: "developer",
+  },
+  config: {
+    timezone: "Asia/Bangkok",
+    currency: "THB",
+    language: "th-TH",
+    business_type: "logistics",
+    warehouse_count: 5
+  },
+  created_at: "2025-07-29T02:40:00.000Z",
+  created_by_id: getUuidByName("USER_ADMIN"),
+  updated_at: "2025-07-29T02:40:00.000Z",
+  updated_by_id: getUuidByName("USER_ADMIN"),
+  info: {
+    region_code: "LOGISTICS",
+    manager: "Chaiwat Bumrung",
+    phone: "02-456-789",
+    email: "logistics@carmen.com",
+    warehouse_locations: ["Bangkok", "Chonburi", "Ayutthaya"]
+  },
+  alias_name: "LG",
+};
+
+const businessUnit10: BusinessUnit = {
+  id: getUuidByName("BUSINESS_UNIT_10"),
+  cluster_id: getUuidByName("CLUSTER_05"),
+  code: getUuidByName("BU_CODE_10"),
+  name: "BU-CARMEN-TRAINING",
+  description: "Training and Development Center",
+  is_hq: false,
+  is_active: false,
+  db_connection: {
+    host: "training.blueledgers.com",
+    port: 6432,
+    schema: "T01",
+    database: "postgres",
+    password: "training123",
+    provider: "postgresql",
+    username: "developer",
+  },
+  config: {
+    timezone: "Asia/Bangkok",
+    currency: "THB",
+    language: "th-TH",
+    business_type: "training",
+    capacity: 200
+  },
+  created_at: "2025-07-29T02:45:00.000Z",
+  created_by_id: getUuidByName("USER_ADMIN"),
+  updated_at: "2025-07-29T03:00:00.000Z",
+  updated_by_id: getUuidByName("USER_ADMIN"),
+  info: {
+    region_code: "TRAINING",
+    manager: "Siriporn Education",
+    phone: "02-567-890",
+    email: "training@carmen.com",
+    status: "temporarily_closed"
+  },
+  alias_name: "TR",
+};
+
 
 export const businessUnits: BusinessUnit[] = [
   businessUnit1,
   businessUnit2,
   businessUnit3,
+  businessUnit4,
+  businessUnit5,
+  businessUnit6,
+  businessUnit7,
+  businessUnit8,
+  businessUnit9,
+  businessUnit10,
 ];
 
 // CREATE - สร้าง BusinessUnit ใหม่
