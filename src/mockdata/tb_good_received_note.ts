@@ -1,4 +1,6 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
+import { getCurrencyById } from "./tb_currency";
+import { getUuidByName } from "./mapping.uuid";
 
 export interface GoodReceivedNote {
   id: string;
@@ -13,7 +15,7 @@ export interface GoodReceivedNote {
   vendor_name: string;
   currency_id: string;
   currency_name: string;
-  currency_rate: string;
+  currency_rate: Number;
   workflow_id: string;
   workflow_name: string;
   workflow_history: any;
@@ -48,6 +50,10 @@ export interface GoodReceivedNote {
   deleted_by_id: string | null;
 }
 
+const currency_01 = getCurrencyById(getUuidByName("CURRENCY_01"));
+const currency_02 = getCurrencyById(getUuidByName("CURRENCY_02"));
+const currency_03 = getCurrencyById(getUuidByName("CURRENCY_03"));
+
 export const goodReceivedNotes: GoodReceivedNote[] = [
   {
     id: "550e8400-e29b-41d4-a716-446655440001",
@@ -60,9 +66,9 @@ export const goodReceivedNotes: GoodReceivedNote[] = [
     doc_type: "purchase",
     vendor_id: "550e8400-e29b-41d4-a716-446655440001",
     vendor_name: "Dell Technologies",
-    currency_id: "550e8400-e29b-41d4-a716-446655440003",
-    currency_name: "Thai Baht",
-    currency_rate: "1.00",
+    currency_id:  currency_01?.id || "unknown-currency-id",
+    currency_name: currency_01?.code || "Unknown",
+    currency_rate: currency_01?.exchange_rate || 1.00,
     workflow_id: "550e8400-e29b-41d4-a716-446655440001",
     workflow_name: "Standard GRN Workflow",
     workflow_history: {
@@ -112,9 +118,9 @@ export const goodReceivedNotes: GoodReceivedNote[] = [
     doc_type: "purchase",
     vendor_id: "550e8400-e29b-41d4-a716-446655440002",
     vendor_name: "Office Supplies Co.",
-    currency_id: "550e8400-e29b-41d4-a716-446655440003",
-    currency_name: "Thai Baht",
-    currency_rate: "1.00",
+    currency_id:  currency_01?.id || "unknown-currency-id",
+    currency_name: currency_01?.code || "Unknown",
+    currency_rate: currency_01?.exchange_rate || 1.00,
     workflow_id: "550e8400-e29b-41d4-a716-446655440001",
     workflow_name: "Standard GRN Workflow",
     workflow_history: { stages: ["draft", "submitted"] },
@@ -162,9 +168,9 @@ export const goodReceivedNotes: GoodReceivedNote[] = [
     doc_type: "purchase",
     vendor_id: "550e8400-e29b-41d4-a716-446655440003",
     vendor_name: "PrintTech Solutions",
-    currency_id: "550e8400-e29b-41d4-a716-446655440003",
-    currency_name: "Thai Baht",
-    currency_rate: "1.00",
+    currency_id:  currency_01?.id || "unknown-currency-id",
+    currency_name: currency_01?.code || "Unknown",
+    currency_rate: currency_01?.exchange_rate || 1.00,
     workflow_id: "550e8400-e29b-41d4-a716-446655440001",
     workflow_name: "Standard GRN Workflow",
     workflow_history: { stages: ["draft", "submitted", "rejected"] },

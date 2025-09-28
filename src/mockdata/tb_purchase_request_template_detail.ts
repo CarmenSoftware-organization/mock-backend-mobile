@@ -1,4 +1,6 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
+import { getUuidByName } from "./mapping.uuid";
+import { getCurrencyById } from "./tb_currency";
 
 export interface PurchaseRequestTemplateDetail {
   id: string;
@@ -16,7 +18,7 @@ export interface PurchaseRequestTemplateDetail {
   comment: string | null;
   currency_id: string;
   currency_name: string;
-  exchange_rate: string;
+  exchange_rate: Number;
   exchange_rate_date: string;
   requested_qty: string;
   requested_unit_id: string;
@@ -50,6 +52,10 @@ export interface PurchaseRequestTemplateDetail {
   deleted_by_id: string | null;
 }
 
+const currency_01 = getCurrencyById(getUuidByName("CURRENCY_01"));
+const currency_02 = getCurrencyById(getUuidByName("CURRENCY_02"));
+const currency_03 = getCurrencyById(getUuidByName("CURRENCY_03"));
+
 export const purchaseRequestTemplateDetails: PurchaseRequestTemplateDetail[] = [
   {
     id: "prtd-001",
@@ -65,9 +71,9 @@ export const purchaseRequestTemplateDetails: PurchaseRequestTemplateDetail[] = [
     inventory_unit_name: "ชิ้น",
     description: "Standard laptop for IT staff",
     comment: "High performance required",
-    currency_id: "curr-001",
-    currency_name: "Thai Baht",
-    exchange_rate: "1.00000",
+    currency_id: currency_01?.id || "unknown-currency-id",
+    currency_name: currency_01?.code || "Unknown",
+    exchange_rate: currency_01?.exchange_rate || 1.00000,
     exchange_rate_date: "2024-01-15T00:00:00Z",
     requested_qty: "10.00000",
     requested_unit_id: "unit-001",
@@ -121,9 +127,9 @@ export const purchaseRequestTemplateDetails: PurchaseRequestTemplateDetail[] = [
     inventory_unit_name: "ตัว",
     description: "Ergonomic office chair",
     comment: "Adjustable height and backrest",
-    currency_id: "curr-001",
-    currency_name: "Thai Baht",
-    exchange_rate: "1.00000",
+    currency_id: currency_01?.id || "unknown-currency-id",
+    currency_name: currency_01?.code || "Unknown",
+    exchange_rate: currency_01?.exchange_rate || 1.00000,
     exchange_rate_date: "2024-01-15T00:00:00Z",
     requested_qty: "20.00000",
     requested_unit_id: "unit-002",
@@ -177,9 +183,9 @@ export const purchaseRequestTemplateDetails: PurchaseRequestTemplateDetail[] = [
     inventory_unit_name: "ชิ้น",
     description: "Large format promotional banner",
     comment: "Weather resistant material",
-    currency_id: "curr-001",
-    currency_name: "Thai Baht",
-    exchange_rate: "1.00000",
+    currency_id: currency_01?.id || "unknown-currency-id",
+    currency_name: currency_01?.code || "Unknown",
+    exchange_rate: currency_01?.exchange_rate || 1.00000,
     exchange_rate_date: "2024-01-15T00:00:00Z",
     requested_qty: "50.00000",
     requested_unit_id: "unit-003",
