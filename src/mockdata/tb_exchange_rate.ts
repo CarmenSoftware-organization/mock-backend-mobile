@@ -1,4 +1,5 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
+import { getUuidByName } from "./mapping.uuid";
 
 export interface ExchangeRate {
   id: string;
@@ -20,9 +21,9 @@ export interface ExchangeRate {
 
 export const exchangeRates: ExchangeRate[] = [
   {
-    id: "550e8400-e29b-41d4-a716-446655440001",
+    id: getUuidByName("EXCHANGE_RATE_01"),
     at_date: "2024-01-15",
-    currency_id: "550e8400-e29b-41d4-a716-446655440001",
+    currency_id: getUuidByName("CURRENCY_01"),
     currency_code: "USD",
     currency_name: "US Dollar",
     exchange_rate: 35.5,
@@ -42,9 +43,9 @@ export const exchangeRates: ExchangeRate[] = [
     deleted_by_id: null,
   },
   {
-    id: "550e8400-e29b-41d4-a716-446655440002",
+    id: getUuidByName("EXCHANGE_RATE_02"),
     at_date: "2024-01-15",
-    currency_id: "550e8400-e29b-41d4-a716-446655440002",
+    currency_id: getUuidByName("CURRENCY_02"),
     currency_code: "EUR",
     currency_name: "Euro",
     exchange_rate: 38.75,
@@ -64,9 +65,9 @@ export const exchangeRates: ExchangeRate[] = [
     deleted_by_id: null,
   },
   {
-    id: "550e8400-e29b-41d4-a716-446655440003",
+    id: getUuidByName("EXCHANGE_RATE_03"),
     at_date: "2024-01-15",
-    currency_id: "550e8400-e29b-41d4-a716-446655440004",
+    currency_id: getUuidByName("CURRENCY_03"),
     currency_code: "JPY",
     currency_name: "Japanese Yen",
     exchange_rate: 0.24,
@@ -86,9 +87,9 @@ export const exchangeRates: ExchangeRate[] = [
     deleted_by_id: null,
   },
   {
-    id: "550e8400-e29b-41d4-a716-446655440004",
+    id: getUuidByName("EXCHANGE_RATE_04"),
     at_date: "2024-01-15",
-    currency_id: "550e8400-e29b-41d4-a716-446655440005",
+    currency_id: getUuidByName("CURRENCY_04"),
     currency_code: "GBP",
     currency_name: "British Pound",
     exchange_rate: 45.2,
@@ -514,3 +515,13 @@ export const searchExchangeRates = (searchCriteria: {
     return true;
   });
 };
+
+
+export const getActiveExchangeRateByCurrencyId = (currencyId: string): ExchangeRate | undefined => {
+  return exchangeRates.find(
+    (exchangeRate) =>
+      exchangeRate.currency_id === currencyId &&
+      exchangeRate.info.is_active === true &&
+      !exchangeRate.deleted_at
+  );
+}

@@ -1,6 +1,7 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
 import { getUuidByName } from "./mapping.uuid";
 import { getVendorById } from "./tb_vendor";
+import { getCurrencyById } from "./tb_currency";
 
 export interface Pricelist {
   id: string;
@@ -32,6 +33,11 @@ const vendor_02 = getVendorById(getUuidByName("VENDOR_02"));
 const vendor_03 = getVendorById(getUuidByName("VENDOR_03"));
 const vendor_04 = getVendorById(getUuidByName("VENDOR_04"));
 
+const currency_01 = getCurrencyById(getUuidByName("CURRENCY_01"));
+const currency_02 = getCurrencyById(getUuidByName("CURRENCY_02"));
+const currency_03 = getCurrencyById(getUuidByName("CURRENCY_03"));
+const currency_04 = getCurrencyById(getUuidByName("CURRENCY_04"));
+
 
 export const pricelists: Pricelist[] = [
   {
@@ -57,8 +63,8 @@ export const pricelists: Pricelist[] = [
     updated_by_id: null,
     deleted_at: null,
     deleted_by_id: null,
-    currency_id: "550e8400-e29b-41d4-a716-446655440003",
-    currency_name: "THB",
+    currency_id: currency_01?.id || "550e8400-e29b-41d4-a716-446655440002",
+    currency_name: currency_01?.code || "USD",
     url_token: "std-retail-2024",
   },
   {
@@ -84,8 +90,8 @@ export const pricelists: Pricelist[] = [
     updated_by_id: null,
     deleted_at: null,
     deleted_by_id: null,
-    currency_id: "550e8400-e29b-41d4-a716-446655440003",
-    currency_name: "THB",
+    currency_id: currency_01?.id || "550e8400-e29b-41d4-a716-446655440003",
+    currency_name: currency_01?.code || "THB",
     url_token: "wholesale-2024",
   },
   {
@@ -111,8 +117,8 @@ export const pricelists: Pricelist[] = [
     updated_by_id: null,
     deleted_at: null,
     deleted_by_id: null,
-    currency_id: "550e8400-e29b-41d4-a716-446655440003",
-    currency_name: "THB",
+    currency_id: currency_01?.id || "550e8400-e29b-41d4-a716-446655440003",
+    currency_name: currency_01?.code || "THB",
     url_token: "vip-customer-2024",
   },
   {
@@ -138,8 +144,8 @@ export const pricelists: Pricelist[] = [
     updated_by_id: null,
     deleted_at: null,
     deleted_by_id: null,
-    currency_id: "550e8400-e29b-41d4-a716-446655440003",
-    currency_name: "THB",
+    currency_id: currency_01?.id || "550e8400-e29b-41d4-a716-446655440002",
+    currency_name: currency_01?.code || "USD",
     url_token: "promo-summer-2024",
   }
 ];

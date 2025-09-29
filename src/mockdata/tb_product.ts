@@ -2,6 +2,31 @@ import { generateId, getCurrentTimestamp } from "@/libs/utils";
 import { getUuidByName } from "./mapping.uuid";
 import { unitConversions } from "./tb_unit_conversion";
 
+
+export interface LastPurchaseByProductId {
+  at_date: Date,
+  vendor_id?: string | null,
+  vendor_name: string | null,
+  last_purchase_price: Number | null,
+  last_purchase_date: string | null,
+  currency_id: string,
+  currency_name: string,
+  exchange_rate: Number
+}
+
+
+export interface PriceListByProductId {
+  at_date: Date,
+  pricelist: {
+    vendor_id?: string | null,
+    vendor_name: string | null,
+    price: Number | null,
+    currency_id: string,
+    currency_name: string,
+    exchange_rate: Number
+  }[],
+}
+
 export interface Product {
   id: string;
   sku: string;

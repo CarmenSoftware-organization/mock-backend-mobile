@@ -1,4 +1,6 @@
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
+import { getProductByCode, getProductById } from "./tb_product";
+import { getUuidByName } from "./mapping.uuid";
 
 export interface GoodReceivedNoteDetail {
   id: string;
@@ -57,6 +59,10 @@ export interface GoodReceivedNoteDetail {
   deleted_by_id: string | null;
 }
 
+const product_01 = getProductById(getUuidByName("PRODUCT_01"));
+const product_02 = getProductById(getUuidByName("PRODUCT_02"));
+const product_03 = getProductById(getUuidByName("PRODUCT_03"));
+
 export const goodReceivedNoteDetails: GoodReceivedNoteDetail[] = [
   {
     id: "550e8400-e29b-41d4-a716-446655440001",
@@ -66,8 +72,8 @@ export const goodReceivedNoteDetails: GoodReceivedNoteDetail[] = [
     sequence_no: 1,
     location_id: "550e8400-e29b-41d4-a716-446655440001",
     location_name: "Main Warehouse",
-    product_id: "550e8400-e29b-41d4-a716-446655440001",
-    product_name: "Laptop Computer",
+    product_id: product_01 ? product_01.id : "",
+    product_name:  "Laptop Computer",
     product_local_name: "คอมพิวเตอร์แล็ปท็อป",
     inventory_unit_id: "550e8400-e29b-41d4-a716-446655440001",
     inventory_unit_name: "Piece",
@@ -311,6 +317,15 @@ export const getGoodReceivedNoteDetailsByProductId = (
     (detail) => detail.product_id === productId
   );
 };
+
+export const getLastGoodReceivedNoteDetailsByProductId = (
+  productId: string
+): GoodReceivedNoteDetail[] => {
+  return goodReceivedNoteDetails.filter(
+    (detail) => detail.product_id === productId
+  );
+};
+
 
 // READ - อ่าน GoodReceivedNoteDetail ตาม product_name
 export const getGoodReceivedNoteDetailsByProductName = (
