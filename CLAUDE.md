@@ -57,12 +57,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   - `/api-system/*` - System-level API endpoints
 
 **Mock Data System**: `src/mockdata/`
-- Comprehensive mock database with 80+ tables (tb_*.ts files)
+- Comprehensive mock database with 90+ tables (tb_*.ts files)
 - Flat table structure with direct exports from each file
-- UUID mapping system via `mapping.uuid.ts` for legacy ID compatibility  
+- UUID mapping system via `mapping.uuid.ts` for legacy ID compatibility
 - Constants and configurations in `const.ts`
-- Main export aggregator in `index.ts`
+- Main export aggregator in `index.ts` with organized exports by domain
 - All mock data is in-memory (no persistent storage)
+- Helper utilities for filtering, pagination, sorting, and searching mock data
 
 ### Path Aliases (tsconfig.json)
 ```typescript
@@ -71,6 +72,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 "@libs/*": ["./src/libs/*"]          // Shared libraries
 "@httpdocs/*": ["./src/httpdocs/*"]  // HTTP documentation
 ```
+
+### Shared Libraries (`src/libs/`)
+- **`res.error.ts`** - Standardized error response functions (resSuccess, resError, resBadRequest, resUnauthorized, etc.)
+- **`header.ts`** - Header validation utilities (CheckHeaderHasAppId, CheckHeaderHasAccessToken)
+- **`response.paginate.ts`** - Pagination utilities for API responses
+- **`calculate.priceinfo.ts`** - Price calculation utilities
+- **`utils.ts`** - General utility functions
 
 ### Key API Patterns
 
@@ -88,9 +96,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Mock Data Access**:
 - Tables follow `tb_{entity_name}.ts` naming convention
-- Each table exports data arrays directly (no CRUD pattern)
+- Each table exports data arrays directly (no class-based CRUD)
 - Use `UUID_MAPPING` from `mapping.uuid.ts` for converting legacy IDs to UUIDs
 - Access all mock data through central `src/mockdata/index.ts` export
+- Import with domain prefixes: `import { tbUser, tbProduct, const as constants } from '@mockdata/index'`
+- Helper functions available: `filterByBusinessUnit()`, `paginateMockData()`, `searchMockData()`, `sortMockData()`
 
 ### Business Domain Coverage
 The API covers comprehensive ERP functionality:
@@ -119,10 +129,11 @@ The API covers comprehensive ERP functionality:
 
 **Authentication Integration**:
 - Import JWT verification from route context
-- Check `x-app-id` header for protected endpoints
-- Use `@mockdata/index` constants for APP_ID validation
-- Return standardized error responses from utility functions
-- Handle Sentry error reporting via `instrument.ts` setup
+- Check `x-app-id` header for protected endpoints using `CheckHeaderHasAppId()` from `@libs/header`
+- Check Bearer token using `CheckHeaderHasAccessToken()` from `@libs/header`
+- Use `@mockdata/const` constants for APP_ID validation (PARAM_X_APP_ID)
+- Return standardized error responses: `resSuccess()`, `resError()`, `resBadRequest()`, `resUnauthorized()`, `resNotFound()`, `resInternalServerError()`, `resNotImplemented()` from `@libs/res.error`
+- Handle Sentry error reporting via `instrument.ts` setup (currently disabled)
 
 ## Environment Configuration
 
@@ -136,3 +147,87 @@ The API covers comprehensive ERP functionality:
 - Docker support with multi-stage build
 - Production URL: https://mock-backend-mobile.onrender.com
 - Build artifacts in `./dist` directory
+
+## Common Patterns & Examples
+
+### Creating a New API Endpoint
+
+```typescript
+import { Elysia, t } from "elysia";
+import { jwt } from "@elysiajs/jwt";
+import { CheckHeaderHasAppId, CheckHeaderHasAccessToken } from "@libs/header";
+import { resSuccess, resBadRequest, resUnauthorized } from "@libs/res.error";
+import { tbProduct } from "@mockdata/index";
+import { PARAM_X_APP_ID } from "@mockdata/const";
+
+export default (app: Elysia) =>
+  app
+    .use(jwt({ name: "jwt", secret: process.env.JWT_SECRET || "secret" }))
+    .get(
+      "/api/products/:id",
+      async (ctx) => {
+        // Validate headers
+        const { error: appIdError } = CheckHeaderHasAppId(ctx.headers);
+        if (appIdError) {
+          ctx.set.status = 400;
+          return appIdError;
+        }
+
+        const { error: authError } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+        if (authError) {
+          ctx.set.status = 401;
+          return authError;
+        }
+
+        // Business logic
+        const product = tbProduct.products.find(p => p.id === ctx.params.id);
+        if (!product) {
+          ctx.set.status = 404;
+          return { message: "Product not found" };
+        }
+
+        return resSuccess(product);
+      },
+      {
+        detail: {
+          tags: ["products"],
+          summary: "Get product by ID",
+          description: "Retrieve a single product by its ID",
+          parameters: [PARAM_X_APP_ID],
+          security: [{ Bearer: [] }]
+        }
+      }
+    );
+```
+
+### Working with Mock Data
+
+```typescript
+// Import mock data
+import { tbUser, tbProduct, const as constants } from '@mockdata/index';
+import { filterByBusinessUnit, paginateMockData } from '@mockdata/index';
+
+// Access data arrays
+const allUsers = tbUser.users;
+const allProducts = tbProduct.products;
+
+// Filter by business unit
+const buProducts = filterByBusinessUnit(allProducts, 'BU001');
+
+// Paginate results
+const page1 = paginateMockData(allProducts, 1, 10);
+// Returns: { data: [...], total: 100, page: 1, limit: 10, totalPages: 10 }
+```
+
+### Error Handling Pattern
+
+```typescript
+try {
+  // Business logic here
+  return resSuccess(data);
+} catch (error) {
+  return resInternalServerError(
+    error instanceof Error ? error.message : "Unknown error"
+  );
+}
+```
