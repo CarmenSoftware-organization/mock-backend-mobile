@@ -756,7 +756,7 @@ async function logout(token: string, jwt: any) {
   if (refreshToken) {
     await jwt.revoke(token);
   } else {
-    return resUnauthorized("Invalid refresh token");
+    // return resUnauthorized("Invalid refresh token");
   }
 
   return resSuccess("Logged out");
