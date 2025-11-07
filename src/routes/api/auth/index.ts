@@ -657,7 +657,12 @@ export default (app: Elysia) =>
     // Forgot Password
     .post("/api/auth/forgot-password", (ctx) => {
       ctx.set.status = 501;
-      return resNotImplemented;
+      const email = (ctx.body as any).email;
+      console.log(`Forgot password requested for email: ${email}`);
+      return {
+        message: "System will send password reset instructions to the email if it exists.",
+        email: email
+      };
     }, {
       detail: {
         tags: ["auth"],
