@@ -5,6 +5,7 @@ export interface User {
   id: string;
   username: string;
   email: string;
+  telephone?: string;
   platform_role: "platform_admin" | "user";
   is_active: boolean;
   is_consent: boolean;
@@ -26,6 +27,7 @@ export const users: User[] = [
     id: getUuidByName("USER_ADMIN"),
     username: "admin@test.com",
     email: "admin@test.com",
+    telephone: "0812345678",
     platform_role: "user",
     is_active: true,
     is_consent: true,
@@ -41,6 +43,7 @@ export const users: User[] = [
     id: getUuidByName("USER_SYSTEM_ADMIN"),
     username: "system-admin@blueledgers.com",
     email: "system-admin@blueledgers.com",
+    telephone: "0812345678",
     platform_role: "platform_admin",
     is_active: true,
     is_consent: true,
@@ -56,6 +59,7 @@ export const users: User[] = [
     id: getUuidByName("USER_01"),
     username: "user1@test.com",
     email: "user1@test.com",
+    telephone: "0812345678",
     platform_role: "user",
     is_active: true,
     is_consent: true,
@@ -71,6 +75,7 @@ export const users: User[] = [
     id: getUuidByName("USER_02"),
     username: "user2@test.com",
     email: "user2@test.com",
+    telephone: "0812345678",
     platform_role: "user",
     is_active: true,
     is_consent: true,
@@ -86,6 +91,7 @@ export const users: User[] = [
     id: getUuidByName("USER_03"),
     username: "user3@test.com",
     email: "user3@test.com",
+    telephone: "0812345678",
     platform_role: "user",
     is_active: true,
     is_consent: true,
@@ -101,6 +107,7 @@ export const users: User[] = [
     id: getUuidByName("USER_04"),
     username: "user4@test.com",
     email: "user4@test.com",
+    telephone: "0812345678",
     platform_role: "user",
     is_active: true,
     is_consent: true,
@@ -116,6 +123,7 @@ export const users: User[] = [
     id: getUuidByName("USER_05"),
     username: "user5@test.com",
     email: "user5@test.com",
+    telephone: "0812345678",
     platform_role: "user",
     is_active: true,
     is_consent: true,
@@ -131,6 +139,7 @@ export const users: User[] = [
     id: getUuidByName("USER_06"),
     username: "user6@test.com",
     email: "user6@test.com",
+    telephone: "0812345678",
     platform_role: "user",
     is_active: true,
     is_consent: true,
@@ -146,6 +155,7 @@ export const users: User[] = [
     id: getUuidByName("USER_07"),
     username: "test@test.com",
     email: "test@test.com",
+    telephone: "0812345678",
     platform_role: "user",
     is_active: true,
     is_consent: true,

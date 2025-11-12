@@ -12,6 +12,7 @@ export interface UserProfile {
   created_by_id: string | null;
   updated_at: string;
   updated_by_id: string | null;
+  telephone?: string;
 }
 
 // Sample data
@@ -23,6 +24,7 @@ export const userProfiles: UserProfile[] = [
     middlename: "",
     lastname: "system-admin",
     bio: {},
+    telephone: "0812345678",
     created_at: "2025-07-29T01:37:27.159Z",
     created_by_id: null,
     updated_at: "2025-07-29T01:37:27.159Z",
@@ -34,6 +36,7 @@ export const userProfiles: UserProfile[] = [
     firstname: "admin",
     middlename: "",
     lastname: "admin",
+    telephone: "0812345678",
     bio: {},
     created_at: "2025-07-29T01:37:27.819Z",
     created_by_id: null,
@@ -46,6 +49,7 @@ export const userProfiles: UserProfile[] = [
     firstname: "user1",
     middlename: "",
     lastname: "staff",
+    telephone: "0812345678",
     bio: {},
     created_at: "2025-07-29T01:37:28.038Z",
     created_by_id: null,
@@ -58,6 +62,7 @@ export const userProfiles: UserProfile[] = [
     firstname: "user2",
     middlename: "",
     lastname: "department-manager",
+    telephone: "0812345678",
     bio: {},
     created_at: "2025-07-29T01:37:28.269Z",
     created_by_id: null,
@@ -70,6 +75,7 @@ export const userProfiles: UserProfile[] = [
     firstname: "user3",
     middlename: "",
     lastname: "purchasing-staff",
+    telephone: "0812345678",
     bio: {},
     created_at: "2025-07-29T01:37:28.504Z",
     created_by_id: null,
@@ -82,6 +88,7 @@ export const userProfiles: UserProfile[] = [
     firstname: "user4",
     middlename: "",
     lastname: "finance-manager",
+    telephone: "0812345678",
     bio: {},
     created_at: "2025-07-29T01:37:28.757Z",
     created_by_id: null,
@@ -94,6 +101,7 @@ export const userProfiles: UserProfile[] = [
     firstname: "user5",
     middlename: "",
     lastname: "general-manager",
+    telephone: "0812345678",
     bio: {},
     created_at: "2025-07-29T01:37:28.991Z",
     created_by_id: null,
@@ -106,6 +114,7 @@ export const userProfiles: UserProfile[] = [
     firstname: "user6",
     middlename: "",
     lastname: "",
+    telephone: "0812345678",
     bio: {},
     created_at: "2025-07-30T20:00:19.073Z",
     created_by_id: null,
@@ -118,6 +127,7 @@ export const userProfiles: UserProfile[] = [
     firstname: "test",
     middlename: "",
     lastname: "test",
+    telephone: "0812345678",
     bio: {},
     created_at: "2025-07-29T01:37:27.541Z",
     created_by_id: null,

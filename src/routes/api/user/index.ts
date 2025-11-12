@@ -119,6 +119,7 @@ export default (app: Elysia) =>
               userProfile?.lastname ||
               userProfile?.lastname?.split(" ").slice(1).join(" ") ||
               "Unknown",
+            telephone: userProfile?.telephone || "",
           };
 
           // get all bu list
