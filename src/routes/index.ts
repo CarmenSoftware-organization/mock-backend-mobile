@@ -29,6 +29,7 @@ import myPendingPurchaseRequestRoutes from "./api/my-pending/purchase-request";
 import physicalCountRoutes from "./api/physical-count";
 import vendorsRoutes from "./api/vendors";
 import spotCheckRoutes from "./api/spot-check";
+import period from "./api/period";
 
 export const applyGeneratedRoutes = (app: Elysia) => {
   app.use(authRoutes);
@@ -60,6 +61,7 @@ export const applyGeneratedRoutes = (app: Elysia) => {
   app.use(physicalCountRoutes);
   app.use(spotCheckRoutes);
   app.use(vendorsRoutes);
+  app.use(period);
   return app;
 };
 
