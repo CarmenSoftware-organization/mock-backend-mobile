@@ -7,12 +7,18 @@ export interface GoodReceivedNoteDetail {
   inventory_transaction_id: string;
   good_received_note_id: string;
   purchase_order_detail_id: string;
+  po_id: string;
+  po_no: string;
+
   sequence_no: number;
   location_id: string;
   location_name: string;
+
   product_id: string;
   product_name: string;
   product_local_name: string;
+  sku: string;
+
   inventory_unit_id: string;
   inventory_unit_name: string;
   order_qty: number;
@@ -69,12 +75,19 @@ export const goodReceivedNoteDetails: GoodReceivedNoteDetail[] = [
     inventory_transaction_id: "550e8400-e29b-41d4-a716-446655440001",
     good_received_note_id: "550e8400-e29b-41d4-a716-446655440001",
     purchase_order_detail_id: "550e8400-e29b-41d4-a716-446655440001",
+
+    po_id: "550e8400-e29b-41d4-a716-446655440001",
+    po_no: "PO-001",
+
     sequence_no: 1,
     location_id: "550e8400-e29b-41d4-a716-446655440001",
     location_name: "Main Warehouse",
+
     product_id: product_01 ? product_01.id : "",
-    product_name:  "Laptop Computer",
-    product_local_name: "คอมพิวเตอร์แล็ปท็อป",
+    product_name: product_01 ? product_01.name : "Laptop Computer",
+    product_local_name: product_01 ? product_01.local_name : "คอมพิวเตอร์แล็ปท็อป",
+    sku: product_01 ? product_01.sku : "",
+
     inventory_unit_id: "550e8400-e29b-41d4-a716-446655440001",
     inventory_unit_name: "Piece",
     order_qty: 10,
@@ -111,7 +124,11 @@ export const goodReceivedNoteDetails: GoodReceivedNoteDetail[] = [
     expired_date: "2025-12-31",
     note: "Standard laptop delivery",
     info: { brand: "Dell", model: "Latitude 5520", warranty: "3 years" },
-    dimension: null,
+    dimension: {
+      "job code": "DIM-001",
+      "event": "Standard",
+      "market segment": "Electronics",
+    },
     doc_version: "1.0",
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
@@ -125,12 +142,19 @@ export const goodReceivedNoteDetails: GoodReceivedNoteDetail[] = [
     inventory_transaction_id: "550e8400-e29b-41d4-a716-446655440002",
     good_received_note_id: "550e8400-e29b-41d4-a716-446655440002",
     purchase_order_detail_id: "550e8400-e29b-41d4-a716-446655440002",
+
+    po_id: "550e8400-e29b-41d4-a716-446655440002",
+    po_no: "PO-002",
+
     sequence_no: 1,
     location_id: "550e8400-e29b-41d4-a716-446655440002",
     location_name: "Chiang Mai Branch",
-    product_id: "550e8400-e29b-41d4-a716-446655440002",
-    product_name: "Office Chair",
-    product_local_name: "เก้าอี้สำนักงาน",
+
+    product_id: product_02 ? product_02.id : "550e8400-e29b-41d4-a716-446655440002",
+    product_name: product_02 ? product_02.name : "Office Chair",
+    product_local_name: product_02 ? product_02.local_name : "เก้าอี้สำนักงาน",
+    sku: product_02 ? product_02.sku : "",
+
     inventory_unit_id: "550e8400-e29b-41d4-a716-446655440001",
     inventory_unit_name: "Piece",
     order_qty: 25,
@@ -167,7 +191,11 @@ export const goodReceivedNoteDetails: GoodReceivedNoteDetail[] = [
     expired_date: "2025-12-31",
     note: "Office furniture delivery with FOC items",
     info: { material: "Leather", color: "Black", adjustable: true },
-    dimension: null,
+    dimension: {
+      "job code": "DIM-002",
+      "event": "Furniture",
+      "market segment": "Office Supplies",
+    },
     doc_version: "1.0",
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "1bfdb891-58ee-499c-8115-34a964de8122",
@@ -181,12 +209,18 @@ export const goodReceivedNoteDetails: GoodReceivedNoteDetail[] = [
     inventory_transaction_id: "550e8400-e29b-41d4-a716-446655440003",
     good_received_note_id: "550e8400-e29b-41d4-a716-446655440003",
     purchase_order_detail_id: "550e8400-e29b-41d4-a716-446655440003",
+
+    po_id: "550e8400-e29b-41d4-a716-446655440003",
+    po_no: "PO-003",
+
     sequence_no: 1,
     location_id: "550e8400-e29b-41d4-a716-446655440003",
     location_name: "Phuket Branch",
-    product_id: "550e8400-e29b-41d4-a716-446655440003",
-    product_name: "Printer",
-    product_local_name: "เครื่องพิมพ์",
+    product_id: product_03 ? product_03.id : "550e8400-e29b-41d4-a716-446655440003",
+    product_name: product_03 ? product_03.name : "Printer",
+    product_local_name: product_03 ? product_03.local_name : "เครื่องพิมพ์",
+    sku: product_03 ? product_03.sku : "",
+
     inventory_unit_id: "550e8400-e29b-41d4-a716-446655440001",
     inventory_unit_name: "Piece",
     order_qty: 5,
@@ -223,7 +257,11 @@ export const goodReceivedNoteDetails: GoodReceivedNoteDetail[] = [
     expired_date: "2025-12-31",
     note: "Office printer delivery",
     info: { type: "Laser", color: "Monochrome", network: true },
-    dimension: null,
+    dimension: {
+      "job code": "DIM-003",
+      "event": "Office Equipment",
+      "market segment": "Office Supplies",
+    },
     doc_version: "1.0",
     created_at: "2024-01-15T10:30:00Z",
     created_by_id: "3c5280a7-492e-421d-b739-7447455ce99e",

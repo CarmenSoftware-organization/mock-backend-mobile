@@ -173,6 +173,7 @@ export * as tbPurchaseOrder from "./tb_purchase_order";
 export * as tbPurchaseOrderDetail from "./tb_purchase_order_detail";
 export * as tbPurchaseOrderDetailTbPurchaseRequestDetail from "./tb_purchase_order_detail_tb_purchase_request_detail";
 export * as tbGoodReceivedNote from "./tb_good_received_note";
+export * as tbGoodReceivedNoteComment from "./tb_good_received_note_comment";
 export * as tbGoodReceivedNoteDetail from "./tb_good_received_note_detail";
 
 /**
@@ -196,6 +197,7 @@ export * as tbCurrency from "./tb_currency";
 export * as tbCurrencyIso from "./tb_currency_iso";
 export * as tbCurrencyComment from "./tb_currency_comment";
 export * as tbExchangeRate from "./tb_exchange_rate";
+export * as tbPeriod from "./tb_period";
 
 /**
  * Financial terms and profiles

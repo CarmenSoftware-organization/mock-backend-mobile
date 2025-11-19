@@ -206,6 +206,7 @@ export default (app: Elysia) =>
         const goodReceivedNoteDetails = tbGoodReceivedNoteDetail.getGoodReceivedNoteDetailsByGoodReceivedNoteId(
           ctx.params.id
         );
+        
         if (!goodReceivedNoteDetails) {
           return resNotFound("Good received note details not found");
         }
@@ -223,6 +224,7 @@ export default (app: Elysia) =>
         },
       }
     );
+
 function getNewGrnFromPO(po_details: tbPurchaseOrderDetail.PurchaseOrderDetail[], po: tbPurchaseOrder.PurchaseOrder) {
   let data = [];
   for (const po_detail of po_details) {
