@@ -311,15 +311,18 @@ function getNewGrnFromPO(po_details: tbPurchaseOrderDetail.PurchaseOrderDetail[]
   }
 
   const response = {
-    vendor_id: po.vendor_id,
-    vendor_name: po.vendor_name,
+    data: {
+      vendor_id: po.vendor_id,
+      vendor_code: po.vendor_code,
+      vendor_name: po.vendor_name,
 
-    currency_id: po.currency_id,
-    currency_code: po.currency_code,
-    currency_name: po.currency_name,
-    exchange_rate: po.exchange_rate,
+      currency_id: po.currency_id,
+      currency_code: po.currency_code,
+      currency_name: po.currency_name,
+      exchange_rate: po.exchange_rate,
 
-    data: data.sort((a, b) => a.sequence_no - b.sequence_no),
+      details: data.sort((a, b) => a.sequence_no - b.sequence_no),
+    },
   };
 
   return response;

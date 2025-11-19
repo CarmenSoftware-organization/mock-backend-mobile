@@ -27,6 +27,7 @@ export interface PurchaseOrder {
   total_product_count?: number;
 
   vendor_id: string;
+  vendor_code: string;
   vendor_name: string;
   currency_id: string;
   currency_name: string;
@@ -81,6 +82,7 @@ export const purchaseOrders: PurchaseOrder[] = [
     // last_action_by_id: "user2",
     // last_action_by_name: "John Manager",
     vendor_id: vendor1?.id || "",
+    vendor_code: vendor1?.code || "VENDOR_01",
     vendor_name: vendor1?.name || "",
     currency_id: currency1?.id || "",
     currency_name: currency1?.name || "",
@@ -126,6 +128,7 @@ export const purchaseOrders: PurchaseOrder[] = [
     // last_action_by_id: "user3",
     // last_action_by_name: "Bob Buyer",
     vendor_id: vendor2?.id || "",
+    vendor_code: vendor2?.code || "VENDOR_02",
     vendor_name: vendor2?.name || "",
     currency_id: currency2?.id || "",
     currency_name: currency2?.name || "",
@@ -171,6 +174,7 @@ export const purchaseOrders: PurchaseOrder[] = [
     // last_action_by_id: "user5",
     // last_action_by_name: "Mary Manager",
     vendor_id: vendor3?.id || "",
+    vendor_code: vendor3?.code || "VENDOR_03",
     vendor_name: vendor3?.name || "",
     currency_id: currency1?.id || "",
     currency_name: currency1?.name || "",

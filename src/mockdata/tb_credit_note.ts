@@ -7,6 +7,7 @@ export interface CreditNote {
   doc_status: "draft" | "submitted" | "approved" | "rejected" | "completed";
   credit_note_type: "vendor" | "customer" | "adjustment";
   vendor_id: string;
+  vendor_code: string;
   vendor_name: string;
   pricelist_detail_id: string;
   pricelist_no: string;
@@ -58,6 +59,7 @@ export const creditNotes: CreditNote[] = [
     doc_status: "draft",
     credit_note_type: "vendor",
     vendor_id: "vendor_001",
+    vendor_code: "VENDOR_01",
     vendor_name: "ABC Supplier",
     pricelist_detail_id: "pl_001",
     pricelist_no: "PL-2025-001",
@@ -107,6 +109,7 @@ export const creditNotes: CreditNote[] = [
     doc_status: "submitted",
     credit_note_type: "customer",
     vendor_id: "vendor_002",
+    vendor_code: "VENDOR_02",
     vendor_name: "XYZ Corporation",
     pricelist_detail_id: "pl_002",
     pricelist_no: "PL-2025-002",
@@ -159,6 +162,7 @@ export const creditNotes: CreditNote[] = [
     doc_status: "approved",
     credit_note_type: "adjustment",
     vendor_id: "vendor_003",
+    vendor_code: "VENDOR_03",
     vendor_name: "DEF Trading",
     pricelist_detail_id: "pl_003",
     pricelist_no: "PL-2025-003",

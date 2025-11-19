@@ -592,6 +592,7 @@ export type ProductOnOrder = {
   po_date: Date;
   po_delivery_date: Date;
   vendor_id: string;
+  vendor_code: string;
   vendor_name: string;
   order_unit_id: string;
   order_unit_name: string;
