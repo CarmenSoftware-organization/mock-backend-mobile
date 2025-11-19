@@ -656,7 +656,7 @@ export default (app: Elysia) =>
 
     // Forgot Password
     .post("/api/auth/forgot-password", (ctx) => {
-      ctx.set.status = 501;
+      ctx.set.status = 200;
       const email = (ctx.body as any).email;
       console.log(`Forgot password requested for email: ${email}`);
       return {

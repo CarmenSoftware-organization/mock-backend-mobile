@@ -28,9 +28,22 @@ export default (app: Elysia) =>
         return errorAccessToken;
       }
 
-      const { bu_code } = ctx.query;
+      const { bu_code, status } = ctx.query;
       if (!bu_code) {
         return resBadRequest("Bu code is required");
+      }
+
+      if (status && typeof status !== "string") {
+        return resBadRequest("Invalid status");
+      }
+
+      const status_array = status ? status.split(",") : ['sent', 'partially_received', 'completed'];
+
+      // check status_array is valid in ["sent", "partial", "completed"]
+      for (const status_item of status_array) {
+        if (!["sent", "partially_received", "completed"].includes(status_item)) {
+          return resBadRequest("Invalid status");
+        }
       }
 
       const bu = tbBusinessUnit.getBusinessUnitByCode(bu_code);
@@ -38,8 +51,8 @@ export default (app: Elysia) =>
         return resNotFound("Business unit not found");
       }
 
-      const purchaseOrders = tbPurchaseOrder.getAllPurchaseOrders().map((po) => {
-        return {
+      const purchaseOrders = tbPurchaseOrder.getAllPurchaseOrdersIncludeStatus(status_array).map((po) => {
+        const poCopy = {
           id: po.id,
           po_no: po.po_no,
           po_date: po.approval_date,
@@ -61,6 +74,10 @@ export default (app: Elysia) =>
           po_credit_term_value: po.credit_term_value,
           po_remarks: po.remarks,
           po_note: po.note,
+
+          po_total_amount: po.total_amount,
+          po_total_product_count: po.total_product_count,
+
           po_doc_version: po.doc_version,
           po_created_at: po.created_at,
           po_created_by_id: po.created_by_id,
@@ -69,6 +86,11 @@ export default (app: Elysia) =>
           po_deleted_at: po.deleted_at,
           po_deleted_by_id: po.deleted_by_id,
         };
+
+        console.log("PO TOTAL AMOUNT:", po.total_amount);
+        console.log("PO TOTAL PRODUCT COUNT:", po.total_product_count);
+        
+        return poCopy;
       });
 
       const res = resSuccessWithPaginate(purchaseOrders, purchaseOrders.length, 1, 10, 1);

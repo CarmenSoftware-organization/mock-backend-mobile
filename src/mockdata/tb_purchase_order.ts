@@ -2,11 +2,12 @@ import { generateId, getCurrentTimestamp } from "@/libs/utils";
 import { getUuidByName } from "./mapping.uuid";
 import { getVendorById } from "./tb_vendor";
 import { getCurrencyById } from "./tb_currency";
+import { getTotalAmountByPurchaseOrderId, getTotalProductCountByPurchaseOrderId } from "./tb_purchase_order_detail";
 
 export interface PurchaseOrder {
   id: string;
   po_no: string;
-  po_status: "draft" | "submitted" | "sent" | "rejected"| "partially_received" | "completed";
+  po_status: "draft" | "submitted" | "sent" | "rejected" | "partially_received" | "completed";
   description: string | null;
   order_date: Date;
   delivery_date: Date;
@@ -21,6 +22,10 @@ export interface PurchaseOrder {
   // last_action_at_date: Date;
   // last_action_by_id: string | null;
   // last_action_by_name: string;
+
+  total_amount?: number;
+  total_product_count?: number;
+
   vendor_id: string;
   vendor_name: string;
   currency_id: string;
@@ -40,7 +45,7 @@ export interface PurchaseOrder {
   note: string | null;
   info: any;
   dimension: any;
-  doc_version: string;
+  doc_version: number;
   created_at: Date;
   created_by_id: string | null;
   updated_at: Date;
@@ -55,7 +60,6 @@ const vendor3 = getVendorById(getUuidByName("VENDOR_03"));
 
 const currency1 = getCurrencyById(getUuidByName("CURRENCY_01"));
 const currency2 = getCurrencyById(getUuidByName("CURRENCY_02"));
-
 
 export const purchaseOrders: PurchaseOrder[] = [
   {
@@ -81,7 +85,7 @@ export const purchaseOrders: PurchaseOrder[] = [
     currency_id: currency1?.id || "",
     currency_name: currency1?.name || "",
     currency_code: currency1?.code || "",
-    exchange_rate: currency1?.exchange_rate || 1.00,
+    exchange_rate: currency1?.exchange_rate || 1.0,
     approval_date: new Date("2024-01-16"),
     email: "purchase@techsolutions.com",
     buyer_id: "buyer1",
@@ -95,7 +99,7 @@ export const purchaseOrders: PurchaseOrder[] = [
     note: "Monthly laptop order",
     info: { category: "IT Equipment", priority: "High" },
     dimension: { department: "IT", region: "Central" },
-    doc_version: "1.0",
+    doc_version: 1.0,
     created_at: new Date("2024-01-15T10:30:00Z"),
     created_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
     updated_at: new Date("2024-01-15T10:30:00Z"),
@@ -126,7 +130,7 @@ export const purchaseOrders: PurchaseOrder[] = [
     currency_id: currency2?.id || "",
     currency_name: currency2?.name || "",
     currency_code: currency2?.code || "",
-    exchange_rate: currency2?.exchange_rate || 1.00,
+    exchange_rate: currency2?.exchange_rate || 1.0,
     approval_date: new Date("2024-01-16"),
     email: "orders@mobileworld.com",
     buyer_id: "buyer2",
@@ -140,7 +144,7 @@ export const purchaseOrders: PurchaseOrder[] = [
     note: "Smartphone inventory restock",
     info: { category: "Mobile Devices", priority: "Medium" },
     dimension: { department: "Sales", region: "All" },
-    doc_version: "1.0",
+    doc_version: 1.0,
     created_at: new Date("2024-01-15T10:30:00Z"),
     created_by_id: "1bfdb891-58ee-499c-8115-34a964de8122",
     updated_at: new Date("2024-01-15T10:30:00Z"),
@@ -171,21 +175,21 @@ export const purchaseOrders: PurchaseOrder[] = [
     currency_id: currency1?.id || "",
     currency_name: currency1?.name || "",
     currency_code: currency1?.code || "",
-    exchange_rate: currency1?.exchange_rate || 1.00,
+    exchange_rate: currency1?.exchange_rate || 1.0,
     approval_date: new Date("2024-01-18"),
     email: "orders@officesupplies.com",
     buyer_id: "buyer3",
     buyer_name: "Alice Buyer",
     credit_term_id: "ct001",
     credit_term_name: "Net 30",
-      credit_term_value: 30,
+    credit_term_value: 30,
     remarks: "Order rejected due to budget constraints",
     history: [{ action: "created", date: "2024-01-17", user: "user4" }],
     is_active: false,
     note: "Order cancelled due to budget issues",
     info: { category: "Office Supplies", priority: "Low" },
     dimension: { department: "Admin", region: "All" },
-    doc_version: "1.0",
+    doc_version: 1.0,
     created_at: new Date("2024-01-15T10:30:00Z"),
     created_by_id: "3c5280a7-492e-421d-b739-7447455ce99e",
     updated_at: new Date("2024-01-15T10:30:00Z"),
@@ -196,9 +200,7 @@ export const purchaseOrders: PurchaseOrder[] = [
 ];
 
 // CREATE - สร้าง PurchaseOrder ใหม่
-export const createPurchaseOrder = (
-  data: Omit<PurchaseOrder, "id" | "created_at">
-): PurchaseOrder => {
+export const createPurchaseOrder = (data: Omit<PurchaseOrder, "id" | "created_at">): PurchaseOrder => {
   const newPurchaseOrder: PurchaseOrder = {
     ...data,
     id: generateId(),
@@ -210,172 +212,216 @@ export const createPurchaseOrder = (
   return newPurchaseOrder;
 };
 
+const addInfo = (po: PurchaseOrder | undefined): PurchaseOrder | null => {
+  if (po) {
+    const totalAmount = getTotalAmountByPurchaseOrderId(po.id);
+    const totalProductCount = getTotalProductCountByPurchaseOrderId(po.id);
+
+    console.log(
+      `Calculating info for PO ID: ${po.id} - Total Amount: ${totalAmount}, Total Product Count: ${totalProductCount}`
+    );
+
+    return {
+      ...po,
+      total_amount: totalAmount,
+      total_product_count: totalProductCount,
+    };
+  }
+  return null;
+};
+
 // READ - อ่าน PurchaseOrder ทั้งหมด
 export const getAllPurchaseOrders = (): PurchaseOrder[] => {
-  return purchaseOrders.filter((po) => !po.deleted_at);
+  return purchaseOrders
+    .filter((po) => !po.deleted_at)
+    .map((po) => addInfo(po))
+    .filter((po): po is PurchaseOrder => po !== null);
+};
+
+export const getAllPurchaseOrdersIncludeStatus = (array_status: string[]): PurchaseOrder[] => {
+  return purchaseOrders
+    .filter((po) => array_status.includes(po.po_status) && !po.deleted_at)
+    .map((po) => addInfo(po))
+    .filter((po): po is PurchaseOrder => po !== null);
 };
 
 // READ - อ่าน PurchaseOrder ตาม ID
 export const getPurchaseOrderById = (id: string): PurchaseOrder | null => {
-  const po = purchaseOrders.find((po) => po.id === id && !po.deleted_at);
+  const po = addInfo(purchaseOrders.find((po) => po.id === id && !po.deleted_at));
   return po || null;
 };
 
 // READ - อ่าน PurchaseOrder ตาม po_no
 export const getPurchaseOrderByPoNo = (poNo: string): PurchaseOrder | null => {
-  const po = purchaseOrders.find((po) => po.po_no === poNo && !po.deleted_at);
+  const po = addInfo(purchaseOrders.find((po) => po.po_no === poNo && !po.deleted_at));
   return po || null;
 };
 
 // READ - อ่าน PurchaseOrder ตาม po_status
-export const getPurchaseOrdersByStatus = (
-  status: PurchaseOrder["po_status"]
-): PurchaseOrder[] => {
-  return purchaseOrders.filter(
-    (po) => po.po_status === status && !po.deleted_at
-  );
+export const getPurchaseOrdersByStatus = (status: PurchaseOrder["po_status"]): PurchaseOrder[] => {
+  return purchaseOrders
+    .filter((po) => po.po_status === status && !po.deleted_at)
+    .map((po) => addInfo(po))
+    .filter((po): po is PurchaseOrder => po !== null);
 };
 
 // READ - อ่าน PurchaseOrder ตาม vendor_id
-export const getPurchaseOrdersByVendor = (
-  vendorId: string
-): PurchaseOrder[] => {
-  return purchaseOrders.filter(
-    (po) => po.vendor_id === vendorId && !po.deleted_at
-  );
+export const getPurchaseOrdersByVendor = (vendorId: string): PurchaseOrder[] => {
+  return purchaseOrders
+    .filter((po) => po.vendor_id === vendorId && !po.deleted_at)
+    .map((po) => addInfo(po))
+    .filter((po): po is PurchaseOrder => po !== null);
 };
 
 // READ - อ่าน PurchaseOrder ตาม buyer_id
 export const getPurchaseOrdersByBuyer = (buyerId: string): PurchaseOrder[] => {
-  return purchaseOrders.filter(
-    (po) => po.buyer_id === buyerId && !po.deleted_at
-  );
+  return purchaseOrders
+    .filter((po) => po.buyer_id === buyerId && !po.deleted_at)
+    .map((po) => addInfo(po))
+    .filter((po): po is PurchaseOrder => po !== null);
 };
 
 // READ - อ่าน PurchaseOrder ที่ active
 export const getActivePurchaseOrders = (): PurchaseOrder[] => {
-  return purchaseOrders.filter((po) => po.is_active && !po.deleted_at);
+  return purchaseOrders
+    .filter((po) => po.is_active && !po.deleted_at)
+    .map((po) => addInfo(po))
+    .filter((po): po is PurchaseOrder => po !== null);
 };
 
 // READ - อ่าน PurchaseOrder ที่ inactive
 export const getInactivePurchaseOrders = (): PurchaseOrder[] => {
-  return purchaseOrders.filter((po) => !po.is_active && !po.deleted_at);
+  return purchaseOrders
+    .filter((po) => !po.is_active && !po.deleted_at)
+    .map((po) => addInfo(po))
+    .filter((po): po is PurchaseOrder => po !== null);
 };
 
 // READ - อ่าน PurchaseOrder ที่มี note
 export const getPurchaseOrdersWithNote = (): PurchaseOrder[] => {
-  return purchaseOrders.filter(
-    (po) => po.note && po.note.trim() !== "" && !po.deleted_at
-  );
+  return purchaseOrders
+    .filter((po) => po.note && po.note.trim() !== "" && !po.deleted_at)
+    .map((po) => addInfo(po))
+    .filter((po): po is PurchaseOrder => po !== null);
 };
 
 // READ - อ่าน PurchaseOrder ตามวันที่สั่งซื้อ
-export const getPurchaseOrdersByOrderDate = (
-  orderDate: Date
-): PurchaseOrder[] => {
-  return purchaseOrders.filter(
-    (po) => po.order_date === orderDate && !po.deleted_at
-  );
+export const getPurchaseOrdersByOrderDate = (orderDate: Date): PurchaseOrder[] => {
+  return purchaseOrders
+    .filter((po) => po.order_date === orderDate && !po.deleted_at)
+    .map((po) => addInfo(po))
+    .filter((po): po is PurchaseOrder => po !== null);
 };
 
 // READ - อ่าน PurchaseOrders ตามช่วงวันที่สั่งซื้อ
-export const getPurchaseOrdersByOrderDateRange = (
-  startDate: Date,
-  endDate: string
-): PurchaseOrder[] => {
-  return purchaseOrders.filter((po) => {
-    const orderDate = new Date(po.order_date);
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    return orderDate >= start && orderDate <= end && !po.deleted_at;
-  });
+export const getPurchaseOrdersByOrderDateRange = (startDate: Date, endDate: string): PurchaseOrder[] => {
+  return purchaseOrders
+    .filter((po) => {
+      const orderDate = new Date(po.order_date);
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      return orderDate >= start && orderDate <= end && !po.deleted_at;
+    })
+    .map((po) => addInfo(po))
+    .filter((po): po is PurchaseOrder => po !== null);
 };
 
 // READ - อ่าน PurchaseOrders ตามวันที่ส่งมอบ
-export const getPurchaseOrdersByDeliveryDate = (
-  deliveryDate: Date
-): PurchaseOrder[] => {
-  return purchaseOrders.filter(
-    (po) => po.delivery_date === deliveryDate && !po.deleted_at
-  );
+export const getPurchaseOrdersByDeliveryDate = (deliveryDate: Date): PurchaseOrder[] => {
+  return purchaseOrders
+    .filter((po) => po.delivery_date === deliveryDate && !po.deleted_at)
+    .map((po) => addInfo(po))
+    .filter((po): po is PurchaseOrder => po !== null);
 };
 
 // READ - อ่าน PurchaseOrders ตามช่วงวันที่ส่งมอบ
-export const getPurchaseOrdersByDeliveryDateRange = (
-  startDate: Date,
-  endDate: string
-): PurchaseOrder[] => {
-  return purchaseOrders.filter((po) => {
-    const deliveryDate = new Date(po.delivery_date);
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    return deliveryDate >= start && deliveryDate <= end && !po.deleted_at;
-  });
+export const getPurchaseOrdersByDeliveryDateRange = (startDate: Date, endDate: string): PurchaseOrder[] => {
+  return purchaseOrders
+    .filter((po) => {
+      const deliveryDate = new Date(po.delivery_date);
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      return deliveryDate >= start && deliveryDate <= end && !po.deleted_at;
+    })
+    .map((po) => addInfo(po))
+    .filter((po): po is PurchaseOrder => po !== null);
 };
 
 // READ - อ่าน PurchaseOrders ที่รอการอนุมัติ
 export const getSentPurchaseOrders = (): PurchaseOrder[] => {
-  return purchaseOrders.filter(
-    (po) => po.po_status === "sent" && !po.deleted_at
-  );
+  return purchaseOrders
+    .filter((po) => po.po_status === "sent" && !po.deleted_at)
+    .map((po) => addInfo(po))
+    .filter((po): po is PurchaseOrder => po !== null);
 };
 
 export const getSubmittedPurchaseOrders = (): PurchaseOrder[] => {
-  return purchaseOrders.filter(
-    (po) => po.po_status === "submitted" && !po.deleted_at
-  );
+  return purchaseOrders
+    .filter((po) => po.po_status === "submitted" && !po.deleted_at)
+    .map((po) => addInfo(po))
+    .filter((po): po is PurchaseOrder => po !== null);
 };
 
 export const getPartiallyReceivedPurchaseOrders = (): PurchaseOrder[] => {
-  return purchaseOrders.filter(
-    (po) => po.po_status === "partially_received" && !po.deleted_at
-  );
+  return purchaseOrders
+    .filter((po) => po.po_status === "partially_received" && !po.deleted_at)
+    .map((po) => addInfo(po))
+    .filter((po): po is PurchaseOrder => po !== null);
 };
 
 export const getRejectedPurchaseOrders = (): PurchaseOrder[] => {
-  return purchaseOrders.filter(
-    (po) => po.po_status === "rejected" && !po.deleted_at
-  );
+  return purchaseOrders
+    .filter((po) => po.po_status === "rejected" && !po.deleted_at)
+    .map((po) => addInfo(po))
+    .filter((po): po is PurchaseOrder => po !== null);
 };
 
 // READ - อ่าน PurchaseOrders ที่เสร็จสิ้น
 export const getCompletedPurchaseOrders = (): PurchaseOrder[] => {
-  return purchaseOrders.filter(
-    (po) => po.po_status === "completed" && !po.deleted_at
-  );
+  return purchaseOrders
+    .filter((po) => po.po_status === "completed" && !po.deleted_at)
+    .map((po) => addInfo(po))
+    .filter((po): po is PurchaseOrder => po !== null);
 };
 
 // READ - อ่าน PurchaseOrders ที่มี approval_date
 export const getPurchaseOrdersWithApprovalDate = (): PurchaseOrder[] => {
-  return purchaseOrders.filter((po) => po.approval_date && !po.deleted_at);
+  return purchaseOrders
+    .filter((po) => po.approval_date && !po.deleted_at)
+    .map((po) => addInfo(po))
+    .filter((po): po is PurchaseOrder => po !== null);
 };
 
 // READ - อ่าน PurchaseOrders ที่ไม่มี approval_date
 export const getPurchaseOrdersWithoutApprovalDate = (): PurchaseOrder[] => {
-  return purchaseOrders.filter((po) => !po.approval_date && !po.deleted_at);
+  return purchaseOrders
+    .filter((po) => !po.approval_date && !po.deleted_at)
+    .map((po) => addInfo(po))
+    .filter((po): po is PurchaseOrder => po !== null);
 };
 
 // READ - ค้นหา PurchaseOrder แบบ fuzzy search
 export const searchPurchaseOrders = (searchTerm: string): PurchaseOrder[] => {
   const lowerSearchTerm = searchTerm.toLowerCase();
-  return purchaseOrders.filter(
-    (po) =>
-      !po.deleted_at &&
-      (po.po_no.toLowerCase().includes(lowerSearchTerm) ||
-        po.description?.toLowerCase().includes(lowerSearchTerm) ||
-        po.vendor_name.toLowerCase().includes(lowerSearchTerm) ||
-        po.buyer_name.toLowerCase().includes(lowerSearchTerm) ||
-        po.note?.toLowerCase().includes(lowerSearchTerm) ||
-        po.remarks?.toLowerCase().includes(lowerSearchTerm))
-  );
+  return purchaseOrders
+    .filter(
+      (po) =>
+        !po.deleted_at &&
+        (po.po_no.toLowerCase().includes(lowerSearchTerm) ||
+          po.description?.toLowerCase().includes(lowerSearchTerm) ||
+          po.vendor_name.toLowerCase().includes(lowerSearchTerm) ||
+          po.buyer_name.toLowerCase().includes(lowerSearchTerm) ||
+          po.note?.toLowerCase().includes(lowerSearchTerm) ||
+          po.remarks?.toLowerCase().includes(lowerSearchTerm))
+    )
+    .map((po) => addInfo(po))
+    .filter((po): po is PurchaseOrder => po !== null);
 };
 
 // UPDATE - อัปเดต PurchaseOrder
 export const updatePurchaseOrder = (
   id: string,
-  updateData: Partial<
-    Omit<PurchaseOrder, "id" | "created_at" | "created_by_id">
-  >
+  updateData: Partial<Omit<PurchaseOrder, "id" | "created_at" | "created_by_id">>
 ): PurchaseOrder | null => {
   const index = purchaseOrders.findIndex((po) => po.id === id);
 
@@ -389,62 +435,41 @@ export const updatePurchaseOrder = (
     updated_at: new Date(getCurrentTimestamp()),
   };
 
-  return purchaseOrders[index];
+  return addInfo(purchaseOrders[index]);
 };
 
 // UPDATE - อัปเดต PurchaseOrder status
-export const updatePurchaseOrderStatus = (
-  id: string,
-  status: PurchaseOrder["po_status"]
-): PurchaseOrder | null => {
+export const updatePurchaseOrderStatus = (id: string, status: PurchaseOrder["po_status"]): PurchaseOrder | null => {
   return updatePurchaseOrder(id, { po_status: status });
 };
 
 // UPDATE - อัปเดต PurchaseOrder description
-export const updatePurchaseOrderDescription = (
-  id: string,
-  description: string
-): PurchaseOrder | null => {
+export const updatePurchaseOrderDescription = (id: string, description: string): PurchaseOrder | null => {
   return updatePurchaseOrder(id, { description });
 };
 
 // UPDATE - อัปเดต PurchaseOrder delivery date
-export const updatePurchaseOrderDeliveryDate = (
-  id: string,
-  deliveryDate: Date
-): PurchaseOrder | null => {
+export const updatePurchaseOrderDeliveryDate = (id: string, deliveryDate: Date): PurchaseOrder | null => {
   return updatePurchaseOrder(id, { delivery_date: deliveryDate });
 };
 
 // UPDATE - อัปเดต PurchaseOrder approval date
-export const updatePurchaseOrderApprovalDate = (
-  id: string,
-  approvalDate: Date
-): PurchaseOrder | null => {
+export const updatePurchaseOrderApprovalDate = (id: string, approvalDate: Date): PurchaseOrder | null => {
   return updatePurchaseOrder(id, { approval_date: approvalDate });
 };
 
 // UPDATE - อัปเดต PurchaseOrder note
-export const updatePurchaseOrderNote = (
-  id: string,
-  note: string
-): PurchaseOrder | null => {
+export const updatePurchaseOrderNote = (id: string, note: string): PurchaseOrder | null => {
   return updatePurchaseOrder(id, { note });
 };
 
 // UPDATE - อัปเดต PurchaseOrder remarks
-export const updatePurchaseOrderRemarks = (
-  id: string,
-  remarks: string
-): PurchaseOrder | null => {
+export const updatePurchaseOrderRemarks = (id: string, remarks: string): PurchaseOrder | null => {
   return updatePurchaseOrder(id, { remarks });
 };
 
 // UPDATE - อัปเดต PurchaseOrder active status
-export const updatePurchaseOrderActiveStatus = (
-  id: string,
-  isActive: boolean
-): PurchaseOrder | null => {
+export const updatePurchaseOrderActiveStatus = (id: string, isActive: boolean): PurchaseOrder | null => {
   return updatePurchaseOrder(id, { is_active: isActive });
 };
 
@@ -478,10 +503,7 @@ export const updatePurchaseOrderActiveStatus = (
 // };
 
 // DELETE - ลบ PurchaseOrder (soft delete)
-export const deletePurchaseOrder = (
-  id: string,
-  deletedById: string
-): boolean => {
+export const deletePurchaseOrder = (id: string, deletedById: string): boolean => {
   const index = purchaseOrders.findIndex((po) => po.id === id);
 
   if (index === -1) {
@@ -510,10 +532,7 @@ export const hardDeletePurchaseOrder = (id: string): boolean => {
 };
 
 // DELETE - ลบ PurchaseOrder ตาม vendor_id
-export const deletePurchaseOrdersByVendor = (
-  vendorId: string,
-  deletedById: string
-): number => {
+export const deletePurchaseOrdersByVendor = (vendorId: string, deletedById: string): number => {
   let deletedCount = 0;
 
   purchaseOrders.forEach((po) => {
@@ -528,10 +547,7 @@ export const deletePurchaseOrdersByVendor = (
 };
 
 // DELETE - ลบ PurchaseOrder ตาม buyer_id
-export const deletePurchaseOrdersByBuyer = (
-  buyerId: string,
-  deletedById: string
-): number => {
+export const deletePurchaseOrdersByBuyer = (buyerId: string, deletedById: string): number => {
   let deletedCount = 0;
 
   purchaseOrders.forEach((po) => {
@@ -546,10 +562,7 @@ export const deletePurchaseOrdersByBuyer = (
 };
 
 // DELETE - ลบ PurchaseOrder ตาม status
-export const deletePurchaseOrdersByStatus = (
-  status: PurchaseOrder["po_status"],
-  deletedById: string
-): number => {
+export const deletePurchaseOrdersByStatus = (status: PurchaseOrder["po_status"], deletedById: string): number => {
   let deletedCount = 0;
 
   purchaseOrders.forEach((po) => {
@@ -584,9 +597,7 @@ export const getInactivePurchaseOrderCount = (): number => {
 };
 
 // Utility function สำหรับนับจำนวน PurchaseOrder ตาม status
-export const getPurchaseOrderCountByStatus = (
-  status: PurchaseOrder["po_status"]
-): number => {
+export const getPurchaseOrderCountByStatus = (status: PurchaseOrder["po_status"]): number => {
   return purchaseOrders.filter((po) => po.po_status === status).length;
 };
 
@@ -654,24 +665,15 @@ export const searchPurchaseOrdersAdvanced = (searchCriteria: {
       return false;
     }
 
-    if (
-      searchCriteria.currency_id &&
-      po.currency_id !== searchCriteria.currency_id
-    ) {
+    if (searchCriteria.currency_id && po.currency_id !== searchCriteria.currency_id) {
       return false;
     }
 
-    if (
-      searchCriteria.credit_term_id &&
-      po.credit_term_id !== searchCriteria.credit_term_id
-    ) {
+    if (searchCriteria.credit_term_id && po.credit_term_id !== searchCriteria.credit_term_id) {
       return false;
     }
 
-    if (
-      searchCriteria.is_active !== undefined &&
-      po.is_active !== searchCriteria.is_active
-    ) {
+    if (searchCriteria.is_active !== undefined && po.is_active !== searchCriteria.is_active) {
       return false;
     }
 
@@ -724,8 +726,7 @@ export const searchPurchaseOrdersAdvanced = (searchCriteria: {
   });
 };
 
-
 export const getPurchaseOrderByPoId = (poId: string): PurchaseOrder | null => {
-  const po = purchaseOrders.find((po) => po.id === poId && !po.deleted_at);
+  const po = addInfo(purchaseOrders.find((po) => po.id === poId && !po.deleted_at));
   return po || null;
 };

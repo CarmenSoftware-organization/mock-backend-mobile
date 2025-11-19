@@ -1408,6 +1408,6 @@ export const getInventoryQtyByOrderQtyByProductId = (productId: string, orderQty
     return 0;
   }
 
-  return orderQty * parseFloat(orderUnit.from_unit_qty);
+  return orderQty * orderUnit.from_unit_qty;
 };
 

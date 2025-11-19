@@ -104,6 +104,15 @@ export * as tbDimension from "./tb_dimension";
 export * as tbDimensionDisplayIn from "./tb_dimension_display_in";
 
 /**
+ * Unit conversion utilities and helper functions
+ */
+export {
+  getUnitConversionFactor,
+  getUnitToUnitConversionFactor,
+  convertQuantity,
+} from "./temp_unit_factor";
+
+/**
  * Pricing and price lists
  */
 export * as tbPricelist from "./tb_pricelist";

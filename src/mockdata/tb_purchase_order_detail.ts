@@ -206,8 +206,8 @@ export const purchaseOrderDetails: PurchaseOrderDetail[] = [
     is_active: true,
     order_qty: productPrice3.qty,
     order_unit_id: unit1?.id || "",
-    order_unit_conversion_factor: 1.0,
-      order_unit_name: unit1?.name || "",
+    order_unit_conversion_factor: 10.0,
+    order_unit_name: unit1?.name || "",
     base_qty: productPrice3.qty,
     base_unit_id: unit1?.id || "",
     base_unit_name: unit1?.name || "",
@@ -229,7 +229,7 @@ export const purchaseOrderDetails: PurchaseOrderDetail[] = [
     base_price: productPrice3.base_price,
     base_sub_total_price: productPrice3.base_sub_total_price,
     base_net_amount: productPrice3.base_net_amount,
-      base_total_price: productPrice3.base_total_price,
+    base_total_price: productPrice3.base_total_price,
     received_qty: 0,
     cancelled_qty: 0,
     history: [{ action: "created", date: "2024-01-16", user: "user3" }],
@@ -266,105 +266,81 @@ export const getAllPurchaseOrderDetails = (): PurchaseOrderDetail[] => {
   return purchaseOrderDetails.filter((detail) => !detail.deleted_at);
 };
 
-// READ - อ่าน PurchaseOrderDetail ตาม ID
-export const getPurchaseOrderDetailById = (
-  id: string
-): PurchaseOrderDetail | null => {
-  const detail = purchaseOrderDetails.find(
-    (detail) => detail.id === id && !detail.deleted_at
+export const getTotalAmountByPurchaseOrderId = (purchase_order_id: string): number => {
+  const details = purchaseOrderDetails.filter(
+    (detail) => detail.purchase_order_id === purchase_order_id && !detail.deleted_at
   );
+  return details.reduce((total, detail) => total + detail.total_price, 0);
+};
+
+export const getTotalProductCountByPurchaseOrderId = (purchase_order_id: string): number => {
+  const details = purchaseOrderDetails.filter(
+    (detail) => detail.purchase_order_id === purchase_order_id && !detail.deleted_at
+  );
+  return details.length;
+};
+
+// READ - อ่าน PurchaseOrderDetail ตาม ID
+export const getPurchaseOrderDetailById = (id: string): PurchaseOrderDetail | null => {
+  const detail = purchaseOrderDetails.find((detail) => detail.id === id && !detail.deleted_at);
   return detail || null;
 };
 
 // READ - อ่าน PurchaseOrderDetail ตาม purchase_order_id
-export const getPurchaseOrderDetailsByOrder = (
-  orderId: string
-): PurchaseOrderDetail[] => {
-  return purchaseOrderDetails.filter(
-    (detail) => detail.purchase_order_id === orderId && !detail.deleted_at
-  );
+export const getPurchaseOrderDetailsByOrder = (orderId: string): PurchaseOrderDetail[] => {
+  return purchaseOrderDetails.filter((detail) => detail.purchase_order_id === orderId && !detail.deleted_at);
 };
 
 // READ - อ่าน PurchaseOrderDetail ตาม sequence_no
-export const getPurchaseOrderDetailBySequence = (
-  orderId: string,
-  sequenceNo: number
-): PurchaseOrderDetail | null => {
+export const getPurchaseOrderDetailBySequence = (orderId: string, sequenceNo: number): PurchaseOrderDetail | null => {
   const detail = purchaseOrderDetails.find(
-    (detail) =>
-      detail.purchase_order_id === orderId &&
-      detail.sequence_no === sequenceNo &&
-      !detail.deleted_at
+    (detail) => detail.purchase_order_id === orderId && detail.sequence_no === sequenceNo && !detail.deleted_at
   );
   return detail || null;
 };
 
 // READ - อ่าน PurchaseOrderDetail ที่ active
 export const getActivePurchaseOrderDetails = (): PurchaseOrderDetail[] => {
-  return purchaseOrderDetails.filter(
-    (detail) => detail.is_active && !detail.deleted_at
-  );
+  return purchaseOrderDetails.filter((detail) => detail.is_active && !detail.deleted_at);
 };
 
 // READ - อ่าน PurchaseOrderDetail ที่ inactive
 export const getInactivePurchaseOrderDetails = (): PurchaseOrderDetail[] => {
-  return purchaseOrderDetails.filter(
-    (detail) => !detail.is_active && !detail.deleted_at
-  );
+  return purchaseOrderDetails.filter((detail) => !detail.is_active && !detail.deleted_at);
 };
 
 // READ - อ่าน PurchaseOrderDetail ที่มี note
 export const getPurchaseOrderDetailsWithNote = (): PurchaseOrderDetail[] => {
-  return purchaseOrderDetails.filter(
-    (detail) => detail.note && detail.note.trim() !== "" && !detail.deleted_at
-  );
+  return purchaseOrderDetails.filter((detail) => detail.note && detail.note.trim() !== "" && !detail.deleted_at);
 };
 
 // READ - อ่าน PurchaseOrderDetail ที่เป็น FOC
 export const getFocPurchaseOrderDetails = (): PurchaseOrderDetail[] => {
-  return purchaseOrderDetails.filter(
-    (detail) => detail.is_foc && !detail.deleted_at
-  );
+  return purchaseOrderDetails.filter((detail) => detail.is_foc && !detail.deleted_at);
 };
 
 // READ - อ่าน PurchaseOrderDetail ที่ไม่ใช่ FOC
 export const getNonFocPurchaseOrderDetails = (): PurchaseOrderDetail[] => {
-  return purchaseOrderDetails.filter(
-    (detail) => !detail.is_foc && !detail.deleted_at
-  );
+  return purchaseOrderDetails.filter((detail) => !detail.is_foc && !detail.deleted_at);
 };
 
 // READ - อ่าน PurchaseOrderDetail ตาม tax_profile_id
-export const getPurchaseOrderDetailsByTaxProfile = (
-  taxProfileId: string
-): PurchaseOrderDetail[] => {
-  return purchaseOrderDetails.filter(
-    (detail) => detail.tax_profile_id === taxProfileId && !detail.deleted_at
-  );
+export const getPurchaseOrderDetailsByTaxProfile = (taxProfileId: string): PurchaseOrderDetail[] => {
+  return purchaseOrderDetails.filter((detail) => detail.tax_profile_id === taxProfileId && !detail.deleted_at);
 };
 
 // READ - อ่าน PurchaseOrderDetail ตาม order_unit_id
-export const getPurchaseOrderDetailsByOrderUnit = (
-  orderUnitId: string
-): PurchaseOrderDetail[] => {
-  return purchaseOrderDetails.filter(
-    (detail) => detail.order_unit_id === orderUnitId && !detail.deleted_at
-  );
+export const getPurchaseOrderDetailsByOrderUnit = (orderUnitId: string): PurchaseOrderDetail[] => {
+  return purchaseOrderDetails.filter((detail) => detail.order_unit_id === orderUnitId && !detail.deleted_at);
 };
 
 // READ - อ่าน PurchaseOrderDetail ตาม base_unit_id
-export const getPurchaseOrderDetailsByBaseUnit = (
-  baseUnitId: string
-): PurchaseOrderDetail[] => {
-  return purchaseOrderDetails.filter(
-    (detail) => detail.base_unit_id === baseUnitId && !detail.deleted_at
-  );
+export const getPurchaseOrderDetailsByBaseUnit = (baseUnitId: string): PurchaseOrderDetail[] => {
+  return purchaseOrderDetails.filter((detail) => detail.base_unit_id === baseUnitId && !detail.deleted_at);
 };
 
 // READ - ค้นหา PurchaseOrderDetail แบบ fuzzy search
-export const searchPurchaseOrderDetails = (
-  searchTerm: string
-): PurchaseOrderDetail[] => {
+export const searchPurchaseOrderDetails = (searchTerm: string): PurchaseOrderDetail[] => {
   const lowerSearchTerm = searchTerm.toLowerCase();
   return purchaseOrderDetails.filter(
     (detail) =>
@@ -380,9 +356,7 @@ export const searchPurchaseOrderDetails = (
 // UPDATE - อัปเดต PurchaseOrderDetail
 export const updatePurchaseOrderDetail = (
   id: string,
-  updateData: Partial<
-    Omit<PurchaseOrderDetail, "id" | "created_at" | "created_by_id">
-  >
+  updateData: Partial<Omit<PurchaseOrderDetail, "id" | "created_at" | "created_by_id">>
 ): PurchaseOrderDetail | null => {
   const index = purchaseOrderDetails.findIndex((detail) => detail.id === id);
 
@@ -400,66 +374,42 @@ export const updatePurchaseOrderDetail = (
 };
 
 // UPDATE - อัปเดต PurchaseOrderDetail description
-export const updatePurchaseOrderDetailDescription = (
-  id: string,
-  description: string
-): PurchaseOrderDetail | null => {
+export const updatePurchaseOrderDetailDescription = (id: string, description: string): PurchaseOrderDetail | null => {
   return updatePurchaseOrderDetail(id, { description });
 };
 
 // UPDATE - อัปเดต PurchaseOrderDetail sequence_no
-export const updatePurchaseOrderDetailSequence = (
-  id: string,
-  sequenceNo: number
-): PurchaseOrderDetail | null => {
+export const updatePurchaseOrderDetailSequence = (id: string, sequenceNo: number): PurchaseOrderDetail | null => {
   return updatePurchaseOrderDetail(id, { sequence_no: sequenceNo });
 };
 
 // UPDATE - อัปเดต PurchaseOrderDetail active status
-export const updatePurchaseOrderDetailActiveStatus = (
-  id: string,
-  isActive: boolean
-): PurchaseOrderDetail | null => {
+export const updatePurchaseOrderDetailActiveStatus = (id: string, isActive: boolean): PurchaseOrderDetail | null => {
   return updatePurchaseOrderDetail(id, { is_active: isActive });
 };
 
 // UPDATE - อัปเดต PurchaseOrderDetail order_qty
-export const updatePurchaseOrderDetailOrderQty = (
-  id: string,
-  orderQty: number
-): PurchaseOrderDetail | null => {
+export const updatePurchaseOrderDetailOrderQty = (id: string, orderQty: number): PurchaseOrderDetail | null => {
   return updatePurchaseOrderDetail(id, { order_qty: orderQty });
 };
 
 // UPDATE - อัปเดต PurchaseOrderDetail base_qty
-export const updatePurchaseOrderDetailBaseQty = (
-  id: string,
-  baseQty: number
-): PurchaseOrderDetail | null => {
+export const updatePurchaseOrderDetailBaseQty = (id: string, baseQty: number): PurchaseOrderDetail | null => {
   return updatePurchaseOrderDetail(id, { base_qty: baseQty });
 };
 
 // UPDATE - อัปเดต PurchaseOrderDetail price
-export const updatePurchaseOrderDetailPrice = (
-  id: string,
-  price: number
-): PurchaseOrderDetail | null => {
+export const updatePurchaseOrderDetailPrice = (id: string, price: number): PurchaseOrderDetail | null => {
   return updatePurchaseOrderDetail(id, { price });
 };
 
 // UPDATE - อัปเดต PurchaseOrderDetail note
-export const updatePurchaseOrderDetailNote = (
-  id: string,
-  note: string
-): PurchaseOrderDetail | null => {
+export const updatePurchaseOrderDetailNote = (id: string, note: string): PurchaseOrderDetail | null => {
   return updatePurchaseOrderDetail(id, { note });
 };
 
 // DELETE - ลบ PurchaseOrderDetail (soft delete)
-export const deletePurchaseOrderDetail = (
-  id: string,
-  deletedById: string
-): boolean => {
+export const deletePurchaseOrderDetail = (id: string, deletedById: string): boolean => {
   const index = purchaseOrderDetails.findIndex((detail) => detail.id === id);
 
   if (index === -1) {
@@ -488,10 +438,7 @@ export const hardDeletePurchaseOrderDetail = (id: string): boolean => {
 };
 
 // DELETE - ลบ PurchaseOrderDetail ตาม purchase_order_id
-export const deletePurchaseOrderDetailsByOrder = (
-  orderId: string,
-  deletedById: string
-): number => {
+export const deletePurchaseOrderDetailsByOrder = (orderId: string, deletedById: string): number => {
   let deletedCount = 0;
 
   purchaseOrderDetails.forEach((detail) => {
@@ -527,9 +474,7 @@ export const getInactivePurchaseOrderDetailCount = (): number => {
 
 // Utility function สำหรับนับจำนวน PurchaseOrderDetail ตาม purchase_order_id
 export const getPurchaseOrderDetailCountByOrder = (orderId: string): number => {
-  return purchaseOrderDetails.filter(
-    (detail) => detail.purchase_order_id === orderId
-  ).length;
+  return purchaseOrderDetails.filter((detail) => detail.purchase_order_id === orderId).length;
 };
 
 // Utility function สำหรับนับจำนวน PurchaseOrderDetail ที่เป็น FOC
@@ -583,52 +528,31 @@ export const searchPurchaseOrderDetailsAdvanced = (searchCriteria: {
   price_max?: string;
 }): PurchaseOrderDetail[] => {
   return purchaseOrderDetails.filter((detail) => {
-    if (
-      searchCriteria.purchase_order_id &&
-      detail.purchase_order_id !== searchCriteria.purchase_order_id
-    ) {
+    if (searchCriteria.purchase_order_id && detail.purchase_order_id !== searchCriteria.purchase_order_id) {
       return false;
     }
 
-    if (
-      searchCriteria.sequence_no &&
-      detail.sequence_no !== searchCriteria.sequence_no
-    ) {
+    if (searchCriteria.sequence_no && detail.sequence_no !== searchCriteria.sequence_no) {
       return false;
     }
 
-    if (
-      searchCriteria.is_active !== undefined &&
-      detail.is_active !== searchCriteria.is_active
-    ) {
+    if (searchCriteria.is_active !== undefined && detail.is_active !== searchCriteria.is_active) {
       return false;
     }
 
-    if (
-      searchCriteria.is_foc !== undefined &&
-      detail.is_foc !== searchCriteria.is_foc
-    ) {
+    if (searchCriteria.is_foc !== undefined && detail.is_foc !== searchCriteria.is_foc) {
       return false;
     }
 
-    if (
-      searchCriteria.tax_profile_id &&
-      detail.tax_profile_id !== searchCriteria.tax_profile_id
-    ) {
+    if (searchCriteria.tax_profile_id && detail.tax_profile_id !== searchCriteria.tax_profile_id) {
       return false;
     }
 
-    if (
-      searchCriteria.order_unit_id &&
-      detail.order_unit_id !== searchCriteria.order_unit_id
-    ) {
+    if (searchCriteria.order_unit_id && detail.order_unit_id !== searchCriteria.order_unit_id) {
       return false;
     }
 
-    if (
-      searchCriteria.base_unit_id &&
-      detail.base_unit_id !== searchCriteria.base_unit_id
-    ) {
+    if (searchCriteria.base_unit_id && detail.base_unit_id !== searchCriteria.base_unit_id) {
       return false;
     }
 
@@ -639,37 +563,24 @@ export const searchPurchaseOrderDetailsAdvanced = (searchCriteria: {
       }
     }
 
-    if (
-      searchCriteria.order_qty_min &&
-      detail.order_qty < parseFloat(searchCriteria.order_qty_min)
-    ) {
+    if (searchCriteria.order_qty_min && detail.order_qty < parseFloat(searchCriteria.order_qty_min)) {
       return false;
     }
 
-    if (
-      searchCriteria.order_qty_max &&
-      detail.order_qty > parseFloat(searchCriteria.order_qty_max)
-    ) {
+    if (searchCriteria.order_qty_max && detail.order_qty > parseFloat(searchCriteria.order_qty_max)) {
       return false;
     }
 
-    if (
-      searchCriteria.price_min &&
-      detail.price < parseFloat(searchCriteria.price_min)
-    ) {
+    if (searchCriteria.price_min && detail.price < parseFloat(searchCriteria.price_min)) {
       return false;
     }
 
-    if (
-      searchCriteria.price_max &&
-      detail.price > parseFloat(searchCriteria.price_max)
-    ) {
+    if (searchCriteria.price_max && detail.price > parseFloat(searchCriteria.price_max)) {
       return false;
     }
 
     return true;
   });
-
 };
 
 export type ProductOnOrder = {
@@ -694,32 +605,31 @@ export type ProductOnOrder = {
 };
 
 export const getProductOnOrder = (product_id: string): ProductOnOrder[] => {
-
   // get all purchase orders bu purchase_order_id
-  const purchaseOrders = purchaseOrderDetails.filter(
-    (detail) => detail.product_id === product_id && !detail.deleted_at
-  ).map((detail) => detail.purchase_order_id);
+  const purchaseOrders = purchaseOrderDetails
+    .filter((detail) => detail.product_id === product_id && !detail.deleted_at)
+    .map((detail) => detail.purchase_order_id);
 
   const product = tbProduct.getProductById(product_id);
   if (!product) {
     return [];
   }
 
-
   const productOnOrders: ProductOnOrder[] = [];
 
-
   for (const purchaseOrderId of purchaseOrders) {
-
     const purchaseOrder = tbPurchaseOrder.getPurchaseOrderById(purchaseOrderId);
     if (!purchaseOrder) {
       continue;
     }
 
     // sum order_qty group product in product detail id by purchase_order_id
-    const on_order_qty = purchaseOrderDetails.filter(
-      (detail) => detail.product_id === product_id && detail.purchase_order_id === purchaseOrderId && !detail.deleted_at
-    ).reduce((acc, detail) => acc + detail.order_qty, 0);
+    const on_order_qty = purchaseOrderDetails
+      .filter(
+        (detail) =>
+          detail.product_id === product_id && detail.purchase_order_id === purchaseOrderId && !detail.deleted_at
+      )
+      .reduce((acc, detail) => acc + detail.order_qty, 0);
 
     const po_detail = purchaseOrderDetails.filter(
       (detail) => detail.product_id === product_id && detail.purchase_order_id === purchaseOrderId && !detail.deleted_at
@@ -741,7 +651,7 @@ export const getProductOnOrder = (product_id: string): ProductOnOrder[] => {
       base_unit_id: product.inventory_unit_id,
       base_unit_name: product.inventory_unit_name,
       sku: product.sku,
-      on_order_qty: on_order_qty  || 0,
+      on_order_qty: on_order_qty || 0,
     };
     productOnOrders.push(productOnOrder);
   }
