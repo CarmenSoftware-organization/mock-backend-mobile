@@ -1,3 +1,4 @@
+import { inventoryTransactionClosingBalances } from './../../../mockdata/tb_inventory_transaction_closing_balance';
 import type { Elysia } from "elysia";
 import { resNotFound, resNotImplemented } from "@/libs/res.error";
 import jwt from "@elysiajs/jwt";
@@ -68,7 +69,7 @@ export default (app: Elysia) =>
           return errorAppId;
         }
 
-        const { error: errorAccessToken } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+        const { error: errorAccessToken, currentUser } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
         if (errorAccessToken) {
           ctx.set.status = 401;
           return errorAccessToken;
@@ -83,6 +84,37 @@ export default (app: Elysia) =>
         if (!grn) {
           return resNotFound("Good received note not found");
         }
+
+        const { message, attachments } = ctx.body;
+
+        const content = { message: message.trim(), attachments: attachments || null };
+
+        const newComment = tbGoodReceivedNoteComment.createGoodReceivedNoteComment({
+          good_received_note_id: id,
+          ...content,
+          note: message.trim(),
+          created_by_id: currentUser.id,
+          type: "user",
+          user_id: currentUser.id,
+          user_name: "",
+          info: null,
+          updated_by_id: currentUser.id,
+          updated_at: new Date(),
+          deleted_at: null,
+          deleted_by_id: null,
+        });
+
+        return { id: newComment.id };
       },
-      {}
+      {
+        detail: "Add a comment to a specific good received note",
+        params: t.Object({
+          bu_code: t.String(),
+          id: t.String(),
+        }),
+        body: t.Object({
+          message: t.String(),
+          attachments: t.Optional(t.Any()),
+        }),
+      }
     );
