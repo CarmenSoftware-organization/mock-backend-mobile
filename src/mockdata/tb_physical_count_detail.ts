@@ -1,7 +1,7 @@
 import { generateId, getCurrentTimestamp, getRandomInt } from "@/libs/utils";
 import { getUuidByName } from "./mapping.uuid";
 import { getProductById } from "./tb_product";
-import { tbPhysicalCount, tbPhysicalCountPeriod } from ".";
+import { tbCountStockDetailComment, tbPhysicalCount, tbPhysicalCountPeriod } from ".";
 
 export interface PhysicalCountDetailDTO {
   product_id: string;
@@ -358,24 +358,31 @@ export const getPhysicalCountById = (id: string) => {
 
   const period = tbPhysicalCountPeriod.getPhysicalCountPeriodById(header?.physical_count_period_id || "");
 
-  const details = physicalCountDetails.filter(physicalCount => physicalCount.physical_count_id === id).map(physicalCount => ({
-    id: physicalCount.id,
-    physical_count_id: physicalCount.physical_count_id,
-    sequence_no: physicalCount.sequence_no,
-    product_id: physicalCount.product_id,
-    product_name: physicalCount.product_name,
-    product_local_name: physicalCount.product_local_name,
-    inventory_unit_id: physicalCount.inventory_unit_id,
-    inventory_unit_name: physicalCount.inventory_unit_name,
-    sku: physicalCount.sku,
-    on_hand_qty: physicalCount.on_hand_qty,
-    actual_qty: physicalCount.actual_qty,
-    submitted_qty: physicalCount.submitted_qty,
-    created_at: physicalCount.created_at,
-    created_by_id: physicalCount.created_by_id,
-    updated_at: physicalCount.updated_at,
-    updated_by_id: physicalCount.updated_by_id,
-  }))
+  const details = physicalCountDetails.filter(physicalCount => physicalCount.physical_count_id === id).map(physicalCountDetails => ({
+    id: physicalCountDetails.id,
+    physical_count_id: physicalCountDetails.physical_count_id,
+    sequence_no: physicalCountDetails.sequence_no,
+    product_id: physicalCountDetails.product_id,
+    product_name: physicalCountDetails.product_name,
+    product_local_name: physicalCountDetails.product_local_name,
+    inventory_unit_id: physicalCountDetails.inventory_unit_id,
+    inventory_unit_name: physicalCountDetails.inventory_unit_name,
+    sku: physicalCountDetails.sku,
+    on_hand_qty: physicalCountDetails.on_hand_qty,
+    actual_qty: physicalCountDetails.actual_qty,
+    submitted_qty: physicalCountDetails.submitted_qty,
+    created_at: physicalCountDetails.created_at,
+    created_by_id: physicalCountDetails.created_by_id,
+    updated_at: physicalCountDetails.updated_at,
+    updated_by_id: physicalCountDetails.updated_by_id,
+
+  }));
+
+  for (const detail of details) {
+    const comments = tbCountStockDetailComment.getCountStockDetailCommentsByDetailId(detail.id);
+    console.log({ id: detail.id, "comments": comments});
+    (detail as any).comments = comments;
+  }
 
   const {physical_count_period_id, ...restHeader} = header;
 
