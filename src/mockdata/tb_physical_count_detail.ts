@@ -4,8 +4,9 @@ import { getProductById } from "./tb_product";
 import { tbCountStockDetailComment, tbPhysicalCount, tbPhysicalCountPeriod } from ".";
 
 export interface PhysicalCountDetailDTO {
-  product_id: string;
+  id: string;
   actual_qty: number;
+  product_id?: string;
 }
 
 export interface PhysicalCountDetailUpdateDTO {
@@ -292,10 +293,13 @@ export function getPhysicalCountDetailsByProductId(product_id: string): Physical
 // Update
 export function updatePhysicalCountDetail(
   id: string,
-  updateData: Partial<Pick<PhysicalCountDetail, 'sequence_no' | 'product_id' | 'product_name' | 'sku' | 'on_hand_qty' | 'actual_qty' | 'submitted_qty'>>,
+  updateData: Partial<Pick<PhysicalCountDetail, 'sequence_no' | 'inventory_unit_id' | 'product_id' | 'product_name' | 'sku' | 'on_hand_qty' | 'actual_qty' | 'submitted_qty'>>,
   updated_by_id: string
 ): PhysicalCountDetail | null {
-  const index = physicalCountDetails.findIndex(product => product.id === id);
+
+  console.log("Updating PhysicalCountDetail:", id, updateData);
+
+  const index = physicalCountDetails.findIndex(item => item.id === id);
 
   if (index === -1) {
     return null;
