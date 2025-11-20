@@ -3,7 +3,7 @@ import { resBadRequest, resInternalServerError, resNotFound, resNotImplemented }
 import jwt from "@elysiajs/jwt";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
 import { tbPhysicalCountPeriod, tbPhysicalCount, tbPhysicalCountDetail } from "@/mockdata";
-import { getRandomInt } from "@/libs/utils";
+import { generateId, getRandomInt } from "@/libs/utils";
 import {
   createPhysicalCountDetail,
   getNextSequenceNumber,
@@ -11,6 +11,7 @@ import {
   PhysicalCountDetailUpdateDTO,
   updatePhysicalCountDetail,
 } from "@/mockdata/tb_physical_count_detail";
+import { uuid } from "zod";
 
 export default (app: Elysia) =>
   app
@@ -323,6 +324,69 @@ export default (app: Elysia) =>
         },
       }
     )
+
+    .post("/api/:bu_code/physical-count/:physical_count_detail_id/comment", async (ctx) => {
+      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+      if (errorAppId) {
+        ctx.set.status = 400;
+        return errorAppId;
+      }
+
+      const {
+        error: errorAccessToken,
+        businessUnits,
+        currentUser,
+      } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+      if (errorAccessToken) {
+        ctx.set.status = 401;
+        return errorAccessToken;
+      }
+
+      const bu = businessUnits.find((bu) => bu.code === ctx.params.bu_code);
+      if (!bu) {
+        return resNotFound("Business unit not found");
+      }
+
+      const { physical_count_detail_id } = ctx.params;
+      if (!physical_count_detail_id) {
+        return resBadRequest("Invalid physical count detail id");
+      }
+
+      // find physical count detail
+      const physicalCountDetail = tbPhysicalCountDetail.getPhysicalCountDetailById(physical_count_detail_id);
+      if (!physicalCountDetail) {
+        return resNotFound("Physical count detail not found");
+      }
+
+      const comments = physicalCountDetail.comments || [];
+
+      const { message } = ctx.body as { message: string };
+      const newComment = {
+        count_stock_detail_id: physical_count_detail_id,
+        type: "user",
+        user_id: currentUser?.id || "unknown",
+        user_name: currentUser?.username || "Unknown User",
+        message: message,
+        attachments: {},
+        info: {},
+        // note: null,
+        created_at: new Date().toISOString(),
+        created_by_id: currentUser?.id || "unknown",
+        updated_at: new Date().toISOString(),
+        updated_by_id: currentUser?.id || "unknown",
+        deleted_at: null,
+        deleted_by_id: null,
+      };
+
+      comments.push({
+        id: generateId(),
+        ...newComment,
+      });
+
+      physicalCountDetail.comments = comments;
+
+      return { data: physicalCountDetail };
+    })
 
     .get(
       "/api/:bu_code/physical-count/:physical_count_id/review",

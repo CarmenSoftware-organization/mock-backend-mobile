@@ -26,6 +26,9 @@ export interface PhysicalCountDetail {
   inventory_unit_name: string;
 
   sku: string;
+
+  comments?: object[];
+
   on_hand_qty?: number;
   actual_qty: number;
   submitted_qty?: number;
