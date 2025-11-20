@@ -144,6 +144,7 @@ export * as tbStockOutDetail from "./tb_stock_out_detail";
  */
 export * as tbCountStock from "./tb_count_stock";
 export * as tbCountStockDetail from "./tb_count_stock_detail";
+export * as tbCountStockDetailComment from "./tb_count_stock_detail_comment";
 export * as tbStockTake from "./tb_stock_take";
 export * as tbStockTakeDetail from "./tb_stock_take_detail";
 export * as tbPhysicalCountPeriod from "./tb_physical_count_period";

@@ -1,5 +1,7 @@
+import { CountStockDetailComment, countStockDetailComments } from './tb_count_stock_detail_comment';
 import { generateId, getCurrentTimestamp } from "@/libs/utils";
 import { getUuidByName } from "./mapping.uuid";
+import { tbCountStockDetailComment } from ".";
 
 export interface CountStockDetail {
   id: string;
@@ -12,6 +14,9 @@ export interface CountStockDetail {
   note: string;
   info: any;
   dimension: any;
+
+  comments?: CountStockDetailComment[];
+
   doc_version: string;
   created_at: string;
   created_by_id: string;
@@ -526,6 +531,17 @@ export const createCountStockDetail = (
   return newDetail;
 };
 
+export const getInfoCommentToCountStockDetail = (
+  id: string,
+): CountStockDetailComment[] | null => {
+  const detail = countStockDetails.find((detail) => detail.id === id);
+  if (!detail) {
+    const comment = tbCountStockDetailComment.getCountStockDetailCommentsByDetailId(id);
+    return comment;
+  }
+  return null;
+}
+
 // READ - อ่าน CountStockDetail ทั้งหมด
 export const getAllCountStockDetails = (): CountStockDetail[] => {
   return [...countStockDetails];
@@ -535,7 +551,16 @@ export const getAllCountStockDetails = (): CountStockDetail[] => {
 export const getCountStockDetailById = (
   id: string
 ): CountStockDetail | undefined => {
-  return countStockDetails.find((detail) => detail.id === id);
+  const detail = countStockDetails.find((detail) => detail.id === id);
+  if (!detail) {
+    return undefined;
+  }
+  
+  const comments = tbCountStockDetailComment.getCountStockDetailCommentsByDetailId(detail.id);
+  return {
+    ...detail,
+    comments: comments,
+  };
 };
 
 // READ - อ่าน CountStockDetail ตาม count_stock_id
@@ -544,7 +569,13 @@ export const getCountStockDetailsByCountStockId = (
 ): CountStockDetail[] => {
   return countStockDetails.filter(
     (detail) => detail.count_stock_id === countStockId
-  );
+  ).map((detail) => {
+    const comments = tbCountStockDetailComment.getCountStockDetailCommentsByDetailId(detail.id);
+    return {
+      ...detail,
+      comments: comments,
+    };
+  });
 };
 
 // READ - อ่าน CountStockDetail ตาม product_id
@@ -560,7 +591,13 @@ export const getCountStockDetailsByProductName = (
 ): CountStockDetail[] => {
   return countStockDetails.filter((detail) =>
     detail.product_name.toLowerCase().includes(productName.toLowerCase())
-  );
+  ).map((detail) => {
+    const comments = tbCountStockDetailComment.getCountStockDetailCommentsByDetailId(detail.id);
+    return {
+      ...detail,
+      comments: comments,
+    };
+  });
 };
 
 // READ - อ่าน CountStockDetail ตาม sequence_no
@@ -569,7 +606,13 @@ export const getCountStockDetailsBySequenceNo = (
 ): CountStockDetail[] => {
   return countStockDetails.filter(
     (detail) => detail.sequence_no === sequenceNo
-  );
+  ).map((detail) => {
+    const comments = tbCountStockDetailComment.getCountStockDetailCommentsByDetailId(detail.id);
+    return {
+      ...detail,
+      comments: comments,
+    };
+  });
 };
 
 // READ - อ่าน CountStockDetail ตาม created_by_id
@@ -578,17 +621,35 @@ export const getCountStockDetailsByCreatedBy = (
 ): CountStockDetail[] => {
   return countStockDetails.filter(
     (detail) => detail.created_by_id === createdById
-  );
+  ).map((detail) => {
+    const comments = tbCountStockDetailComment.getCountStockDetailCommentsByDetailId(detail.id);
+    return {
+      ...detail,
+      comments: comments,
+    };
+  });
 };
 
 // READ - อ่าน CountStockDetail ที่ไม่ถูกลบ
 export const getActiveCountStockDetails = (): CountStockDetail[] => {
-  return countStockDetails.filter((detail) => !detail.deleted_at);
+  return countStockDetails.filter((detail) => !detail.deleted_at).map((detail) => {
+    const comments = tbCountStockDetailComment.getCountStockDetailCommentsByDetailId(detail.id);
+    return {
+      ...detail,
+      comments: comments,
+    };
+  });
 };
 
 // READ - อ่าน CountStockDetail ที่ถูกลบ
 export const getDeletedCountStockDetails = (): CountStockDetail[] => {
-  return countStockDetails.filter((detail) => detail.deleted_at);
+  return countStockDetails.filter((detail) => detail.deleted_at).map((detail) => {
+    const comments = tbCountStockDetailComment.getCountStockDetailCommentsByDetailId(detail.id);
+    return {
+      ...detail,
+      comments: comments,
+    };
+  });
 };
 
 // READ - อ่าน CountStockDetail ตามช่วงเวลา
@@ -602,6 +663,12 @@ export const getCountStockDetailsByDateRange = (
   return countStockDetails.filter((detail) => {
     const detailDate = new Date(detail.created_at);
     return detailDate >= start && detailDate <= end;
+  }).map((detail) => {
+    const comments = tbCountStockDetailComment.getCountStockDetailCommentsByDetailId(detail.id);
+    return {
+      ...detail,
+      comments: comments,
+    };
   });
 };
 
@@ -704,9 +771,9 @@ export const updateCountStockDetailByCountStockAndSequence = (
   >,
   updatedById: string
 ): CountStockDetail | null => {
-  const detail = countStockDetails.find(
+  const detail = getInfoCommentToCountStockDetail( countStockDetails.find(
     (d) => d.count_stock_id === countStockId && d.sequence_no === sequenceNo
-  );
+  )?.id || '');
 
   if (!detail) return null;
 
