@@ -10,7 +10,8 @@
       "Bash(find:*)",
       "Bash(git pull:*)",
       "Bash(git stash:*)",
-      "mcp__ide__getDiagnostics"
+      "mcp__ide__getDiagnostics",
+      "Bash(tsc:*)"
     ],
     "deny": [],
     "ask": []

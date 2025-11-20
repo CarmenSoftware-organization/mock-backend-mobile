@@ -9,7 +9,7 @@ export interface CountStock {
   location_id: string;
   location_name: string;
   doc_status: "draft" | "submitted" | "approved" | "rejected" | "completed";
-  count_stock_type: "cycle" | "physical" | "random";
+  // count_stock_type: "cycle" | "physical" | "random";
   description: string;
   note: string;
   info: any;
@@ -32,7 +32,7 @@ export const countStocks: CountStock[] = [
     location_id: "loc_001",
     location_name: "Main Warehouse",
     doc_status: "draft",
-    count_stock_type: "cycle",
+    // count_stock_type: "cycle",
     description: "Monthly cycle count for main warehouse",
     note: "Regular monthly count",
     info: { category: "monthly", priority: "normal" },
@@ -53,7 +53,7 @@ export const countStocks: CountStock[] = [
     location_id: "loc_002",
     location_name: "Secondary Warehouse",
     doc_status: "submitted",
-    count_stock_type: "physical",
+    // count_stock_type: "physical",
     description: "Physical count for secondary warehouse",
     note: "Annual physical count",
     info: { category: "annual", priority: "high" },
@@ -74,7 +74,7 @@ export const countStocks: CountStock[] = [
     location_id: "loc_003",
     location_name: "Retail Store",
     doc_status: "approved",
-    count_stock_type: "random",
+    // count_stock_type: "random",
     description: "Random count for retail store",
     note: "Spot check count",
     info: { category: "random", priority: "medium" },
@@ -95,7 +95,7 @@ export const countStocks: CountStock[] = [
     location_id: "loc_004",
     location_name: "Distribution Center A",
     doc_status: "completed",
-    count_stock_type: "cycle",
+    // count_stock_type: "cycle",
     description: "Weekly cycle count for distribution center",
     note: "All items verified and updated",
     info: { category: "weekly", priority: "normal", variance_count: 5 },
@@ -116,7 +116,7 @@ export const countStocks: CountStock[] = [
     location_id: "loc_005",
     location_name: "Cold Storage Facility",
     doc_status: "rejected",
-    count_stock_type: "physical",
+    // count_stock_type: "physical",
     description: "Monthly physical count for cold storage",
     note: "Rejected due to temperature variations during count",
     info: { category: "monthly", priority: "high", rejection_reason: "equipment_malfunction" },
@@ -137,7 +137,7 @@ export const countStocks: CountStock[] = [
     location_id: "loc_006",
     location_name: "Electronics Department",
     doc_status: "approved",
-    count_stock_type: "random",
+    // count_stock_type: "random",
     description: "Random audit count for high-value electronics",
     note: "Approved for variance adjustments",
     info: { category: "audit", priority: "high", audit_type: "high_value_items" },
@@ -158,7 +158,7 @@ export const countStocks: CountStock[] = [
     location_id: "loc_007",
     location_name: "Automotive Parts Warehouse",
     doc_status: "submitted",
-    count_stock_type: "physical",
+    // count_stock_type: "physical",
     description: "Quarterly physical inventory for automotive parts",
     note: "3-day comprehensive count including all SKUs",
     info: {
@@ -185,7 +185,7 @@ export const countStocks: CountStock[] = [
     location_id: "loc_008",
     location_name: "Fashion Retail Store",
     doc_status: "draft",
-    count_stock_type: "cycle",
+    // count_stock_type: "cycle",
     description: "Seasonal inventory count for fashion items",
     note: "Focus on summer clearance and fall collection items",
     info: {
@@ -212,7 +212,7 @@ export const countStocks: CountStock[] = [
     location_id: "loc_009",
     location_name: "Pharmacy Storage",
     doc_status: "completed",
-    count_stock_type: "physical",
+    // count_stock_type: "physical",
     description: "Monthly controlled substances inventory",
     note: "All controlled substances verified with dual verification",
     info: {
@@ -244,7 +244,7 @@ export const countStocks: CountStock[] = [
     location_id: "loc_010",
     location_name: "Book Warehouse",
     doc_status: "approved",
-    count_stock_type: "random",
+    // count_stock_type: "random",
     description: "Random sample count for book inventory",
     note: "Statistical sampling approved for large inventory",
     info: {
@@ -320,15 +320,6 @@ export const getCountStocksByStatus = (
 ): CountStock[] => {
   return countStocks.filter(
     (countStock) => countStock.doc_status === docStatus
-  );
-};
-
-// READ - อ่าน CountStock ตาม count_stock_type
-export const getCountStocksByType = (
-  countStockType: CountStock["count_stock_type"]
-): CountStock[] => {
-  return countStocks.filter(
-    (countStock) => countStock.count_stock_type === countStockType
   );
 };
 

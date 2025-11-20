@@ -11,7 +11,7 @@ export interface SpotCheck {
   description: string | null;
   physical_count_type: "yes" | "no"
   status: "pending" | "in_progress" | "reviewing" | "completed";
-  method: "random" | "high_value" | "manual" | null;
+  method: "random" | "high_value" | "manual";
   start_count_at: Date | null;
   end_count_at: Date | null;
   product_counted: number;
@@ -53,7 +53,7 @@ export const spotChecks: SpotCheck[] = [
     location_type: location1?.location_type || "inventory",
     description: "Physical count detail for location 1",
     physical_count_type: "yes",
-    method: null,
+    method: "random",
     status: "pending",
     start_count_at: null,
     end_count_at: null,
@@ -107,7 +107,7 @@ export const spotChecks: SpotCheck[] = [
     location_type: location4?.location_type || "inventory",
     description: "Physical count detail for location 4",
     physical_count_type: "no",
-    method: null,
+    method: "random",
     status: "pending",
     start_count_at: null,
     end_count_at: null,
@@ -125,7 +125,7 @@ export const spotChecks: SpotCheck[] = [
     location_type: location5?.location_type || "inventory",
     description: "Physical count detail for location 5",
     physical_count_type: "no",
-    method: null,
+    method: "random",
     status: "pending",
     start_count_at: null,
     end_count_at: null,
@@ -143,7 +143,7 @@ export const spotChecks: SpotCheck[] = [
     location_type: location6?.location_type || "consignment",
     description: "Physical count detail for location 6",
     physical_count_type: "no",
-    method: null,
+    method: "manual",
     status: "pending",
     start_count_at: null,
     end_count_at: null,
@@ -161,7 +161,7 @@ export const spotChecks: SpotCheck[] = [
     location_type: location7?.location_type || "inventory",
     description: "Physical count detail for location 7",
     physical_count_type: "no",
-    method: null,
+    method: "manual",
     status: "completed",
     start_count_at: new Date(getCurrentTimestamp()),
     end_count_at: new Date(getCurrentTimestamp()),
@@ -179,7 +179,7 @@ export const spotChecks: SpotCheck[] = [
     location_type: location8?.location_type ||   "consignment",
     description: "Physical count detail for location 8",
     physical_count_type: "no",
-    method: null,
+    method: "manual",
     status: "completed",
     start_count_at: new Date(getCurrentTimestamp()),
     end_count_at: new Date(getCurrentTimestamp()),
@@ -252,7 +252,7 @@ export const spotChecks: SpotCheck[] = [
     location_type: location2?.location_type || "consignment",
     description: "Consignment inventory validation",
     physical_count_type: "no",
-    method: null,
+    method: "random",
     status: "pending",
     start_count_at: null,
     end_count_at: null,
@@ -324,7 +324,7 @@ export const spotChecks: SpotCheck[] = [
     location_type: location6?.location_type || "consignment",
     description: "Books and media consignment review",
     physical_count_type: "no",
-    method: null,
+    method: "manual",
     status: "pending",
     start_count_at: null,
     end_count_at: null,
@@ -396,7 +396,7 @@ export const spotChecks: SpotCheck[] = [
     location_type: location10?.location_type || "consignment",
     description: "Art and collectibles authentication check",
     physical_count_type: "no",
-    method: null,
+    method: "random",
     status: "pending",
     start_count_at: null,
     end_count_at: null,

@@ -6,12 +6,15 @@ A high-performance mock backend service built with **Elysia** and **Bun** runtim
 
 - **⚡ Ultra-fast**: Built with Elysia framework and Bun runtime
 - **🔧 Comprehensive Mock APIs**: 25+ ready-to-use mock endpoints for ERP systems
+- **💾 Rich Mock Data**: 90+ mock data tables with full CRUD operations
 - **📱 Mobile & Web Ready**: Designed for both mobile and web applications
 - **🐳 Docker Ready**: Containerized with Docker for easy deployment
 - **☁️ Cloud Deploy**: Configured for Render platform deployment
 - **🔄 Hot Reload**: Development server with watch mode
 - **📚 Swagger Documentation**: Auto-generated API documentation
 - **🏢 ERP Focused**: Business units, users, products, workflows, and more
+- **🔒 Type-Safe**: Full TypeScript support with Prisma-matching interfaces
+- **🗃️ Comment System**: Attachment and comment support for key entities
 
 ## 🛠️ Tech Stack
 
@@ -61,6 +64,12 @@ Visit [http://localhost:4000/swagger](http://localhost:4000/swagger) for interac
 mock-backend-mobile/
 ├── src/
 │   ├── index.ts                    # Main application entry point
+│   ├── mockdata/                   # Mock data tables (90+ tables)
+│   │   ├── tb_period.ts            # Fiscal period management
+│   │   ├── tb_purchase_order.ts    # Purchase order data
+│   │   ├── tb_good_received_note_comment.ts  # GRN comments
+│   │   ├── tb_count_stock_detail_comment.ts  # Stock count comments
+│   │   └── ... (90+ other tables)  # Complete ERP mock data
 │   └── routes/
 │       ├── index.ts                # Route aggregator
 │       ├── api/                    # Main API endpoints
@@ -257,8 +266,57 @@ This will generate TypeScript mock data files in `./src/mockdata/tables/` direct
 - Financial data (currencies, credit terms)
 - Procurement (purchase requests, orders, GRNs)
 - System configuration and workflows
+- Fiscal periods and accounting
+- Comments and attachments (GRN comments, stock count comments)
 
 For detailed instructions, see [scripts/README.md](./scripts/README.md).
+
+### Mock Data System
+
+The project includes a comprehensive mock data system with 90+ tables covering all ERP domains:
+
+#### Recently Added Tables
+
+- **`tb_period`** - Fiscal period management with status tracking (open/closed/locked/draft)
+- **`tb_good_received_note_comment`** - Comments, attachments, and audit trail for GRNs
+- **`tb_count_stock_detail_comment`** - Physical count verification comments with variance tracking
+
+#### Mock Data Features
+
+- **Full CRUD Operations**: Each table includes create, read, update, delete functions
+- **Soft Delete Support**: All tables support soft deletion with `deleted_at` tracking
+- **Search & Filter**: Fuzzy search and advanced filtering capabilities
+- **Utility Functions**: Count, sort, pagination, and restore functions
+- **Type Safety**: Full TypeScript interfaces matching Prisma schema
+- **Relational Data**: Helper functions for cross-table queries
+- **Attachment Management**: Support for file attachments with metadata
+
+#### Example Usage
+
+```typescript
+import {
+  getAllPeriods,
+  getPeriodByFiscalYearMonth,
+  createPeriod
+} from '@mockdata/tb_period';
+
+// Get all open fiscal periods
+const openPeriods = getOpenPeriods();
+
+// Find specific period
+const currentPeriod = getPeriodByFiscalYearMonth(2024, 1);
+
+// Create new period
+const newPeriod = createPeriod({
+  period: "2406",
+  fiscal_year: 2024,
+  fiscal_month: 6,
+  start_at: new Date("2024-06-01"),
+  end_at: new Date("2024-06-30"),
+  status: "draft",
+  // ... other fields
+});
+```
 
 ### Development Workflow
 
