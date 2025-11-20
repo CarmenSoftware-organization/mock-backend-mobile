@@ -8,10 +8,10 @@ export interface UnitConversion {
   unit_type: "ingredient_unit" | "order_unit" | "inventory_unit" | "other";
   from_unit_id: string;
   from_unit_name: string;
-  from_unit_qty: string;
+  from_unit_qty: number;
   to_unit_id: string;
   to_unit_name: string;
-  to_unit_qty: string;
+  to_unit_qty: number;
   is_default: boolean;
   description: any;
   is_active: boolean;
@@ -34,10 +34,10 @@ export const unitConversions: UnitConversion[] = [
     unit_type: "ingredient_unit",
     from_unit_id: getUuidByName("UNIT_01"),
     from_unit_name: "กิโลกรัม",
-    from_unit_qty: "1.00000",
+    from_unit_qty: 1.0,
     to_unit_id: getUuidByName("UNIT_02"),
     to_unit_name: "กรัม",
-    to_unit_qty: "5.00000",
+    to_unit_qty: 5.0,
     is_default: false,
     description: null,
     is_active: true,
@@ -57,10 +57,10 @@ export const unitConversions: UnitConversion[] = [
     unit_type: "order_unit",
     from_unit_id: getUuidByName("UNIT_01"),
     from_unit_name: "กิโลกรัม",
-    from_unit_qty: "1.00000",
+    from_unit_qty: 1.0,
     to_unit_id: getUuidByName("UNIT_03"),
     to_unit_name: "ลิตร",
-    to_unit_qty: "12.00000",
+    to_unit_qty: 12.0,
     is_default: true,
     description: null,
     is_active: true,
@@ -80,10 +80,10 @@ export const unitConversions: UnitConversion[] = [
     unit_type: "ingredient_unit",
     from_unit_id: getUuidByName("UNIT_01"),
     from_unit_name: "กิโลกรัม",
-    from_unit_qty: "1.00000",
+    from_unit_qty: 1.0,
     to_unit_id: getUuidByName("UNIT_04"),
     to_unit_name: "หีบ",
-    to_unit_qty: "10.00000",
+    to_unit_qty: 10.0,
     is_default: true,
     description: null,
     is_active: true,
@@ -104,10 +104,10 @@ export const unitConversions: UnitConversion[] = [
     unit_type: "order_unit",
     from_unit_id: getUuidByName("UNIT_02"),
     from_unit_name: "กรัม",
-    from_unit_qty: "1.00000",
+    from_unit_qty: 1.0,
     to_unit_id: getUuidByName("UNIT_03"),
     to_unit_name: "ลิตร",
-    to_unit_qty: "12.00000",
+    to_unit_qty: 12.0,
     is_default: true,
     description: null,
     is_active: true,
@@ -127,10 +127,10 @@ export const unitConversions: UnitConversion[] = [
     unit_type: "ingredient_unit",
     from_unit_id: getUuidByName("UNIT_01"),
     from_unit_name: "กิโลกรัม",
-    from_unit_qty: "1.00000",
+    from_unit_qty: 1.0,
     to_unit_id: getUuidByName("UNIT_03"),
     to_unit_name: "ลิตร",
-    to_unit_qty: "10.00000",
+    to_unit_qty: 10.0,
     is_default: true,
     description: null,
     is_active: true,
@@ -150,10 +150,10 @@ export const unitConversions: UnitConversion[] = [
     unit_type: "order_unit",
     from_unit_id: getUuidByName("UNIT_01"),
     from_unit_name: "กิโลกรัม",
-    from_unit_qty: "1.00000",
+    from_unit_qty: 1.0,
     to_unit_id: getUuidByName("UNIT_05"),
     to_unit_name: "ขวด",
-    to_unit_qty: "10.00000",
+    to_unit_qty: 10.0,
     is_default: true,
     description: null,
     is_active: true,
@@ -263,7 +263,7 @@ export const updateUnitConversionDefault = (id: string, isDefault: boolean): Uni
 };
 
 // UPDATE - อัปเดต UnitConversion quantities
-export const updateUnitConversionQuantities = (id: string, fromQty: string, toQty: string): UnitConversion | null => {
+export const updateUnitConversionQuantities = (id: string, fromQty: number, toQty: number): UnitConversion | null => {
   return updateUnitConversion(id, {
     from_unit_qty: fromQty,
     to_unit_qty: toQty,
@@ -458,7 +458,7 @@ export const getAvailableUnitByProductId = (productId: string): ResponseUnitConv
     .map((conversion) => ({
       id: conversion.from_unit_id,
       name: conversion.from_unit_name,
-      conversion: parseFloat(conversion.from_unit_qty),
+      conversion: conversion.from_unit_qty,
       // unit_type: "order_unit",
     }));
 
@@ -470,7 +470,7 @@ export const getAvailableUnitByProductId = (productId: string): ResponseUnitConv
     .map((conversion) => ({
       id: conversion.to_unit_id,
       name: conversion.to_unit_name,
-      conversion: 1 / parseFloat(conversion.to_unit_qty),
+      conversion: 1 / conversion.to_unit_qty,
       // unit_type: "ingredient_unit",
     }));
 
@@ -503,7 +503,7 @@ export const getIngredientUnitByProductId = (productId: string): ResponseUnitCon
     .map((conversion) => ({
       id: conversion.to_unit_id,
       name: conversion.to_unit_name,
-      conversion: 1 / parseFloat(conversion.to_unit_qty),
+      conversion: 1 / conversion.to_unit_qty,
       // unit_type: "ingredient_unit",
     }));
 
@@ -519,7 +519,7 @@ export const getOrderUnitByProductId = (productId: string): ResponseUnitConversi
     .map((conversion) => ({
       id: conversion.from_unit_id,
       name: conversion.from_unit_name,
-      conversion: parseFloat(conversion.from_unit_qty),
+      conversion: conversion.from_unit_qty,
       // unit_type: "order_unit",
     }));
 

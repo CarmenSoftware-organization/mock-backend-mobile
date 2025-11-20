@@ -8,6 +8,7 @@ export interface Pricelist {
   pricelist_no: string;
   name: string;
   vendor_id: string;
+  vendor_code: string;
   vendor_name: string;
   from_date: string;
   to_date: string;
@@ -45,6 +46,7 @@ export const pricelists: Pricelist[] = [
     pricelist_no: "PL-001",
     name: "Standard Retail",
     vendor_id: vendor_01?.id || "550e8400-e29b-41d4-a716-446655440010",
+    vendor_code: vendor_01?.code || "VENDOR_01",
     vendor_name: vendor_01?.name || "Default Vendor",
     from_date: "2024-01-01",
     to_date: "2024-12-31",
@@ -72,6 +74,7 @@ export const pricelists: Pricelist[] = [
     pricelist_no: "PL-002",
     name: "Wholesale",
     vendor_id: vendor_02?.id || "550e8400-e29b-41d4-a716-446655440011",
+    vendor_code: vendor_02?.code || "VENDOR_02",
     vendor_name: vendor_02?.name || "Default Vendor 2",
     from_date: "2024-01-01",
     to_date: "2024-12-31",
@@ -99,6 +102,7 @@ export const pricelists: Pricelist[] = [
     pricelist_no: "PL-003",
     name: "VIP Customer",
     vendor_id: vendor_03?.id || "550e8400-e29b-41d4-a716-446655440012",
+    vendor_code: vendor_03?.code || "VENDOR_03",
     vendor_name: vendor_03?.name || "Default Vendor 3",
     from_date: "2024-01-01",
     to_date: "2024-12-31",
@@ -126,6 +130,7 @@ export const pricelists: Pricelist[] = [
     pricelist_no: "PL-004",
     name: "Promotional",
     vendor_id: vendor_04?.id || "550e8400-e29b-41d4-a716-446655440013",
+    vendor_code: vendor_04?.code || "VENDOR_04",
     vendor_name: vendor_04?.name || "Default Vendor 4",
     from_date: "2024-06-01",
     to_date: "2024-06-30",

@@ -104,6 +104,15 @@ export * as tbDimension from "./tb_dimension";
 export * as tbDimensionDisplayIn from "./tb_dimension_display_in";
 
 /**
+ * Unit conversion utilities and helper functions
+ */
+export {
+  getUnitConversionFactor,
+  getUnitToUnitConversionFactor,
+  convertQuantity,
+} from "./temp_unit_factor";
+
+/**
  * Pricing and price lists
  */
 export * as tbPricelist from "./tb_pricelist";
@@ -135,6 +144,7 @@ export * as tbStockOutDetail from "./tb_stock_out_detail";
  */
 export * as tbCountStock from "./tb_count_stock";
 export * as tbCountStockDetail from "./tb_count_stock_detail";
+export * as tbCountStockDetailComment from "./tb_count_stock_detail_comment";
 export * as tbStockTake from "./tb_stock_take";
 export * as tbStockTakeDetail from "./tb_stock_take_detail";
 export * as tbPhysicalCountPeriod from "./tb_physical_count_period";
@@ -164,6 +174,7 @@ export * as tbPurchaseOrder from "./tb_purchase_order";
 export * as tbPurchaseOrderDetail from "./tb_purchase_order_detail";
 export * as tbPurchaseOrderDetailTbPurchaseRequestDetail from "./tb_purchase_order_detail_tb_purchase_request_detail";
 export * as tbGoodReceivedNote from "./tb_good_received_note";
+export * as tbGoodReceivedNoteComment from "./tb_good_received_note_comment";
 export * as tbGoodReceivedNoteDetail from "./tb_good_received_note_detail";
 
 /**
@@ -187,6 +198,7 @@ export * as tbCurrency from "./tb_currency";
 export * as tbCurrencyIso from "./tb_currency_iso";
 export * as tbCurrencyComment from "./tb_currency_comment";
 export * as tbExchangeRate from "./tb_exchange_rate";
+export * as tbPeriod from "./tb_period";
 
 /**
  * Financial terms and profiles

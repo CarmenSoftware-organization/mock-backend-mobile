@@ -19,6 +19,11 @@ export interface PhysicalCountDetail {
   sequence_no: number;
   product_id: string;
   product_name: string;
+  product_local_name: string;
+
+  inventory_unit_id: string;
+  inventory_unit_name: string;
+
   sku: string;
   on_hand_qty?: number;
   actual_qty: number;
@@ -47,6 +52,9 @@ export const physicalCountDetails: PhysicalCountDetail[] = [
     sequence_no: 1,
     product_id: product1?.id || "",
     product_name: product1?.name || "",
+    product_local_name: product1?.local_name || "",
+    inventory_unit_id: product1?.inventory_unit_id || "",
+    inventory_unit_name: product1?.inventory_unit_name || "",
     sku: product1?.sku || "",
     on_hand_qty: getRandomInt(100, 1000),
     actual_qty: getRandomInt(100, 1000),
@@ -62,6 +70,9 @@ export const physicalCountDetails: PhysicalCountDetail[] = [
     sequence_no: 2,
     product_id: product2?.id || "",
     product_name: product2?.name || "",
+    product_local_name: product2?.local_name || "",
+    inventory_unit_id: product2?.inventory_unit_id || "",
+    inventory_unit_name: product2?.inventory_unit_name || "",
     sku: product2?.sku || "",
     on_hand_qty: getRandomInt(100, 1000),
     actual_qty: getRandomInt(100, 1000),
@@ -77,6 +88,9 @@ export const physicalCountDetails: PhysicalCountDetail[] = [
     sequence_no: 3,
     product_id: product3?.id || "",
     product_name: product3?.name || "",
+    product_local_name: product3?.local_name || "",
+      inventory_unit_id: product3?.inventory_unit_id || "",
+      inventory_unit_name: product3?.inventory_unit_name || "",
     sku: product3?.sku || "",
     on_hand_qty: getRandomInt(100, 1000),
     actual_qty: getRandomInt(100, 1000),
@@ -92,6 +106,9 @@ export const physicalCountDetails: PhysicalCountDetail[] = [
     sequence_no: 4,
     product_id: product4?.id || "",
     product_name: product4?.name || "",
+    product_local_name: product4?.local_name || "",
+      inventory_unit_id: product4?.inventory_unit_id || "",
+      inventory_unit_name: product4?.inventory_unit_name || "",
     sku: product4?.sku || "",
     on_hand_qty: getRandomInt(100, 1000),
     actual_qty: getRandomInt(100, 1000),
@@ -107,6 +124,9 @@ export const physicalCountDetails: PhysicalCountDetail[] = [
     sequence_no: 5,
     product_id: product5?.id || "",
     product_name: product5?.name || "",
+    product_local_name: product5?.local_name || "",
+    inventory_unit_id: product5?.inventory_unit_id || "",
+    inventory_unit_name: product5?.inventory_unit_name || "",
     sku: product5?.sku || "",
     on_hand_qty: getRandomInt(100, 1000),
     actual_qty: getRandomInt(100, 1000),
@@ -122,6 +142,9 @@ export const physicalCountDetails: PhysicalCountDetail[] = [
     sequence_no: 6,
     product_id: product6?.id || "",
     product_name: product6?.name || "",
+    product_local_name: product6?.local_name || "",
+    inventory_unit_id: product6?.inventory_unit_id || "",
+    inventory_unit_name: product6?.inventory_unit_name || "",
     sku: product6?.sku || "",
     on_hand_qty: getRandomInt(100, 1000),
     actual_qty: getRandomInt(100, 1000),
@@ -137,6 +160,9 @@ export const physicalCountDetails: PhysicalCountDetail[] = [
     sequence_no: 7,
     product_id: product7?.id || "",
     product_name: product7?.name || "",
+    product_local_name: product7?.local_name || "",
+    inventory_unit_id: product7?.inventory_unit_id || "",
+    inventory_unit_name: product7?.inventory_unit_name || "",
     sku: product7?.sku || "",
     on_hand_qty: getRandomInt(100, 1000),
     actual_qty: getRandomInt(100, 1000),
@@ -152,6 +178,9 @@ export const physicalCountDetails: PhysicalCountDetail[] = [
     sequence_no: 8,
     product_id: product8?.id || "",
     product_name: product8?.name || "",
+    product_local_name: product8?.local_name || "",
+    inventory_unit_id: product8?.inventory_unit_id || "",
+    inventory_unit_name: product8?.inventory_unit_name || "",
     sku: product8?.sku || "",
     on_hand_qty: getRandomInt(100, 1000),
     actual_qty: getRandomInt(100, 1000),
@@ -167,6 +196,9 @@ export const physicalCountDetails: PhysicalCountDetail[] = [
     sequence_no: 9,
     product_id: product9?.id || "",
     product_name: product9?.name || "",
+    product_local_name: product9?.local_name || "",
+    inventory_unit_id: product9?.inventory_unit_id || "",
+    inventory_unit_name: product9?.inventory_unit_name || "",
     sku: product9?.sku || "",
     on_hand_qty: getRandomInt(100, 1000),
     actual_qty: getRandomInt(100, 1000),
@@ -182,6 +214,9 @@ export const physicalCountDetails: PhysicalCountDetail[] = [
     sequence_no: 10,
     product_id: product10?.id || "",
     product_name: product10?.name || "",
+    product_local_name: product10?.local_name || "",
+    inventory_unit_id: product10?.inventory_unit_id || "",
+    inventory_unit_name: product10?.inventory_unit_name || "",
     sku: product10?.sku || "",
     on_hand_qty: getRandomInt(100, 1000),
     actual_qty: getRandomInt(100, 1000),
@@ -201,6 +236,9 @@ export function createPhysicalCountDetail(data: {
   sequence_no: number;
   product_id: string;
   product_name: string;
+  product_local_name: string;
+  inventory_unit_id: string;
+  inventory_unit_name: string;
   sku: string;
   on_hand_qty?: number;
   actual_qty: number;
@@ -214,6 +252,9 @@ export function createPhysicalCountDetail(data: {
     sequence_no: data.sequence_no,
     product_id: data.product_id,
     product_name: data.product_name,
+    product_local_name: data.product_local_name,
+      inventory_unit_id: data.inventory_unit_id,
+      inventory_unit_name: data.inventory_unit_name,
     sku: data.sku,
     on_hand_qty: data.on_hand_qty,
     actual_qty: data.actual_qty,
@@ -323,6 +364,9 @@ export const getPhysicalCountById = (id: string) => {
     sequence_no: physicalCount.sequence_no,
     product_id: physicalCount.product_id,
     product_name: physicalCount.product_name,
+    product_local_name: physicalCount.product_local_name,
+    inventory_unit_id: physicalCount.inventory_unit_id,
+    inventory_unit_name: physicalCount.inventory_unit_name,
     sku: physicalCount.sku,
     on_hand_qty: physicalCount.on_hand_qty,
     actual_qty: physicalCount.actual_qty,

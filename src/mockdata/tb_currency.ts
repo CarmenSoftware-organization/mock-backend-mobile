@@ -245,6 +245,10 @@ export const getAllCurrencies = (): Currency[] => {
   return [...currencies];
 };
 
+export const getAllCurrenciesIsActive = (isActive: boolean): Currency[] => {
+  return currencies.filter((currency) => currency.is_active === isActive);
+};
+
 // READ - อ่าน Currency ตาม ID
 export const getCurrencyById = (id: string): Currency | undefined => {
   return currencies.find((currency) => currency.id === id);

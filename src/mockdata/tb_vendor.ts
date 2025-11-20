@@ -3,6 +3,7 @@ import { getUuidByName } from "./mapping.uuid";
 
 export interface Vendor {
   id: string;
+  code: string;
   name: string;
   description: string | null;
   note: string | null;
@@ -26,6 +27,7 @@ export interface Vendor {
 export const vendors: Vendor[] = [
   {
     id: getUuidByName("VENDOR_01"),
+    code: "VENDOR_01",
     name: "4 JOY SHOKUDO COMPANY LIMITED",
     description: null,
     note: null,
@@ -46,6 +48,7 @@ export const vendors: Vendor[] = [
   },
   {
     id: getUuidByName("VENDOR_02"),
+    code: "VENDOR_02",
     name: "A K & J TEXTILE CO.,LTD.",
     description: null,
     note: null,
@@ -66,6 +69,7 @@ export const vendors: Vendor[] = [
   },
   {
     id: getUuidByName("VENDOR_03"),
+    code: "VENDOR_03",
     name: "โรงเรียนบ้านกะตะ(ตรีทศยุทธอุปถัมภ์)",
     description: null,
     note: null,
@@ -86,6 +90,7 @@ export const vendors: Vendor[] = [
   },
   {
     id: getUuidByName("VENDOR_04"),
+    code: "VENDOR_04",
     name: "ADISAK TRADING CO.,LTD.",
     description: null,
     note: null,
@@ -106,6 +111,7 @@ export const vendors: Vendor[] = [
   },
   {
     id: getUuidByName("VENDOR_05"),
+    code: "VENDOR_05",
     name: "ADVANCE WIRELESS NETWORK CO.,LTD.",
     description: null,
     note: null,
@@ -126,6 +132,7 @@ export const vendors: Vendor[] = [
   },
   {
     id: getUuidByName("VENDOR_06"),
+    code: "VENDOR_06",
     name: "ร้าน เอ็น เอส เอ็น ฮีท แอนด์เวอร์วิส(สำนักงานใหญ่)",
     description: null,
     note: null,
@@ -146,6 +153,7 @@ export const vendors: Vendor[] = [
   },
   {
     id: getUuidByName("VENDOR_07"),
+    code: "VENDOR_07",
     name: "ร้านมังกี้สกรีนเสื้อ",
     description: null,
     note: null,
@@ -166,6 +174,7 @@ export const vendors: Vendor[] = [
   },
   {
     id: getUuidByName("VENDOR_08"),
+    code: "VENDOR_08",
     name: "ร้านโชคอนันต์จักสาน (สำนักงานใหญ่) โดย นาย รัชชธีร์  ศรีธนสารวงศ์",
     description: null,
     note: null,
@@ -186,6 +195,7 @@ export const vendors: Vendor[] = [
   },
   {
     id: getUuidByName("VENDOR_09"),
+    code: "VENDOR_09",
     name: "ร้านจักรคริยา",
     description: null,
     note: null,
@@ -206,6 +216,7 @@ export const vendors: Vendor[] = [
   },
   {
     id: getUuidByName("VENDOR_10"),
+    code: "VENDOR_10",
     name: "เอ้กดี้เอ้ก",
     description: null,
     note: null,

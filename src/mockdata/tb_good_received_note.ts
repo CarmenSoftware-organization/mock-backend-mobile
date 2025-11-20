@@ -12,6 +12,7 @@ export interface GoodReceivedNote {
   doc_status: "draft" | "submitted" | "approved" | "rejected" | "completed";
   doc_type: "purchase" | "return" | "adjustment" | "other";
   vendor_id: string;
+  vendor_code: string;
   vendor_name: string;
   currency_id: string;
   currency_name: string;
@@ -65,6 +66,7 @@ export const goodReceivedNotes: GoodReceivedNote[] = [
     doc_status: "draft",
     doc_type: "purchase",
     vendor_id: "550e8400-e29b-41d4-a716-446655440001",
+    vendor_code: "VENDOR_01",
     vendor_name: "Dell Technologies",
     currency_id:  currency_01?.id || "unknown-currency-id",
     currency_name: currency_01?.code || "Unknown",
@@ -117,6 +119,7 @@ export const goodReceivedNotes: GoodReceivedNote[] = [
     doc_status: "draft",
     doc_type: "purchase",
     vendor_id: "550e8400-e29b-41d4-a716-446655440002",
+    vendor_code: "VENDOR_02",
     vendor_name: "Office Supplies Co.",
     currency_id:  currency_01?.id || "unknown-currency-id",
     currency_name: currency_01?.code || "Unknown",
@@ -167,6 +170,7 @@ export const goodReceivedNotes: GoodReceivedNote[] = [
     doc_status: "rejected",
     doc_type: "purchase",
     vendor_id: "550e8400-e29b-41d4-a716-446655440003",
+    vendor_code: "VENDOR_03",
     vendor_name: "PrintTech Solutions",
     currency_id:  currency_01?.id || "unknown-currency-id",
     currency_name: currency_01?.code || "Unknown",

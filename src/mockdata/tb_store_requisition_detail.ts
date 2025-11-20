@@ -2,6 +2,7 @@ import { generateId, getCurrentTimestamp } from "@/libs/utils";
 import { getUuidByName } from "./mapping.uuid";
 import { getProductById } from "./tb_product";
 import { getLocationById } from "./tb_location";
+import unit from "@/routes/api/unit";
 
 export interface StoreRequisitionDetail {
   id: string;
@@ -185,7 +186,7 @@ export const storeRequisitionDetails: StoreRequisitionDetail[] = [
     deleted_by_id: null,
   },
   {
-        id: getUuidByName("STORE_REQUISITION_DETAIL_03"),
+    id: getUuidByName("STORE_REQUISITION_DETAIL_03"),
     inventory_transaction_id: getUuidByName("INVENTORY_TRANSACTION_01"),
     store_requisition_id: getUuidByName("STORE_REQUISITION_01"),
     sequence_no: 1,
@@ -312,10 +313,7 @@ export const storeRequisitionDetails: StoreRequisitionDetail[] = [
 
 // CREATE - สร้าง StoreRequisitionDetail ใหม่
 export const createStoreRequisitionDetail = (
-  data: Omit<
-    StoreRequisitionDetail,
-    "id" | "created_at" | "created_by_id" | "updated_at" | "updated_by_id"
-  >
+  data: Omit<StoreRequisitionDetail, "id" | "created_at" | "created_by_id" | "updated_at" | "updated_by_id">
 ): StoreRequisitionDetail => {
   const newDetail: StoreRequisitionDetail = {
     ...data,
@@ -334,46 +332,52 @@ export const getAllStoreRequisitionDetails = (): StoreRequisitionDetail[] => {
   return storeRequisitionDetails.filter((detail) => !detail.deleted_at);
 };
 
-export const getStoreRequisitionDetailById = (
-  id: string
-): StoreRequisitionDetail | null => {
-  const detail = storeRequisitionDetails.find(
-    (d) => d.id === id && !d.deleted_at
-  );
+export const getStoreRequisitionDetailById = (id: string): StoreRequisitionDetail | null => {
+  const detail = storeRequisitionDetails.find((d) => d.id === id && !d.deleted_at);
   return detail || null;
+};
+
+export const getInventoryUnitFromProductId = (
+  productId: string
+): { inventory_unit_id: string | null; inventory_unit_name: string | null } => {
+  const product = getProductById(productId);
+
+  const inventory_unit_id = product?.inventory_unit_id || null;
+  const inventory_unit_name = product?.inventory_unit_name || null;
+
+  return {
+    inventory_unit_id,
+    inventory_unit_name,
+  };
 };
 
 export const getStoreRequisitionDetailsByStoreRequisitionId = (
   storeRequisitionId: string
 ): StoreRequisitionDetail[] => {
-  return storeRequisitionDetails.filter(
-    (d) => d.store_requisition_id === storeRequisitionId && !d.deleted_at
-  );
+  return storeRequisitionDetails
+    .filter((d) => d.store_requisition_id === storeRequisitionId && !d.deleted_at)
+    .map((detail) => {
+      const { inventory_unit_id, inventory_unit_name } = getInventoryUnitFromProductId(detail.product_id);
+      return {
+        inventory_unit_id,
+        inventory_unit_name,
+        ...detail,
+      };
+    });
 };
 
 export const getStoreRequisitionDetailsByInventoryTransactionId = (
   inventoryTransactionId: string
 ): StoreRequisitionDetail[] => {
-  return storeRequisitionDetails.filter(
-    (d) =>
-      d.inventory_transaction_id === inventoryTransactionId && !d.deleted_at
-  );
+  return storeRequisitionDetails.filter((d) => d.inventory_transaction_id === inventoryTransactionId && !d.deleted_at);
 };
 
-export const getStoreRequisitionDetailsByProductId = (
-  productId: string
-): StoreRequisitionDetail[] => {
-  return storeRequisitionDetails.filter(
-    (d) => d.product_id === productId && !d.deleted_at
-  );
+export const getStoreRequisitionDetailsByProductId = (productId: string): StoreRequisitionDetail[] => {
+  return storeRequisitionDetails.filter((d) => d.product_id === productId && !d.deleted_at);
 };
 
-export const getStoreRequisitionDetailsByLocationId = (
-  locationId: string
-): StoreRequisitionDetail[] => {
-  return storeRequisitionDetails.filter(
-    (d) => d.to_location_id === locationId && !d.deleted_at
-  );
+export const getStoreRequisitionDetailsByLocationId = (locationId: string): StoreRequisitionDetail[] => {
+  return storeRequisitionDetails.filter((d) => d.to_location_id === locationId && !d.deleted_at);
 };
 
 export const getStoreRequisitionDetailsBySequenceNo = (
@@ -381,10 +385,7 @@ export const getStoreRequisitionDetailsBySequenceNo = (
   sequenceNo: number
 ): StoreRequisitionDetail | null => {
   const detail = storeRequisitionDetails.find(
-    (d) =>
-      d.store_requisition_id === storeRequisitionId &&
-      d.sequence_no === sequenceNo &&
-      !d.deleted_at
+    (d) => d.store_requisition_id === storeRequisitionId && d.sequence_no === sequenceNo && !d.deleted_at
   );
   return detail || null;
 };
@@ -392,21 +393,15 @@ export const getStoreRequisitionDetailsBySequenceNo = (
 export const getStoreRequisitionDetailsByLastAction = (
   lastAction: StoreRequisitionDetail["last_action"]
 ): StoreRequisitionDetail[] => {
-  return storeRequisitionDetails.filter(
-    (d) => d.last_action === lastAction && !d.deleted_at
-  );
+  return storeRequisitionDetails.filter((d) => d.last_action === lastAction && !d.deleted_at);
 };
 
 // UPDATE - อัปเดต StoreRequisitionDetail
 export const updateStoreRequisitionDetail = (
   id: string,
-  data: Partial<
-    Omit<StoreRequisitionDetail, "id" | "created_at" | "created_by_id">
-  >
+  data: Partial<Omit<StoreRequisitionDetail, "id" | "created_at" | "created_by_id">>
 ): StoreRequisitionDetail | null => {
-  const index = storeRequisitionDetails.findIndex(
-    (d) => d.id === id && !d.deleted_at
-  );
+  const index = storeRequisitionDetails.findIndex((d) => d.id === id && !d.deleted_at);
   if (index === -1) return null;
 
   storeRequisitionDetails[index] = {
@@ -527,26 +522,17 @@ export const updateStoreRequisitionDetailProduct = (
 };
 
 // UPDATE - อัปเดต StoreRequisitionDetail info
-export const updateStoreRequisitionDetailInfo = (
-  id: string,
-  info: any
-): StoreRequisitionDetail | null => {
+export const updateStoreRequisitionDetailInfo = (id: string, info: any): StoreRequisitionDetail | null => {
   return updateStoreRequisitionDetail(id, { info });
 };
 
 // UPDATE - อัปเดต StoreRequisitionDetail dimension
-export const updateStoreRequisitionDetailDimension = (
-  id: string,
-  dimension: any
-): StoreRequisitionDetail | null => {
+export const updateStoreRequisitionDetailDimension = (id: string, dimension: any): StoreRequisitionDetail | null => {
   return updateStoreRequisitionDetail(id, { dimension });
 };
 
 // DELETE - Soft delete StoreRequisitionDetail
-export const softDeleteStoreRequisitionDetail = (
-  id: string,
-  deletedById: string
-): StoreRequisitionDetail | null => {
+export const softDeleteStoreRequisitionDetail = (id: string, deletedById: string): StoreRequisitionDetail | null => {
   const detail = getStoreRequisitionDetailById(id);
   if (!detail) return null;
 
@@ -574,10 +560,7 @@ export const deleteStoreRequisitionDetailsByStoreRequisitionId = (
 ): number => {
   let deletedCount = 0;
   storeRequisitionDetails.forEach((detail) => {
-    if (
-      detail.store_requisition_id === storeRequisitionId &&
-      !detail.deleted_at
-    ) {
+    if (detail.store_requisition_id === storeRequisitionId && !detail.deleted_at) {
       detail.deleted_at = getCurrentTimestamp();
       detail.deleted_by_id = deletedById;
       detail.updated_at = getCurrentTimestamp();
@@ -589,9 +572,7 @@ export const deleteStoreRequisitionDetailsByStoreRequisitionId = (
 };
 
 // RESTORE - กู้คืน StoreRequisitionDetail ที่ถูก soft delete
-export const restoreStoreRequisitionDetail = (
-  id: string
-): StoreRequisitionDetail | null => {
+export const restoreStoreRequisitionDetail = (id: string): StoreRequisitionDetail | null => {
   const detail = storeRequisitionDetails.find((d) => d.id === id);
   if (!detail || !detail.deleted_at) return null;
 
@@ -617,37 +598,20 @@ export const searchStoreRequisitionDetails = (criteria: {
   return storeRequisitionDetails.filter((detail) => {
     if (detail.deleted_at) return false;
 
-    if (
-      criteria.storeRequisitionId &&
-      detail.store_requisition_id !== criteria.storeRequisitionId
-    )
+    if (criteria.storeRequisitionId && detail.store_requisition_id !== criteria.storeRequisitionId) return false;
+    if (criteria.inventoryTransactionId && detail.inventory_transaction_id !== criteria.inventoryTransactionId)
       return false;
-    if (
-      criteria.inventoryTransactionId &&
-      detail.inventory_transaction_id !== criteria.inventoryTransactionId
-    )
-      return false;
-    if (criteria.productId && detail.product_id !== criteria.productId)
-      return false;
-    if (criteria.locationId && detail.to_location_id !== criteria.locationId)
-      return false;
-    if (criteria.lastAction && detail.last_action !== criteria.lastAction)
-      return false;
+    if (criteria.productId && detail.product_id !== criteria.productId) return false;
+    if (criteria.locationId && detail.to_location_id !== criteria.locationId) return false;
+    if (criteria.lastAction && detail.last_action !== criteria.lastAction) return false;
 
     if (criteria.startDate || criteria.endDate) {
       const createdDate = new Date(detail.created_at);
-      if (criteria.startDate && createdDate < new Date(criteria.startDate))
-        return false;
-      if (criteria.endDate && createdDate > new Date(criteria.endDate))
-        return false;
+      if (criteria.startDate && createdDate < new Date(criteria.startDate)) return false;
+      if (criteria.endDate && createdDate > new Date(criteria.endDate)) return false;
     }
 
-    if (
-      criteria.description &&
-      !detail.description
-        .toLowerCase()
-        .includes(criteria.description.toLowerCase())
-    )
+    if (criteria.description && !detail.description.toLowerCase().includes(criteria.description.toLowerCase()))
       return false;
 
     return true;
@@ -659,44 +623,31 @@ export const getStoreRequisitionDetailCount = (): number => {
   return storeRequisitionDetails.filter((detail) => !detail.deleted_at).length;
 };
 
-export const getStoreRequisitionDetailCountByStoreRequisitionId = (
-  storeRequisitionId: string
-): number => {
+export const getStoreRequisitionDetailCountByStoreRequisitionId = (storeRequisitionId: string): number => {
   return storeRequisitionDetails.filter(
-    (detail) =>
-      detail.store_requisition_id === storeRequisitionId && !detail.deleted_at
+    (detail) => detail.store_requisition_id === storeRequisitionId && !detail.deleted_at
   ).length;
 };
 
 export const getStoreRequisitionDetailCountByLastAction = (
   lastAction: StoreRequisitionDetail["last_action"]
 ): number => {
-  return storeRequisitionDetails.filter(
-    (detail) => detail.last_action === lastAction && !detail.deleted_at
-  ).length;
+  return storeRequisitionDetails.filter((detail) => detail.last_action === lastAction && !detail.deleted_at).length;
 };
 
 export const isStoreRequisitionDetailExists = (id: string): boolean => {
-  return storeRequisitionDetails.some(
-    (detail) => detail.id === id && !detail.deleted_at
-  );
+  return storeRequisitionDetails.some((detail) => detail.id === id && !detail.deleted_at);
 };
 
-export const isSequenceNoExists = (
-  storeRequisitionId: string,
-  sequenceNo: number
-): boolean => {
+export const isSequenceNoExists = (storeRequisitionId: string, sequenceNo: number): boolean => {
   return storeRequisitionDetails.some(
     (detail) =>
-      detail.store_requisition_id === storeRequisitionId &&
-      detail.sequence_no === sequenceNo &&
-      !detail.deleted_at
+      detail.store_requisition_id === storeRequisitionId && detail.sequence_no === sequenceNo && !detail.deleted_at
   );
 };
 
 export const getNextSequenceNo = (storeRequisitionId: string): number => {
-  const details =
-    getStoreRequisitionDetailsByStoreRequisitionId(storeRequisitionId);
+  const details = getStoreRequisitionDetailsByStoreRequisitionId(storeRequisitionId);
   if (details.length === 0) return 1;
 
   const maxSequenceNo = Math.max(...details.map((d) => d.sequence_no));
@@ -707,9 +658,7 @@ export const clearAllStoreRequisitionDetails = (): void => {
   storeRequisitionDetails.length = 0;
 };
 
-export const clearStoreRequisitionDetailsByStoreRequisitionId = (
-  storeRequisitionId: string
-): void => {
+export const clearStoreRequisitionDetailsByStoreRequisitionId = (storeRequisitionId: string): void => {
   const indicesToRemove: number[] = [];
   storeRequisitionDetails.forEach((detail, index) => {
     if (detail.store_requisition_id === storeRequisitionId) {

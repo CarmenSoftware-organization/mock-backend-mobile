@@ -3,6 +3,7 @@ import { getUuidByName } from "./mapping.uuid";
 
 export interface Department {
   id: string;
+  code: string;
   name: string;
   description: string | null;
   is_active: boolean;
@@ -20,6 +21,7 @@ export interface Department {
 export const departments: Department[] = [
   {
     id: getUuidByName("DEPARTMENT_01"),
+    code: "DEPARTMENT_01",
     name: "Front Office",
     description: null,
     is_active: true,
@@ -35,6 +37,7 @@ export const departments: Department[] = [
   },
   {
     id: getUuidByName("DEPARTMENT_02"),
+    code: "DEPARTMENT_02",
     name: "Housekeeping",
     description: null,
     is_active: true,
@@ -50,6 +53,7 @@ export const departments: Department[] = [
   },
   {
     id: getUuidByName("DEPARTMENT_03"),
+    code: "DEPARTMENT_03",  
     name: "Kitchen",
     description: null,
     is_active: true,
@@ -65,6 +69,7 @@ export const departments: Department[] = [
   },
   {
     id: getUuidByName("DEPARTMENT_04"),
+    code: "DEPARTMENT_04",
     name: "Food & Beverage",
     description: null,
     is_active: true,
@@ -80,6 +85,7 @@ export const departments: Department[] = [
   },
   {
     id: getUuidByName("DEPARTMENT_05"),
+    code: "DEPARTMENT_05",
     name: "Admin",
     description: null,
     is_active: true,
@@ -95,6 +101,7 @@ export const departments: Department[] = [
   },
   {
     id: getUuidByName("DEPARTMENT_06"),
+    code: "DEPARTMENT_06",
     name: "Accounting",
     description: null,
     is_active: true,
@@ -110,6 +117,7 @@ export const departments: Department[] = [
   },
   {
     id: getUuidByName("DEPARTMENT_07"),
+    code: "DEPARTMENT_07",
     name: "Human Resources",
     description: null,
     is_active: true,
@@ -125,6 +133,7 @@ export const departments: Department[] = [
   },
   {
     id: getUuidByName("DEPARTMENT_08"),
+    code: "DEPARTMENT_08",
     name: "Sales & Marketing",
     description: null,
     is_active: true,
@@ -140,6 +149,7 @@ export const departments: Department[] = [
   },
   {
     id: getUuidByName("DEPARTMENT_09"),
+    code: "DEPARTMENT_09",
     name: "Spa",
     description: null,
     is_active: true,
@@ -155,6 +165,7 @@ export const departments: Department[] = [
   },
   {
     id: getUuidByName("DEPARTMENT_10"),
+    code: "DEPARTMENT_10",
     name: "Engineering",
     description: null,
     is_active: true,
@@ -176,6 +187,7 @@ export const createDepartment = (
 ): Department => {
   const newDepartment: Department = {
     ...departmentData,
+    code: `DEPARTMENT_${(departments.length + 1).toString().padStart(2, "0")}`,
     id: generateId(),
     created_at: getCurrentTimestamp(),
     updated_at: getCurrentTimestamp(),

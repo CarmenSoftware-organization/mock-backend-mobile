@@ -1,11 +1,7 @@
 import type { Elysia } from "elysia";
-import { resBadRequest, resNotFound, resNotImplemented } from "@/libs/res.error";
+import { resBadRequest, resErrorWithData, resNotFound, resNotImplemented } from "@/libs/res.error";
 import jwt from "@elysiajs/jwt";
-import {
-  tbBusinessUnit,
-  tbStoreRequisition,
-  tbStoreRequisitionDetail,
-} from "@/mockdata";
+import { tbBusinessUnit, tbStoreRequisition, tbStoreRequisitionDetail } from "@/mockdata";
 import { CheckHeaderHasAccessToken } from "@/libs/header";
 import { CheckHeaderHasAppId } from "@/libs/header";
 import { StoreRequisitionApproval } from "@/mockdata/tb_store_requisition";
@@ -34,10 +30,7 @@ export default (app: Elysia) =>
         return errorAppId;
       }
 
-      const { error: errorAccessToken } = await CheckHeaderHasAccessToken(
-        ctx.headers,
-        ctx.jwt
-      );
+      const { error: errorAccessToken } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
       if (errorAccessToken) {
         ctx.set.status = 401;
         return errorAccessToken;
@@ -55,10 +48,7 @@ export default (app: Elysia) =>
 
       let storeRequisitionDetail = [];
 
-      const srdtBySrId =
-        tbStoreRequisitionDetail.getStoreRequisitionDetailsByStoreRequisitionId(
-          sr.id
-        );
+      const srdtBySrId = tbStoreRequisitionDetail.getStoreRequisitionDetailsByStoreRequisitionId(sr.id);
 
       for (const srdt of srdtBySrId) {
         storeRequisitionDetail.push(srdt);
@@ -96,10 +86,7 @@ export default (app: Elysia) =>
           return errorAppId;
         }
 
-        const { error: errorAccessToken } = await CheckHeaderHasAccessToken(
-          ctx.headers,
-          ctx.jwt
-        );
+        const { error: errorAccessToken } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
         if (errorAccessToken) {
           ctx.set.status = 401;
           return errorAccessToken;
@@ -110,32 +97,29 @@ export default (app: Elysia) =>
           return resNotFound("Business unit not found");
         }
 
-        try{
-        const storeRequisition = tbStoreRequisition.getStoreRequisitionById(id);
-        if (!storeRequisition) {
-          return resNotFound("Store requisition not found");
-        }
-
-        const body = (await ctx.body) as StoreRequisitionApproval | undefined;
-        if (!body) {
-          return resBadRequest("Invalid body");
-        }
-
-        if (body.state_role !== "approve") {
-          return resBadRequest("Invalid state role");
-        }
-
-        for (const item of body.details) {
-          const storeRequisitionDetail =
-            tbStoreRequisitionDetail.getStoreRequisitionDetailById(item.id);
-          if (!storeRequisitionDetail) {
-            return resNotFound(
-              "Store requisition detail " + item.id + " not found"
-            );
+        try {
+          const storeRequisition = tbStoreRequisition.getStoreRequisitionById(id);
+          if (!storeRequisition) {
+            return resNotFound("Store requisition not found");
           }
-        }
 
-        return { data: storeRequisition.id };
+          const body = (await ctx.body) as StoreRequisitionApproval | undefined;
+          if (!body) {
+            return resBadRequest("Invalid body");
+          }
+
+          if (body.state_role !== "approve") {
+            return resBadRequest("Invalid state role");
+          }
+
+          for (const item of body.details) {
+            const storeRequisitionDetail = tbStoreRequisitionDetail.getStoreRequisitionDetailById(item.id);
+            if (!storeRequisitionDetail) {
+              return resNotFound("Store requisition detail " + item.id + " not found");
+            }
+          }
+
+          return { data: storeRequisition.id };
         } catch (error) {
           return resErrorWithData("Internal server error", error);
         }
@@ -143,6 +127,88 @@ export default (app: Elysia) =>
       {
         tags: ["Application - Store Requisition"],
         description: "Approve a store requisition",
+      }
+    )
+
+    .post(
+      "/api/:bu_code/store-requisition/:id/swipe_approve",
+      async (ctx) => {
+        const { bu_code, id } = ctx.params;
+
+        const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+        if (errorAppId) {
+          ctx.set.status = 400;
+          return errorAppId;
+        }
+
+        const { error: errorAccessToken } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+        if (errorAccessToken) {
+          ctx.set.status = 401;
+          return errorAccessToken;
+        }
+
+        const bu = tbBusinessUnit.getBusinessUnitByCode(bu_code);
+        if (!bu) {
+          return resNotFound("Business unit not found");
+        }
+
+        try {
+          const storeRequisition = tbStoreRequisition.getStoreRequisitionById(id);
+          if (!storeRequisition) {
+            return resNotFound("Store requisition not found");
+          }
+
+          tbStoreRequisition.swipeApproveStoreRequisitionById(id);
+
+          return { data: storeRequisition.id };
+        } catch (error) {
+          return resErrorWithData("Internal server error", error);
+        }
+      },
+      {
+        tags: ["Application - Store Requisition"],
+        description: "Swipe to approve a store requisition",
+      }
+    )
+
+    .post(
+      "/api/:bu_code/store-requisition/:id/swipe_reject",
+      async (ctx) => {
+        const { bu_code, id } = ctx.params;
+
+        const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+        if (errorAppId) {
+          ctx.set.status = 400;
+          return errorAppId;
+        }
+
+        const { error: errorAccessToken } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+        if (errorAccessToken) {
+          ctx.set.status = 401;
+          return errorAccessToken;
+        }
+
+        const bu = tbBusinessUnit.getBusinessUnitByCode(bu_code);
+        if (!bu) {
+          return resNotFound("Business unit not found");
+        }
+
+        try {
+          const storeRequisition = tbStoreRequisition.getStoreRequisitionById(id);
+          if (!storeRequisition) {
+            return resNotFound("Store requisition not found");
+          }
+
+          tbStoreRequisition.swipeRejectStoreRequisitionById(id);
+
+          return { data: storeRequisition.id };
+        } catch (error) {
+          return resErrorWithData("Internal server error", error);
+        }
+      },
+      {
+        tags: ["Application - Store Requisition"],
+        description: "Swipe to reject a store requisition",
       }
     )
 
@@ -157,10 +223,7 @@ export default (app: Elysia) =>
           return errorAppId;
         }
 
-        const { error: errorAccessToken } = await CheckHeaderHasAccessToken(
-          ctx.headers,
-          ctx.jwt
-        );
+        const { error: errorAccessToken } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
         if (errorAccessToken) {
           ctx.set.status = 401;
           return errorAccessToken;
@@ -186,12 +249,9 @@ export default (app: Elysia) =>
         }
 
         for (const item of body.body) {
-          const storeRequisitionDetail =
-            tbStoreRequisitionDetail.getStoreRequisitionDetailById(item.id);
+          const storeRequisitionDetail = tbStoreRequisitionDetail.getStoreRequisitionDetailById(item.id);
           if (!storeRequisitionDetail) {
-            return resNotFound(
-              "Store requisition detail " + item.id + " not found"
-            );
+            return resNotFound("Store requisition detail " + item.id + " not found");
           }
         }
 
@@ -215,10 +275,7 @@ export default (app: Elysia) =>
           return errorAppId;
         }
 
-        const { error: errorAccessToken } = await CheckHeaderHasAccessToken(
-          ctx.headers,
-          ctx.jwt
-        );
+        const { error: errorAccessToken } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
         if (errorAccessToken) {
           ctx.set.status = 401;
           return errorAccessToken;
@@ -244,17 +301,12 @@ export default (app: Elysia) =>
         }
 
         for (const item of body.body) {
-          const storeRequisitionDetail =
-            tbStoreRequisitionDetail.getStoreRequisitionDetailById(item.id);
+          const storeRequisitionDetail = tbStoreRequisitionDetail.getStoreRequisitionDetailById(item.id);
           if (!storeRequisitionDetail) {
-            return resNotFound(
-              "Store requisition detail " + item.id + " not found"
-            );
+            return resNotFound("Store requisition detail " + item.id + " not found");
           }
           if (item.state_status !== "reject") {
-            return resBadRequest(
-              "Invalid state status (" + item.state_status + ")"
-            );
+            return resBadRequest("Invalid state status (" + item.state_status + ")");
           }
           if (!item.state_message) {
             return resBadRequest("State message is required");
@@ -281,10 +333,7 @@ export default (app: Elysia) =>
           return errorAppId;
         }
 
-        const { error: errorAccessToken } = await CheckHeaderHasAccessToken(
-          ctx.headers,
-          ctx.jwt
-        );
+        const { error: errorAccessToken } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
         if (errorAccessToken) {
           ctx.set.status = 401;
           return errorAccessToken;
@@ -315,12 +364,9 @@ export default (app: Elysia) =>
         }
 
         for (const item of body.body) {
-          const storeRequisitionDetail =
-            tbStoreRequisitionDetail.getStoreRequisitionDetailById(item.id);
+          const storeRequisitionDetail = tbStoreRequisitionDetail.getStoreRequisitionDetailById(item.id);
           if (!storeRequisitionDetail) {
-            return resNotFound(
-              "Store requisition detail " + item.id + " not found"
-            );
+            return resNotFound("Store requisition detail " + item.id + " not found");
           }
         }
 

@@ -591,3 +591,87 @@ export const getNextStoreRequisitionNo = (): string => {
   const nextNumber = maxNumber + 1;
   return `SR-${currentYear}-${nextNumber.toString().padStart(3, "0")}`;
 };
+
+export function swipeApproveStoreRequisitionById(id: string) {
+  const storeRequisition = getStoreRequisitionById(id);
+  if (!storeRequisition) return null;
+
+  // Update workflow history
+  const newHistoryEntry = {
+    stage: "approved",
+    date: getCurrentTimestamp(),
+    user: "system_swipe_approve",
+  };
+  storeRequisition.workflow_history.push(newHistoryEntry);
+
+  // Update current, previous, next stages
+  storeRequisition.workflow_previous_stage = storeRequisition.workflow_current_stage;
+  storeRequisition.workflow_current_stage = "approved";
+  storeRequisition.workflow_next_stage = "completed";
+
+  // Update last action
+  storeRequisition.last_action = "approve";
+  storeRequisition.last_action_at_date = getCurrentTimestamp();
+  storeRequisition.last_action_by_id = "system_swipe_approve";
+  storeRequisition.last_action_by_name = "System Swipe Approve";
+
+  // Update doc status
+  storeRequisition.doc_status = "in_progress";
+
+  // Update updated_at and updated_by_id
+  storeRequisition.updated_at = getCurrentTimestamp();
+  storeRequisition.updated_by_id = "system_swipe_approve";
+
+  storeRequisitions.splice(
+    storeRequisitions.findIndex((sr) => sr.id === id),
+    1,
+    storeRequisition
+  );
+
+  storeRequisitions.push(storeRequisition);
+
+  return storeRequisition;
+}
+
+// Add this to the tbStoreRequisition mock data module
+export const swipeRejectStoreRequisitionById = (id: string) => {
+  const storeRequisition = getStoreRequisitionById(id);
+  if (!storeRequisition) return null;
+
+  // Update workflow history
+  const newHistoryEntry = {
+    stage: "rejected",
+    date: getCurrentTimestamp(),
+    user: "system_swipe_reject",
+  };
+  storeRequisition.workflow_history.push(newHistoryEntry);
+
+  // Update current, previous, next stages
+  storeRequisition.workflow_previous_stage = storeRequisition.workflow_current_stage;
+  storeRequisition.workflow_current_stage = "rejected";
+  storeRequisition.workflow_next_stage = "";
+
+  // Update last action
+  storeRequisition.last_action = "reject";
+  storeRequisition.last_action_at_date = getCurrentTimestamp();
+  storeRequisition.last_action_by_id = "system_swipe_reject";
+  storeRequisition.last_action_by_name = "System Swipe Reject";
+
+  // Update doc status
+  storeRequisition.doc_status = "in_progress";
+
+  // Update updated_at and updated_by_id
+  storeRequisition.updated_at = getCurrentTimestamp();
+  storeRequisition.updated_by_id = "system_swipe_reject";
+
+  storeRequisitions.splice(
+    storeRequisitions.findIndex((sr) => sr.id === id),
+    1,
+    storeRequisition
+  );
+
+  storeRequisitions.push(storeRequisition);
+
+  return storeRequisition;
+};
+
