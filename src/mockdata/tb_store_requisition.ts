@@ -58,7 +58,7 @@ export const storeRequisitions: StoreRequisition[] = [
   {
     id: getUuidByName("STORE_REQUISITION_01"),
     bu_code: getUuidByName("BU_CODE_01"),
-    sr_no: getUuidByName("STORE_REQUISITION_01"),
+    sr_no: getUuidByName("STORE_REQUISITION_NO_01"),
     sr_date: "2024-01-15",
     expected_date: "2024-01-20",
     description: "Kitchen supplies for daily operations",
@@ -115,7 +115,7 @@ export const storeRequisitions: StoreRequisition[] = [
   {
     id: getUuidByName("STORE_REQUISITION_02"),
     bu_code: getUuidByName("BU_CODE_01"),
-    sr_no: getUuidByName("STORE_REQUISITION_02"),
+    sr_no: getUuidByName("STORE_REQUISITION_NO_02"),
     sr_date: "2024-01-16",
     expected_date: "2024-01-22",
     description: "Front office stationery supplies",
@@ -177,7 +177,7 @@ export const storeRequisitions: StoreRequisition[] = [
   {
     id: getUuidByName("STORE_REQUISITION_03"),
     bu_code: getUuidByName("BU_CODE_01"),
-    sr_no: getUuidByName("STORE_REQUISITION_03"),
+    sr_no: getUuidByName("STORE_REQUISITION_NO_03"),
     sr_date: "2024-01-17",
     expected_date: "2024-01-19",
     description: "Marketing materials for Q1 campaign",
