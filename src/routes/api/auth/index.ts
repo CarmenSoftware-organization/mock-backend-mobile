@@ -1,4 +1,4 @@
-import { Elysia, t } from "elysia";
+import { Elysia, status, t } from "elysia";
 import { jwt } from "@elysiajs/jwt";
 import {
   resBadRequest,
@@ -60,17 +60,14 @@ export default (app: Elysia) =>
 
           return users;
         } catch (error) {
-          return resInternalServerError(
-            error instanceof Error ? error.message : "Unknown error"
-          );
+          return resInternalServerError(error instanceof Error ? error.message : "Unknown error");
         }
       },
       {
         detail: {
           tags: ["Mock"],
           summary: "Mock data users",
-          description:
-            "แสดงรายการผู้ใช้งานทั้งหมด ที่อยู่ในฐานข้อมูล (Mock data)",
+          description: "แสดงรายการผู้ใช้งานทั้งหมด ที่อยู่ในฐานข้อมูล (Mock data)",
         },
       }
     )
@@ -260,9 +257,7 @@ export default (app: Elysia) =>
               const permissionNames: string[] = tbUserPermission
                 .getUserPermissionsByUserId(currentUser.id)
                 .map((permission: any) => {
-                  const permissionObject = tbPermission.permissions.find(
-                    (p: any) => p.id === permission.permission_id
-                  );
+                  const permissionObject = tbPermission.permissions.find((p: any) => p.id === permission.permission_id);
                   if (!permissionObject) return null;
                   // resource:action เช่น pr:view → pr.view
                   return `${permissionObject.resource}.${permissionObject.action}`;
@@ -298,9 +293,7 @@ export default (app: Elysia) =>
 
           return res;
         } catch (error) {
-          return resInternalServerError(
-            error instanceof Error ? error.message : "Unknown error"
-          );
+          return resInternalServerError(error instanceof Error ? error.message : "Unknown error");
         }
       },
       {
@@ -314,30 +307,31 @@ export default (app: Elysia) =>
     )
 
     // Logout
-    .post("/api/auth/logout", async (ctx) => {
-      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
-      if (errorAppId) {
-        ctx.set.status = 400;
-        return errorAppId;
-      }
+    .post(
+      "/api/auth/logout",
+      async (ctx) => {
+        const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+        if (errorAppId) {
+          ctx.set.status = 400;
+          return errorAppId;
+        }
 
-      const { error: errorAccessToken, jwtUser } =
-        await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
-      if (errorAccessToken) {
-        ctx.set.status = 401;
-        return errorAccessToken;
-      }
+        const { error: errorAccessToken, jwtUser } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+        if (errorAccessToken) {
+          ctx.set.status = 401;
+          return errorAccessToken;
+        }
 
-      const jwt = ctx.jwt;
-      if (!jwtUser || !jwtUser.id) {
-        ctx.set.status = 401;
-        return resUnauthorized("Invalid access token");
-      }
+        const jwt = ctx.jwt;
+        if (!jwtUser || !jwtUser.id) {
+          ctx.set.status = 401;
+          return resUnauthorized("Invalid access token");
+        }
 
-      const fn = await logout(jwtUser.id, jwt);
-      ctx.set.status = fn.status;
-      return fn;
-    },
+        const fn = await logout(jwtUser.id, jwt);
+        ctx.set.status = fn.status;
+        return fn;
+      },
       {
         detail: {
           tags: ["auth"],
@@ -349,226 +343,234 @@ export default (app: Elysia) =>
     )
 
     // Register
-    .post("/api/auth/register", async (ctx) => {
-      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
-      if (errorAppId) {
-        ctx.set.status = 400;
-        return errorAppId;
-      }
+    .post(
+      "/api/auth/register",
+      async (ctx) => {
+        const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+        if (errorAppId) {
+          ctx.set.status = 400;
+          return errorAppId;
+        }
 
-      ctx.set.status = 501;
-      return resNotImplemented;
-    }, {
-      detail: {
-        tags: ["auth"],
-        summary: "Register new user",
-        description: "Register a new user account (Not implemented)",
-        parameters: [PARAM_X_APP_ID],
-        requestBody: {
-          description: "User registration data",
-          required: true,
-          content: {
-            "application/json": {
-              schema: {
-                type: "object",
-                properties: {
-                  email: {
-                    type: "string",
-                    format: "email",
-                    description: "User email address",
-                    example: "user@example.com"
-                  },
-                  password: {
-                    type: "string",
-                    description: "User password",
-                    example: "securePassword123"
-                  },
-                  first_name: {
-                    type: "string",
-                    description: "User first name",
-                    example: "สมชาย"
-                  },
-                  last_name: {
-                    type: "string",
-                    description: "User last name",
-                    example: "ใจดี"
-                  }
-                },
-                required: ["email", "password", "first_name", "last_name"]
-              }
-            }
-          }
-        },
-        responses: {
-          400: {
-            description: "Bad request",
-            content: {
-              "application/json": {
-                example: {
-                  message: "Invalid header 'x-app-id'"
-                }
-              }
-            }
-          },
-          501: {
-            description: "Not implemented",
+        ctx.set.status = 501;
+        return resNotImplemented;
+      },
+      {
+        detail: {
+          tags: ["auth"],
+          summary: "Register new user",
+          description: "Register a new user account (Not implemented)",
+          parameters: [PARAM_X_APP_ID],
+          requestBody: {
+            description: "User registration data",
+            required: true,
             content: {
               "application/json": {
                 schema: {
                   type: "object",
                   properties: {
-                    message: { type: "string" }
-                  }
+                    email: {
+                      type: "string",
+                      format: "email",
+                      description: "User email address",
+                      example: "user@example.com",
+                    },
+                    password: {
+                      type: "string",
+                      description: "User password",
+                      example: "securePassword123",
+                    },
+                    first_name: {
+                      type: "string",
+                      description: "User first name",
+                      example: "สมชาย",
+                    },
+                    last_name: {
+                      type: "string",
+                      description: "User last name",
+                      example: "ใจดี",
+                    },
+                  },
+                  required: ["email", "password", "first_name", "last_name"],
                 },
-                example: {
-                  message: "Not implemented"
-                }
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+          responses: {
+            400: {
+              description: "Bad request",
+              content: {
+                "application/json": {
+                  example: {
+                    message: "Invalid header 'x-app-id'",
+                  },
+                },
+              },
+            },
+            501: {
+              description: "Not implemented",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      message: { type: "string" },
+                    },
+                  },
+                  example: {
+                    message: "Not implemented",
+                  },
+                },
+              },
+            },
+          },
+        },
       }
-    })
+    )
 
     // Invite User
-    .post("/api/auth/invite-user", (ctx) => {
-      ctx.set.status = 501;
-      return resNotImplemented;
-    }, {
-      detail: {
-        tags: ["auth"],
-        summary: "Invite user",
-        description: "Send invitation to a user to join the system (Not implemented)",
-        requestBody: {
-          description: "User invitation data",
-          required: true,
-          content: {
-            "application/json": {
-              schema: {
-                type: "object",
-                properties: {
-                  email: {
-                    type: "string",
-                    format: "email",
-                    description: "Email address to invite",
-                    example: "newuser@example.com"
-                  },
-                  role: {
-                    type: "string",
-                    description: "Role to assign to the invited user",
-                    example: "user"
-                  },
-                  business_unit_code: {
-                    type: "string",
-                    description: "Business unit to associate with",
-                    example: "BU001"
-                  }
-                },
-                required: ["email", "role"]
-              }
-            }
-          }
-        },
-        responses: {
-          501: {
-            description: "Not implemented",
+    .post(
+      "/api/auth/invite-user",
+      (ctx) => {
+        ctx.set.status = 501;
+        return resNotImplemented;
+      },
+      {
+        detail: {
+          tags: ["auth"],
+          summary: "Invite user",
+          description: "Send invitation to a user to join the system (Not implemented)",
+          requestBody: {
+            description: "User invitation data",
+            required: true,
             content: {
               "application/json": {
                 schema: {
                   type: "object",
                   properties: {
-                    message: { type: "string" }
-                  }
+                    email: {
+                      type: "string",
+                      format: "email",
+                      description: "Email address to invite",
+                      example: "newuser@example.com",
+                    },
+                    role: {
+                      type: "string",
+                      description: "Role to assign to the invited user",
+                      example: "user",
+                    },
+                    business_unit_code: {
+                      type: "string",
+                      description: "Business unit to associate with",
+                      example: "BU001",
+                    },
+                  },
+                  required: ["email", "role"],
                 },
-                example: {
-                  message: "Not implemented"
-                }
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+          responses: {
+            501: {
+              description: "Not implemented",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      message: { type: "string" },
+                    },
+                  },
+                  example: {
+                    message: "Not implemented",
+                  },
+                },
+              },
+            },
+          },
+        },
       }
-    })
+    )
 
     // Register Confirm
-    .post("/api/auth/register-confirm", (ctx) => {
-      ctx.set.status = 501;
-      return resNotImplemented;
-    }, {
-      detail: {
-        tags: ["auth"],
-        summary: "Confirm user registration",
-        description: "Confirm user registration with verification token (Not implemented)",
-        requestBody: {
-          description: "Registration confirmation data",
-          required: true,
-          content: {
-            "application/json": {
-              schema: {
-                type: "object",
-                properties: {
-                  token: {
-                    type: "string",
-                    description: "Verification token sent via email",
-                    example: "abc123def456ghi789"
-                  },
-                  password: {
-                    type: "string",
-                    description: "User password",
-                    example: "securePassword123"
-                  }
-                },
-                required: ["token", "password"]
-              }
-            }
-          }
-        },
-        responses: {
-          501: {
-            description: "Not implemented",
+    .post(
+      "/api/auth/register-confirm",
+      (ctx) => {
+        ctx.set.status = 501;
+        return resNotImplemented;
+      },
+      {
+        detail: {
+          tags: ["auth"],
+          summary: "Confirm user registration",
+          description: "Confirm user registration with verification token (Not implemented)",
+          requestBody: {
+            description: "Registration confirmation data",
+            required: true,
             content: {
               "application/json": {
                 schema: {
                   type: "object",
                   properties: {
-                    message: { type: "string" }
-                  }
+                    token: {
+                      type: "string",
+                      description: "Verification token sent via email",
+                      example: "abc123def456ghi789",
+                    },
+                    password: {
+                      type: "string",
+                      description: "User password",
+                      example: "securePassword123",
+                    },
+                  },
+                  required: ["token", "password"],
                 },
-                example: {
-                  message: "Not implemented"
-                }
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+          responses: {
+            501: {
+              description: "Not implemented",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      message: { type: "string" },
+                    },
+                  },
+                  example: {
+                    message: "Not implemented",
+                  },
+                },
+              },
+            },
+          },
+        },
       }
-    })
+    )
 
     // Refresh Token
-    .post("/api/auth/refresh-token", async (ctx) => {
+    .post(
+      "/api/auth/refresh-token",
+      async (ctx) => {
+        console.log("Refresh token request body:", ctx.body);
+        const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+        if (errorAppId) {
+          ctx.set.status = 400;
+          return errorAppId;
+        }
 
-      console.log("Refresh token request body:", ctx.body);
-      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
-      if (errorAppId) {
-        ctx.set.status = 400;
-        return errorAppId;
-      }
-
-      try {
-        const getRefreshToken = ctx.body as {
-          refresh_token: string;
-        };
-        const { access_token, refresh_token } = await refreshToken(
-          getRefreshToken.refresh_token,
-          ctx.jwt
-        );
-        return { access_token, refresh_token };
-      } catch (error) {
-        return resInternalServerError(
-          error instanceof Error ? error.message : "Unknown error"
-        );
-      }
-    },
+        try {
+          const getRefreshToken = ctx.body as {
+            refresh_token: string;
+          };
+          const { access_token, refresh_token } = await refreshToken(getRefreshToken.refresh_token, ctx.jwt);
+          return { access_token, refresh_token };
+        } catch (error) {
+          return resInternalServerError(error instanceof Error ? error.message : "Unknown error");
+        }
+      },
       {
         body: "refreshTokenDto",
         response: {
@@ -593,16 +595,17 @@ export default (app: Elysia) =>
                     refresh_token: {
                       type: "string",
                       description: "Valid refresh token",
-                      example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                    }
+                      example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                    },
                   },
-                  required: ["refresh_token"]
+                  required: ["refresh_token"],
                 },
                 example: {
-                  refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU1MGU4NDAwLWUyOWItNDFkNC1hNzE2LTQ0NjY1NTQ0MDAwMSIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzEyODU3MDAwfQ.example"
-                }
-              }
-            }
+                  refresh_token:
+                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU1MGU4NDAwLWUyOWItNDFkNC1hNzE2LTQ0NjY1NTQ0MDAwMSIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzEyODU3MDAwfQ.example",
+                },
+              },
+            },
           },
           responses: {
             200: {
@@ -614,109 +617,201 @@ export default (app: Elysia) =>
                     properties: {
                       access_token: {
                         type: "string",
-                        description: "New JWT access token"
+                        description: "New JWT access token",
                       },
                       refresh_token: {
                         type: "string",
-                        description: "New JWT refresh token"
-                      }
-                    }
+                        description: "New JWT refresh token",
+                      },
+                    },
                   },
                   example: {
                     access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-                    refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                  }
-                }
-              }
+                    refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                  },
+                },
+              },
             },
             400: {
               description: "Bad request",
               content: {
                 "application/json": {
                   example: {
-                    message: "Invalid header 'x-app-id'"
-                  }
-                }
-              }
+                    message: "Invalid header 'x-app-id'",
+                  },
+                },
+              },
             },
             500: {
               description: "Internal server error",
               content: {
                 "application/json": {
                   example: {
-                    message: "Internal Server Error"
-                  }
-                }
-              }
-            }
-          }
+                    message: "Internal Server Error",
+                  },
+                },
+              },
+            },
+          },
         },
       }
     )
 
     // Forgot Password
-    .post("/api/auth/forgot-password", (ctx) => {
-      ctx.set.status = 200;
-      const email = (ctx.body as any).email;
-      console.log(`Forgot password requested for email: ${email}`);
-      return {
-        message: "System will send password reset instructions to the email if it exists.",
-        email: email
-      };
-    }, {
-      detail: {
-        tags: ["auth"],
-        summary: "Forgot password",
-        description: "Request password reset for a user account (Not implemented)",
-        requestBody: {
-          description: "Forgot password request data",
-          required: true,
-          content: {
-            "application/json": {
-              schema: {
-                type: "object",
-                properties: {
-                  email: {
-                    type: "string",
-                    format: "email",
-                    description: "Email address of the account",
-                    example: "user@example.com"
-                  }
-                },
-                required: ["email"]
-              },
-              example: {
-                email: "user@example.com"
-              }
-            }
-          }
-        },
-        responses: {
-          501: {
-            description: "Not implemented",
+    .post(
+      "/api/auth/forgot-password",
+      (ctx) => {
+        ctx.set.status = 200;
+        const email = (ctx.body as any).email;
+        console.log(`Forgot password requested for email: ${email}`);
+        return {
+          message: "System will send password reset instructions to the email if it exists.",
+          email: email,
+        };
+      },
+      {
+        detail: {
+          tags: ["auth"],
+          summary: "Forgot password",
+          description: "Request password reset for a user account (Not implemented)",
+          requestBody: {
+            description: "Forgot password request data",
+            required: true,
             content: {
               "application/json": {
                 schema: {
                   type: "object",
                   properties: {
-                    message: { type: "string" }
-                  }
+                    email: {
+                      type: "string",
+                      format: "email",
+                      description: "Email address of the account",
+                      example: "user@example.com",
+                    },
+                  },
+                  required: ["email"],
                 },
                 example: {
-                  message: "Not implemented"
-                }
-              }
-            }
-          }
-        }
+                  email: "user@example.com",
+                },
+              },
+            },
+          },
+          responses: {
+            501: {
+              description: "Not implemented",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      message: { type: "string" },
+                    },
+                  },
+                  example: {
+                    message: "Not implemented",
+                  },
+                },
+              },
+            },
+          },
+        },
       }
-    });
+    )
+
+    .post(
+      "/api/auth/change-password",
+      async (ctx) => {
+        const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+        if (errorAppId) {
+          ctx.set.status = 400;
+          return errorAppId;
+        }
+
+        const {
+          error: errorAccessToken,
+          jwtUser,
+          currentUser,
+          userProfile,
+          businessUnits,
+        } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+        if (errorAccessToken) {
+          ctx.set.status = 401;
+          return errorAccessToken;
+        }
+
+        const { old_password, new_password } = ctx.body;
+
+        // change password logic would go here
+        if (!ctx.body || !old_password || !new_password) {
+          ctx.set.status = 400;
+          return resBadRequest("Both old_password and new_password are required");
+        }
+
+        // check complexity of new password, verify old password, etc.
+        if (new_password.length < 8) {
+          ctx.set.status = 400;
+          return resBadRequest("New password must be at least 8 characters long");
+        }
+
+        if (old_password === new_password) {
+          ctx.set.status = 400;
+          return resBadRequest("New password must be different from old password");
+        }
+
+        const is_complex =
+          /[A-Z]/.test(new_password) &&
+          /[a-z]/.test(new_password) &&
+          /[0-9]/.test(new_password) &&
+          /[\W_]/.test(new_password);
+        if (!is_complex) {
+          ctx.set.status = 400;
+          return resBadRequest("New password must include uppercase, lowercase, number, and special character");
+        }
+
+        // For demo purposes, we won't actually change the password
+        userProfile.password = new_password; // In real app, hash the password before storing
+
+        ctx.set.status = 200;
+        return {
+          message: "Change password successful (Not implemented)",
+        };
+      },
+      {
+        detail: {
+          tags: ["auth"],
+          summary: "Change password",
+          description: "Change user password",
+          requestBody: {
+            description: "Change password data",
+            required: true,
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    old_password: {
+                      type: "string",
+                      description: "Current password",
+                      example: "currentPassword123",
+                    },
+                    new_password: {
+                      type: "string",
+                      description: "New password",
+                      example: "newSecurePassword456",
+                    },
+                  },
+                  required: ["old_password", "new_password"],
+                },
+              },
+            },
+          },
+        },
+      }
+    );
 
 // Login function implementation
-async function login(
-  body: LoginDto,
-  jwt: any
-): Promise<LoginResponse | LoginError> {
+async function login(body: LoginDto, jwt: any): Promise<LoginResponse | LoginError> {
   const user = tbUser.users.find((user: any) => user.email === body.email);
 
   if (!user) {
