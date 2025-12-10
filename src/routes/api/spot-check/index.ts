@@ -3,13 +3,12 @@ import {
   resBadRequest,
   resInternalServerError,
   resNotFound,
-  resNotImplemented,
 } from "@/libs/res.error";
 import jwt from "@elysiajs/jwt";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
 import { tbSpotCheck, tbSpotCheckDetail } from "@/mockdata";
 import { getRandomInt } from "@/libs/utils";
-import { createSpotCheck, CreateSpotCheckDTO } from "@/mockdata/tb_spot_check";
+import { createSpotCheck, CreateSpotCheckDTO, getSpotCheckById, updateSpotCheck } from "@/mockdata/tb_spot_check";
 import {
   getAllSpotCheckDetails,
   getSpotCheckDetailById,
@@ -468,6 +467,8 @@ export default (app: Elysia) =>
               actual_qty: item.actual_qty,
               created_by_id: currentUser?.id || "",
               updated_by_id: currentUser?.id || "",
+              inventory_unit_id: "",
+              inventory_unit_name: ""
             });
           }
 
@@ -525,7 +526,7 @@ export default (app: Elysia) =>
                 submitted_qty: Number(existingDetail.on_hand_qty ?? 0) - item.actual_qty, // mark as submitted
               }, currentUser?.id || "");
 
-            const { spot_check_id, created_at, created_by_id, updated_at, updated_by_id, ...data } = update_item as any;
+            const { spot_check_id, created_at, created_by_id, updated_at, updated_by_id, inventory_unit_id, inventory_unit_name, ...data } = update_item as any;
 
             res.push(data);
           } else {
@@ -542,9 +543,11 @@ export default (app: Elysia) =>
               submitted_qty: getRandomInt(100, 1000) - item.actual_qty,
               created_by_id: currentUser?.id || "",
               updated_by_id: currentUser?.id || "",
+              inventory_unit_id: "",
+              inventory_unit_name: ""
             });
 
-            const { spot_check_id, created_at, created_by_id, updated_at, updated_by_id, ...data } = new_item as any;
+            const { spot_check_id, created_at, created_by_id, updated_at, updated_by_id, inventory_unit_id, inventory_unit_name, ...data } = new_item as any;
             res.push(data);
           }
 
@@ -566,6 +569,67 @@ export default (app: Elysia) =>
       },
     })
 
+
+    .get(
+      "/api/:bu_code/spot-check/:spot_check_id/review",
+      async (ctx) => {
+        const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+        if (errorAppId) {
+          ctx.set.status = 400;
+          return errorAppId;
+        }
+
+        const {
+          error: errorAccessToken,
+          businessUnits,
+          currentUser,
+        } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+        if (errorAccessToken) {
+          ctx.set.status = 401;
+          return errorAccessToken;
+        }
+
+        const bu = businessUnits.find((bu) => bu.code === ctx.params.bu_code);
+        if (!bu) {
+          return resNotFound("Business unit not found");
+        }
+
+        let res: any[] = [];
+
+        const existingDetails = getSpotCheckDetailsBySpotCheckId(ctx.params.spot_check_id);
+
+        for (const item of existingDetails) {
+          // update existing detail
+          const update_item = updateSpotCheckDetail(
+            item.id,
+            {
+              actual_qty: item.actual_qty,
+              submitted_qty: Number(item.on_hand_qty ?? 0) - item.actual_qty, // mark as submitted
+            },
+            currentUser?.id || ""
+          );
+
+          // console.log("Updated item:", update_item);
+
+          const { spot_check_id, created_at, created_by_id, updated_at, updated_by_id, ...data } =
+            update_item as any;
+
+          res.push(data);
+        }
+
+        // console.log("Updated physical count items:", res as any);
+
+        return { data: res };
+      },
+      {
+        detail: {
+          tags: ["spot-check"],
+          summary: "Review spot check",
+          description: "Review a specific spot check",
+        },
+      }
+    )
+
     .patch("/api/:bu_code/spot-check/:spot_check_id/submit", async (ctx) => {
       const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
       if (errorAppId) {
@@ -585,8 +649,20 @@ export default (app: Elysia) =>
       }
 
       try {
+
+        const spotCheck = getSpotCheckById(ctx.params.spot_check_id);
+        if (!spotCheck) {
+          return resNotFound("Spot check not found");
+        }
         // In real scenario, update spot check status to 'completed'
         console.log(`Spot check ${ctx.params.spot_check_id} marked as completed by user ${currentUser?.id}`);
+
+        updateSpotCheck(
+          spotCheck.id,
+          {
+            status: "completed",
+          }
+        );
 
         return { id: ctx.params.spot_check_id };
       } catch (error) {
@@ -601,4 +677,44 @@ export default (app: Elysia) =>
         description: "Mark a specific spot check as completed",
       },
     })
-  ;
+
+    .delete("/api/:bu_code/spot-check/:spot_check_id/reset", async (ctx) => {
+      const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+      if (errorAppId) {
+        ctx.set.status = 400;
+        return errorAppId;
+      }
+
+      const { error: errorAccessToken, businessUnits, currentUser } = await CheckHeaderHasAccessToken(ctx.headers, ctx.jwt);
+      if (errorAccessToken) {
+        ctx.set.status = 401;
+        return errorAccessToken;
+      }
+
+      const bu = businessUnits.find((bu) => bu.code === ctx.params.bu_code);
+      if (!bu) {
+        return resNotFound("Business unit not found");
+      }
+
+      try {
+        const spotCheck = getSpotCheckById(ctx.params.spot_check_id);
+        if (!spotCheck) {
+          return resNotFound("Spot check not found");
+        }
+
+        // In real scenario, update spot check status to 'completed'
+        console.log(`Spot check ${ctx.params.spot_check_id} reset by user ${currentUser?.id}`);
+
+        return { id: ctx.params.spot_check_id };
+      } catch (error) {
+        return resInternalServerError(
+          error instanceof Error ? error.message : "Unknown error"
+        );
+      }
+    }, {
+      detail: {
+        tags: ["spot-check"],
+        summary: "Reset spot check",
+        description: "Reset a specific spot check",
+      },
+    });

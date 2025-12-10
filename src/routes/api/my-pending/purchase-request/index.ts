@@ -1,5 +1,5 @@
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
-import { resInternalServerError, resNotImplemented } from "@/libs/res.error";
+import { resInternalServerError } from "@/libs/res.error";
 import { getRandomInt } from "@/libs/utils";
 import { tbPurchaseRequest, tbPurchaseRequestDetail } from "@/mockdata";
 import { getDefaultCurrencyByBusinessUnitId } from "@/mockdata/tb_application_config";
@@ -47,6 +47,8 @@ export default (app: Elysia) =>
               continue;
             }
 
+            const defaultCurrency = getDefaultCurrencyByBusinessUnitId(bu.id);
+
             // find pr in bu_id
             const prData = tbPurchaseRequest
               .getPurchaseRequestsByCodeAndInProgress(bu.code ?? "")
@@ -64,15 +66,13 @@ export default (app: Elysia) =>
                 workflow_next_stage: pr.workflow_next_stage,
                 last_action: pr.last_action,
                 created_at: pr.created_at,
-                total_amount: Number(getRandomInt(50, 100000)),
+                total_amount: Number(getRandomInt(50, 100000))
               }));
-
-            const defaultCurrency = getDefaultCurrencyByBusinessUnitId(bu.id);
 
             const res = {
               bu_code: bu.code,
               bu_name: bu.name,
-              currency : {
+              currency: {
                 id: defaultCurrency?.id || "",
                 name: defaultCurrency?.name || "",
                 code: defaultCurrency?.code || "",

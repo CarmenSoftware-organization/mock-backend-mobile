@@ -675,3 +675,24 @@ export const swipeRejectStoreRequisitionById = (id: string) => {
   return storeRequisition;
 };
 
+export const getStoreRequisitionStageRole = (id: string) => {
+
+  const stage_role_by_id = [
+    {
+      id: storeRequisitions[0].id,
+      stage_role: "approve",
+    },
+    {
+      id: storeRequisitions[1].id,
+      stage_role: "issue",
+    },
+    {
+      id: storeRequisitions[2].id,
+      stage_role: "approve",
+    }
+  ]
+
+  return stage_role_by_id.find((sr) => sr.id === id)?.stage_role;
+};
+
+

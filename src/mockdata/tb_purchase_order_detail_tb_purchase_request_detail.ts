@@ -43,7 +43,7 @@ export const purchaseOrderDetailPurchaseRequestDetails: PurchaseOrderDetailPurch
       deleted_by_id: null,
     },
     {
-        id: getUuidByName("PURCHASE_ORDER_DETAIL_PURCHASE_REQUEST_DETAIL_02"),
+      id: getUuidByName("PURCHASE_ORDER_DETAIL_PURCHASE_REQUEST_DETAIL_02"),
       po_detail_id: getUuidByName("PURCHASE_ORDER_DETAIL_01"),
       pr_detail_id: getUuidByName("PURCHASE_REQUEST_DETAIL_02"),
       pr_detail_order_unit_id: getUuidByName("UNIT_02"),
@@ -53,7 +53,7 @@ export const purchaseOrderDetailPurchaseRequestDetails: PurchaseOrderDetailPurch
       pr_detail_base_unit_id: getUuidByName("UNIT_03"),
       pr_detail_base_unit_name: "ชิ้น",
       pr_detail_remaining_qty: "50.00000",
-      pr_detail_unit_conversion_factor: 1,
+      pr_detail_unit_conversion_factor: 10,
       created_at: "2024-01-16T11:00:00Z",
       created_by_id: getUuidByName("USER_02"),
       updated_at: null,
@@ -72,7 +72,7 @@ export const purchaseOrderDetailPurchaseRequestDetails: PurchaseOrderDetailPurch
       pr_detail_base_unit_id: getUuidByName("UNIT_05"),
       pr_detail_base_unit_name: "เซนติเมตร",
       pr_detail_remaining_qty: "200.00000",
-      pr_detail_unit_conversion_factor: 1,
+      pr_detail_unit_conversion_factor: 100,
       created_at: "2024-01-17T12:00:00Z",
       created_by_id: getUuidByName("USER_03"),
       updated_at: null,
@@ -414,9 +414,9 @@ export const hasPurchaseOrderDetailPurchaseRequestDetailOrderUnit = (
   const detail = getPurchaseOrderDetailPurchaseRequestDetailById(id);
   return detail
     ? !!(
-        detail.pr_detail_order_unit_id &&
-        (detail.pr_detail_order_unit_id as string).trim() !== ""
-      )
+      detail.pr_detail_order_unit_id &&
+      (detail.pr_detail_order_unit_id as string).trim() !== ""
+    )
     : false;
 };
 
@@ -427,9 +427,9 @@ export const hasPurchaseOrderDetailPurchaseRequestDetailBaseUnit = (
   const detail = getPurchaseOrderDetailPurchaseRequestDetailById(id);
   return detail
     ? !!(
-        detail.pr_detail_base_unit_id &&
-        (detail.pr_detail_base_unit_id as string).trim() !== ""
-      )
+      detail.pr_detail_base_unit_id &&
+      (detail.pr_detail_base_unit_id as string).trim() !== ""
+    )
     : false;
 };
 

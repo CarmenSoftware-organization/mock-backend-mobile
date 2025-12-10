@@ -1,5 +1,5 @@
 import type { Elysia } from "elysia";
-import { resBadRequest, resErrorWithData, resNotFound, resNotImplemented } from "@/libs/res.error";
+import { resBadRequest, resErrorWithData, resNotFound } from "@/libs/res.error";
 import jwt from "@elysiajs/jwt";
 import { tbBusinessUnit, tbStoreRequisition, tbStoreRequisitionDetail } from "@/mockdata";
 import { CheckHeaderHasAccessToken } from "@/libs/header";
@@ -17,9 +17,7 @@ export default (app: Elysia) =>
       })
     )
 
-    .post("/api/:bu_code/store-requisition", async (ctx) => {
-      return Response.json(resNotImplemented, { status: 501 });
-    })
+
 
     .get("/api/:bu_code/store-requisition/:id", async (ctx) => {
       const { bu_code, id } = ctx.params;
@@ -68,12 +66,7 @@ export default (app: Elysia) =>
       return res;
     })
 
-    .delete("/api/:bu_code/store-requisition/:id", async (ctx) => {
-      return Response.json(resNotImplemented, { status: 501 });
-    })
-    .patch("/api/:bu_code/store-requisition/:id/submit", (ctx) => {
-      return Response.json(resNotImplemented, { status: 501 });
-    })
+
 
     .patch(
       "/api/:bu_code/store-requisition/:id/approve",
@@ -194,14 +187,23 @@ export default (app: Elysia) =>
         }
 
         try {
+
+          const body = ctx.body;
+
+          if (!body || !body.message) {
+            return resBadRequest("Message is required");
+          }
+
           const storeRequisition = tbStoreRequisition.getStoreRequisitionById(id);
           if (!storeRequisition) {
             return resNotFound("Store requisition not found");
           }
 
-          tbStoreRequisition.swipeRejectStoreRequisitionById(id);
+          tbStoreRequisition.swipeRejectStoreRequisitionById(id, body.message);
 
           return { data: storeRequisition.id };
+
+
         } catch (error) {
           return resErrorWithData("Internal server error", error);
         }
@@ -248,7 +250,9 @@ export default (app: Elysia) =>
           return resBadRequest("Invalid state role");
         }
 
-        for (const item of body.body) {
+        console.log(body);
+
+        for (const item of body.details) {
           const storeRequisitionDetail = tbStoreRequisitionDetail.getStoreRequisitionDetailById(item.id);
           if (!storeRequisitionDetail) {
             return resNotFound("Store requisition detail " + item.id + " not found");
@@ -267,6 +271,7 @@ export default (app: Elysia) =>
     .patch(
       "/api/:bu_code/store-requisition/:id/reject",
       async (ctx) => {
+
         const { bu_code, id } = ctx.params;
 
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
@@ -300,7 +305,7 @@ export default (app: Elysia) =>
           return resBadRequest("Invalid state role");
         }
 
-        for (const item of body.body) {
+        for (const item of body.details) {
           const storeRequisitionDetail = tbStoreRequisitionDetail.getStoreRequisitionDetailById(item.id);
           if (!storeRequisitionDetail) {
             return resNotFound("Store requisition detail " + item.id + " not found");
@@ -363,7 +368,7 @@ export default (app: Elysia) =>
           return resBadRequest("Destination is required");
         }
 
-        for (const item of body.body) {
+        for (const item of body.details) {
           const storeRequisitionDetail = tbStoreRequisitionDetail.getStoreRequisitionDetailById(item.id);
           if (!storeRequisitionDetail) {
             return resNotFound("Store requisition detail " + item.id + " not found");
@@ -378,9 +383,4 @@ export default (app: Elysia) =>
         description: "Review a store requisition",
       }
     )
-    .patch("/api/:bu_code/store-requisition/:id/save", (ctx) => {
-      return Response.json(resNotImplemented, { status: 501 });
-    })
-    .get("/api/:bu_code/store-requisition/status/:status", (ctx) => {
-      return Response.json(resNotImplemented, { status: 501 });
-    });
+

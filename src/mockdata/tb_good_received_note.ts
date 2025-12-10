@@ -2,6 +2,97 @@ import { generateId, getCurrentTimestamp } from "@/libs/utils";
 import { getCurrencyById } from "./tb_currency";
 import { getUuidByName } from "./mapping.uuid";
 
+export interface good_received_note_create {
+
+  /*
+    "grn_date": "2024-01-15",
+    "invoice_no": "INV-2024-001",
+    "invoice_date": "2024-01-15",
+    "description": "Laptop computers delivery",
+    "doc_status": "draft",
+    "doc_type": "purchase_order",
+    "vendor_id": "550e8400-e29b-41d4-a716-446655440001",
+    "currency_id": "cur1a2b3-4d5e-6f7a-8b9c-0d1e2f3a4b5c",
+    "currency_name": "THB",
+    "currency_rate": 1,
+    "is_consignment": false,
+    "is_cash": false,
+    "received_at": "2024-01-15T10:30:00Z",
+    "credit_term_id": "550e8400-e29b-41d4-a716-446655440001",
+    "is_active": true,
+    "note": "Standard delivery received",
+    "doc_version": "1.0",
+    "details": {
+        "add": [
+            {
+                "purchase_order_detail_id": "550e8400-e29b-41d4-a716-446655440001",
+                "po_id": "550e8400-e29b-41d4-a716-446655440001",
+                "sequence_no": 1,
+                "location_id": "550e8400-e29b-41d4-a716-446655440001",
+                "product_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+                "received_qty": 10,
+                "received_unit_id": "550e8400-e29b-41d4-a716-446655440001",
+                "received_unit_conversion_factor": 1,
+                "received_base_qty": 10,
+                "foc_qty": 0,
+                "foc_unit_id": "550e8400-e29b-41d4-a716-446655440001",
+                "foc_unit_conversion_factor": 1,
+                "foc_base_qty": 0,
+                "price": 15000,
+                "tax_profile_id": "550e8400-e29b-41d4-a716-446655440001",
+                "tax_profile_name": "VAT 7%",
+                "tax_rate": 7,
+                "tax_amount": 1050,
+                "is_tax_adjustment": false,
+                "total_amount": 16050,
+                "base_price": 15000,
+                "base_qty": 10,
+                "extra_cost": 0,
+                "total_cost": 16050,
+                "discount_rate": 0,
+                "discount_amount": 0,
+                "is_discount_adjustment": false,
+                "expired_date": "2025-12-31",
+                "note": "Standard laptop delivery",
+                "info": {
+                    "brand": "Dell",
+                    "model": "Latitude 5520",
+                    "warranty": "3 years"
+                },
+                "dimension": {
+                    "job code": "DIM-001",
+                    "event": "Standard",
+                    "market segment": "Electronics"
+                }
+            }
+        ]
+    }
+  */
+
+  // extract from above example
+  grn_date: string;
+  invoice_no: string;
+  invoice_date: string;
+  description: string;
+  doc_status: "draft" | "saved" | "committed" | "voided";
+  doc_type: "purchase_order" | "manual";
+  vendor_id: string;
+  currency_id: string;
+  currency_name: string;
+  currency_rate: Number;
+  is_consignment: boolean;
+  is_cash: boolean;
+  received_at: string;
+  credit_term_id: string;
+  credit_term_name: string;
+  credit_term_days: number;
+  payment_due_date: string;
+  is_active: boolean;
+  note: string;
+  doc_version: string;
+  details: any;
+}
+
 export interface GoodReceivedNote {
   id: string;
   grn_no: string;
@@ -9,25 +100,25 @@ export interface GoodReceivedNote {
   invoice_no: string;
   invoice_date: string;
   description: string;
-  doc_status: "draft" | "submitted" | "approved" | "rejected" | "completed";
-  doc_type: "purchase" | "return" | "adjustment" | "other";
+  doc_status: "draft" | "saved" | "committed" | "voided";
+  doc_type: "purchase_order" | "manual";
   vendor_id: string;
   vendor_code: string;
   vendor_name: string;
   currency_id: string;
   currency_name: string;
   currency_rate: Number;
-  workflow_id: string;
-  workflow_name: string;
-  workflow_history: any;
-  workflow_current_stage: string | null;
-  workflow_previous_stage: string | null;
-  workflow_next_stage: string | null;
-  user_action: any;
-  last_action: "submit" | "approve" | "reject" | "complete";
-  last_action_at_date: string;
-  last_action_by_id: string;
-  last_action_by_name: string;
+  // workflow_id: string;
+  // workflow_name: string;
+  // workflow_history: any;
+  // workflow_current_stage: string | null;
+  // workflow_previous_stage: string | null;
+  // workflow_next_stage: string | null;
+  // user_action: any;
+  // last_action: "submit" | "approve" | "reject" | "complete";
+  // last_action_at_date: string;
+  // last_action_by_id: string;
+  // last_action_by_name: string;
   is_consignment: boolean;
   is_cash: boolean;
   signature_image_url: string;
@@ -64,26 +155,26 @@ export const goodReceivedNotes: GoodReceivedNote[] = [
     invoice_date: "2024-01-15",
     description: "Laptop computers delivery",
     doc_status: "draft",
-    doc_type: "purchase",
+    doc_type: "purchase_order",
     vendor_id: "550e8400-e29b-41d4-a716-446655440001",
     vendor_code: "VENDOR_01",
     vendor_name: "Dell Technologies",
-    currency_id:  currency_01?.id || "unknown-currency-id",
+    currency_id: currency_01?.id || "unknown-currency-id",
     currency_name: currency_01?.code || "Unknown",
     currency_rate: currency_01?.exchange_rate || 1.00,
-    workflow_id: "550e8400-e29b-41d4-a716-446655440001",
-    workflow_name: "Standard GRN Workflow",
-    workflow_history: {
-      stages: ["draft", "submitted", "approved", "completed"],
-    },
-    workflow_current_stage: "completed",
-    workflow_previous_stage: "approved",
-    workflow_next_stage: null,
-    user_action: { action: "complete", timestamp: "2024-01-15T10:30:00Z" },
-    last_action: "complete",
-    last_action_at_date: "2024-01-15T10:30:00Z",
-    last_action_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
-    last_action_by_name: "John Doe",
+    // workflow_id: "550e8400-e29b-41d4-a716-446655440001",
+    // workflow_name: "Standard GRN Workflow",
+    // workflow_history: {
+    //   stages: ["draft", "submitted", "approved", "completed"],
+    // },
+    // workflow_current_stage: "completed",
+    // workflow_previous_stage: "approved",
+    // workflow_next_stage: null,
+    // user_action: { action: "complete", timestamp: "2024-01-15T10:30:00Z" },
+    // last_action: "complete",
+    // last_action_at_date: "2024-01-15T10:30:00Z",
+    // last_action_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
+    // last_action_by_name: "John Doe",
     is_consignment: false,
     is_cash: false,
     signature_image_url: "/signatures/grn-001.jpg",
@@ -117,24 +208,24 @@ export const goodReceivedNotes: GoodReceivedNote[] = [
     invoice_date: "2024-01-16",
     description: "Office furniture delivery",
     doc_status: "draft",
-    doc_type: "purchase",
+    doc_type: "purchase_order",
     vendor_id: "550e8400-e29b-41d4-a716-446655440002",
     vendor_code: "VENDOR_02",
     vendor_name: "Office Supplies Co.",
-    currency_id:  currency_01?.id || "unknown-currency-id",
+    currency_id: currency_01?.id || "unknown-currency-id",
     currency_name: currency_01?.code || "Unknown",
     currency_rate: currency_01?.exchange_rate || 1.00,
-    workflow_id: "550e8400-e29b-41d4-a716-446655440001",
-    workflow_name: "Standard GRN Workflow",
-    workflow_history: { stages: ["draft", "submitted"] },
-    workflow_current_stage: "submitted",
-    workflow_previous_stage: "draft",
-    workflow_next_stage: "approved",
-    user_action: { action: "submit", timestamp: "2024-01-16T10:30:00Z" },
-    last_action: "submit",
-    last_action_at_date: "2024-01-16T10:30:00Z",
-    last_action_by_id: "1bfdb891-58ee-499c-8115-34a964de8122",
-    last_action_by_name: "Jane Smith",
+    // workflow_id: "550e8400-e29b-41d4-a716-446655440002",
+    // workflow_name: "Standard GRN Workflow",
+    // workflow_history: { stages: ["draft", "submitted"] },
+    // workflow_current_stage: "submitted",
+    // workflow_previous_stage: "draft",
+    // workflow_next_stage: "approved",
+    // user_action: { action: "submit", timestamp: "2024-01-16T10:30:00Z" },
+    // last_action: "submit",
+    // last_action_at_date: "2024-01-16T10:30:00Z",
+    // last_action_by_id: "1bfdb891-58ee-499c-8115-34a964de8122",
+    // last_action_by_name: "Jane Smith",
     is_consignment: false,
     is_cash: false,
     signature_image_url: "/signatures/grn-002.jpg",
@@ -167,25 +258,25 @@ export const goodReceivedNotes: GoodReceivedNote[] = [
     invoice_no: "INV-2024-003",
     invoice_date: "2024-01-17",
     description: "Printer delivery",
-    doc_status: "rejected",
-    doc_type: "purchase",
+    doc_status: "draft",
+    doc_type: "purchase_order",
     vendor_id: "550e8400-e29b-41d4-a716-446655440003",
     vendor_code: "VENDOR_03",
     vendor_name: "PrintTech Solutions",
-    currency_id:  currency_01?.id || "unknown-currency-id",
+    currency_id: currency_01?.id || "unknown-currency-id",
     currency_name: currency_01?.code || "Unknown",
     currency_rate: currency_01?.exchange_rate || 1.00,
-    workflow_id: "550e8400-e29b-41d4-a716-446655440001",
-    workflow_name: "Standard GRN Workflow",
-    workflow_history: { stages: ["draft", "submitted", "rejected"] },
-    workflow_current_stage: "rejected",
-    workflow_previous_stage: "submitted",
-    workflow_next_stage: null,
-    user_action: { action: "reject", timestamp: "2024-01-17T10:30:00Z" },
-    last_action: "reject",
-    last_action_at_date: "2024-01-17T10:30:00Z",
-    last_action_by_id: "3c5280a7-492e-421d-b739-7447455ce99e",
-    last_action_by_name: "Bob Johnson",
+    // workflow_id: "550e8400-e29b-41d4-a716-446655440001",
+    // workflow_name: "Standard GRN Workflow",
+    // workflow_history: { stages: ["draft", "submitted", "rejected"] },
+    // workflow_current_stage: "rejected",
+    // workflow_previous_stage: "submitted",
+    // workflow_next_stage: null,
+    // user_action: { action: "reject", timestamp: "2024-01-17T10:30:00Z" },
+    // last_action: "reject",
+    // last_action_at_date: "2024-01-17T10:30:00Z",
+    // last_action_by_id: "3c5280a7-492e-421d-b739-7447455ce99e",
+    // last_action_by_name: "Bob Johnson",
     is_consignment: false,
     is_cash: false,
     signature_image_url: "/signatures/grn-003.jpg",
@@ -353,12 +444,7 @@ export const updateGoodReceivedNoteStatus = (
   status: string
 ): GoodReceivedNote | null => {
   return updateGoodReceivedNote(id, {
-    doc_status: status as
-      | "draft"
-      | "submitted"
-      | "approved"
-      | "rejected"
-      | "completed",
+    doc_status: status as "draft" | "saved" | "committed" | "voided",
   });
 };
 

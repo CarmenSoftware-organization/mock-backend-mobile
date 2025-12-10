@@ -1,5 +1,5 @@
 import type { Elysia } from "elysia";
-import { resNotImplemented } from "@/libs/res.error";
+
 import jwt from "@elysiajs/jwt";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
 import { tbBusinessUnit, tbPurchaseRequest, tbStoreRequisition } from "@/mockdata";
@@ -116,7 +116,12 @@ export default (app: Elysia) =>
         return resNotFound("Store requisition not found");
       }
 
-      const stage_role = currentUser?.sr_stage_role ?? "view_only";
+      const get_sr_stage_role = tbStoreRequisition.getStoreRequisitionStageRole(sr_id);
+      if (!get_sr_stage_role) {
+        return resNotFound("Store requisition stage role not found");
+      }
+
+      const stage_role = get_sr_stage_role;
 
       return {
         stage_role: stage_role,
@@ -160,6 +165,4 @@ export default (app: Elysia) =>
       }
     )
 
-    .get("/api/workflow/type/:type", ({ params, query, body, headers }) => {
-      return Response.json(resNotImplemented, { status: 501 });
-    });
+

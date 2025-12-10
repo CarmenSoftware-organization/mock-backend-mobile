@@ -3,7 +3,6 @@ import {
   resError,
   resErrorWithData,
   resNotFound,
-  resNotImplemented,
   resSuccess,
 } from "@/libs/res.error";
 import type { Elysia } from "elysia";
@@ -75,193 +74,6 @@ export default (app: Elysia) =>
         }),
       }),
     })
-
-    .post(
-      "/api/:bu_code/purchase-request",
-      ({ params, query, body, headers }) => {
-        return Response.json(resNotImplemented, { status: 501 });
-      },
-      {
-        detail: {
-          tags: ["purchase-requests"],
-          summary: "Create purchase request",
-          description: "สร้างใบขอซื้อใหม่ (Not implemented)",
-          parameters: [
-            PARAM_X_APP_ID,
-            PARAM_AUTHORIZATION,
-            {
-              name: "bu_code",
-              in: "path",
-              required: true,
-              description: "รหัสหน่วยธุรกิจ",
-              schema: {
-                type: "string",
-                example: "BU_001",
-              },
-            },
-          ],
-          requestBody: {
-            description: "ข้อมูลใบขอซื้อที่ต้องการสร้าง",
-            required: true,
-            content: {
-              "application/json": {
-                schema: {
-                  type: "object",
-                  properties: {
-                    document_no: {
-                      type: "string",
-                      description: "เลขที่เอกสารใบขอซื้อ",
-                      example: "PR2024-001",
-                    },
-                    request_date: {
-                      type: "string",
-                      format: "date",
-                      description: "วันที่ขอซื้อ",
-                      example: "2024-01-15",
-                    },
-                    request_by: {
-                      type: "string",
-                      description: "ผู้ขอซื้อ (User ID)",
-                      example: "550e8400-e29b-41d4-a716-446655440001",
-                    },
-                    department_id: {
-                      type: "string",
-                      description: "รหัสแผนก",
-                      example: "550e8400-e29b-41d4-a716-446655440002",
-                    },
-                    location_id: {
-                      type: "string",
-                      description: "รหัสสถานที่",
-                      example: "550e8400-e29b-41d4-a716-446655440003",
-                    },
-                    priority: {
-                      type: "string",
-                      enum: ["low", "medium", "high", "urgent"],
-                      description: "ระดับความสำคัญ",
-                      example: "medium",
-                    },
-                    remark: {
-                      type: "string",
-                      description: "หมายเหตุ",
-                      example: "ขอซื้อวัตถุดิบสำหรับการผลิต",
-                    },
-                    items: {
-                      type: "array",
-                      description: "รายการสินค้าที่ขอซื้อ",
-                      items: {
-                        type: "object",
-                        properties: {
-                          product_id: {
-                            type: "string",
-                            description: "รหัสสินค้า",
-                            example: "550e8400-e29b-41d4-a716-446655440004",
-                          },
-                          qty: {
-                            type: "number",
-                            description: "จำนวนที่ขอ",
-                            example: 10.5,
-                          },
-                          unit_id: {
-                            type: "string",
-                            description: "รหัสหน่วยนับ",
-                            example: "550e8400-e29b-41d4-a716-446655440005",
-                          },
-                          remark: {
-                            type: "string",
-                            description: "หมายเหตุรายการ",
-                            example: "ขอเพิ่มเติม 20%",
-                          },
-                        },
-                        required: ["product_id", "qty", "unit_id"],
-                      },
-                    },
-                  },
-                  required: ["document_no", "request_date", "request_by", "department_id", "location_id", "items"],
-                },
-              },
-            },
-          },
-          responses: {
-            201: {
-              description: "สร้างใบขอซื้อสำเร็จ",
-              content: {
-                "application/json": {
-                  schema: {
-                    type: "object",
-                    properties: {
-                      id: {
-                        type: "string",
-                        description: "รหัสใบขอซื้อที่สร้าง",
-                        example: "550e8400-e29b-41d4-a716-446655440006",
-                      },
-                      document_no: {
-                        type: "string",
-                        example: "PR2024-001",
-                      },
-                      status: {
-                        type: "string",
-                        example: "draft",
-                      },
-                    },
-                  },
-                },
-              },
-            },
-            400: {
-              description: "ข้อมูลไม่ถูกต้อง",
-              content: {
-                "application/json": {
-                  examples: {
-                    missingAppId: {
-                      summary: "ขาด header x-app-id",
-                      value: {
-                        message: "Invalid header 'x-app-id'",
-                      },
-                    },
-                    invalidData: {
-                      summary: "ข้อมูลไม่ครบถ้วน",
-                      value: {
-                        message: "Invalid body",
-                      },
-                    },
-                  },
-                },
-              },
-            },
-            401: {
-              description: "ไม่ได้รับอนุญาต",
-              content: {
-                "application/json": {
-                  example: {
-                    message: "Unauthorized",
-                  },
-                },
-              },
-            },
-            404: {
-              description: "ไม่พบข้อมูล",
-              content: {
-                "application/json": {
-                  example: {
-                    message: "Business unit not found",
-                  },
-                },
-              },
-            },
-            501: {
-              description: "ยังไม่ได้พัฒนาฟีเจอร์นี้",
-              content: {
-                "application/json": {
-                  example: {
-                    message: "Not implemented",
-                  },
-                },
-              },
-            },
-          },
-        },
-      }
-    )
 
     .get(
       "/api/:bu_code/purchase-request/:id",
@@ -565,210 +377,6 @@ export default (app: Elysia) =>
       }
     )
 
-    .delete(
-      "/api/:bu_code/purchase-request/:id",
-      (ctx) => {
-        return Response.json(resNotImplemented, { status: 501 });
-      },
-      {
-        detail: {
-          tags: ["purchase-requests"],
-          summary: "Delete purchase request",
-          description: "ลบใบขอซื้อ (Not implemented)",
-          parameters: [
-            PARAM_X_APP_ID,
-            PARAM_AUTHORIZATION,
-            {
-              name: "bu_code",
-              in: "path",
-              required: true,
-              description: "รหัสหน่วยธุรกิจ",
-              schema: {
-                type: "string",
-                example: "BU_001",
-              },
-            },
-            {
-              name: "id",
-              in: "path",
-              required: true,
-              description: "รหัสใบขอซื้อ",
-              schema: {
-                type: "string",
-                format: "uuid",
-                example: "550e8400-e29b-41d4-a716-446655440001",
-              },
-            },
-          ],
-          responses: {
-            204: {
-              description: "ลบใบขอซื้อสำเร็จ",
-            },
-            400: {
-              description: "ข้อมูลไม่ถูกต้อง",
-              content: {
-                "application/json": {
-                  example: {
-                    message: "Invalid header 'x-app-id'",
-                  },
-                },
-              },
-            },
-            401: {
-              description: "ไม่ได้รับอนุญาต",
-              content: {
-                "application/json": {
-                  example: {
-                    message: "Unauthorized",
-                  },
-                },
-              },
-            },
-            404: {
-              description: "ไม่พบข้อมูล",
-              content: {
-                "application/json": {
-                  example: {
-                    message: "Purchase request not found",
-                  },
-                },
-              },
-            },
-            501: {
-              description: "ยังไม่ได้พัฒนาฟีเจอร์นี้",
-              content: {
-                "application/json": {
-                  example: {
-                    message: "Not implemented",
-                  },
-                },
-              },
-            },
-          },
-        },
-      }
-    )
-
-    .patch(
-      "/api/:bu_code/purchase-request/:id/submit",
-      (ctx) => {
-        return Response.json(resNotImplemented, { status: 501 });
-      },
-      {
-        detail: {
-          tags: ["purchase-requests"],
-          summary: "Submit purchase request",
-          description: "ส่งใบขอซื้อเพื่อขออนุมัติ (Not implemented)",
-          parameters: [
-            PARAM_X_APP_ID,
-            PARAM_AUTHORIZATION,
-            {
-              name: "bu_code",
-              in: "path",
-              required: true,
-              description: "รหัสหน่วยธุรกิจ",
-              schema: {
-                type: "string",
-                example: "BU_001",
-              },
-            },
-            {
-              name: "id",
-              in: "path",
-              required: true,
-              description: "รหัสใบขอซื้อ",
-              schema: {
-                type: "string",
-                format: "uuid",
-                example: "550e8400-e29b-41d4-a716-446655440001",
-              },
-            },
-          ],
-          responses: {
-            200: {
-              description: "ส่งใบขอซื้อสำเร็จ",
-              content: {
-                "application/json": {
-                  schema: {
-                    type: "object",
-                    properties: {
-                      id: {
-                        type: "string",
-                        description: "รหัสใบขอซื้อ",
-                        example: "550e8400-e29b-41d4-a716-446655440001",
-                      },
-                      status: {
-                        type: "string",
-                        description: "สถานะใหม่",
-                        example: "pending",
-                      },
-                      submitted_at: {
-                        type: "string",
-                        format: "date-time",
-                        description: "วันเวลาที่ส่ง",
-                        example: "2024-01-15T10:30:00Z",
-                      },
-                    },
-                  },
-                },
-              },
-            },
-            400: {
-              description: "ข้อมูลไม่ถูกต้อง",
-              content: {
-                "application/json": {
-                  examples: {
-                    invalidStatus: {
-                      summary: "สถานะไม่ถูกต้อง",
-                      value: {
-                        message: "Cannot submit purchase request in current status",
-                      },
-                    },
-                    missingItems: {
-                      summary: "ไม่มีรายการสินค้า",
-                      value: {
-                        message: "Purchase request must have at least one item",
-                      },
-                    },
-                  },
-                },
-              },
-            },
-            401: {
-              description: "ไม่ได้รับอนุญาต",
-              content: {
-                "application/json": {
-                  example: {
-                    message: "Unauthorized",
-                  },
-                },
-              },
-            },
-            404: {
-              description: "ไม่พบข้อมูล",
-              content: {
-                "application/json": {
-                  example: {
-                    message: "Purchase request not found",
-                  },
-                },
-              },
-            },
-            501: {
-              description: "ยังไม่ได้พัฒนาฟีเจอร์นี้",
-              content: {
-                "application/json": {
-                  example: {
-                    message: "Not implemented",
-                  },
-                },
-              },
-            },
-          },
-        },
-      }
-    )
-
     .post(
       "/api/:bu_code/purchase-request/:id/swipe_approve",
       async (ctx) => {
@@ -838,14 +446,18 @@ export default (app: Elysia) =>
             return resNotFound("Business unit not found");
           }
 
-          console.log(ctx);
+          const body = ctx.body;
+
+          if (!body || !body.message) {
+            return resBadRequest("Message is required");
+          }
 
           const purchaseRequest = tbPurchaseRequest.getPurchaseRequestById(id);
           if (!purchaseRequest) {
             return resNotFound("Purchase request not found");
           }
 
-          tbPurchaseRequest.swipeRejectPurchaseRequest(purchaseRequest.id);
+          tbPurchaseRequest.swipeRejectPurchaseRequest(purchaseRequest.id, body.message);
 
           return { data: purchaseRequest.id };
         } catch (error) {
@@ -1266,7 +878,7 @@ export default (app: Elysia) =>
             return resBadRequest("Invalid state role");
           }
 
-          const destination = body.destination;
+          const destination = body.dest_stage;
           if (!destination) {
             return resBadRequest("Destination is required");
           }
@@ -1522,9 +1134,7 @@ export default (app: Elysia) =>
         },
       }
     )
-    .get("/api/:bu_code/purchase-request/status/:status", (ctx) => {
-      return Response.json(resNotImplemented, { status: 501 });
-    })
+
 
     .get("/api/:bu_code/purchase-request/detail/:pr_detail_id/dimension", async (ctx) => {
       const { bu_code, pr_detail_id } = ctx.params;

@@ -1,5 +1,5 @@
 import type { Elysia } from "elysia";
-import { resNotFound, resNotImplemented } from "@/libs/res.error";
+import { resNotFound } from "@/libs/res.error";
 import jwt from "@elysiajs/jwt";
 import { t } from "elysia";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";

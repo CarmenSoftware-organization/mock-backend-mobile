@@ -1,6 +1,6 @@
 import { createExtraCost } from './../../../../mockdata/tb_extra_cost';
 import type { Elysia } from "elysia";
-import { resInternalServerError, resNotImplemented } from "@/libs/res.error";
+import { resInternalServerError } from "@/libs/res.error";
 import jwt from "@elysiajs/jwt";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from '@/libs/header';
 import { tbStoreRequisition } from '@/mockdata';

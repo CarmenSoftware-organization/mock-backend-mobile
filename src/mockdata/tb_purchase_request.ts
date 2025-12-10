@@ -8,7 +8,7 @@ export interface CalculatePurchaseRequestDetail {
 
 export interface PurchaseRequestApproval {
   state_role: "approve" | "create" | "purchase" | "view_only";
-  destination?: string;
+  dest_stage?: string;
   details: PurchaseRequestApprovalItem[];
 }
 export interface PurchaseRequestApprovalItem {
@@ -47,7 +47,7 @@ export interface PurchaseRequest {
   note: string | null;
   info: any;
   dimension: any;
-  doc_version: string;
+  doc_version: number;
   created_at: string;
   created_by_id: string;
   updated_at: string;
@@ -85,7 +85,7 @@ export const purchaseRequests: PurchaseRequest[] = (() => {
       note: "Urgent request for Q1 hiring",
       info: { category: "IT Equipment", priority: "High" },
       dimension: { department: "IT", region: "Central" },
-      doc_version: "1.0",
+      doc_version: 1,
       created_at: "2024-01-15T10:30:00Z",
       created_by_id: getUuidByName("USER_01"),
       updated_at: "2024-01-15T10:30:00Z",
@@ -118,7 +118,7 @@ export const purchaseRequests: PurchaseRequest[] = (() => {
       note: "Standard office supplies",
       info: { category: "Office Supplies", priority: "Medium" },
       dimension: { department: "Admin", region: "All" },
-      doc_version: "1.0",
+      doc_version: 1,
       created_at: "2024-01-15T10:30:00Z",
       created_by_id: getUuidByName("USER_02"),
       updated_at: "2024-01-15T10:30:00Z",
@@ -151,7 +151,7 @@ export const purchaseRequests: PurchaseRequest[] = (() => {
       note: "Campaign materials for Q1",
       info: { category: "Marketing", priority: "Medium" },
       dimension: { department: "Marketing", region: "All" },
-      doc_version: "1.0",
+      doc_version: 1,
       created_at: "2024-01-15T10:30:00Z",
       created_by_id: getUuidByName("USER_04"),
       updated_at: "2024-01-15T10:30:00Z",
@@ -184,7 +184,7 @@ export const purchaseRequests: PurchaseRequest[] = (() => {
       note: "Campaign materials for Q1",
       info: { category: "Marketing", priority: "Medium" },
       dimension: { department: "Marketing", region: "All" },
-      doc_version: "1.0",
+      doc_version: 1,
       created_at: "2024-01-15T10:30:00Z",
       created_by_id: getUuidByName("USER_01"),
       updated_at: "2024-01-15T10:30:00Z",
@@ -217,7 +217,7 @@ export const purchaseRequests: PurchaseRequest[] = (() => {
       note: "Campaign materials for Q1",
       info: { category: "Marketing", priority: "Medium" },
       dimension: { department: "Marketing", region: "All" },
-      doc_version: "1.0",
+      doc_version: 1,
       created_at: "2024-01-15T10:30:00Z",
       created_by_id: getUuidByName("USER_01"),
       updated_at: "2024-01-15T10:30:00Z",
@@ -250,7 +250,7 @@ export const purchaseRequests: PurchaseRequest[] = (() => {
       note: "Campaign materials for Q1",
       info: { category: "Marketing", priority: "Medium" },
       dimension: { department: "Marketing", region: "All" },
-      doc_version: "1.0",
+      doc_version: 1,
       created_at: "2024-01-15T10:30:00Z",
       created_by_id: getUuidByName("USER_01"),
       updated_at: "2024-01-15T10:30:00Z",
@@ -283,7 +283,7 @@ export const purchaseRequests: PurchaseRequest[] = (() => {
       note: "Campaign materials for Q1",
       info: { category: "Marketing", priority: "Medium" },
       dimension: { department: "Marketing", region: "All" },
-      doc_version: "1.0",
+      doc_version: 1,
       created_at: "2024-01-15T10:30:00Z",
       created_by_id: getUuidByName("USER_01"),
       updated_at: "2024-01-15T10:30:00Z",
@@ -562,7 +562,7 @@ export function swipeApprovePurchaseRequest(id: string) {
   return pr;
 }
 
-export function swipeRejectPurchaseRequest(id: string) {
+export function swipeRejectPurchaseRequest(id: string, message: string) {
   const pr = getPurchaseRequestById(id);
   if (!pr) {
     return null;
@@ -571,6 +571,11 @@ export function swipeRejectPurchaseRequest(id: string) {
   pr.pr_status = "cancelled";
   pr.updated_at = getCurrentTimestamp();
   pr.updated_by_id = "system";
+  pr.workflow_history.push({
+    stage: "rejected",
+    date: getCurrentTimestamp(),
+    message: message,
+  });
 
   purchaseRequests.splice(
     purchaseRequests.findIndex((p) => p.id === id),

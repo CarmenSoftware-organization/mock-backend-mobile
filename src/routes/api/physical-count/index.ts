@@ -1,5 +1,5 @@
 import type { Elysia } from "elysia";
-import { resBadRequest, resInternalServerError, resNotFound, resNotImplemented } from "@/libs/res.error";
+import { resBadRequest, resInternalServerError, resNotFound } from "@/libs/res.error";
 import jwt from "@elysiajs/jwt";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
 import { tbPhysicalCountPeriod, tbPhysicalCount, tbPhysicalCountDetail } from "@/mockdata";

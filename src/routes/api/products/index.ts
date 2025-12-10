@@ -1,6 +1,6 @@
 import type { Elysia } from "elysia";
 import { t } from "elysia";
-import { resNotFound, resNotImplemented } from "@/libs/res.error";
+import { resNotFound } from "@/libs/res.error";
 import { jwt } from "@elysiajs/jwt";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
 import { tbBusinessUnit, tbCurrency, tbExchangeRate, tbGoodReceivedNote, tbGoodReceivedNoteDetail, tbInventoryTransactionDetail, tbLocation, tbPricelist, tbPricelistDetail, tbProduct, tbProductLocation, tbPurchaseOrder, tbPurchaseOrderDetail, tbUnitConversion } from "@/mockdata";
@@ -768,8 +768,7 @@ export default (app: Elysia) =>
 
       // mock data random 5 loop data from pricelistDetail
 
-      for (let i = 0; i < 5; i++)
-      {
+      for (let i = 0; i < 5; i++) {
         const pl = pricelistDetail[Math.floor(Math.random() * pricelistDetail.length)];
         const h = tbPricelist.getPricelistById(pl.pricelist_id);
         if (h) {
@@ -777,6 +776,8 @@ export default (app: Elysia) =>
           const data = {
             vendor_id: h ? h.vendor_id : "",
             vendor_name: h ? h.vendor_name : "",
+            unit_id: pl ? pl.unit_id : "",
+            unit_name: pl ? pl.unit_name : "",
             price: pl ? pl.price : 0.00,
             currency_id: h ? h.currency_id : "",
             currency_name: h ? h.currency_name : "",

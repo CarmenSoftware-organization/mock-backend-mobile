@@ -11,8 +11,8 @@ export interface GoodReceivedNoteComment {
   user_name: string | null;
   message: string | null;
   attachments: any;
-  info: any;
-  note: string | null;
+  // info: any | null;
+  // note: string | null;
   created_at: Date;
   created_by_id: string | null;
   updated_at: Date;
@@ -30,8 +30,7 @@ export const goodReceivedNoteComments: GoodReceivedNoteComment[] = [
     user_name: "John Doe",
     message: "Items received in good condition. Quality check passed.",
     attachments: {},
-    info: {},
-    note: null,
+    // note: null,
     created_at: new Date("2024-01-16T09:00:00Z"),
     created_by_id: getUuidByName("USER_01"),
     updated_at: new Date("2024-01-16T09:00:00Z"),
@@ -55,8 +54,7 @@ export const goodReceivedNoteComments: GoodReceivedNoteComment[] = [
         },
       ],
     },
-    info: { section: "A-12", verified: true },
-    note: "Warehouse storage confirmation",
+    // note: "Warehouse storage confirmation",
     created_at: new Date("2024-01-16T10:30:00Z"),
     created_by_id: getUuidByName("USER_02"),
     updated_at: new Date("2024-01-16T10:30:00Z"),
@@ -72,8 +70,7 @@ export const goodReceivedNoteComments: GoodReceivedNoteComment[] = [
     user_name: "System",
     message: "Automatic notification: GRN approved and items added to inventory.",
     attachments: {},
-    info: { automated: true, action: "inventory_update" },
-    note: null,
+    // note: null,
     created_at: new Date("2024-01-17T08:00:00Z"),
     created_by_id: null,
     updated_at: new Date("2024-01-17T08:00:00Z"),
@@ -102,8 +99,7 @@ export const goodReceivedNoteComments: GoodReceivedNoteComment[] = [
         },
       ],
     },
-    info: { damaged_units: 2, vendor_contacted: true },
-    note: "Damage reported",
+    // note: "Damage reported",
     created_at: new Date("2024-01-17T11:15:00Z"),
     created_by_id: getUuidByName("USER_03"),
     updated_at: new Date("2024-01-17T11:15:00Z"),
@@ -119,8 +115,7 @@ export const goodReceivedNoteComments: GoodReceivedNoteComment[] = [
     user_name: "John Doe",
     message: "All office supplies received and distributed to departments.",
     attachments: {},
-    info: { distributed: true },
-    note: null,
+    // note: null,
     created_at: new Date("2024-01-18T14:00:00Z"),
     created_by_id: getUuidByName("USER_01"),
     updated_at: new Date("2024-01-18T14:00:00Z"),
