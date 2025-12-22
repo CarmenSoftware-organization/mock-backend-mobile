@@ -4,8 +4,9 @@ import jwt from "@elysiajs/jwt";
 import { Client } from "minio";
 import { v4 as uuidv4 } from "uuid";
 import { CheckHeaderHasAppId, CheckHeaderHasAccessToken } from "@/libs/header";
-import { resSuccess, resBadRequest, resNotFound, resInternalServerError } from "@/libs/res.error";
+import { resSuccessWithData, resBadRequest, resNotFound, resInternalServerError } from "@/libs/res.error";
 import { PARAM_X_APP_ID } from "@mockdata/const";
+import type { IPaginate } from "@/libs/response.paginate";
 
 const minioClient = new Client({
   endPoint: process.env.MINIO_ENDPOINT?.replace(/^https?:\/\//, "").split(":")[0] || "localhost",
@@ -16,6 +17,15 @@ const minioClient = new Client({
 });
 
 const bucketName = process.env.MINIO_BUCKET_NAME || "carmen";
+
+// Helper function to encode filename for Content-Disposition header (RFC 5987)
+const encodeContentDisposition = (filename: string): string => {
+  // For ASCII-safe filenames, use simple format
+  const asciiName = filename.replace(/[^\x20-\x7E]/g, "_");
+  // For non-ASCII, use RFC 5987 encoding
+  const encodedName = encodeURIComponent(filename).replace(/['()]/g, escape);
+  return `attachment; filename="${asciiName}"; filename*=UTF-8''${encodedName}`;
+};
 
 // In-memory file token mapping (in production, use a database)
 const fileTokenMap = new Map<string, { objectName: string; originalName: string; contentType: string }>();
@@ -80,14 +90,13 @@ export default (app: Elysia) =>
             contentType: file.type || "application/octet-stream",
           });
 
-          return resSuccess({
+          return resSuccessWithData({
             bu_code: businessUnits?.[0]?.code,
             fileToken,
             originalName: file.name,
             size: file.size,
             contentType: file.type,
-            message: "File uploaded successfully",
-          });
+          }, "File uploaded successfully");
         } catch (error) {
           console.error("Upload error:", error);
           ctx.set.status = 500;
@@ -124,9 +133,17 @@ export default (app: Elysia) =>
         }
 
         try {
-          // Parse pagination parameters
-          const page = Math.max(1, parseInt(ctx.query.page || "1"));
-          const limit = Math.min(100, Math.max(1, parseInt(ctx.query.limit || "10")));
+          // Parse IPaginate parameters
+          const paginate: IPaginate = {
+            page: Math.max(1, parseInt(ctx.query.page || "1")),
+            perpage: Math.min(100, Math.max(1, parseInt(ctx.query.perpage || "10"))),
+            search: ctx.query.search || "",
+            searchfields: ctx.query.searchfields ? ctx.query.searchfields.split(",") : ["originalName"],
+            sort: ctx.query.sort ? ctx.query.sort.split(",") : ["-lastModified"],
+            filter: ctx.query.filter ? JSON.parse(ctx.query.filter) : {},
+            advance: ctx.query.advance ? JSON.parse(ctx.query.advance) : null,
+            bu_code: ctx.query.bu_code ? ctx.query.bu_code.split(",") : [],
+          };
 
           const files: Array<{
             fileToken: string;
@@ -140,22 +157,30 @@ export default (app: Elysia) =>
           // Check if bucket exists
           const bucketExists = await minioClient.bucketExists(bucketName);
           if (!bucketExists) {
-            return resSuccess({
-              files: [],
-              total: 0,
-              page,
-              limit,
-              totalPages: 0,
-            });
+            return {
+              data: [],
+              paginate: {
+                total: 0,
+                page: paginate.page,
+                perpage: paginate.perpage,
+                pages: 0,
+              },
+            };
           }
 
-          // List all objects in the bucket
-          const stream = minioClient.listObjects(bucketName, "", true);
+          // List all objects in the bucket (optionally filter by bu_code prefix)
+          const prefix = paginate.bu_code.length === 1 ? `${paginate.bu_code[0]}/` : "";
+          const stream = minioClient.listObjects(bucketName, prefix, true);
           const objectNames: Array<{ name: string; size: number; lastModified: Date }> = [];
 
           await new Promise<void>((resolve, reject) => {
             stream.on("data", (obj) => {
               if (obj.name) {
+                // Filter by bu_code if multiple codes specified
+                if (paginate.bu_code.length > 1) {
+                  const objBuCode = obj.name.split("/")[0];
+                  if (!paginate.bu_code.includes(objBuCode)) return;
+                }
                 objectNames.push({
                   name: obj.name,
                   size: obj.size || 0,
@@ -209,22 +234,62 @@ export default (app: Elysia) =>
             }
           }
 
-          // Sort by lastModified descending (newest first)
-          files.sort((a, b) => b.lastModified.getTime() - a.lastModified.getTime());
+          // Apply search filter
+          let filteredFiles = files;
+          if (paginate.search) {
+            const searchLower = paginate.search.toLowerCase();
+            filteredFiles = files.filter((file) =>
+              paginate.searchfields.some((field) => {
+                const value = file[field as keyof typeof file];
+                return value && String(value).toLowerCase().includes(searchLower);
+              })
+            );
+          }
+
+          // Apply content type filter
+          if (paginate.filter.contentType) {
+            filteredFiles = filteredFiles.filter((file) =>
+              file.contentType.includes(paginate.filter.contentType)
+            );
+          }
+
+          // Apply sorting
+          filteredFiles.sort((a, b) => {
+            for (const sortField of paginate.sort) {
+              const desc = sortField.startsWith("-");
+              const field = desc ? sortField.slice(1) : sortField;
+              const aVal = a[field as keyof typeof a];
+              const bVal = b[field as keyof typeof b];
+
+              if (aVal instanceof Date && bVal instanceof Date) {
+                const diff = desc ? bVal.getTime() - aVal.getTime() : aVal.getTime() - bVal.getTime();
+                if (diff !== 0) return diff;
+              } else if (typeof aVal === "number" && typeof bVal === "number") {
+                const diff = desc ? bVal - aVal : aVal - bVal;
+                if (diff !== 0) return diff;
+              } else if (typeof aVal === "string" && typeof bVal === "string") {
+                const diff = desc ? bVal.localeCompare(aVal) : aVal.localeCompare(bVal);
+                if (diff !== 0) return diff;
+              }
+            }
+            return 0;
+          });
 
           // Apply pagination
-          const total = files.length;
-          const totalPages = Math.ceil(total / limit);
-          const startIndex = (page - 1) * limit;
-          const paginatedFiles = files.slice(startIndex, startIndex + limit);
+          const total = filteredFiles.length;
+          const pages = Math.ceil(total / paginate.perpage);
+          const startIndex = (paginate.page - 1) * paginate.perpage;
+          const paginatedFiles = filteredFiles.slice(startIndex, startIndex + paginate.perpage);
 
-          return resSuccess({
-            files: paginatedFiles,
-            total,
-            page,
-            limit,
-            totalPages,
-          });
+          return {
+            data: paginatedFiles,
+            paginate: {
+              total,
+              page: paginate.page,
+              perpage: paginate.perpage,
+              pages,
+            },
+          };
         } catch (error) {
           console.error("List files error:", error);
           ctx.set.status = 500;
@@ -234,12 +299,18 @@ export default (app: Elysia) =>
       {
         query: t.Object({
           page: t.Optional(t.String()),
-          limit: t.Optional(t.String()),
+          perpage: t.Optional(t.String()),
+          search: t.Optional(t.String()),
+          searchfields: t.Optional(t.String()),
+          sort: t.Optional(t.String()),
+          filter: t.Optional(t.String()),
+          advance: t.Optional(t.String()),
+          bu_code: t.Optional(t.String()),
         }),
         detail: {
           tags: ["file"],
           summary: "List all files",
-          description: "List all files stored in MinIO bucket with pagination",
+          description: "List all files stored in MinIO bucket with pagination, search, sort, and filter support",
           parameters: [PARAM_X_APP_ID],
           security: [{ Bearer: [] }],
         },
@@ -261,68 +332,67 @@ export default (app: Elysia) =>
           // Look up file info from token map
           const fileInfo = fileTokenMap.get(filetoken);
 
+          let objectName: string;
+          let originalName: string;
+          let contentType: string;
+          let fileSize: number;
+
           if (!fileInfo) {
             // Try to get file directly from MinIO using token as object name prefix
-            try {
-              const objects: string[] = [];
-              const stream = minioClient.listObjects(bucketName, filetoken, false);
+            const objects: string[] = [];
+            const listStream = minioClient.listObjects(bucketName, filetoken, false);
 
-              await new Promise<void>((resolve, reject) => {
-                stream.on("data", (obj) => {
-                  if (obj.name) objects.push(obj.name);
-                });
-                stream.on("error", reject);
-                stream.on("end", resolve);
+            await new Promise<void>((resolve, reject) => {
+              listStream.on("data", (obj) => {
+                if (obj.name) objects.push(obj.name);
               });
+              listStream.on("error", reject);
+              listStream.on("end", resolve);
+            });
 
-              if (objects.length === 0) {
-                ctx.set.status = 404;
-                return resNotFound("File not found");
-              }
-
-              const objectName = objects[0];
-              const stat = await minioClient.statObject(bucketName, objectName);
-              const dataStream = await minioClient.getObject(bucketName, objectName);
-
-              const chunks: Buffer[] = [];
-              for await (const chunk of dataStream) {
-                chunks.push(chunk);
-              }
-              const buffer = Buffer.concat(chunks);
-
-              const originalName = stat.metaData?.["x-original-name"]
-                ? decodeURIComponent(stat.metaData["x-original-name"])
-                : objectName;
-
-              ctx.set.headers["Content-Type"] = stat.metaData?.["content-type"] || "application/octet-stream";
-              ctx.set.headers["Content-Disposition"] = `attachment; filename="${originalName}"`;
-              ctx.set.headers["Content-Length"] = String(buffer.length);
-
-              return buffer;
-            } catch {
+            if (objects.length === 0) {
               ctx.set.status = 404;
               return resNotFound("File not found");
             }
+
+            objectName = objects[0];
+            const stat = await minioClient.statObject(bucketName, objectName);
+
+            originalName = stat.metaData?.["x-original-name"]
+              ? decodeURIComponent(stat.metaData["x-original-name"])
+              : objectName;
+            contentType = stat.metaData?.["content-type"] || "application/octet-stream";
+            fileSize = stat.size;
+          } else {
+            objectName = fileInfo.objectName;
+            originalName = fileInfo.originalName;
+            contentType = fileInfo.contentType;
+            const stat = await minioClient.statObject(bucketName, objectName);
+            fileSize = stat.size;
           }
 
-          // Get file from MinIO
-          const dataStream = await minioClient.getObject(bucketName, fileInfo.objectName);
+          // Get file stream from MinIO
+          const dataStream = await minioClient.getObject(bucketName, objectName);
 
-          const chunks: Buffer[] = [];
-          for await (const chunk of dataStream) {
-            chunks.push(chunk);
-          }
-          const buffer = Buffer.concat(chunks);
+          // Set response headers for streaming
+          const contentDisposition = encodeContentDisposition(originalName);
+          ctx.set.headers["Content-Type"] = contentType;
+          ctx.set.headers["Content-Disposition"] = contentDisposition;
+          ctx.set.headers["Content-Length"] = String(fileSize);
+          ctx.set.headers["Transfer-Encoding"] = "chunked";
 
-          ctx.set.headers["Content-Type"] = fileInfo.contentType;
-          ctx.set.headers["Content-Disposition"] = `attachment; filename="${fileInfo.originalName}"`;
-          ctx.set.headers["Content-Length"] = String(buffer.length);
-
-          return buffer;
+          // Return the stream directly
+          return new Response(dataStream as unknown as ReadableStream, {
+            headers: {
+              "Content-Type": contentType,
+              "Content-Disposition": contentDisposition,
+              "Content-Length": String(fileSize),
+            },
+          });
         } catch (error) {
-          console.error("Download error:", error);
+          console.error("Stream error:", error);
           ctx.set.status = 500;
-          return resInternalServerError(error instanceof Error ? error.message : "Failed to download file");
+          return resInternalServerError(error instanceof Error ? error.message : "Failed to stream file");
         }
       },
       {
@@ -331,8 +401,8 @@ export default (app: Elysia) =>
         }),
         detail: {
           tags: ["file"],
-          summary: "Download a file",
-          description: "Download a file from MinIO storage using its file token",
+          summary: "Stream a file",
+          description: "Stream a file from MinIO storage using its file token (more efficient for large files)",
           parameters: [PARAM_X_APP_ID],
         },
       }
@@ -365,10 +435,9 @@ export default (app: Elysia) =>
             // Remove from token map
             fileTokenMap.delete(filetoken);
 
-            return resSuccess({
+            return resSuccessWithData({
               fileToken: filetoken,
-              message: "File deleted successfully",
-            });
+            }, "File deleted successfully");
           }
 
           // Try to find file directly in MinIO using token as prefix
@@ -391,10 +460,9 @@ export default (app: Elysia) =>
           // Delete the file from MinIO
           await minioClient.removeObject(bucketName, objects[0]);
 
-          return resSuccess({
+          return resSuccessWithData({
             fileToken: filetoken,
-            message: "File deleted successfully",
-          });
+          }, "File deleted successfully");
         } catch (error) {
           console.error("Delete error:", error);
           ctx.set.status = 500;

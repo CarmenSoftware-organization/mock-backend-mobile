@@ -7,7 +7,7 @@
  * Migration guide:
  * - Replace `ResponsePaginate<T>` with `PaginatedApiResponse<T>` from '@/libs/res.error'
  * - Replace `resSuccessWithPaginate` from this file with the one from '@/libs/res.error'
- * - Update pagination field names: `perpage` → `limit`, `pages` → `totalPages`
+ * - Update pagination field names: `pages` → `totalPages`
  */
 
 // Legacy interface - use PaginatedApiResponse from '@/libs/res.error' instead
@@ -21,11 +21,22 @@ export interface ResponsePaginate<T> {
   };
 }
 
+export type IPaginate = {
+  page: number;
+  perpage: number;
+  search: string;
+  searchfields: string[];
+  sort: string[];
+  filter: Record<string, string>;
+  advance: Record<string, any> | null;
+  bu_code: string[];
+};
+
 // Enhanced pagination metadata interface
 export interface PaginationMeta {
   total: number;
   page: number;
-  limit: number;
+  perpage: number;
   totalPages: number;
   hasNextPage: boolean;
   hasPrevPage: boolean;
@@ -47,20 +58,20 @@ export interface EnhancedPaginatedResponse<T> {
  * Calculates pagination metadata
  * @param total - Total number of items
  * @param page - Current page number (1-based)
- * @param limit - Items per page
+ * @param perpage - Items per page
  * @returns Complete pagination metadata
  */
 export const calculatePaginationMeta = (
   total: number,
   page: number,
-  limit: number
+  perpage: number
 ): PaginationMeta => {
   // Validate inputs
   const validatedTotal = Math.max(0, total);
   const validatedPage = Math.max(1, page);
-  const validatedLimit = Math.max(1, limit);
+  const validatedPerpage = Math.max(1, perpage);
 
-  const totalPages = Math.ceil(validatedTotal / validatedLimit);
+  const totalPages = Math.ceil(validatedTotal / validatedPerpage);
   const hasNextPage = validatedPage < totalPages;
   const hasPrevPage = validatedPage > 1;
   const nextPage = hasNextPage ? validatedPage + 1 : null;
@@ -69,7 +80,7 @@ export const calculatePaginationMeta = (
   return {
     total: validatedTotal,
     page: validatedPage,
-    limit: validatedLimit,
+    perpage: validatedPerpage,
     totalPages,
     hasNextPage,
     hasPrevPage,
@@ -81,17 +92,17 @@ export const calculatePaginationMeta = (
 /**
  * Creates pagination parameters for database queries
  * @param page - Current page number (1-based)
- * @param limit - Items per page
- * @returns Object with offset and limit for database queries
+ * @param perpage - Items per page
+ * @returns Object with offset and perpage for database queries
  */
-export const createPaginationParams = (page: number, limit: number) => {
+export const createPaginationParams = (page: number, perpage: number) => {
   const validatedPage = Math.max(1, page);
-  const validatedLimit = Math.max(1, Math.min(100, limit)); // Max 100 items per page
-  const offset = (validatedPage - 1) * validatedLimit;
+  const validatedPerpage = Math.max(1, Math.min(100, perpage)); // Max 100 items per page
+  const offset = (validatedPage - 1) * validatedPerpage;
 
   return {
     offset,
-    limit: validatedLimit,
+    perpage: validatedPerpage,
     page: validatedPage,
   };
 };
@@ -99,18 +110,18 @@ export const createPaginationParams = (page: number, limit: number) => {
 /**
  * Validates pagination parameters
  * @param page - Page number
- * @param limit - Items per page
+ * @param perpage - Items per page
  * @returns Validation result with errors if any
  */
-export const validatePaginationParams = (page: number, limit: number) => {
+export const validatePaginationParams = (page: number, perpage: number) => {
   const errors: string[] = [];
 
   if (!Number.isInteger(page) || page < 1) {
     errors.push('Page must be a positive integer starting from 1');
   }
 
-  if (!Number.isInteger(limit) || limit < 1 || limit > 100) {
-    errors.push('Limit must be a positive integer between 1 and 100');
+  if (!Number.isInteger(perpage) || perpage < 1 || perpage > 100) {
+    errors.push('Perpage must be a positive integer between 1 and 100');
   }
 
   return {
@@ -126,7 +137,7 @@ export const validatePaginationParams = (page: number, limit: number) => {
  * @param data - Array of data items
  * @param total - Total number of items (default: 0)
  * @param page - Current page number (default: 1)
- * @param perpage - Items per page (default: 10) - renamed to 'limit' in new version
+ * @param perpage - Items per page (default: 10)
  * @param pages - Total pages (default: 1) - auto-calculated in new version
  * @returns Legacy paginated response object
  */
@@ -159,7 +170,7 @@ export const resSuccessWithPaginate = <T>(
  * @param data - Array of data items
  * @param total - Total number of items
  * @param page - Current page number
- * @param limit - Items per page
+ * @param perpage - Items per page
  * @param message - Success message (default: "Success")
  * @returns Enhanced paginated response with full metadata
  */
@@ -167,10 +178,10 @@ export const resEnhancedPaginate = <T>(
   data: T[],
   total: number,
   page: number,
-  limit: number,
+  perpage: number,
   message: string = "Success"
 ): EnhancedPaginatedResponse<T> => {
-  const pagination = calculatePaginationMeta(total, page, limit);
+  const pagination = calculatePaginationMeta(total, page, perpage);
 
   return {
     data,
@@ -186,17 +197,17 @@ export const resEnhancedPaginate = <T>(
  * Utility to paginate an array in memory
  * @param array - Array to paginate
  * @param page - Current page number (1-based)
- * @param limit - Items per page
+ * @param perpage - Items per page
  * @returns Paginated subset of the array with metadata
  */
 export const paginateArray = <T>(
   array: T[],
   page: number,
-  limit: number
+  perpage: number
 ): EnhancedPaginatedResponse<T> => {
-  const { offset, limit: validatedLimit, page: validatedPage } = createPaginationParams(page, limit);
+  const { offset, perpage: validatedPerpage, page: validatedPage } = createPaginationParams(page, perpage);
   const total = array.length;
-  const data = array.slice(offset, offset + validatedLimit);
+  const data = array.slice(offset, offset + validatedPerpage);
 
-  return resEnhancedPaginate(data, total, validatedPage, validatedLimit);
+  return resEnhancedPaginate(data, total, validatedPage, validatedPerpage);
 };
