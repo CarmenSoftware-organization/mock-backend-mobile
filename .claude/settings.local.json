@@ -11,7 +11,9 @@
       "Bash(git pull:*)",
       "Bash(git stash:*)",
       "mcp__ide__getDiagnostics",
-      "Bash(tsc:*)"
+      "Bash(tsc:*)",
+      "Bash(bun add:*)",
+      "Bash(mkdir:*)"
     ],
     "deny": [],
     "ask": []

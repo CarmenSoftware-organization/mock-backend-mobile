@@ -121,7 +121,7 @@ export interface GoodReceivedNote {
   // last_action_by_name: string;
   is_consignment: boolean;
   is_cash: boolean;
-  signature_image_url: string;
+  // signature_image_url: string;
   received_by_id: string;
   received_by_name: string;
   received_at: string;
@@ -177,7 +177,7 @@ export const goodReceivedNotes: GoodReceivedNote[] = [
     // last_action_by_name: "John Doe",
     is_consignment: false,
     is_cash: false,
-    signature_image_url: "/signatures/grn-001.jpg",
+    // signature_image_url: "/signatures/grn-001.jpg",
     received_by_id: "fe007ceb-9320-41ed-92ac-d6ea1f66b3c1",
     received_by_name: "John Doe",
     received_at: "2024-01-15T10:30:00Z",
@@ -228,7 +228,7 @@ export const goodReceivedNotes: GoodReceivedNote[] = [
     // last_action_by_name: "Jane Smith",
     is_consignment: false,
     is_cash: false,
-    signature_image_url: "/signatures/grn-002.jpg",
+    // signature_image_url: "/signatures/grn-002.jpg",
     received_by_id: "1bfdb891-58ee-499c-8115-34a964de8122",
     received_by_name: "Jane Smith",
     received_at: "2024-01-16T10:30:00Z",
@@ -279,7 +279,7 @@ export const goodReceivedNotes: GoodReceivedNote[] = [
     // last_action_by_name: "Bob Johnson",
     is_consignment: false,
     is_cash: false,
-    signature_image_url: "/signatures/grn-003.jpg",
+    // signature_image_url: "/signatures/grn-003.jpg",
     received_by_id: "3c5280a7-492e-421d-b739-7447455ce99e",
     received_by_name: "Bob Johnson",
     received_at: "2024-01-17T10:30:00Z",

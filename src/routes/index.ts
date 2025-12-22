@@ -32,6 +32,7 @@ import spotCheckRoutes from "./api/spot-check";
 import period from "./api/period";
 import goodReceivedNoteComment from "./api/good-received-note-comment";
 import newsRoutes from "./api/news";
+import fileRoutes from "./api/file";
 
 export const applyGeneratedRoutes = (app: Elysia) => {
   app.use(authRoutes);
@@ -66,6 +67,7 @@ export const applyGeneratedRoutes = (app: Elysia) => {
   app.use(period);
   app.use(goodReceivedNoteComment);
   app.use(newsRoutes);
+  app.use(fileRoutes);
   return app;
 };
 
