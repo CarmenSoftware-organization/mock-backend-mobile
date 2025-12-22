@@ -20,9 +20,16 @@ const bucketName = process.env.MINIO_BUCKET_NAME || "carmen";
 
 // Helper function to encode filename for Content-Disposition header (RFC 5987)
 const encodeContentDisposition = (filename: string): string => {
-  // For ASCII-safe filenames, use simple format
+  // Check if filename contains non-ASCII characters
+  const hasNonAscii = /[^\x20-\x7E]/.test(filename);
+
+  if (!hasNonAscii) {
+    // For ASCII-only filenames, use simple format
+    return `attachment; filename="${filename}"`;
+  }
+
+  // For non-ASCII filenames, use RFC 5987 encoding
   const asciiName = filename.replace(/[^\x20-\x7E]/g, "_");
-  // For non-ASCII, use RFC 5987 encoding
   const encodedName = encodeURIComponent(filename).replace(/['()]/g, escape);
   return `attachment; filename="${asciiName}"; filename*=UTF-8''${encodedName}`;
 };
@@ -318,6 +325,90 @@ export default (app: Elysia) =>
     )
 
     .get(
+      "/api/files/info/:filetoken",
+      async (ctx) => {
+        const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
+        if (errorAppId) {
+          ctx.set.status = 400;
+          return errorAppId;
+        }
+
+        try {
+          const { filetoken } = ctx.params;
+
+          // Look up file info from token map
+          const fileInfo = fileTokenMap.get(filetoken);
+
+          let objectName: string;
+          let originalName: string;
+          let contentType: string;
+          let fileSize: number;
+          let lastModified: Date;
+
+          if (!fileInfo) {
+            // Try to get file directly from MinIO using token as object name prefix
+            const objects: string[] = [];
+            const listStream = minioClient.listObjects(bucketName, filetoken, false);
+
+            await new Promise<void>((resolve, reject) => {
+              listStream.on("data", (obj) => {
+                if (obj.name) objects.push(obj.name);
+              });
+              listStream.on("error", reject);
+              listStream.on("end", resolve);
+            });
+
+            if (objects.length === 0) {
+              ctx.set.status = 404;
+              return resNotFound("File not found");
+            }
+
+            objectName = objects[0];
+            const stat = await minioClient.statObject(bucketName, objectName);
+
+            originalName = stat.metaData?.["x-original-name"]
+              ? decodeURIComponent(stat.metaData["x-original-name"])
+              : objectName;
+            contentType = stat.metaData?.["content-type"] || "application/octet-stream";
+            fileSize = stat.size;
+            lastModified = stat.lastModified;
+          } else {
+            objectName = fileInfo.objectName;
+            originalName = fileInfo.originalName;
+            contentType = fileInfo.contentType;
+            const stat = await minioClient.statObject(bucketName, objectName);
+            fileSize = stat.size;
+            lastModified = stat.lastModified;
+          }
+
+          return resSuccessWithData({
+            fileToken: filetoken,
+            objectName,
+            originalName,
+            size: fileSize,
+            contentType,
+            lastModified,
+          });
+        } catch (error) {
+          console.error("Get file info error:", error);
+          ctx.set.status = 500;
+          return resInternalServerError(error instanceof Error ? error.message : "Failed to get file info");
+        }
+      },
+      {
+        params: t.Object({
+          filetoken: t.String(),
+        }),
+        detail: {
+          tags: ["file"],
+          summary: "Get file info",
+          description: "Get file metadata without downloading the file",
+          parameters: [PARAM_X_APP_ID],
+        },
+      }
+    )
+
+    .get(
       "/api/files/:filetoken",
       async (ctx) => {
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
@@ -374,14 +465,8 @@ export default (app: Elysia) =>
           // Get file stream from MinIO
           const dataStream = await minioClient.getObject(bucketName, objectName);
 
-          // Set response headers for streaming
+          // Return the stream directly with headers
           const contentDisposition = encodeContentDisposition(originalName);
-          ctx.set.headers["Content-Type"] = contentType;
-          ctx.set.headers["Content-Disposition"] = contentDisposition;
-          ctx.set.headers["Content-Length"] = String(fileSize);
-          ctx.set.headers["Transfer-Encoding"] = "chunked";
-
-          // Return the stream directly
           return new Response(dataStream as unknown as ReadableStream, {
             headers: {
               "Content-Type": contentType,
@@ -401,8 +486,8 @@ export default (app: Elysia) =>
         }),
         detail: {
           tags: ["file"],
-          summary: "Stream a file",
-          description: "Stream a file from MinIO storage using its file token (more efficient for large files)",
+          summary: "Download a file",
+          description: "Download/stream a file from MinIO storage using its file token",
           parameters: [PARAM_X_APP_ID],
         },
       }
