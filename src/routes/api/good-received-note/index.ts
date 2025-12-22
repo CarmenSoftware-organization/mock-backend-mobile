@@ -1,5 +1,5 @@
 import type { Elysia } from "elysia";
-import { resBadRequest, resInternalServerError, resNotFound } from "@/libs/res.error";
+import { resBadRequest, resInternalServerError, resNotFound, resSuccessWithData } from "@/libs/res.error";
 import jwt from "@elysiajs/jwt";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
 import { getRandomInt } from "@/libs/utils";
@@ -45,9 +45,7 @@ export default (app: Elysia) =>
         try {
           // mock data
           const res = { pending: getRandomInt(0, 20) };
-          return {
-            data: res,
-          };
+          return resSuccessWithData(res);
         } catch (error) {
           return resInternalServerError(error instanceof Error ? error.message : "Unknown error");
         }
@@ -142,7 +140,12 @@ export default (app: Elysia) =>
         return resNotFound("Purchase order details not found");
       }
 
-      return getNewGrnFromPO(po_details, po);
+      const res = getNewGrnFromPO(po_details, po);
+      if (!res) {
+        return resNotFound("Purchase order details not found");
+      }
+
+      return resSuccessWithData(res.data);
     })
 
     .get("/api/:bu_code/good-received-note/manual-po/:po_no", async (ctx) => {
@@ -176,7 +179,12 @@ export default (app: Elysia) =>
         return resNotFound("Purchase order details not found");
       }
 
-      return getNewGrnFromPO(po_details, po);
+      const res = getNewGrnFromPO(po_details, po);
+      if (!res) {
+        return resNotFound("Purchase order details not found");
+      }
+
+      return resSuccessWithData(res.data);
     })
 
     .get("/api/:bu_code/good-received-note/:id",

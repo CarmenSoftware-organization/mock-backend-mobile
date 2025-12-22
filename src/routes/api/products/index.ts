@@ -1,6 +1,6 @@
 import type { Elysia } from "elysia";
 import { t } from "elysia";
-import { resNotFound } from "@/libs/res.error";
+import { resNotFound, resSuccessWithData, resSuccessWithPaginate } from "@/libs/res.error";
 import { jwt } from "@elysiajs/jwt";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
 import { tbBusinessUnit, tbCurrency, tbExchangeRate, tbGoodReceivedNote, tbGoodReceivedNoteDetail, tbInventoryTransactionDetail, tbLocation, tbPricelist, tbPricelistDetail, tbProduct, tbProductLocation, tbPurchaseOrder, tbPurchaseOrderDetail, tbUnitConversion } from "@/mockdata";
@@ -209,7 +209,7 @@ export default (app: Elysia) =>
 
 
       const on_hand = tbInventoryTransactionDetail.getProductOnHand(location_id, product_id);
-      return { data: on_hand };
+      return resSuccessWithData(on_hand);
 
     }, {
       detail: {
@@ -358,7 +358,7 @@ export default (app: Elysia) =>
       const location = tbLocation.getLocationById(location_id);
 
       const on_order = tbPurchaseOrderDetail.getProductOnOrder(product_id);
-      return { data: on_order };
+      return resSuccessWithData(on_order);
     }, {
       detail: {
         tags: ["products"],
@@ -474,7 +474,7 @@ export default (app: Elysia) =>
     })
 
     // Merged routes from /api/products/locations/:id
-    .get("/api/:bu_code/products/locations/:id", async (ctx) => {
+    .get("/api/:bu_code/products/locations/:location_id", async (ctx) => {
       const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
       if (errorAppId) {
         return errorAppId;
@@ -485,20 +485,20 @@ export default (app: Elysia) =>
         return errorAccessToken;
       }
 
-      const { bu_code, id } = ctx.params;
+      const { bu_code, location_id } = ctx.params;
 
       const bu = tbBusinessUnit.getBusinessUnitByCode(bu_code);
       if (!bu) {
         return resNotFound("Business unit not found");
       }
 
-      const products = tbProductLocation.getProductsByLocation(id);
-      return products;
+      const products = tbProductLocation.getProductsByLocation(location_id);
+      return resSuccessWithPaginate(products, products.length, 1, 10);
     }, {
       detail: {
         tags: ["products"],
         summary: "Get products by location",
-        description: "Retrieve products available at a specific location (Not implemented)",
+        description: "Retrieve products available at a specific location",
         parameters: [
           {
             name: "id",
@@ -591,7 +591,7 @@ export default (app: Elysia) =>
       res.currency_name = grn.currency_name;
       res.exchange_rate = grn.currency_rate;
 
-      return res;
+      return resSuccessWithData(res);
 
     }, {
       detail: {
@@ -749,7 +749,7 @@ export default (app: Elysia) =>
       // get product pricelist 
       const pricelistDetail = tbPricelistDetail.getPricelistDetailsByProductId(product_id);
       if (!pricelistDetail || pricelistDetail.length === 0) {
-        return res;
+        return resSuccessWithData(res);
       }
 
       // for (const pl in pricelistDetail) {
@@ -790,7 +790,7 @@ export default (app: Elysia) =>
 
       const uniqueArray = [...new Set(res.pricelist.map(item => JSON.stringify(item)))].map(item => JSON.parse(item));
       res.pricelist = uniqueArray.sort((a, b) => a.price - b.price);
-      return res;
+      return resSuccessWithData(res);
 
     }, {
       detail: {

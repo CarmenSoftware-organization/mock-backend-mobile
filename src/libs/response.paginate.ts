@@ -19,6 +19,10 @@ export interface ResponsePaginate<T> {
     perpage: number;
     pages: number;
   };
+  status: number;
+  success: true;
+  message: string;
+  timestamp: string;
 }
 
 export type IPaginate = {
@@ -162,6 +166,10 @@ export const resSuccessWithPaginate = <T>(
       perpage: validatedPerpage,
       pages: pages > 0 ? pages : calculatedPages,
     },
+    status: 200,
+    message: "Success",
+    timestamp: new Date().toISOString(),
+    success: true,
   };
 };
 

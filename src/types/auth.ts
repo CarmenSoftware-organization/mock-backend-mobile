@@ -1,20 +1,24 @@
 // Auth related shared types
 
- type LoginDto = {
+type LoginDto = {
   email: string;
   password: string;
 };
 
- type LoginResponse = {
+type LoginResponse = {
   access_token: string;
   refresh_token: string;
+  expires_in: number;
+  token_type: string;
 };
 
- type LoginError = {
+type LoginError = {
   message: string;
+  status: number;
+  error: string;
 };
 
- type JWTPayload = {
+type JWTPayload = {
   id: string;
   email: string;
 };

@@ -3,7 +3,7 @@ import type { Elysia } from "elysia";
 import jwt from "@elysiajs/jwt";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
 import { tbBusinessUnit, tbPurchaseRequest, tbStoreRequisition } from "@/mockdata";
-import { resNotFound } from "@/libs/res.error";
+import { resNotFound, resSuccessWithData } from "@/libs/res.error";
 
 export default (app: Elysia) =>
   app
@@ -45,9 +45,9 @@ export default (app: Elysia) =>
 
       const stage_role = currentUser?.pr_stage_role ?? "view_only";
 
-      return {
+      return resSuccessWithData({
         stage_role: stage_role,
-      };
+      });
     })
 
     .get(
@@ -80,11 +80,11 @@ export default (app: Elysia) =>
           return resNotFound("Purchase request not found");
         }
 
-        return {
+        return resSuccessWithData({
           1: "Request Creation",
           2: "Department Approval",
           3: "Purchasing Review",
-        };
+        });
       }
     )
 
@@ -123,9 +123,9 @@ export default (app: Elysia) =>
 
       const stage_role = get_sr_stage_role;
 
-      return {
+      return resSuccessWithData({
         stage_role: stage_role,
-      };
+      });
     })
 
     .get(

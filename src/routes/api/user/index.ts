@@ -4,6 +4,8 @@ import {
   resError,
   resInternalServerError,
   resNotFound,
+  resSuccess,
+  resSuccessWithData,
   resUnauthorized,
 } from "@libs/res.error";
 import { jwt } from "@elysiajs/jwt";
@@ -177,7 +179,7 @@ export default (app: Elysia) =>
           };
 
           // Return the actual user data from mock database
-          return res;
+          return resSuccessWithData(res);
         } catch (error) {
           return resInternalServerError(
             error instanceof Error ? error.message : "Unknown error"
@@ -297,7 +299,7 @@ export default (app: Elysia) =>
 
         return {
           success: true,
-          data: {user, userProfile},
+          data: { user, userProfile },
           message: "User retrieved successfully",
           timestamp: new Date().toISOString(),
         };

@@ -1,5 +1,5 @@
 import type { Elysia } from "elysia";
-import { resBadRequest, resInternalServerError, resNotFound } from "@/libs/res.error";
+import { resBadRequest, resInternalServerError, resNotFound, resSuccessWithData } from "@/libs/res.error";
 import jwt from "@elysiajs/jwt";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
 import { tbPhysicalCountPeriod, tbPhysicalCount, tbPhysicalCountDetail } from "@/mockdata";
@@ -41,9 +41,7 @@ export default (app: Elysia) =>
         try {
           // mock random data
           const res = { pending: getRandomInt(0, 20) };
-          return {
-            data: res,
-          };
+          return resSuccessWithData(res);
         } catch (error) {
           return resInternalServerError(error instanceof Error ? error.message : "Unknown error");
         }
@@ -94,6 +92,10 @@ export default (app: Elysia) =>
       return {
         data: physicalCountPeriods,
         details: physicalCounts,
+        status: 200,
+        message: "Physical counts retrieved successfully",
+        success: true,
+        timestamp: new Date().toISOString(),
       };
     })
 
@@ -128,7 +130,7 @@ export default (app: Elysia) =>
             return resNotFound("Physical count not found");
           }
 
-          return { data: physical_count };
+          return resSuccessWithData(physical_count);
         } catch (error) {
           return resInternalServerError(error instanceof Error ? error.message : "Unknown error");
         }
@@ -205,7 +207,7 @@ export default (app: Elysia) =>
 
           // console.log("Updated physical count items:", items);
 
-          return { id: ctx.params.physical_count_id };
+          return resSuccessWithData({ id: ctx.params.physical_count_id });
         } catch (error) {
           return resInternalServerError(error instanceof Error ? error.message : "Unknown error");
         }
@@ -311,7 +313,7 @@ export default (app: Elysia) =>
 
           // console.log("Updated physical count items:", res as any);
 
-          return { data: res };
+          return resSuccessWithData(res);
         } catch (error) {
           return resInternalServerError(error instanceof Error ? error.message : "Unknown error");
         }
@@ -385,7 +387,7 @@ export default (app: Elysia) =>
 
       physicalCountDetail.comments = comments;
 
-      return { data: physicalCountDetail };
+      return resSuccessWithData({ comments: physicalCountDetail.comments });
     })
 
     .get(
@@ -437,7 +439,7 @@ export default (app: Elysia) =>
 
         // console.log("Updated physical count items:", res as any);
 
-        return { data: res };
+        return resSuccessWithData(res);
       },
       {
         detail: {
@@ -476,7 +478,7 @@ export default (app: Elysia) =>
           // In real scenario, update spot check status to 'completed'
           console.log(`Physical count ${ctx.params.physical_count_id} marked as completed by user ${currentUser?.id}`);
 
-          return { id: ctx.params.physical_count_id };
+          return resSuccessWithData({ id: ctx.params.physical_count_id });
         } catch (error) {
           return resInternalServerError(error instanceof Error ? error.message : "Unknown error");
         }

@@ -1,5 +1,5 @@
 import type { Elysia } from "elysia";
-import { resNotFound } from "@/libs/res.error";
+import { resNotFound, resSuccessWithData } from "@/libs/res.error";
 import jwt from "@elysiajs/jwt";
 import { t } from "elysia";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
@@ -43,7 +43,7 @@ export default (app: Elysia) =>
           }
         ]
       }
-      return news;
+      return resSuccessWithData(news.items);
 
     }, {
       detail: {

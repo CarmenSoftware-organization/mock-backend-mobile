@@ -1,6 +1,6 @@
 import { currencies } from './../../../mockdata/tb_currency';
 import type { Elysia } from "elysia";
-import { resNotFound, resNotImplemented } from "@/libs/res.error";
+import { resNotFound, resNotImplemented, resSuccessWithData } from "@/libs/res.error";
 import jwt from "@elysiajs/jwt";
 import { t } from "elysia";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
@@ -38,15 +38,13 @@ export default (app: Elysia) =>
         }
 
         const defaultCurrency = getDefaultCurrencyByBusinessUnitId(bu.id);
-        return {
-          currency: {
-            id: defaultCurrency?.id || "",
-            name: defaultCurrency?.name || "",
-            code: defaultCurrency?.code || "",
-            symbol: defaultCurrency?.symbol || "",
-            decimal_places: defaultCurrency?.decimal_places || 0,
-          },
-        };
+        return resSuccessWithData({
+          id: defaultCurrency?.id || "",
+          name: defaultCurrency?.name || "",
+          code: defaultCurrency?.code || "",
+          symbol: defaultCurrency?.symbol || "",
+          decimal_places: defaultCurrency?.decimal_places || 0,
+        });
       },
       {
         detail: {

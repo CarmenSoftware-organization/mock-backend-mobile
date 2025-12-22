@@ -4,6 +4,7 @@ import {
   resErrorWithData,
   resNotFound,
   resSuccess,
+  resSuccessWithData,
 } from "@/libs/res.error";
 import type { Elysia } from "elysia";
 import jwt from "@elysiajs/jwt";
@@ -76,9 +77,9 @@ export default (app: Elysia) =>
     })
 
     .get(
-      "/api/:bu_code/purchase-request/:id",
+      "/api/:bu_code/purchase-request/:pr_id",
       async (ctx) => {
-        const { bu_code, id } = ctx.params;
+        const { bu_code, pr_id } = ctx.params;
 
         // check x-app-id
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
@@ -98,7 +99,7 @@ export default (app: Elysia) =>
           return resNotFound("Business unit not found");
         }
 
-        const pr = tbPurchaseRequest.getPurchaseRequestById(id);
+        const pr = tbPurchaseRequest.getPurchaseRequestById(pr_id);
         if (!pr) {
           return resNotFound("Purchase request not found");
         }
@@ -120,6 +121,10 @@ export default (app: Elysia) =>
           bu_code: bu_code,
           bu_name: bu.name,
           data: prWithDetail,
+          success: true,
+          message: "success",
+          status: 200,
+          timestamp: new Date().toISOString(),
         };
 
         return res;
@@ -378,9 +383,9 @@ export default (app: Elysia) =>
     )
 
     .post(
-      "/api/:bu_code/purchase-request/:id/swipe_approve",
+      "/api/:bu_code/purchase-request/:pr_id/swipe_approve",
       async (ctx) => {
-        const { bu_code, id } = ctx.params;
+        const { bu_code, pr_id } = ctx.params;
 
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
@@ -402,14 +407,14 @@ export default (app: Elysia) =>
 
           console.log(ctx);
 
-          const purchaseRequest = tbPurchaseRequest.getPurchaseRequestById(id);
+          const purchaseRequest = tbPurchaseRequest.getPurchaseRequestById(pr_id);
           if (!purchaseRequest) {
             return resNotFound("Purchase request not found");
           }
 
           tbPurchaseRequest.swipeApprovePurchaseRequest(purchaseRequest.id);
 
-          return { data: purchaseRequest.id };
+          return resSuccessWithData(purchaseRequest.id);
         } catch (error) {
           return resErrorWithData("Internal server error", error);
         }
@@ -424,9 +429,9 @@ export default (app: Elysia) =>
     )
 
     .post(
-      "/api/:bu_code/purchase-request/:id/swipe_reject",
+      "/api/:bu_code/purchase-request/:pr_id/swipe_reject",
       async (ctx) => {
-        const { bu_code, id } = ctx.params;
+        const { bu_code, pr_id } = ctx.params;
 
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
@@ -452,14 +457,14 @@ export default (app: Elysia) =>
             return resBadRequest("Message is required");
           }
 
-          const purchaseRequest = tbPurchaseRequest.getPurchaseRequestById(id);
+          const purchaseRequest = tbPurchaseRequest.getPurchaseRequestById(pr_id);
           if (!purchaseRequest) {
             return resNotFound("Purchase request not found");
           }
 
           tbPurchaseRequest.swipeRejectPurchaseRequest(purchaseRequest.id, body.message);
 
-          return { data: purchaseRequest.id };
+          return resSuccessWithData(purchaseRequest.id);
         } catch (error) {
           return resErrorWithData("Internal server error", error);
         }
@@ -474,9 +479,9 @@ export default (app: Elysia) =>
     )
 
     .patch(
-      "/api/:bu_code/purchase-request/:id/approve",
+      "/api/:bu_code/purchase-request/:pr_id/approve",
       async (ctx) => {
-        const { bu_code, id } = ctx.params;
+        const { bu_code, pr_id } = ctx.params;
 
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
@@ -498,7 +503,7 @@ export default (app: Elysia) =>
 
           console.log(ctx);
 
-          const purchaseRequest = tbPurchaseRequest.getPurchaseRequestById(id);
+          const purchaseRequest = tbPurchaseRequest.getPurchaseRequestById(pr_id);
           if (!purchaseRequest) {
             return resNotFound("Purchase request not found");
           }
@@ -519,7 +524,7 @@ export default (app: Elysia) =>
             }
           }
 
-          return { data: purchaseRequest.id };
+          return resSuccessWithData(purchaseRequest.id);
         } catch (error) {
           return resErrorWithData("Internal server error", error);
         }
@@ -630,9 +635,9 @@ export default (app: Elysia) =>
     )
 
     .patch(
-      "/api/:bu_code/purchase-request/:id/reject",
+      "/api/:bu_code/purchase-request/:pr_id/reject",
       async (ctx) => {
-        const { bu_code, id } = ctx.params;
+        const { bu_code, pr_id } = ctx.params;
 
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
@@ -652,7 +657,7 @@ export default (app: Elysia) =>
         }
 
         try {
-          const purchaseRequest = tbPurchaseRequest.getPurchaseRequestById(id);
+          const purchaseRequest = tbPurchaseRequest.getPurchaseRequestById(pr_id);
           if (!purchaseRequest) {
             return resNotFound("Purchase request not found");
           }
@@ -679,7 +684,7 @@ export default (app: Elysia) =>
             }
           }
 
-          return { data: purchaseRequest.id };
+          return resSuccessWithData(purchaseRequest.id);
         } catch (error) {
           return resErrorWithData("Internal server error", error);
         }
@@ -842,9 +847,9 @@ export default (app: Elysia) =>
     )
 
     .patch(
-      "/api/:bu_code/purchase-request/:id/review",
+      "/api/:bu_code/purchase-request/:pr_id/review",
       async (ctx) => {
-        const { bu_code, id } = ctx.params;
+        const { bu_code, pr_id } = ctx.params;
 
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
@@ -864,7 +869,7 @@ export default (app: Elysia) =>
         }
 
         try {
-          const purchaseRequest = tbPurchaseRequest.getPurchaseRequestById(id);
+          const purchaseRequest = tbPurchaseRequest.getPurchaseRequestById(pr_id);
           if (!purchaseRequest) {
             return resNotFound("Purchase request not found");
           }
@@ -890,7 +895,7 @@ export default (app: Elysia) =>
             }
           }
 
-          return { data: purchaseRequest.id };
+          return resSuccessWithData(purchaseRequest.id);
         } catch (error) {
           return resErrorWithData("Internal server error", error);
         }
@@ -1051,9 +1056,9 @@ export default (app: Elysia) =>
       }
     )
     .patch(
-      "/api/:bu_code/purchase-request/:id/save",
+      "/api/:bu_code/purchase-request/:pr_id/save",
       async (ctx) => {
-        const { bu_code, id } = ctx.params;
+        const { bu_code, pr_id } = ctx.params;
 
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
@@ -1075,7 +1080,7 @@ export default (app: Elysia) =>
 
           console.log(ctx);
 
-          const purchaseRequest = tbPurchaseRequest.getPurchaseRequestById(id);
+          const purchaseRequest = tbPurchaseRequest.getPurchaseRequestById(pr_id);
           if (!purchaseRequest) {
             return resNotFound("Purchase request not found");
           }
@@ -1096,7 +1101,7 @@ export default (app: Elysia) =>
             }
           }
 
-          return { data: purchaseRequest.id };
+          return resSuccessWithData(purchaseRequest.id);
         } catch (error) {
           return resErrorWithData("Internal server error", error);
         }
@@ -1167,6 +1172,10 @@ export default (app: Elysia) =>
         const dimension = prd.dimension;
         const res = {
           data: dimension,
+          success: true,
+          message: "Success",
+          status: 200,
+          timestamp: new Date().toISOString(),
         };
         return res;
       } catch (error) {
@@ -1266,7 +1275,7 @@ export default (app: Elysia) =>
           pricelist.is_discount_adjustment,
           0
         );
-        return { data: res };
+        return resSuccessWithData(res);
       },
       {
         type: "json",
@@ -1305,7 +1314,7 @@ export default (app: Elysia) =>
         const res = {
           data: history,
         };
-        return res;
+        return resSuccessWithData(res.data);
       },
       {
         type: "json",

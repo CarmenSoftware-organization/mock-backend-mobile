@@ -29,7 +29,7 @@ export interface BusinessUnit {
   alias_name: string;
 }
 
-const businessUnit1: BusinessUnit ={
+const businessUnit1: BusinessUnit = {
   id: getUuidByName("BUSINESS_UNIT_01"),
   cluster_id: getUuidByName("CLUSTER_01"),
   code: getUuidByName("BU_CODE_01"),
@@ -52,10 +52,10 @@ const businessUnit1: BusinessUnit ={
   updated_at: "2025-07-29T01:37:29.002Z",
   updated_by_id: getUuidByName("USER_ADMIN"),
   info: null,
-  alias_name: "AA",
+  alias_name: "C1",
 };
 
-const businessUnit2: BusinessUnit =  {
+const businessUnit2: BusinessUnit = {
   id: getUuidByName("BUSINESS_UNIT_02"),
   cluster_id: getUuidByName("CLUSTER_01"),
   code: getUuidByName("BU_CODE_02"),
@@ -78,10 +78,10 @@ const businessUnit2: BusinessUnit =  {
   updated_at: "2025-07-29T01:37:29.004Z",
   updated_by_id: getUuidByName("USER_ADMIN"),
   info: null,
-  alias_name: "BB",
+  alias_name: "C2",
 };
 
-const businessUnit3: BusinessUnit =   {
+const businessUnit3: BusinessUnit = {
   id: getUuidByName("BUSINESS_UNIT_03"),
   cluster_id: getUuidByName("CLUSTER_01"),
   code: getUuidByName("BU_CODE_03"),
@@ -104,7 +104,7 @@ const businessUnit3: BusinessUnit =   {
   updated_at: "2025-07-29T01:37:29.005Z",
   updated_by_id: getUuidByName("USER_ADMIN"),
   info: null,
-  alias_name: "CC",
+  alias_name: "C3",
 };
 
 const businessUnit4: BusinessUnit = {

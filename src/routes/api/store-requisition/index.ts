@@ -1,5 +1,5 @@
 import type { Elysia } from "elysia";
-import { resBadRequest, resErrorWithData, resNotFound } from "@/libs/res.error";
+import { resBadRequest, resErrorWithData, resNotFound, resSuccessWithData } from "@/libs/res.error";
 import jwt from "@elysiajs/jwt";
 import { tbBusinessUnit, tbStoreRequisition, tbStoreRequisitionDetail } from "@/mockdata";
 import { CheckHeaderHasAccessToken } from "@/libs/header";
@@ -19,8 +19,8 @@ export default (app: Elysia) =>
 
 
 
-    .get("/api/:bu_code/store-requisition/:id", async (ctx) => {
-      const { bu_code, id } = ctx.params;
+    .get("/api/:bu_code/store-requisition/:sr_id", async (ctx) => {
+      const { bu_code, sr_id } = ctx.params;
 
       const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
       if (errorAppId) {
@@ -39,7 +39,7 @@ export default (app: Elysia) =>
         return resNotFound("Business unit not found");
       }
 
-      const sr = tbStoreRequisition.getStoreRequisitionById(id);
+      const sr = tbStoreRequisition.getStoreRequisitionById(sr_id);
       if (!sr) {
         return resNotFound("Store requisition not found");
       }
@@ -61,17 +61,21 @@ export default (app: Elysia) =>
         bu_code: bu_code,
         bu_name: bu.name,
         data: srWithDetail,
+        success: true,
+        message: "success",
+        status: 200,
+        timestamp: new Date().toISOString(),
       };
 
-      return res;
+      return (res);
     })
 
 
 
     .patch(
-      "/api/:bu_code/store-requisition/:id/approve",
+      "/api/:bu_code/store-requisition/:sr_id/approve",
       async (ctx) => {
-        const { bu_code, id } = ctx.params;
+        const { bu_code, sr_id } = ctx.params;
 
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
@@ -91,7 +95,7 @@ export default (app: Elysia) =>
         }
 
         try {
-          const storeRequisition = tbStoreRequisition.getStoreRequisitionById(id);
+          const storeRequisition = tbStoreRequisition.getStoreRequisitionById(sr_id);
           if (!storeRequisition) {
             return resNotFound("Store requisition not found");
           }
@@ -112,7 +116,7 @@ export default (app: Elysia) =>
             }
           }
 
-          return { data: storeRequisition.id };
+          return resSuccessWithData(storeRequisition.id);
         } catch (error) {
           return resErrorWithData("Internal server error", error);
         }
@@ -124,9 +128,9 @@ export default (app: Elysia) =>
     )
 
     .post(
-      "/api/:bu_code/store-requisition/:id/swipe_approve",
+      "/api/:bu_code/store-requisition/:sr_id/swipe_approve",
       async (ctx) => {
-        const { bu_code, id } = ctx.params;
+        const { bu_code, sr_id } = ctx.params;
 
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
@@ -146,14 +150,14 @@ export default (app: Elysia) =>
         }
 
         try {
-          const storeRequisition = tbStoreRequisition.getStoreRequisitionById(id);
+          const storeRequisition = tbStoreRequisition.getStoreRequisitionById(sr_id);
           if (!storeRequisition) {
             return resNotFound("Store requisition not found");
           }
 
-          tbStoreRequisition.swipeApproveStoreRequisitionById(id);
+          tbStoreRequisition.swipeApproveStoreRequisitionById(sr_id);
 
-          return { data: storeRequisition.id };
+          return resSuccessWithData(storeRequisition.id);
         } catch (error) {
           return resErrorWithData("Internal server error", error);
         }
@@ -165,9 +169,9 @@ export default (app: Elysia) =>
     )
 
     .post(
-      "/api/:bu_code/store-requisition/:id/swipe_reject",
+      "/api/:bu_code/store-requisition/:sr_id/swipe_reject",
       async (ctx) => {
-        const { bu_code, id } = ctx.params;
+        const { bu_code, sr_id } = ctx.params;
 
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
@@ -194,14 +198,14 @@ export default (app: Elysia) =>
             return resBadRequest("Message is required");
           }
 
-          const storeRequisition = tbStoreRequisition.getStoreRequisitionById(id);
+          const storeRequisition = tbStoreRequisition.getStoreRequisitionById(sr_id);
           if (!storeRequisition) {
             return resNotFound("Store requisition not found");
           }
 
-          tbStoreRequisition.swipeRejectStoreRequisitionById(id, body.message);
+          tbStoreRequisition.swipeRejectStoreRequisitionById(sr_id, body.message);
 
-          return { data: storeRequisition.id };
+          return resSuccessWithData(storeRequisition.id);
 
 
         } catch (error) {
@@ -215,9 +219,9 @@ export default (app: Elysia) =>
     )
 
     .patch(
-      "/api/:bu_code/store-requisition/:id/issue",
+      "/api/:bu_code/store-requisition/:sr_id/issue",
       async (ctx) => {
-        const { bu_code, id } = ctx.params;
+        const { bu_code, sr_id } = ctx.params;
 
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
@@ -236,7 +240,7 @@ export default (app: Elysia) =>
           return resNotFound("Business unit not found");
         }
 
-        const storeRequisition = tbStoreRequisition.getStoreRequisitionById(id);
+        const storeRequisition = tbStoreRequisition.getStoreRequisitionById(sr_id);
         if (!storeRequisition) {
           return resNotFound("Store requisition not found");
         }
@@ -259,7 +263,7 @@ export default (app: Elysia) =>
           }
         }
 
-        return { data: storeRequisition.id };
+        return resSuccessWithData(storeRequisition.id);
       },
       {
         type: "json",
@@ -269,10 +273,10 @@ export default (app: Elysia) =>
     )
 
     .patch(
-      "/api/:bu_code/store-requisition/:id/reject",
+      "/api/:bu_code/store-requisition/:sr_id/reject",
       async (ctx) => {
 
-        const { bu_code, id } = ctx.params;
+        const { bu_code, sr_id } = ctx.params;
 
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
@@ -291,7 +295,7 @@ export default (app: Elysia) =>
           return resNotFound("Business unit not found");
         }
 
-        const storeRequisition = tbStoreRequisition.getStoreRequisitionById(id);
+        const storeRequisition = tbStoreRequisition.getStoreRequisitionById(sr_id);
         if (!storeRequisition) {
           return resNotFound("Store requisition not found");
         }
@@ -318,7 +322,7 @@ export default (app: Elysia) =>
           }
         }
 
-        return { data: storeRequisition.id };
+        return resSuccessWithData(storeRequisition.id);
       },
       {
         type: "json",
@@ -328,9 +332,9 @@ export default (app: Elysia) =>
     )
 
     .patch(
-      "/api/:bu_code/store-requisition/:id/review",
+      "/api/:bu_code/store-requisition/:sr_id/review",
       async (ctx) => {
-        const { bu_code, id } = ctx.params;
+        const { bu_code, sr_id } = ctx.params;
 
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
@@ -349,7 +353,7 @@ export default (app: Elysia) =>
           return resNotFound("Business unit not found");
         }
 
-        const storeRequisition = tbStoreRequisition.getStoreRequisitionById(id);
+        const storeRequisition = tbStoreRequisition.getStoreRequisitionById(sr_id);
         if (!storeRequisition) {
           return resNotFound("Store requisition not found");
         }
@@ -375,7 +379,7 @@ export default (app: Elysia) =>
           }
         }
 
-        return { data: storeRequisition.id };
+        return resSuccessWithData(storeRequisition.id);
       },
       {
         type: "json",

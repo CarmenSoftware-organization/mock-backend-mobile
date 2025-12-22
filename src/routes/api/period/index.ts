@@ -1,5 +1,5 @@
 import type { Elysia } from "elysia";
-import { resNotFound } from "@/libs/res.error";
+import { resNotFound, resSuccessWithData } from "@/libs/res.error";
 import jwt from "@elysiajs/jwt";
 import { t } from "elysia";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
@@ -41,28 +41,28 @@ export default (app: Elysia) =>
 
       return openPeriods;
     }, {
-        detail: {
-            tags: ["financial"],
-            summary: "Get open periods for a business unit",
-            description: "Retrieve a list of open periods for the specified business unit",
-            parameters: [
-                PARAM_X_APP_ID,
-                {
-                    name: "bu_code",
-                    in: "path",
-                    required: true,
-                    description: "Business unit code",
-                    schema: {
-                        type: "string"
-                    }
-                }
-            ]
-        }   
+      detail: {
+        tags: ["financial"],
+        summary: "Get open periods for a business unit",
+        description: "Retrieve a list of open periods for the specified business unit",
+        parameters: [
+          PARAM_X_APP_ID,
+          {
+            name: "bu_code",
+            in: "path",
+            required: true,
+            description: "Business unit code",
+            schema: {
+              type: "string"
+            }
+          }
+        ]
+      }
     })
-    
+
     .get("/api/:bu_code/period/eta", async (ctx) => {
-     
-         const { bu_code } = ctx.params;
+
+      const { bu_code } = ctx.params;
 
       const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
       if (errorAppId) {
@@ -83,28 +83,28 @@ export default (app: Elysia) =>
 
       const eta_start = getDateStartOnStatusIsOpen();
       const eta_end = getDateEndOnStatusIsOpen();
-      
-      return {
+
+      return resSuccessWithData({
         eta_start,
         eta_end
-      };
+      });
 
     }, {
-        detail: {
-            tags: ["financial"],
-            summary: "Get ETA for period opening",
-            description: "Retrieve the estimated start and end dates for the opening of periods for the specified business unit",
-            parameters: [
-                PARAM_X_APP_ID,
-                {
-                    name: "bu_code",
-                    in: "path",
-                    required: true,
-                    description: "Business unit code",
-                    schema: {
-                        type: "string"
-                    }
-                }
-            ]   
-        }   
+      detail: {
+        tags: ["financial"],
+        summary: "Get ETA for period opening",
+        description: "Retrieve the estimated start and end dates for the opening of periods for the specified business unit",
+        parameters: [
+          PARAM_X_APP_ID,
+          {
+            name: "bu_code",
+            in: "path",
+            required: true,
+            description: "Business unit code",
+            schema: {
+              type: "string"
+            }
+          }
+        ]
+      }
     });

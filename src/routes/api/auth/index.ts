@@ -1,11 +1,14 @@
 import { Elysia, status, t } from "elysia";
 import { jwt } from "@elysiajs/jwt";
 import {
+  ApiErrorResponse,
+  HTTP_STATUS,
   resBadRequest,
   resError,
   resInternalServerError,
   resNotFound,
   resSuccess,
+  resSuccessWithData,
   resUnauthorized,
 } from "@libs/res.error";
 import type { LoginDto, LoginError, LoginResponse } from "@/types/auth";
@@ -82,8 +85,9 @@ export default (app: Elysia) =>
         }
 
         const result = await login(ctx.body as LoginDto, ctx.jwt);
-        if ("message" in result) {
-          ctx.set.status = 401;
+
+        if (result?.status) {
+          ctx.set.status = result.status;
         }
         return result;
       },
@@ -93,17 +97,28 @@ export default (app: Elysia) =>
           200: t.Object({
             access_token: t.String(),
             refresh_token: t.String(),
+            expires_in: t.Number(),
+            token_type: t.String(),
           }),
           400: t.Object({
             message: t.String({
               default: `Invalid header '${PARAM_X_APP_ID.name}'`,
             }),
+            status: t.Number({ default: 400 }),
+            success: t.Boolean({ default: false }),
+            timestamp: t.String({ default: new Date().toISOString() }),
           }),
           401: t.Object({
             message: t.String({ default: "Invalid login credentials" }),
+            status: t.Number({ default: 401 }),
+            success: t.Boolean({ default: false }),
+            timestamp: t.String({ default: new Date().toISOString() }),
           }),
           500: t.Object({
             message: t.String({ default: "Internal Server Error" }),
+            status: t.Number({ default: 500 }),
+            success: t.Boolean({ default: false }),
+            timestamp: t.String({ default: new Date().toISOString() }),
           }),
         },
         detail: {
@@ -155,6 +170,8 @@ export default (app: Elysia) =>
                   example: {
                     access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
                     refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                    expires_in: 3600,
+                    token_type: "Bearer",
                   },
                 },
               },
@@ -290,7 +307,7 @@ export default (app: Elysia) =>
             business_unit: cBusiness_unit,
           };
 
-          return res;
+          return resSuccessWithData(res);
         } catch (error) {
           return resInternalServerError(error instanceof Error ? error.message : "Unknown error");
         }
@@ -359,7 +376,7 @@ export default (app: Elysia) =>
             refresh_token: string;
           };
           const { access_token, refresh_token } = await refreshToken(getRefreshToken.refresh_token, ctx.jwt);
-          return { access_token, refresh_token };
+          return { access_token, refresh_token, expires_in: 3600, token_type: "Bearer" };
         } catch (error) {
           return resInternalServerError(error instanceof Error ? error.message : "Unknown error");
         }
@@ -370,6 +387,8 @@ export default (app: Elysia) =>
           200: t.Object({
             access_token: t.String(),
             refresh_token: t.String(),
+            expires_in: t.Number(),
+            token_type: t.String(),
           }),
         },
         detail: {
@@ -457,10 +476,7 @@ export default (app: Elysia) =>
         ctx.set.status = 200;
         const email = (ctx.body as any).email;
         console.log(`Forgot password requested for email: ${email}`);
-        return {
-          message: "System will send password reset instructions to the email if it exists.",
-          email: email,
-        };
+        return resSuccess("System will send password reset instructions to the email if it exists.");
       },
       {
         detail: {
@@ -566,9 +582,7 @@ export default (app: Elysia) =>
         userProfile.password = new_password; // In real app, hash the password before storing
 
         ctx.set.status = 200;
-        return {
-          message: "Change password successful (Not implemented)",
-        };
+        return resSuccess("Change password successful");
       },
       {
         detail: {
@@ -604,7 +618,7 @@ export default (app: Elysia) =>
     );
 
 // Login function implementation
-async function login(body: LoginDto, jwt: any): Promise<LoginResponse | LoginError> {
+async function login(body: LoginDto, jwt: any): Promise<LoginResponse | ApiErrorResponse> {
   const user = tbUser.users.find((user: any) => user.email === body.email);
 
   if (!user) {
@@ -621,21 +635,30 @@ async function login(body: LoginDto, jwt: any): Promise<LoginResponse | LoginErr
     return resInternalServerError("JWT secret is not configured");
   }
 
+  const exp_in = 60 * 60 * 1000;
+  const accessTokenExp = Date.now() + exp_in;
+  const refreshTokenExp = Date.now() + exp_in;
+
   try {
     const accessToken = await jwt.sign({
       id: user.id,
       email: user.email,
+      type: "access",
+      exp: accessTokenExp,
     });
 
     const refreshToken = await jwt.sign({
       id: user.id,
       email: user.email,
       type: "refresh",
+      exp: refreshTokenExp,
     });
 
     return {
       access_token: accessToken,
       refresh_token: refreshToken,
+      expires_in: exp_in,
+      token_type: "Bearer",
     };
   } catch (error) {
     return resInternalServerError("Failed to generate tokens");
@@ -663,3 +686,4 @@ async function refreshToken(refresh_token: string, jwt: any) {
     refresh_token: await jwt.sign({ id, email, type: "refresh" }),
   };
 }
+

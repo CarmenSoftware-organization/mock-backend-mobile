@@ -1,5 +1,5 @@
 import type { Elysia } from "elysia";
-import { resNotFound } from "@/libs/res.error";
+import { resNotFound, resSuccessWithData } from "@/libs/res.error";
 import { jwt } from "@elysiajs/jwt";
 import { t } from "elysia";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
@@ -83,115 +83,114 @@ export default (app: Elysia) =>
           re_stock_qty: Number(re_stock_qty),
         };
 
-        return res;
+        return resSuccessWithData(res);
       }, {
-        detail: {
-          tags: ["locations"],
-          summary: "Get product inventory at location",
-          description: "Retrieve inventory information for a specific product at a specific location",
-          parameters: [
-            PARAM_X_APP_ID,
-            {
-              name: "Authorization",
-              in: "header",
-              required: true,
-              description: "Bearer JWT access token",
-              schema: {
-                type: "string",
-                example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-              }
-            },
-            {
-              name: "bu_code",
-              in: "path",
-              required: true,
-              description: "Business unit code",
-              schema: {
-                type: "string",
-                example: "BU001"
-              }
-            },
-            {
-              name: "location_id",
-              in: "path",
-              required: true,
-              description: "Location ID",
-              schema: {
-                type: "string",
-                example: "550e8400-e29b-41d4-a716-446655440001"
-              }
-            },
-            {
-              name: "product_id",
-              in: "path",
-              required: true,
-              description: "Product ID",
-              schema: {
-                type: "string",
-                example: "550e8400-e29b-41d4-a716-446655440002"
+      detail: {
+        tags: ["locations"],
+        summary: "Get product inventory at location",
+        description: "Retrieve inventory information for a specific product at a specific location",
+        parameters: [
+          PARAM_X_APP_ID,
+          {
+            name: "Authorization",
+            in: "header",
+            required: true,
+            description: "Bearer JWT access token",
+            schema: {
+              type: "string",
+              example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            }
+          },
+          {
+            name: "bu_code",
+            in: "path",
+            required: true,
+            description: "Business unit code",
+            schema: {
+              type: "string",
+              example: "BU001"
+            }
+          },
+          {
+            name: "location_id",
+            in: "path",
+            required: true,
+            description: "Location ID",
+            schema: {
+              type: "string",
+              example: "550e8400-e29b-41d4-a716-446655440001"
+            }
+          },
+          {
+            name: "product_id",
+            in: "path",
+            required: true,
+            description: "Product ID",
+            schema: {
+              type: "string",
+              example: "550e8400-e29b-41d4-a716-446655440002"
+            }
+          }
+        ],
+        responses: {
+          200: {
+            description: "Product inventory information",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    on_hand_qty: { type: "number", example: 45 },
+                    on_order_qty: { type: "number", example: 20 },
+                    re_order_qty: { type: "number", example: 10 },
+                    re_stock_qty: { type: "number", example: 50 }
+                  }
+                },
+                example: {
+                  on_hand_qty: 45,
+                  on_order_qty: 20,
+                  re_order_qty: 10,
+                  re_stock_qty: 50
+                }
               }
             }
-          ],
-          responses: {
-            200: {
-              description: "Product inventory information",
-              content: {
-                "application/json": {
-                  schema: {
-                    type: "object",
-                    properties: {
-                      on_hand_qty: { type: "number", example: 45 },
-                      on_order_qty: { type: "number", example: 20 },
-                      re_order_qty: { type: "number", example: 10 },
-                      re_stock_qty: { type: "number", example: 50 }
-                    }
+          },
+          400: {
+            description: "Bad request",
+            content: {
+              "application/json": {
+                example: { message: "Invalid header 'x-app-id'" }
+              }
+            }
+          },
+          401: {
+            description: "Unauthorized",
+            content: {
+              "application/json": {
+                example: { message: "Unauthorized" }
+              }
+            }
+          },
+          404: {
+            description: "Resource not found",
+            content: {
+              "application/json": {
+                examples: {
+                  businessUnitNotFound: {
+                    summary: "Business unit not found",
+                    value: { message: "Business unit not found" }
                   },
-                  example: {
-                    on_hand_qty: 45,
-                    on_order_qty: 20,
-                    re_order_qty: 10,
-                    re_stock_qty: 50
-                  }
-                }
-              }
-            },
-            400: {
-              description: "Bad request",
-              content: {
-                "application/json": {
-                  example: { message: "Invalid header 'x-app-id'" }
-                }
-              }
-            },
-            401: {
-              description: "Unauthorized",
-              content: {
-                "application/json": {
-                  example: { message: "Unauthorized" }
-                }
-              }
-            },
-            404: {
-              description: "Resource not found",
-              content: {
-                "application/json": {
-                  examples: {
-                    businessUnitNotFound: {
-                      summary: "Business unit not found",
-                      value: { message: "Business unit not found" }
-                    },
-                    locationNotFound: {
-                      summary: "Location not found",
-                      value: { message: "Location not found" }
-                    },
-                    productNotFound: {
-                      summary: "Product not found",
-                      value: { message: "Product not found" }
-                    },
-                    inventoryNotFound: {
-                      summary: "Inventory not found",
-                      value: { message: "Inventory not found" }
-                    }
+                  locationNotFound: {
+                    summary: "Location not found",
+                    value: { message: "Location not found" }
+                  },
+                  productNotFound: {
+                    summary: "Product not found",
+                    value: { message: "Product not found" }
+                  },
+                  inventoryNotFound: {
+                    summary: "Inventory not found",
+                    value: { message: "Inventory not found" }
                   }
                 }
               }
@@ -199,6 +198,7 @@ export default (app: Elysia) =>
           }
         }
       }
+    }
     )
 
     .get("/api/locations", async (ctx) => {

@@ -1,5 +1,5 @@
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
-import { resInternalServerError } from "@/libs/res.error";
+import { resInternalServerError, resSuccessWithData } from "@/libs/res.error";
 import { getRandomInt } from "@/libs/utils";
 import { tbPurchaseRequest, tbPurchaseRequestDetail } from "@/mockdata";
 import { getDefaultCurrencyByBusinessUnitId } from "@/mockdata/tb_application_config";
@@ -84,7 +84,7 @@ export default (app: Elysia) =>
             purchaseRequests.push(res);
           }
 
-          return purchaseRequests;
+          return resSuccessWithData(purchaseRequests);
         } catch (error) {
           return resInternalServerError(
             error instanceof Error ? error.message : "Unknown error"
@@ -119,9 +119,7 @@ export default (app: Elysia) =>
 
         try {
           const res = { pending: getRandomInt(0, 20) };
-          return {
-            data: res,
-          };
+          return resSuccessWithData(res);
         } catch (error) {
           return resInternalServerError(
             error instanceof Error ? error.message : "Unknown error"

@@ -3,6 +3,8 @@ import {
   resBadRequest,
   resInternalServerError,
   resNotFound,
+  resSuccessWithData,
+  resSuccessWithPaginate,
 } from "@/libs/res.error";
 import jwt from "@elysiajs/jwt";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
@@ -51,9 +53,7 @@ export default (app: Elysia) =>
 
           // mock random data
           const res = { pending: getRandomInt(0, 20) };
-          return {
-            data: res,
-          };
+          return resSuccessWithData(res);
         } catch (error) {
           return resInternalServerError(
             error instanceof Error ? error.message : "Unknown error"
@@ -95,9 +95,11 @@ export default (app: Elysia) =>
         // return resNotFound("Physical count details not found");
       }
 
-      return {
+      const res = {
         details: spotChecks,
       };
+
+      return resSuccessWithPaginate(res.details, spotChecks.length, 1, 10);
     }, {
       detail: {
         tags: ["spot-check"],
@@ -129,7 +131,7 @@ export default (app: Elysia) =>
 
       const res = tbSpotCheck.createSpotCheck(method, location_id, items_total);
       // response spotchecking details
-      return { id: res.id };
+      return resSuccessWithData({ id: res.id });
 
     }, {
       detail: {
@@ -410,7 +412,7 @@ export default (app: Elysia) =>
           return resNotFound("Spot check not found");
         }
 
-        return { data: spotcheck };
+        return resSuccessWithData(spotcheck);
       } catch (error) {
         return resInternalServerError(
           error instanceof Error ? error.message : "Unknown error"
@@ -476,7 +478,7 @@ export default (app: Elysia) =>
 
         console.log("Updated spot check items:", items);
 
-        return { id: ctx.params.spot_check_id };
+        return resSuccessWithData({ id: ctx.params.spot_check_id });
       } catch (error) {
         return resInternalServerError(
           error instanceof Error ? error.message : "Unknown error"
@@ -555,7 +557,7 @@ export default (app: Elysia) =>
 
         console.log("Updated spot check items:", res as any);
 
-        return { data: res };
+        return resSuccessWithData(res);
       } catch (error) {
         return resInternalServerError(
           error instanceof Error ? error.message : "Unknown error"
@@ -570,8 +572,7 @@ export default (app: Elysia) =>
     })
 
 
-    .get(
-      "/api/:bu_code/spot-check/:spot_check_id/review",
+    .get("/api/:bu_code/spot-check/:spot_check_id/review",
       async (ctx) => {
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
@@ -619,7 +620,7 @@ export default (app: Elysia) =>
 
         // console.log("Updated physical count items:", res as any);
 
-        return { data: res };
+        return resSuccessWithData(res);
       },
       {
         detail: {
@@ -664,7 +665,7 @@ export default (app: Elysia) =>
           }
         );
 
-        return { id: ctx.params.spot_check_id };
+        return resSuccessWithData({ id: ctx.params.spot_check_id });
       } catch (error) {
         return resInternalServerError(
           error instanceof Error ? error.message : "Unknown error"
@@ -705,7 +706,7 @@ export default (app: Elysia) =>
         // In real scenario, update spot check status to 'completed'
         console.log(`Spot check ${ctx.params.spot_check_id} reset by user ${currentUser?.id}`);
 
-        return { id: ctx.params.spot_check_id };
+        return resSuccessWithData({ id: ctx.params.spot_check_id });
       } catch (error) {
         return resInternalServerError(
           error instanceof Error ? error.message : "Unknown error"

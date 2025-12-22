@@ -6,27 +6,26 @@
 // Type definitions for API responses
 export interface BaseApiResponse {
   status: number;
+  success: boolean;
   message: string;
   timestamp: string;
-  success: boolean;
 }
 
 export interface ApiErrorResponse extends BaseApiResponse {
   success: false;
-  error?: string;
 }
 
 export interface ApiSuccessResponse<T = any> extends BaseApiResponse {
   success: true;
-  data?: T;
 }
 
 export interface PaginatedApiResponse<T = any> extends ApiSuccessResponse<T[]> {
+  data: T[];
   pagination: {
     total: number;
     page: number;
-    limit: number;
-    totalPages: number;
+    perpage: number;
+    pages: number;
   };
 }
 
@@ -65,8 +64,8 @@ const createSuccessResponse = (
 ): ApiSuccessResponse => ({
   status,
   message,
+  success: true,
   timestamp: getTimestamp(),
-  success: true as const,
 });
 
 /**
@@ -81,8 +80,8 @@ const createErrorResponse = (
 ): ApiErrorResponse => ({
   status,
   message,
-  timestamp: getTimestamp(),
   success: false as const,
+  timestamp: getTimestamp(),
 });
 
 // Success Response Functions
@@ -105,8 +104,8 @@ export const resSuccessWithData = <T = any>(
   data: T,
   message: string = "Success"
 ): ApiSuccessResponse<T> => ({
-  ...createSuccessResponse(HTTP_STATUS.OK, message),
   data,
+  ...createSuccessResponse(HTTP_STATUS.OK, message),
 });
 
 /**
@@ -128,7 +127,7 @@ export const resCreated = <T = any>(
  * @param data - Array of data items
  * @param total - Total number of items
  * @param page - Current page number
- * @param limit - Items per page
+ * @param perpage - Items per page
  * @param message - Success message (default: "Success")
  * @returns Paginated response
  */
@@ -136,7 +135,7 @@ export const resSuccessWithPaginate = <T = any>(
   data: T[],
   total: number,
   page: number,
-  limit: number,
+  perpage: number,
   message: string = "Success"
 ): PaginatedApiResponse<T> => ({
   ...createSuccessResponse(HTTP_STATUS.OK, message),
@@ -144,8 +143,8 @@ export const resSuccessWithPaginate = <T = any>(
   pagination: {
     total,
     page,
-    limit,
-    totalPages: Math.ceil(total / limit),
+    perpage,
+    pages: Math.ceil(total / perpage),
   },
 });
 
