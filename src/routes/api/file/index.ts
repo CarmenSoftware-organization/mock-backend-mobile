@@ -30,7 +30,7 @@ export default (app: Elysia) =>
     )
 
     .post(
-      "/api/file/upload",
+      "/api/files/upload",
       async (ctx) => {
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
@@ -109,7 +109,7 @@ export default (app: Elysia) =>
     )
 
     .get(
-      "/api/file/list",
+      "/api/files/list",
       async (ctx) => {
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
@@ -247,7 +247,7 @@ export default (app: Elysia) =>
     )
 
     .get(
-      "/api/file/:filetoken",
+      "/api/files/:filetoken",
       async (ctx) => {
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
@@ -339,7 +339,7 @@ export default (app: Elysia) =>
     )
 
     .delete(
-      "/api/file/:filetoken",
+      "/api/files/:filetoken",
       async (ctx) => {
         const { error: errorAppId } = CheckHeaderHasAppId(ctx.headers);
         if (errorAppId) {
