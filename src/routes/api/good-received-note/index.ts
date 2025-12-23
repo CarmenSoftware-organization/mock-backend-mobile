@@ -231,10 +231,10 @@ export default (app: Elysia) =>
           );
           const inventory_unit = tbProduct.getProductById(detail.product_id);
 
-          // const detailPrFromPo =
-          //   tbPurchaseOrderDetailTbPurchaseRequestDetail.getPurchaseOrderDetailPurchaseRequestDetailsByPoDetailId(
-          //     detail.id
-          //   );
+          const detailPrFromPo =
+            tbPurchaseOrderDetailTbPurchaseRequestDetail.getPurchaseOrderDetailPurchaseRequestDetailsByPoDetailId(
+              detail.id
+            );
 
           let locationsDetail = [];
 

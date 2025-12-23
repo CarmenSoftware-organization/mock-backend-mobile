@@ -48,9 +48,9 @@ export const goodReceivedNoteComments: GoodReceivedNoteComment[] = [
     attachments: {
       files: [
         {
-          name: "storage_photo.jpg",
-          url: "/uploads/storage_photo.jpg",
-          type: "image/jpeg",
+          originalName: "storage_photo.jpg",
+          fileToken: "carmen-1/43c1b202-8a55-4baa-8549-f2bcc0b6c93c",
+          contentType: "image/jpeg",
         },
       ],
     },
@@ -88,14 +88,14 @@ export const goodReceivedNoteComments: GoodReceivedNoteComment[] = [
     attachments: {
       files: [
         {
-          name: "damage_report.pdf",
-          url: "/uploads/damage_report.pdf",
-          type: "application/pdf",
+          originalName: "damage_report.pdf",
+          fileToken: "carmen-1/43c1b202-8a55-4baa-8549-f2bcc0b6c93c",
+          contentType: "application/pdf",
         },
         {
-          name: "damage_photo_1.jpg",
-          url: "/uploads/damage_photo_1.jpg",
-          type: "image/jpeg",
+          originalName: "damage_photo_1.jpg",
+          fileToken: "carmen-1/43c1b202-8a55-4baa-8549-f2bcc0b6c93c",
+          contentType: "image/jpeg",
         },
       ],
     },

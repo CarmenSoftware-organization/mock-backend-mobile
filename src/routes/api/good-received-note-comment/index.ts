@@ -1,6 +1,6 @@
 import { inventoryTransactionClosingBalances } from './../../../mockdata/tb_inventory_transaction_closing_balance';
 import type { Elysia } from "elysia";
-import { resNotFound } from "@/libs/res.error";
+import { resNotFound, resSuccessWithData } from "@/libs/res.error";
 import jwt from "@elysiajs/jwt";
 import { t } from "elysia";
 import { CheckHeaderHasAccessToken, CheckHeaderHasAppId } from "@/libs/header";
@@ -47,7 +47,7 @@ export default (app: Elysia) =>
 
         const comments = tbGoodReceivedNoteComment.getGoodReceivedNoteCommentsByGrnId(id);
 
-        return { data: comments };
+        return resSuccessWithData(comments);
       },
       {
         detail: "Get comments for a specific good received note",
@@ -104,7 +104,7 @@ export default (app: Elysia) =>
           deleted_by_id: null,
         });
 
-        return { id: newComment.id };
+        return resSuccessWithData({ id: newComment.id });
       },
       {
         detail: "Add a comment to a specific good received note",

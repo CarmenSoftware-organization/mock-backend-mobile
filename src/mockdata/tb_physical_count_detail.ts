@@ -93,8 +93,8 @@ export const physicalCountDetails: PhysicalCountDetail[] = [
     product_id: product3?.id || "",
     product_name: product3?.name || "",
     product_local_name: product3?.local_name || "",
-      inventory_unit_id: product3?.inventory_unit_id || "",
-      inventory_unit_name: product3?.inventory_unit_name || "",
+    inventory_unit_id: product3?.inventory_unit_id || "",
+    inventory_unit_name: product3?.inventory_unit_name || "",
     sku: product3?.sku || "",
     on_hand_qty: getRandomInt(100, 1000),
     actual_qty: getRandomInt(100, 1000),
@@ -111,8 +111,8 @@ export const physicalCountDetails: PhysicalCountDetail[] = [
     product_id: product4?.id || "",
     product_name: product4?.name || "",
     product_local_name: product4?.local_name || "",
-      inventory_unit_id: product4?.inventory_unit_id || "",
-      inventory_unit_name: product4?.inventory_unit_name || "",
+    inventory_unit_id: product4?.inventory_unit_id || "",
+    inventory_unit_name: product4?.inventory_unit_name || "",
     sku: product4?.sku || "",
     on_hand_qty: getRandomInt(100, 1000),
     actual_qty: getRandomInt(100, 1000),
@@ -139,7 +139,7 @@ export const physicalCountDetails: PhysicalCountDetail[] = [
     created_by_id: getUuidByName("USER_01"),
     updated_at: new Date(getCurrentTimestamp()),
     updated_by_id: getUuidByName("USER_01"),
-  },  
+  },
   {
     id: getUuidByName("PHYSICAL_COUNT_DETAIL_06"),
     physical_count_id: getUuidByName("PHYSICAL_COUNT_01"),
@@ -257,8 +257,8 @@ export function createPhysicalCountDetail(data: {
     product_id: data.product_id,
     product_name: data.product_name,
     product_local_name: data.product_local_name,
-      inventory_unit_id: data.inventory_unit_id,
-      inventory_unit_name: data.inventory_unit_name,
+    inventory_unit_id: data.inventory_unit_id,
+    inventory_unit_name: data.inventory_unit_name,
     sku: data.sku,
     on_hand_qty: data.on_hand_qty,
     actual_qty: data.actual_qty,
@@ -387,15 +387,15 @@ export const getPhysicalCountById = (id: string) => {
 
   for (const detail of details) {
     const comments = tbCountStockDetailComment.getCountStockDetailCommentsByDetailId(detail.id);
-    console.log({ id: detail.id, "comments": comments});
+    console.log({ id: detail.id, "comments": comments });
     (detail as any).comments = comments;
   }
 
-  const {physical_count_period_id, ...restHeader} = header;
+  const { physical_count_period_id, ...restHeader } = header;
 
   const res = {
     ...restHeader,
-    period : period || null,
+    period: period || null,
     details: details,
   }
 

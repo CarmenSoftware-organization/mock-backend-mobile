@@ -1,0 +1,97 @@
+{
+  "name": "บริษัท สยามฟู้ดซัพพลาย จำกัด",
+  "description": "ผู้จัดจำหน่ายวัตถุดิบอาหารและเครื่องดื่มชั้นนำ",
+  "code": "VD001",
+  "business_type": [
+    {
+      "id": "0697f560-af23-4229-8c6f-d6336c4404e1",
+      "name": "Food & Beverage Supplier"
+    },
+    {
+      "id": "125be0b8-1473-457e-8b14-d05c7b101c1d",
+      "name": "Wholesale Distributor"
+    }
+  ],
+  "info": [
+    {
+      "label": "เลขประจำตัวผู้เสียภาษี",
+      "value": "0105562089012",
+      "data_type": "string"
+    },
+    {
+      "label": "เงื่อนไขการชำระเงิน",
+      "value": "Net 30 Days",
+      "data_type": "string"
+    },
+    {
+      "label": "ประเภทธุรกิจ",
+      "value": "Food & Beverage Supplier",
+      "data_type": "string"
+    },
+    {
+      "label": "วงเงินเครดิต",
+      "value": "1500000.00",
+      "data_type": "number"
+    }
+  ],
+  "vendor_address": [
+    {
+      "address_type": "head_office",
+      "data": {
+        "address_line1": "เลขที่ 88 อาคารเอไอเอ แคปปิตอล เซ็นเตอร์ ชั้น 12",
+        "address_line2": "ถนนรัชดาภิเษก",
+        "district": "ดินแดง",
+        "province": "กรุงเทพมหานคร",
+        "postal_code": "10400",
+        "country": "ประเทศไทย"
+      }
+    },
+    {
+      "address_type": "warehouse",
+      "data": {
+        "address_line1": "เลขที่ 199/5 หมู่ 3 นิคมอุตสาหกรรมบางปู",
+        "address_line2": "ถนนสุขุมวิท",
+        "district": "เมืองสมุทรปราการ",
+        "province": "สมุทรปราการ",
+        "postal_code": "10280",
+        "country": "ประเทศไทย"
+      }
+    },
+    {
+      "address_type": "mailing_address",
+      "data": {
+        "address_line1": "ตู้ ปณ. 1234 ปณฝ. รัชดาภิเษก",
+        "address_line2": "",
+        "district": "ดินแดง",
+        "province": "กรุงเทพมหานคร",
+        "postal_code": "10401",
+        "country": "ประเทศไทย"
+      }
+    },
+    {
+      "address_type": "branch_office",
+      "data": {
+        "address_line1": "เลขที่ 45/12 ถนนนิมมานเหมินท์",
+        "address_line2": "ซอย 9",
+        "district": "สุเทพ",
+        "city": "เชียงใหม่",
+        "postal_code": "50200",
+        "country": "ประเทศไทย"
+      }
+    }
+  ],
+  "vendor_contact": [
+    {
+      "name": "คุณสมชาย วงศ์สุวรรณ",
+      "email": "somchai.w@siamfoodsupply.co.th",
+      "phone": "02-123-4567",
+      "is_primary": true
+    },
+    {
+      "name": "คุณวิภา รัตนกุล",
+      "email": "wipa.r@siamfoodsupply.co.th",
+      "phone": "02-123-4568",
+      "is_primary": false
+    }
+  ]
+}
