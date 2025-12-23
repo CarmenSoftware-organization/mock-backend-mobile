@@ -635,7 +635,7 @@ async function login(body: LoginDto, jwt: any): Promise<LoginResponse | ApiError
     return resInternalServerError("JWT secret is not configured");
   }
 
-  const exp_in = 60 * 60 * 1000;
+  const exp_in = 60 * 60 * 1000 * 24;
   const accessTokenExp = Date.now() + exp_in;
   const refreshTokenExp = Date.now() + exp_in;
 
