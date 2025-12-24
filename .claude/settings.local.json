@@ -13,7 +13,16 @@
       "mcp__ide__getDiagnostics",
       "Bash(tsc:*)",
       "Bash(bun add:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "WebFetch(domain:code.claude.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(claude mcp add --transport stdio postgres -- docker run -i --rm crystaldba/postgres-mcp --access-mode=unrestricted)",
+      "Bash(claude mcp:*)",
+      "mcp__postgres__list_objects",
+      "mcp__postgres__list_schemas",
+      "mcp__postgres__execute_sql",
+      "Bash(cat:*)",
+      "mcp__postgres__get_object_details"
     ],
     "deny": [],
     "ask": []

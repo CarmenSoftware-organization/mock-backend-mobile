@@ -9,10 +9,12 @@ The unit conversion system provides comprehensive functionality for converting q
 ### 1. Data Type Conversion (tb_unit_conversion.ts)
 
 **Changed from string to number:**
+
 - `from_unit_qty: string` → `from_unit_qty: number`
 - `to_unit_qty: string` → `to_unit_qty: number`
 
 **Benefits:**
+
 - Improved type safety
 - Better performance (no runtime string-to-number conversions)
 - Direct numeric operations without parsing
@@ -24,14 +26,17 @@ The unit conversion system provides comprehensive functionality for converting q
 Get the conversion factor from a specific unit to the product's inventory unit.
 
 **Parameters:**
+
 - `productId` (string) - Product UUID
 - `unitId` (string) - Unit UUID to convert from
 - `unitType` (optional) - Filter by unit type: "ingredient_unit", "order_unit", "inventory_unit", "other"
 
 **Returns:**
+
 - `number` - Conversion factor (default: 1.0 if no conversion found)
 
 **Example:**
+
 ```typescript
 import { getUnitConversionFactor } from '@mockdata/index';
 
@@ -45,19 +50,23 @@ const factor = getUnitConversionFactor(productId, kgUnitId);
 Get the conversion factor between two specific units for a product.
 
 **Parameters:**
+
 - `productId` (string) - Product UUID
 - `fromUnitId` (string) - Source unit UUID
 - `toUnitId` (string) - Target unit UUID
 
 **Returns:**
+
 - `number` - Conversion factor to convert from fromUnit to toUnit
 
 **Features:**
+
 - Handles direct conversions (A → B)
 - Handles reverse conversions (B → A calculated as inverse)
 - Handles indirect conversions through inventory unit (A → Inventory → B)
 
 **Example:**
+
 ```typescript
 import { getUnitToUnitConversionFactor } from '@mockdata/index';
 
@@ -75,15 +84,18 @@ const inverseFactor = getUnitToUnitConversionFactor(productId, gUnitId, kgUnitId
 Convert a quantity from one unit to another for a specific product.
 
 **Parameters:**
+
 - `productId` (string) - Product UUID
 - `quantity` (number) - Quantity to convert
 - `fromUnitId` (string) - Source unit UUID
 - `toUnitId` (string) - Target unit UUID
 
 **Returns:**
+
 - `number` - Converted quantity in the target unit
 
 **Example:**
+
 ```typescript
 import { convertQuantity } from '@mockdata/index';
 
@@ -230,6 +242,7 @@ export default (app: Elysia) =>
 ## Testing Scripts
 
 ### Test Unit Conversion Factors
+
 ```bash
 bun run scripts/test-unit-conversion-factor.ts
 ```
@@ -237,6 +250,7 @@ bun run scripts/test-unit-conversion-factor.ts
 This script tests all three conversion functions with sample data.
 
 ### List All Unit Conversions
+
 ```bash
 bun run scripts/list-unit-conversions.ts
 ```
