@@ -45,15 +45,13 @@ export const goodReceivedNoteComments: GoodReceivedNoteComment[] = [
     user_id: getUuidByName("USER_02"),
     user_name: "Jane Smith",
     message: "All items stored in warehouse section A-12.",
-    attachments: {
-      files: [
-        {
-          originalName: "storage_photo.jpg",
-          fileToken: "carmen-1/43c1b202-8a55-4baa-8549-f2bcc0b6c93c",
-          contentType: "image/jpeg",
-        },
-      ],
-    },
+    attachments: [
+      {
+        originalName: "storage_photo.jpg",
+        fileToken: "carmen-1/43c1b202-8a55-4baa-8549-f2bcc0b6c93c",
+        contentType: "image/jpeg",
+      },
+    ],
     // note: "Warehouse storage confirmation",
     created_at: new Date("2024-01-16T10:30:00Z"),
     created_by_id: getUuidByName("USER_02"),
@@ -85,20 +83,18 @@ export const goodReceivedNoteComments: GoodReceivedNoteComment[] = [
     user_id: getUuidByName("USER_03"),
     user_name: "Bob Wilson",
     message: "Minor damage found on 2 units. Vendor contacted for replacement.",
-    attachments: {
-      files: [
-        {
-          originalName: "damage_report.pdf",
-          fileToken: "carmen-1/43c1b202-8a55-4baa-8549-f2bcc0b6c93c",
-          contentType: "application/pdf",
-        },
-        {
-          originalName: "damage_photo_1.jpg",
-          fileToken: "carmen-1/43c1b202-8a55-4baa-8549-f2bcc0b6c93c",
-          contentType: "image/jpeg",
-        },
-      ],
-    },
+    attachments: [
+      {
+        originalName: "damage_report.pdf",
+        fileToken: "carmen-1/43c1b202-8a55-4baa-8549-f2bcc0b6c93c",
+        contentType: "application/pdf",
+      },
+      {
+        originalName: "damage_photo_1.jpg",
+        fileToken: "carmen-1/43c1b202-8a55-4baa-8549-f2bcc0b6c93c",
+        contentType: "image/jpeg",
+      },
+    ],
     // note: "Damage reported",
     created_at: new Date("2024-01-17T11:15:00Z"),
     created_by_id: getUuidByName("USER_03"),
@@ -242,21 +238,20 @@ export const updateGoodReceivedNoteCommentAttachments = (
 // UPDATE - เพิ่ม attachment
 export const addAttachmentToComment = (
   id: string,
-  attachment: { name: string; url: string; type: string }
+  attachment: { originalName: string; fileToken: string; contentType: string }
 ): GoodReceivedNoteComment | null => {
   const comment = getGoodReceivedNoteCommentById(id);
   if (!comment) {
     return null;
   }
 
-  const currentAttachments = comment.attachments || {};
-  const currentFiles = currentAttachments.files || [];
+  const currentAttachments = comment.attachments || [];
 
   return updateGoodReceivedNoteComment(id, {
-    attachments: {
+    attachments: [
       ...currentAttachments,
-      files: [...currentFiles, attachment],
-    },
+      attachment,
+    ],
   });
 };
 
@@ -267,14 +262,18 @@ export const removeAttachmentFromComment = (id: string, attachmentName: string):
     return null;
   }
 
-  const currentAttachments = comment.attachments || {};
-  const currentFiles = currentAttachments.files || [];
+  const currentAttachments = comment.attachments || [];
+
+  const attachmentIndex = currentAttachments.findIndex((f: any) => f.originalName === attachmentName);
+
+  if (attachmentIndex === -1) {
+    return null;
+  }
+
+  currentAttachments.splice(attachmentIndex, 1);
 
   return updateGoodReceivedNoteComment(id, {
-    attachments: {
-      ...currentAttachments,
-      files: currentFiles.filter((f: any) => f.name !== attachmentName),
-    },
+    attachments: currentAttachments || [],
   });
 };
 

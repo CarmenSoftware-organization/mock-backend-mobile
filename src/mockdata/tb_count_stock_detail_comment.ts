@@ -30,9 +30,9 @@ export const countStockDetailComments: CountStockDetailComment[] = [
     user_name: "John Doe",
     message: "Physical count verified. Stock count matches system records.",
     attachments: {},
-    info: { 
+    info: {
       // verified: true, variance: 0
-     },
+    },
     note: null,
     created_at: new Date("2024-01-20T10:00:00Z"),
     created_by_id: getUuidByName("USER_01"),
@@ -48,18 +48,16 @@ export const countStockDetailComments: CountStockDetailComment[] = [
     user_id: getUuidByName("USER_02"),
     user_name: "Jane Smith",
     message: "Count photo attached for verification.",
-    attachments: {
-      files: [
-        {
-          name: "count_photo_1.jpg",
-          url: "/uploads/count_photo_1.jpg",
-          type: "image/jpeg",
-        },
-      ],
-    },
-    info: { 
+    attachments: [
+      {
+        originalName: "count_photo_1.jpg",
+        fileToken: "count_photo_1.jpg",
+        contentType: "image/jpeg",
+      },
+    ],
+    info: {
       // has_photo: true
-     },
+    },
     note: "Photo evidence",
     created_at: new Date("2024-01-20T10:15:00Z"),
     created_by_id: getUuidByName("USER_02"),
@@ -75,7 +73,7 @@ export const countStockDetailComments: CountStockDetailComment[] = [
     user_id: null,
     user_name: "System",
     message: "Variance detected: Expected 500, Found 495. Difference: -5 units.",
-    attachments: {},
+    attachments: [],
     info: {
       // automated: true,
       // expected: 500,
@@ -99,20 +97,18 @@ export const countStockDetailComments: CountStockDetailComment[] = [
     user_name: "Bob Wilson",
     message:
       "Discrepancy found. 5 units missing. Recounting scheduled for tomorrow.",
-    attachments: {
-      files: [
-        {
-          name: "variance_report.pdf",
-          url: "/uploads/variance_report.pdf",
-          type: "application/pdf",
-        },
-      ],
+    attachments: [
+      {
+        originalName: "variance_report.pdf",
+        fileToken: "/uploads/variance_report.pdf",
+        contentType: "application/pdf",
+      },
+    ],
+    info: {
+      //   recount_scheduled: true,
+      //   recount_date: "2024-01-21",
+      //   variance_reason: "possible_misplacement",
     },
-     info: {
-    //   recount_scheduled: true,
-    //   recount_date: "2024-01-21",
-    //   variance_reason: "possible_misplacement",
-     },
     note: "Recount required",
     created_at: new Date("2024-01-20T11:30:00Z"),
     created_by_id: getUuidByName("USER_03"),
@@ -128,20 +124,18 @@ export const countStockDetailComments: CountStockDetailComment[] = [
     user_id: getUuidByName("USER_01"),
     user_name: "John Doe",
     message: "Excess inventory found. 3 additional units discovered in overflow storage.",
-    attachments: {
-      files: [
-        {
-          name: "overflow_storage.jpg",
-          url: "/uploads/overflow_storage.jpg",
-          type: "image/jpeg",
-        },
-        {
-          name: "excess_inventory_log.xlsx",
-          url: "/uploads/excess_inventory_log.xlsx",
-          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        },
-      ],
-    },
+    attachments: [
+      {
+        originalName: "overflow_storage.jpg",
+        fileToken: "/uploads/overflow_storage.jpg",
+        contentType: "image/jpeg",
+      },
+      {
+        originalName: "excess_inventory_log.xlsx",
+        fileToken: "/uploads/excess_inventory_log.xlsx",
+        contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      },
+    ],
     info: {
       // variance: 3,
       // location: "Overflow Storage Area B",
@@ -347,21 +341,17 @@ export const updateCountStockDetailCommentAttachments = (
 // UPDATE - เพิ่ม attachment
 export const addAttachmentToComment = (
   id: string,
-  attachment: { name: string; url: string; type: string }
+  attachment: { originalName: string; fileToken: string; contentType: string }
 ): CountStockDetailComment | null => {
   const comment = getCountStockDetailCommentById(id);
   if (!comment) {
     return null;
   }
 
-  const currentAttachments = comment.attachments || {};
-  const currentFiles = currentAttachments.files || [];
+  const currentAttachments = comment.attachments || [];
 
   return updateCountStockDetailComment(id, {
-    attachments: {
-      ...currentAttachments,
-      files: [...currentFiles, attachment],
-    },
+    attachments: [...currentAttachments, attachment],
   });
 };
 
@@ -375,14 +365,19 @@ export const removeAttachmentFromComment = (
     return null;
   }
 
-  const currentAttachments = comment.attachments || {};
-  const currentFiles = currentAttachments.files || [];
+  const currentAttachments = comment.attachments || [];
+  const attachmentIndex = currentAttachments.findIndex(
+    (f: any) => f.originalName === attachmentName
+  );
+
+  if (attachmentIndex === -1) {
+    return null;
+  }
+
+  currentAttachments.splice(attachmentIndex, 1);
 
   return updateCountStockDetailComment(id, {
-    attachments: {
-      ...currentAttachments,
-      files: currentFiles.filter((f: any) => f.name !== attachmentName),
-    },
+    attachments: currentAttachments || []
   });
 };
 

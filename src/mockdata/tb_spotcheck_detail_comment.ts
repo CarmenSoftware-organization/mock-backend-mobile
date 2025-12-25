@@ -46,20 +46,18 @@ export const spotcheckDetailComments: SpotcheckDetailComment[] = [
     user_id: getUuidByName("USER_02"),
     user_name: "Jane Smith",
     message: "Random sample verified with photo evidence.",
-    attachments: {
-      files: [
-        {
-          name: "spotcheck_photo_1.jpg",
-          url: "/uploads/spotcheck_photo_1.jpg",
-          type: "image/jpeg",
-        },
-        {
-          name: "spotcheck_photo_2.jpg",
-          url: "/uploads/spotcheck_photo_2.jpg",
-          type: "image/jpeg",
-        },
-      ],
-    },
+    attachments: [
+      {
+        originalName: "spotcheck_photo_1.jpg",
+        fileToken: "/uploads/spotcheck_photo_1.jpg",
+        contentType: "image/jpeg",
+      },
+      {
+        originalName: "spotcheck_photo_2.jpg",
+        fileToken: "/uploads/spotcheck_photo_2.jpg",
+        contentType: "image/jpeg",
+      },
+    ],
     info: {},
     note: "Photo verification completed",
     created_at: new Date("2024-01-22T09:30:00Z"),
@@ -93,20 +91,18 @@ export const spotcheckDetailComments: SpotcheckDetailComment[] = [
     user_id: getUuidByName("USER_03"),
     user_name: "Bob Wilson",
     message: "Discrepancy investigated. 3 units found in secondary storage location.",
-    attachments: {
-      files: [
-        {
-          name: "secondary_storage_photo.jpg",
-          url: "/uploads/secondary_storage_photo.jpg",
-          type: "image/jpeg",
-        },
-        {
-          name: "variance_resolution.pdf",
-          url: "/uploads/variance_resolution.pdf",
-          type: "application/pdf",
-        },
-      ],
-    },
+    attachments: [
+      {
+        originalName: "secondary_storage_photo.jpg",
+        fileToken: "/uploads/secondary_storage_photo.jpg",
+        contentType: "image/jpeg",
+      },
+      {
+        originalName: "variance_resolution.pdf",
+        fileToken: "/uploads/variance_resolution.pdf",
+        contentType: "application/pdf",
+      },
+    ],
     info: {},
     note: "Variance resolved - items relocated",
     created_at: new Date("2024-01-22T11:00:00Z"),
@@ -123,15 +119,13 @@ export const spotcheckDetailComments: SpotcheckDetailComment[] = [
     user_id: getUuidByName("USER_01"),
     user_name: "John Doe",
     message: "High-value item spot check completed with supervisor verification.",
-    attachments: {
-      files: [
-        {
-          name: "supervisor_sign_off.pdf",
-          url: "/uploads/supervisor_sign_off.pdf",
-          type: "application/pdf",
-        },
-      ],
-    },
+    attachments: [
+      {
+        name: "supervisor_sign_off.pdf",
+        url: "/uploads/supervisor_sign_off.pdf",
+        type: "application/pdf",
+      },
+    ],
     info: {},
     note: "Supervisor verified",
     created_at: new Date("2024-01-22T14:00:00Z"),
@@ -165,15 +159,13 @@ export const spotcheckDetailComments: SpotcheckDetailComment[] = [
     user_id: getUuidByName("USER_02"),
     user_name: "Jane Smith",
     message: "Expiry date check performed. All items within acceptable date range.",
-    attachments: {
-      files: [
-        {
-          name: "expiry_check_log.xlsx",
-          url: "/uploads/expiry_check_log.xlsx",
-          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        },
-      ],
-    },
+    attachments: [
+      {
+        originalName: "expiry_check_log.xlsx",
+        fileToken: "/uploads/expiry_check_log.xlsx",
+        contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      },
+    ],
     info: {},
     note: "Expiry date verification",
     created_at: new Date("2024-01-22T15:30:00Z"),
@@ -359,14 +351,13 @@ export const addAttachmentToComment = (
     return null;
   }
 
-  const currentAttachments = comment.attachments || {};
-  const currentFiles = currentAttachments.files || [];
+  const currentAttachments = comment.attachments || [];
 
   return updateSpotcheckDetailComment(id, {
-    attachments: {
+    attachments: [
       ...currentAttachments,
-      files: [...currentFiles, attachment],
-    },
+      attachment,
+    ],
   });
 };
 
@@ -380,14 +371,18 @@ export const removeAttachmentFromComment = (
     return null;
   }
 
-  const currentAttachments = comment.attachments || {};
-  const currentFiles = currentAttachments.files || [];
+  const currentAttachments = comment.attachments || [];
+
+  const attachmentIndex = currentAttachments.findIndex((f: any) => f.name === attachmentName);
+
+  if (attachmentIndex === -1) {
+    return null;
+  }
+
+  currentAttachments.splice(attachmentIndex, 1);
 
   return updateSpotcheckDetailComment(id, {
-    attachments: {
-      ...currentAttachments,
-      files: currentFiles.filter((f: any) => f.name !== attachmentName),
-    },
+    attachments: currentAttachments || [],
   });
 };
 
